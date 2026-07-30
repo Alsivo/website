@@ -12,37 +12,16 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 ARTICLE_SCHEMA: dict[str, Any] = {
     "type": "object",
     "properties": {
-        "title": {
-            "type": "string",
-            "description": "記事タイトル。年号はテーマ上不可欠な場合だけ含める。",
-        },
-        "description": {
-            "type": "string",
-            "description": "検索結果に表示する120文字前後の説明文。",
-        },
-        "category": {
-            "type": "string",
-            "enum": [
-                "AI基礎",
-                "AIツール",
-                "仕事効率化",
-                "AI副業",
-                "プログラミング",
-                "ニュース解説",
-            ],
-        },
+        "title": {"type": "string"},
+        "description": {"type": "string"},
+        "category": {"type": "string"},
         "tags": {
             "type": "array",
-            "items": {
-                "type": "string",
-            },
+            "items": {"type": "string"},
             "minItems": 3,
             "maxItems": 5,
         },
-        "content": {
-            "type": "string",
-            "description": "Markdown形式の記事本文。",
-        },
+        "content": {"type": "string"},
     },
     "required": [
         "title",
@@ -55,51 +34,50 @@ ARTICLE_SCHEMA: dict[str, Any] = {
 }
 
 
-def generate_article(topic: str) -> dict[str, Any]:
-    """テーマからAlsivo向けの記事データを生成する。"""
+def generate_article(plan: dict[str, Any]) -> dict[str, Any]:
+    """記事企画を基に、Alsivo向けの記事を生成する。"""
 
-    cleaned_topic = topic.strip()
+    plan_text = json.dumps(
+        plan,
+        ensure_ascii=False,
+        indent=2,
+    )
 
-    if not cleaned_topic:
-        raise ValueError("記事テーマを入力してください。")
+    print("[Writer] OpenAI APIへ送信...")
 
     response = client.responses.create(
         model=MODEL,
         store=False,
         instructions=(
-            "あなたはAIメディアAlsivoの編集者です。"
-            "日本語の初心者向け記事を作成してください。"
-            "事実と推測を区別し、誇張や根拠のない断定を避けてください。"
-            "確認できない最新情報は、古い知識で補完せず、"
-            "一般的で時間に依存しない説明に限定してください。"
-            "タイトルに年号を自動で付けないでください。"
-            "記事冒頭のH1見出しは不要です。タイトルと本文を重複させないでください。"
-            "本文は2000〜3000字を目安とし、導入、複数のH2見出し、"
-            "具体例、注意点、まとめを含めてください。"
+            "あなたはAIメディアAlsivoのライターです。"
+            "渡された記事企画に忠実に、日本語の記事を作成してください。"
+            "初心者にも理解できる言葉を使ってください。"
+            "タイトルに年号を勝手に入れないでください。"
+            "事実と推測を区別し、根拠のない断定を避けてください。"
+            "記事冒頭にH1見出しは付けないでください。"
+            "本文には導入、複数のH2見出し、具体例、注意点、まとめを含めてください。"
+            "本文はMarkdown形式で作成してください。"
         ),
         input=(
-            f"次のテーマについて、Alsivo向けの記事を作成してください。\n\n"
-            f"テーマ：{cleaned_topic}"
+            "以下の記事企画を基に記事を作成してください。\n\n"
+            f"{plan_text}"
         ),
         text={
             "format": {
                 "type": "json_schema",
                 "name": "alsivo_article",
-                "description": "Alsivoの記事データ",
                 "schema": ARTICLE_SCHEMA,
                 "strict": True,
             }
         },
     )
 
+    print("[Writer] OpenAI APIから受信！")
+
     if not response.output_text:
-        raise RuntimeError("AIから記事データを取得できませんでした。")
+        raise RuntimeError("記事データを取得できませんでした。")
 
     try:
-        article = json.loads(response.output_text)
+        return json.loads(response.output_text)
     except json.JSONDecodeError as error:
-        raise RuntimeError(
-            "AIの出力をJSONとして読み込めませんでした。"
-        ) from error
-
-    return article
+        raise RuntimeError("記事データのJSON変換に失敗しました。") from error
