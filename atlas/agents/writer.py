@@ -14,6 +14,7 @@ ARTICLE_SCHEMA: dict[str, Any] = {
     "properties": {
         "title": {"type": "string"},
         "description": {"type": "string"},
+        "slug": {"type": "string"},
         "category": {"type": "string"},
         "tags": {
             "type": "array",
@@ -26,6 +27,7 @@ ARTICLE_SCHEMA: dict[str, Any] = {
     "required": [
         "title",
         "description",
+        "slug",
         "category",
         "tags",
         "content",
@@ -57,6 +59,8 @@ def generate_article(plan: dict[str, Any]) -> dict[str, Any]:
             "記事冒頭にH1見出しは付けないでください。"
             "本文には導入、複数のH2見出し、具体例、注意点、まとめを含めてください。"
             "本文はMarkdown形式で作成してください。"
+            "slugは記事内容を表す英語のURL文字列にしてください。"
+            "slugには半角英小文字、数字、ハイフンのみを使用してください。"
         ),
         input=(
             "以下の記事企画を基に記事を作成してください。\n\n"

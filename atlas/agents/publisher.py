@@ -1,40 +1,122 @@
-from pathlib import Path
-from slugify import slugify
+import math
+import re
 from datetime import date
+from pathlib import Path
+from typing import Any
 
 
 BLOG_DIR = Path("../content/blog")
 
 
-def publish_article(article: dict):
+def escape_yaml_string(value: str) -> str:
+    """YAMLのダブルクォート内で使えるように文字列を処理する。"""
+    return value.replace("\\", "\\\\").replace('"', '\\"')
 
-    slug = slugify(article["title"])
 
+def calculate_reading_time(content: str) -> str:
+    """Markdown記号を除いた本文文字数から読了時間を計算する。"""
+
+    plain_text = re.sub(r"```.*?```", "", content, flags=re.DOTALL)
+    plain_text = re.sub(r"`[^`]*`", "", plain_text)
+    plain_text = re.sub(r"!\[[^\]]*\]\([^)]+\)", "", plain_text)
+    plain_text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", plain_text)
+    plain_text = re.sub(r"[#>*_\-\n\r]", "", plain_text)
+
+    character_count = len(plain_text.strip())
+
+    # 日本語は1分あたり約600文字として計算
+    minutes = max(
+        1,
+        math.ceil(character_count / 600),
+    )
+
+    return f"{minutes} min read"
+
+
+def validate_article(article: dict[str, Any]) -> None:
+    """Publisherが必要とする記事データを確認する。"""
+
+    required_string_fields = [
+        "title",
+        "description",
+        "slug",
+        "category",
+        "content",
+    ]
+
+    for field in required_string_fields:
+        value = article.get(field)
+
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(
+                f"記事データの「{field}」が未入力です。"
+            )
+
+    tags = article.get("tags")
+
+    if not isinstance(tags, list) or not tags:
+        raise ValueError(
+            "記事データの「tags」が未入力です。"
+        )
+
+    if not all(
+        isinstance(tag, str) and tag.strip()
+        for tag in tags
+    ):
+        raise ValueError(
+            "記事データの「tags」に不正な値があります。"
+        )
+
+
+def publish_article(article: dict[str, Any]) -> Path:
+    """記事データをMDXファイルとして保存する。"""
+
+    validate_article(article)
+
+    BLOG_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    slug = article["slug"].strip().lower()
     filepath = BLOG_DIR / f"{slug}.mdx"
 
-    mdx = f"""---
-title: "{article["title"]}"
-description: "{article["description"]}"
-date: "{date.today()}"
-category: "{article["category"]}"
-tags:
-"""
+    title = escape_yaml_string(article["title"])
+    description = escape_yaml_string(article["description"])
+    category = escape_yaml_string(article["category"])
+    reading_time = calculate_reading_time(article["content"])
+
+    frontmatter_lines = [
+        "---",
+        f'title: "{title}"',
+        f'description: "{description}"',
+        f'date: "{date.today().isoformat()}"',
+        f'category: "{category}"',
+        f'readingTime: "{reading_time}"',
+        "tags:",
+    ]
 
     for tag in article["tags"]:
-        mdx += f'  - "{tag}"\n'
+        escaped_tag = escape_yaml_string(tag)
+        frontmatter_lines.append(
+            f'  - "{escaped_tag}"'
+        )
 
-    mdx += """
-readingTime: "5 min"
-published: true
----
+    frontmatter_lines.extend(
+        [
+            "published: true",
+            "---",
+            "",
+        ]
+    )
 
-"""
-
-    mdx += article["content"]
+    mdx = "\n".join(frontmatter_lines)
+    mdx += article["content"].strip()
+    mdx += "\n"
 
     filepath.write_text(
         mdx,
-        encoding="utf-8"
+        encoding="utf-8",
     )
 
     return filepath
