@@ -1,4 +1,4 @@
-from writer import generate_article
+from agents.writer import generate_article
 
 
 def main() -> None:
