@@ -946,3 +946,131 @@ main {
     margin-bottom: 52px;
   }
 }
+.blog-filter-panel {
+  display: grid;
+  grid-template-columns:
+    minmax(240px, 1.5fr)
+    minmax(160px, 0.7fr)
+    minmax(160px, 0.7fr)
+    auto;
+  gap: 14px;
+  align-items: end;
+  margin-bottom: 70px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(18px);
+}
+
+.blog-search-field,
+.blog-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.blog-search-field label,
+.blog-filter-field label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.blog-search-field input,
+.blog-filter-field select {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0 15px;
+  background: white;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.blog-search-field input:focus,
+.blog-filter-field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(88, 101, 242, 0.1);
+}
+
+.blog-search-field input::placeholder {
+  color: #999c99;
+}
+
+.blog-filter-reset {
+  min-height: 48px;
+  border: 1px solid var(--foreground);
+  border-radius: 14px;
+  padding: 0 18px;
+  background: var(--foreground);
+  color: white;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.blog-filter-reset:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.blog-filter-reset:disabled {
+  border-color: var(--line);
+  background: #eceeeb;
+  color: #999c99;
+  cursor: default;
+}
+
+.blog-no-results {
+  padding: 90px 24px;
+  border: 1px dashed var(--line);
+  border-radius: 24px;
+  text-align: center;
+}
+
+.blog-no-results p {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.blog-no-results button {
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  padding: 0 0 4px;
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 1050px) {
+  .blog-filter-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .blog-filter-panel {
+    grid-template-columns: 1fr;
+    margin-bottom: 50px;
+    padding: 18px;
+  }
+
+  .blog-filter-reset {
+    width: 100%;
+  }
+}
