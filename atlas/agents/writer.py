@@ -3,7 +3,15 @@ from typing import Any
 
 from openai import OpenAI
 
-from config import CATEGORIES, MODEL, OPENAI_API_KEY
+from config import (
+    CATEGORIES,
+    CORE_TAGS,
+    MAX_NEW_TAGS,
+    MAX_TAGS,
+    MIN_TAGS,
+    MODEL,
+    OPENAI_API_KEY,
+)
 
 
 client = OpenAI(api_key=OPENAI_API_KEY)
@@ -21,9 +29,12 @@ ARTICLE_SCHEMA: dict[str, Any] = {
         },
         "tags": {
             "type": "array",
-            "items": {"type": "string"},
-            "minItems": 3,
-            "maxItems": 5,
+            "items": {
+                "type": "string",
+                "minLength": 1,
+            },
+            "minItems": MIN_TAGS,
+            "maxItems": MAX_TAGS,
         },
         "content": {"type": "string"},
     },
@@ -66,6 +77,11 @@ def generate_article(plan: dict[str, Any]) -> dict[str, Any]:
             "slugには半角英小文字、数字、ハイフンのみを使用してください。"
             f"categoryは次の一覧から必ず1つだけ選択してください：{', '.join(CATEGORIES)}。"
             "一覧に存在しないカテゴリーを新しく作成しないでください。"
+            f"タグは{MIN_TAGS}個以上{MAX_TAGS}個以下にしてください。"
+            f"まず次の既存タグから適切なものを優先して選んでください：{', '.join(CORE_TAGS)}。"
+            f"既存タグにない語を使う場合は、製品名や固有技術名など必要性の高いものに限定し、最大{MAX_NEW_TAGS}個までにしてください。"
+            "意味がほぼ同じタグを重複して付けないでください。"
+            "記事タイトルそのものをタグにしないでください。"
         ),
         input=(
             "以下の記事企画を基に記事を作成してください。\n\n"

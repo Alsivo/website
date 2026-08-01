@@ -4,7 +4,13 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-from config import CATEGORIES
+from config import (
+    CATEGORIES,
+    CORE_TAGS,
+    MAX_NEW_TAGS,
+    MAX_TAGS,
+    MIN_TAGS,
+)
 
 BLOG_DIR = Path("../content/blog")
 
@@ -66,18 +72,47 @@ def validate_article(article: dict[str, Any]) -> None:
 
     tags = article.get("tags")
 
-    if not isinstance(tags, list) or not tags:
+    if not isinstance(tags, list):
         raise ValueError(
-            "記事データの「tags」が未入力です。"
+            "記事データの「tags」は配列で指定してください。"
         )
 
-    if not all(
-        isinstance(tag, str) and tag.strip()
+    cleaned_tags = [
+        tag.strip()
         for tag in tags
-    ):
+        if isinstance(tag, str) and tag.strip()
+    ]
+
+    if len(cleaned_tags) != len(tags):
         raise ValueError(
-            "記事データの「tags」に不正な値があります。"
+            "記事データの「tags」に空欄または不正な値があります。"
         )
+
+    if len(set(cleaned_tags)) != len(cleaned_tags):
+        raise ValueError(
+            "記事データの「tags」に重複があります。"
+        )
+
+    if not MIN_TAGS <= len(cleaned_tags) <= MAX_TAGS:
+        raise ValueError(
+            f"タグ数は{MIN_TAGS}個以上"
+            f"{MAX_TAGS}個以下にしてください。"
+        )
+
+    new_tags = [
+        tag
+        for tag in cleaned_tags
+        if tag not in CORE_TAGS
+    ]
+
+    if len(new_tags) > MAX_NEW_TAGS:
+        raise ValueError(
+            "共通タグに存在しない新規タグが多すぎます。"
+            f"新規タグ：{', '.join(new_tags)} / "
+            f"最大{MAX_NEW_TAGS}個"
+        )
+
+    article["tags"] = cleaned_tags
 
 
 def publish_article(article: dict[str, Any]) -> Path:
