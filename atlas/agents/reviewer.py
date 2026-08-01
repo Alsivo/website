@@ -50,11 +50,13 @@ REVIEW_SCHEMA: dict[str, Any] = {
 def review_article(
     plan: dict[str, Any],
     article: dict[str, Any],
+    research: dict[str, Any],
 ) -> dict[str, Any]:
     """記事企画と完成記事を比較し、品質を評価する。"""
 
     review_target = {
         "plan": plan,
+        "research": research,
         "article": article,
     }
 
@@ -71,6 +73,12 @@ def review_article(
             "確認できない最新情報や根拠のない断定がある場合は問題として指摘してください。"
             "重大な問題がなく、実用的な記事であればapprovedをtrueにしてください。"
             "軽微な表現修正だけであればapprovedをfalseにする必要はありません。"
+            "記事中の料金、機能、仕様、日付などの事実が、"
+            "Web調査結果によって裏付けられているか確認してください。"
+            "事実の直後に[S1]などの出典IDが付いているか確認してください。"
+            "本文で使われた出典IDが、research.sourcesに実在するか確認してください。"
+            "根拠がない断定、存在しない出典、出典内容との矛盾があれば、"
+            "approvedをfalseにしてください。"
         ),
         input=(
             "以下の記事をレビューしてください。\n\n"

@@ -36,6 +36,14 @@ ARTICLE_SCHEMA: dict[str, Any] = {
             "minItems": MIN_TAGS,
             "maxItems": MAX_TAGS,
         },
+        "used_source_ids": {
+            "type": "array",
+            "items": {
+                "type": "string",
+            },
+            "minItems": 1,
+            "maxItems": 10,
+        },
         "content": {"type": "string"},
     },
     "required": [
@@ -44,6 +52,7 @@ ARTICLE_SCHEMA: dict[str, Any] = {
         "slug",
         "category",
         "tags",
+        "used_source_ids",
         "content",
     ],
     "additionalProperties": False,
@@ -94,6 +103,14 @@ def generate_article(
             "Web調査結果に存在しない最新情報を推測で追加しないでください。"
             "料金、機能、提供条件などは調査結果と矛盾しないようにしてください。"
             "調査結果で不確実とされた情報は、記事でも断定しないでください。"
+            "Web調査結果の各出典にはS1、S2のようなIDが付いています。"
+            "料金、機能、仕様、日付、プラン名などの事実を記述した直後に、"
+            "根拠となる出典IDを[S1]の形式で付けてください。"
+            "複数の出典が根拠なら[S1][S2]のように記載してください。"
+            "存在しない出典IDを作らないでください。"
+            "本文中にURLを直接書かないでください。"
+            "used_source_idsには、本文で実際に使った出典IDだけを入れてください。"
+            "調査結果で確認できない最新情報は記事へ追加しないでください。"
         ),
         input=(
             "以下の記事企画とWeb調査結果を基に記事を作成してください。\n\n"

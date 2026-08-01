@@ -19,6 +19,142 @@ def escape_yaml_string(value: str) -> str:
     """YAMLのダブルクォート内で使えるように文字列を処理する。"""
     return value.replace("\\", "\\\\").replace('"', '\\"')
 
+def escape_markdown_text(value: str) -> str:
+    """Markdownリンクの表示文字列を安全にする。"""
+
+    return (
+        value.replace("[", "\\[")
+        .replace("]", "\\]")
+        .strip()
+    )
+
+
+def apply_source_citations(
+    content: str,
+    research: dict[str, Any],
+    used_source_ids: list[str],
+) -> str:
+    """[S1]形式の引用をリンクへ変換し、参考情報を追加する。"""
+
+    sources = research.get("sources")
+
+    if not isinstance(sources, list) or not sources:
+        raise ValueError(
+            "記事に利用できる出典情報がありません。"
+        )
+
+    source_map: dict[str, dict[str, str]] = {}
+
+    for source in sources:
+        if not isinstance(source, dict):
+            continue
+
+        source_id = str(source.get("id", "")).strip()
+        title = str(source.get("title", "")).strip()
+        url = str(source.get("url", "")).strip()
+
+        if source_id and title and url:
+            source_map[source_id] = {
+                "title": title,
+                "url": url,
+            }
+
+    cleaned_source_ids = [
+        source_id.strip()
+        for source_id in used_source_ids
+        if isinstance(source_id, str)
+        and source_id.strip()
+    ]
+
+    if not cleaned_source_ids:
+        raise ValueError(
+            "used_source_idsが未入力です。"
+        )
+
+    unknown_ids = [
+        source_id
+        for source_id in cleaned_source_ids
+        if source_id not in source_map
+    ]
+
+    if unknown_ids:
+        raise ValueError(
+            "存在しない出典IDが指定されています："
+            + ", ".join(unknown_ids)
+        )
+
+    marker_ids = set(
+        re.findall(
+            r"\[(S\d+)\]",
+            content,
+        )
+    )
+
+    undeclared_ids = sorted(
+        marker_ids - set(cleaned_source_ids)
+    )
+
+    if undeclared_ids:
+        raise ValueError(
+            "本文中の出典IDがused_source_idsにありません："
+            + ", ".join(undeclared_ids)
+        )
+
+    missing_markers = [
+        source_id
+        for source_id in cleaned_source_ids
+        if source_id not in marker_ids
+    ]
+
+    if missing_markers:
+        raise ValueError(
+            "used_source_idsの出典が本文中で使われていません："
+            + ", ".join(missing_markers)
+        )
+
+    ordered_source_ids = list(
+        dict.fromkeys(cleaned_source_ids)
+    )
+
+    for index, source_id in enumerate(
+        ordered_source_ids,
+        start=1,
+    ):
+        source = source_map[source_id]
+        citation_link = (
+            f"[[{index}]]({source['url']})"
+        )
+
+        content = content.replace(
+            f"[{source_id}]",
+            citation_link,
+        )
+
+    reference_lines = [
+        "",
+        "## 参考情報",
+        "",
+    ]
+
+    for index, source_id in enumerate(
+        ordered_source_ids,
+        start=1,
+    ):
+        source = source_map[source_id]
+        title = escape_markdown_text(
+            source["title"]
+        )
+
+        reference_lines.append(
+            f"{index}. [{title}]({source['url']})"
+        )
+
+    return (
+        content.rstrip()
+        + "\n"
+        + "\n".join(reference_lines)
+        + "\n"
+    )
 
 def calculate_reading_time(content: str) -> str:
     """Markdown記号を除いた本文文字数から読了時間を計算する。"""
@@ -114,8 +250,31 @@ def validate_article(article: dict[str, Any]) -> None:
 
     article["tags"] = cleaned_tags
 
+    used_source_ids = article.get(
+        "used_source_ids"
+    )
 
-def publish_article(article: dict[str, Any]) -> Path:
+    if (
+        not isinstance(used_source_ids, list)
+        or not used_source_ids
+    ):
+        raise ValueError(
+            "記事データのused_source_idsが未入力です。"
+        )
+
+    if not all(
+        isinstance(source_id, str)
+        and source_id.strip()
+        for source_id in used_source_ids
+    ):
+        raise ValueError(
+            "used_source_idsに不正な値があります。"
+        )
+
+def publish_article(
+    article: dict[str, Any],
+    research: dict[str, Any],
+) -> Path:
     """記事データをMDXファイルとして保存する。"""
 
     validate_article(article)
@@ -157,9 +316,16 @@ def publish_article(article: dict[str, Any]) -> Path:
         ]
     )
 
+    cited_content = apply_source_citations(
+        content=article["content"],
+        research=research,
+        used_source_ids=article[
+            "used_source_ids"
+        ],
+    )
+
     mdx = "\n".join(frontmatter_lines)
-    mdx += article["content"].strip()
-    mdx += "\n"
+    mdx += cited_content
 
     filepath.write_text(
         mdx,

@@ -92,13 +92,21 @@ def main() -> None:
         )
 
         print("\n[Reviewer] 記事を確認中...\n")
-        review = review_article(plan, article)
+        review = review_article(
+            plan,
+            article,
+            research,
+        )
 
         print("\n===== 記事完成 =====\n")
         print(f"タイトル：{article['title']}")
         print(f"説明文：{article['description']}")
         print(f"カテゴリー：{article['category']}")
         print(f"タグ：{', '.join(article['tags'])}")
+        print(
+            "使用出典："
+            + ", ".join(article["used_source_ids"])
+        )
 
         print("\n===== レビュー結果 =====\n")
         print(
@@ -128,7 +136,10 @@ def main() -> None:
             return
 
         print("\n[Publisher] MDXファイルを保存中...")
-        filepath = publish_article(article)
+        filepath = publish_article(
+            article,
+            research,
+        )
 
         if keyword_item is not None:
             mark_keyword_processed(

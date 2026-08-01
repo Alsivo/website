@@ -109,6 +109,17 @@ def research_topic(topic: str) -> dict[str, Any]:
         raise RuntimeError("Web調査結果を取得できませんでした。")
 
     sources = extract_sources(response)
+    numbered_sources = [
+        {
+            "id": f"S{index}",
+            "title": source["title"],
+            "url": source["url"],
+        }
+        for index, source in enumerate(
+            sources,
+            start=1,
+        )
+    ]
 
     if not sources:
         print(
@@ -117,5 +128,5 @@ def research_topic(topic: str) -> dict[str, Any]:
 
     return {
         "summary": summary,
-        "sources": sources,
+        "sources": numbered_sources,
     }
