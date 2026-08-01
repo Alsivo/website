@@ -50,7 +50,10 @@ ARTICLE_SCHEMA: dict[str, Any] = {
 }
 
 
-def generate_article(plan: dict[str, Any]) -> dict[str, Any]:
+def generate_article(
+    plan: dict[str, Any],
+    research: dict[str, Any],
+) -> dict[str, Any]:
     """記事企画を基に、Alsivo向けの記事を生成する。"""
 
     plan_text = json.dumps(
@@ -59,6 +62,11 @@ def generate_article(plan: dict[str, Any]) -> dict[str, Any]:
         indent=2,
     )
 
+    research_text = json.dumps(
+        research,
+        ensure_ascii=False,
+        indent=2,
+    )
     print("[Writer] OpenAI APIへ送信...")
 
     response = client.responses.create(
@@ -82,10 +90,17 @@ def generate_article(plan: dict[str, Any]) -> dict[str, Any]:
             f"既存タグにない語を使う場合は、製品名や固有技術名など必要性の高いものに限定し、最大{MAX_NEW_TAGS}個までにしてください。"
             "意味がほぼ同じタグを重複して付けないでください。"
             "記事タイトルそのものをタグにしないでください。"
+            "提供されたWeb調査結果を事実情報の基礎として使用してください。"
+            "Web調査結果に存在しない最新情報を推測で追加しないでください。"
+            "料金、機能、提供条件などは調査結果と矛盾しないようにしてください。"
+            "調査結果で不確実とされた情報は、記事でも断定しないでください。"
         ),
         input=(
-            "以下の記事企画を基に記事を作成してください。\n\n"
-            f"{plan_text}"
+            "以下の記事企画とWeb調査結果を基に記事を作成してください。\n\n"
+            "===== 記事企画 =====\n"
+            f"{plan_text}\n\n"
+            "===== Web調査結果 =====\n"
+            f"{research_text}"
         ),
         text={
             "format": {

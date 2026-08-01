@@ -1,5 +1,6 @@
 from agents.planner import create_article_plan
 from agents.publisher import publish_article
+from agents.researcher import research_topic
 from agents.reviewer import review_article
 from agents.writer import generate_article
 from engines.keyword_queue import (
@@ -58,6 +59,26 @@ def main() -> None:
     try:
         topic, keyword_item = select_topic()
 
+        print("\n[Researcher] 最新情報を調査中...\n")
+        research = research_topic(topic)
+
+        print("\n===== Web調査結果 =====")
+        print(research["summary"])
+
+        print("\n===== 取得した出典 =====")
+
+        if research["sources"]:
+            for index, source in enumerate(
+                research["sources"],
+                start=1,
+            ):
+                print(
+                    f"{index}. {source['title']}\n"
+                    f"   {source['url']}"
+                )
+        else:
+            print("出典URLを取得できませんでした。")
+
         print("\n[Planner] 記事企画を作成中...\n")
         plan = create_article_plan(topic)
 
@@ -65,7 +86,10 @@ def main() -> None:
         print(f"検索意図：{plan['search_intent']}")
 
         print("\n[Writer] 記事を執筆中...\n")
-        article = generate_article(plan)
+        article = generate_article(
+            plan,
+            research,
+        )
 
         print("\n[Reviewer] 記事を確認中...\n")
         review = review_article(plan, article)

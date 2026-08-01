@@ -59,3 +59,10 @@ CORE_TAGS = [
 MIN_TAGS = 3
 MAX_TAGS = 5
 MAX_NEW_TAGS = 2
+
+# ============================================================
+# Web research settings
+# ============================================================
+
+WEB_SEARCH_CONTEXT_SIZE = "medium"
+MAX_WEB_SEARCH_CALLS = 5
