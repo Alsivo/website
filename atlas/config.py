@@ -66,3 +66,10 @@ MAX_NEW_TAGS = 2
 
 WEB_SEARCH_CONTEXT_SIZE = "medium"
 MAX_WEB_SEARCH_CALLS = 5
+
+# ============================================================
+# Review settings
+# ============================================================
+
+MAX_REVISION_ATTEMPTS = 2
+MIN_REVIEW_SCORE = 80

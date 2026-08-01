@@ -138,3 +138,70 @@ def generate_article(
         return json.loads(response.output_text)
     except json.JSONDecodeError as error:
         raise RuntimeError("記事データのJSON変換に失敗しました。") from error
+
+def revise_article(
+    plan: dict[str, Any],
+    research: dict[str, Any],
+    article: dict[str, Any],
+    review: dict[str, Any],
+) -> dict[str, Any]:
+    """Reviewerの指摘と調査結果を基に記事全体を修正する。"""
+
+    revision_data = {
+        "article_plan": plan,
+        "web_research": research,
+        "current_article": article,
+        "review_result": review,
+    }
+
+    print("[Writer] 修正版をOpenAI APIへ送信...")
+
+    response = client.responses.create(
+        model=MODEL,
+        store=False,
+        instructions=(
+            "あなたはAIメディアAlsivoの修正担当ライターです。"
+            "現在の記事を、Reviewerの指摘に従って修正してください。"
+            "修正箇所だけではなく、記事データ全体を返してください。"
+            "Web調査結果を事実情報の根拠として使用してください。"
+            "Web調査結果にない最新情報を推測で追加しないでください。"
+            "料金、機能、仕様、日付、プラン名などの事実の直後には、"
+            "根拠となる[S1]形式の出典IDを付けてください。"
+            "存在しない出典IDを作らないでください。"
+            "本文中にURLを直接書かないでください。"
+            "used_source_idsには本文で実際に使用したIDだけを入れてください。"
+            "記事冒頭にH1見出しを付けないでください。"
+            "本文はMarkdown形式にしてください。"
+            f"categoryは次の一覧から選択してください：{', '.join(CATEGORIES)}。"
+            f"タグは{MIN_TAGS}個以上{MAX_TAGS}個以下にしてください。"
+            f"既存タグを優先してください：{', '.join(CORE_TAGS)}。"
+            f"新規タグは最大{MAX_NEW_TAGS}個までです。"
+        ),
+        input=json.dumps(
+            revision_data,
+            ensure_ascii=False,
+            indent=2,
+        ),
+        text={
+            "format": {
+                "type": "json_schema",
+                "name": "alsivo_revised_article",
+                "schema": ARTICLE_SCHEMA,
+                "strict": True,
+            }
+        },
+    )
+
+    print("[Writer] 修正版を受信！")
+
+    if not response.output_text:
+        raise RuntimeError(
+            "修正版の記事データを取得できませんでした。"
+        )
+
+    try:
+        return json.loads(response.output_text)
+    except json.JSONDecodeError as error:
+        raise RuntimeError(
+            "修正版の記事データをJSONへ変換できませんでした。"
+        ) from error

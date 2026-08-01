@@ -22,5 +22,19 @@
     "search_intent": "ChatGPTの各料金プランの最新価格・機能・利用対象を比較し、自分に合うプランを選びたい",
     "output_path": "..\\content\\blog\\chatgpt-pricing-plans-comparison.mdx",
     "processed_at": "2026-08-01T19:55:25"
+  },
+  {
+    "keyword": "ChatGPTとClaudeの料金・機能比較",
+    "target_length": 4500,
+    "related_keywords": [
+      "ChatGPT",
+      "Claude",
+      "料金比較",
+      "生成AI",
+      "有料プラン"
+    ],
+    "search_intent": "ChatGPTとClaudeの最新料金・機能・利用制限を比較し、自分の用途に適したサービスを選びたい",
+    "output_path": "..\\content\\blog\\chatgpt-vs-claude-pricing-features-comparison.mdx",
+    "processed_at": "2026-08-01T20:10:52"
   }
 ]

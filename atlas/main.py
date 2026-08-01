@@ -2,7 +2,8 @@ from agents.planner import create_article_plan
 from agents.publisher import publish_article
 from agents.researcher import research_topic
 from agents.reviewer import review_article
-from agents.writer import generate_article
+from agents.writer import generate_article, revise_article
+from config import MAX_REVISION_ATTEMPTS, MIN_REVIEW_SCORE
 from engines.keyword_queue import (
     KeywordItem,
     get_next_keyword_item,
@@ -91,14 +92,78 @@ def main() -> None:
             research,
         )
 
-        print("\n[Reviewer] 記事を確認中...\n")
-        review = review_article(
-            plan,
-            article,
-            research,
+        review = None
+
+        for attempt in range(MAX_REVISION_ATTEMPTS + 1):
+            print(
+                "\n[Reviewer] 記事を確認中 "
+                f"({attempt + 1}/"
+                f"{MAX_REVISION_ATTEMPTS + 1})...\n"
+            )
+
+            review = review_article(
+                plan,
+                article,
+                research,
+            )
+
+            print("\n===== レビュー結果 =====\n")
+            print(
+                "公開判定："
+                f"{'承認' if review['approved'] else '要修正'}"
+            )
+            print(
+                f"品質スコア：{review['score']} / 100"
+            )
+            print(f"講評：{review['summary']}")
+
+            if review["issues"]:
+                print("\n問題点")
+                for issue in review["issues"]:
+                    print(f"- {issue}")
+
+            if review["improvement_instructions"]:
+                print("\n修正指示")
+                for instruction in review[
+                    "improvement_instructions"
+                ]:
+                    print(f"- {instruction}")
+
+            approved = (
+                review["approved"]
+                and review["score"] >= MIN_REVIEW_SCORE
+            )
+
+            if approved:
+                break
+
+            if attempt >= MAX_REVISION_ATTEMPTS:
+                break
+
+            print(
+                "\n[Writer] 自動修正を開始します "
+                f"({attempt + 1}/"
+                f"{MAX_REVISION_ATTEMPTS})...\n"
+            )
+
+            article = revise_article(
+                plan=plan,
+                research=research,
+                article=article,
+                review=review,
+            )
+
+        if review is None:
+            raise RuntimeError(
+                "レビュー結果を取得できませんでした。"
+            )
+
+        approved = (
+            review["approved"]
+            and review["score"] >= MIN_REVIEW_SCORE
         )
 
-        print("\n===== 記事完成 =====\n")
+        print("\n===== 最終記事 =====\n")
         print(f"タイトル：{article['title']}")
         print(f"説明文：{article['description']}")
         print(f"カテゴリー：{article['category']}")
@@ -108,30 +173,11 @@ def main() -> None:
             + ", ".join(article["used_source_ids"])
         )
 
-        print("\n===== レビュー結果 =====\n")
-        print(
-            "公開判定："
-            f"{'承認' if review['approved'] else '要修正'}"
-        )
-        print(f"品質スコア：{review['score']} / 100")
-        print(f"講評：{review['summary']}")
-
-        if review["issues"]:
-            print("\n問題点")
-            for issue in review["issues"]:
-                print(f"- {issue}")
-
-        if review["improvement_instructions"]:
-            print("\n修正指示")
-            for instruction in review[
-                "improvement_instructions"
-            ]:
-                print(f"- {instruction}")
-
-        if not review["approved"]:
+        if not approved:
             print(
-                "\n記事は要修正のため、"
-                "保存・処理済み登録を行いませんでした。"
+                "\n最大修正回数に達しました。"
+                "記事は保存せず、"
+                "キーワードも未処理のまま残します。"
             )
             return
 
