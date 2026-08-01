@@ -4,6 +4,10 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+from engines.scoring_engine import (
+    KeywordScore,
+    score_keyword_item,
+)
 
 
 ATLAS_DIR = Path(__file__).resolve().parent.parent
@@ -166,11 +170,46 @@ def get_next_keyword_item() -> KeywordItem | None:
 
     print(f"[Keyword Engine] 読み込み元：{csv_path}")
 
-    for item in items:
-        if item.keyword not in processed_keywords:
-            return item
+    unprocessed_items = [
+        item
+        for item in items
+        if item.keyword not in processed_keywords
+    ]
 
-    return None
+    if not unprocessed_items:
+        return None
+
+    ranked_items = sorted(
+        unprocessed_items,
+        key=lambda item: score_keyword_item(item).total,
+        reverse=True,
+    )
+
+    selected_item = ranked_items[0]
+    selected_score = score_keyword_item(selected_item)
+
+    print("\n===== キーワード採点結果 上位5件 =====")
+
+    for rank, item in enumerate(ranked_items[:5], start=1):
+        score = score_keyword_item(item)
+
+        print(
+            f"{rank}. {item.keyword} "
+            f"({score.total}点)"
+        )
+
+    print("\n===== 選択理由 =====")
+    print(
+        f"選択キーワード：{selected_item.keyword}"
+    )
+    print(
+        f"総合スコア：{selected_score.total} / 100"
+    )
+
+    for reason in selected_score.reasons:
+        print(f"- {reason}")
+
+    return selected_item
 
 
 def mark_keyword_processed(
