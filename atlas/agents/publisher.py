@@ -4,6 +4,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from config import CATEGORIES
 
 BLOG_DIR = Path("../content/blog")
 
@@ -51,6 +52,17 @@ def validate_article(article: dict[str, Any]) -> None:
             raise ValueError(
                 f"記事データの「{field}」が未入力です。"
             )
+
+    category = article["category"].strip()
+
+    if category not in CATEGORIES:
+        allowed_categories = ", ".join(CATEGORIES)
+
+        raise ValueError(
+            "記事データのカテゴリーが許可されていません。"
+            f"カテゴリー：{category} / "
+            f"使用可能：{allowed_categories}"
+        )
 
     tags = article.get("tags")
 

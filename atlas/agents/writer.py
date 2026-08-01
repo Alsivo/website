@@ -3,7 +3,7 @@ from typing import Any
 
 from openai import OpenAI
 
-from config import MODEL, OPENAI_API_KEY
+from config import CATEGORIES, MODEL, OPENAI_API_KEY
 
 
 client = OpenAI(api_key=OPENAI_API_KEY)
@@ -15,7 +15,10 @@ ARTICLE_SCHEMA: dict[str, Any] = {
         "title": {"type": "string"},
         "description": {"type": "string"},
         "slug": {"type": "string"},
-        "category": {"type": "string"},
+        "category": {
+            "type": "string",
+            "enum": CATEGORIES,
+        },
         "tags": {
             "type": "array",
             "items": {"type": "string"},
@@ -59,8 +62,10 @@ def generate_article(plan: dict[str, Any]) -> dict[str, Any]:
             "記事冒頭にH1見出しは付けないでください。"
             "本文には導入、複数のH2見出し、具体例、注意点、まとめを含めてください。"
             "本文はMarkdown形式で作成してください。"
-            "slugは記事内容を表す英語のURL文字列にしてください。"
+            "slugは記事内容を表す短い英語のURL文字列にしてください。"
             "slugには半角英小文字、数字、ハイフンのみを使用してください。"
+            f"categoryは次の一覧から必ず1つだけ選択してください：{', '.join(CATEGORIES)}。"
+            "一覧に存在しないカテゴリーを新しく作成しないでください。"
         ),
         input=(
             "以下の記事企画を基に記事を作成してください。\n\n"
