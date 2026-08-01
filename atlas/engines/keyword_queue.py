@@ -1,0 +1,212 @@
+import csv
+import json
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+
+ATLAS_DIR = Path(__file__).resolve().parent.parent
+WEBSITE_ROOT = ATLAS_DIR.parent
+GITHUB_ROOT = WEBSITE_ROOT.parent
+
+DATA_CONTENT_ENGINE_ROOT = GITHUB_ROOT / "data-content-engine"
+STATE_FILE = ATLAS_DIR / "data" / "processed_keywords.json"
+
+REQUIRED_COLUMNS = {
+    "keyword",
+    "target_length",
+    "related_keywords",
+    "search_intent",
+}
+
+
+@dataclass(frozen=True)
+class KeywordItem:
+    keyword: str
+    target_length: int
+    related_keywords: list[str]
+    search_intent: str
+
+
+def find_keywords_csv() -> Path:
+    """data-content-engine内から、必要な列を持つCSVを自動検出する。"""
+
+    if not DATA_CONTENT_ENGINE_ROOT.exists():
+        raise FileNotFoundError(
+            "data-content-engineが見つかりません。"
+            f"確認した場所：{DATA_CONTENT_ENGINE_ROOT}"
+        )
+
+    candidates: list[Path] = []
+
+    for csv_path in DATA_CONTENT_ENGINE_ROOT.rglob("*.csv"):
+        try:
+            with csv_path.open(
+                "r",
+                encoding="utf-8-sig",
+                newline="",
+            ) as file:
+                reader = csv.DictReader(file)
+                columns = set(reader.fieldnames or [])
+
+            if REQUIRED_COLUMNS.issubset(columns):
+                candidates.append(csv_path)
+
+        except (OSError, UnicodeDecodeError):
+            continue
+
+    if not candidates:
+        raise FileNotFoundError(
+            "必要な列を持つキーワードCSVが見つかりませんでした。\n"
+            f"必要な列：{', '.join(sorted(REQUIRED_COLUMNS))}"
+        )
+
+    # パスが短いものを優先する
+    candidates.sort(
+        key=lambda path: (
+            len(path.parts),
+            str(path).lower(),
+        )
+    )
+
+    return candidates[0]
+
+
+def split_related_keywords(value: str) -> list[str]:
+    """カンマ・読点・縦棒区切りの関連キーワードを配列へ変換する。"""
+
+    normalized = (
+        value.replace("、", ",")
+        .replace("|", ",")
+        .replace("，", ",")
+    )
+
+    return [
+        keyword.strip()
+        for keyword in normalized.split(",")
+        if keyword.strip()
+    ]
+
+
+def load_keyword_items(csv_path: Path) -> list[KeywordItem]:
+    items: list[KeywordItem] = []
+
+    with csv_path.open(
+        "r",
+        encoding="utf-8-sig",
+        newline="",
+    ) as file:
+        reader = csv.DictReader(file)
+
+        for row_number, row in enumerate(reader, start=2):
+            keyword = (row.get("keyword") or "").strip()
+
+            if not keyword:
+                continue
+
+            raw_target_length = (
+                row.get("target_length") or "2000"
+            ).strip()
+
+            try:
+                target_length = int(raw_target_length)
+
+            except ValueError as error:
+                raise ValueError(
+                    f"{csv_path.name}の{row_number}行目："
+                    "target_lengthが整数ではありません。"
+                ) from error
+
+            items.append(
+                KeywordItem(
+                    keyword=keyword,
+                    target_length=target_length,
+                    related_keywords=split_related_keywords(
+                        row.get("related_keywords") or ""
+                    ),
+                    search_intent=(
+                        row.get("search_intent") or ""
+                    ).strip(),
+                )
+            )
+
+    return items
+
+
+def load_processed_keywords() -> set[str]:
+    if not STATE_FILE.exists():
+        return set()
+
+    try:
+        data: Any = json.loads(
+            STATE_FILE.read_text(encoding="utf-8")
+        )
+    except json.JSONDecodeError as error:
+        raise RuntimeError(
+            f"処理履歴を読み込めません：{STATE_FILE}"
+        ) from error
+
+    if not isinstance(data, list):
+        raise RuntimeError(
+            "processed_keywords.jsonの形式が不正です。"
+        )
+
+    return {
+        str(item["keyword"]).strip()
+        for item in data
+        if isinstance(item, dict) and item.get("keyword")
+    }
+
+
+def get_next_keyword_item() -> KeywordItem | None:
+    csv_path = find_keywords_csv()
+    items = load_keyword_items(csv_path)
+    processed_keywords = load_processed_keywords()
+
+    print(f"[Keyword Engine] 読み込み元：{csv_path}")
+
+    for item in items:
+        if item.keyword not in processed_keywords:
+            return item
+
+    return None
+
+
+def mark_keyword_processed(
+    item: KeywordItem,
+    output_path: Path,
+) -> None:
+    STATE_FILE.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    history: list[dict[str, Any]] = []
+
+    if STATE_FILE.exists():
+        loaded = json.loads(
+            STATE_FILE.read_text(encoding="utf-8")
+        )
+
+        if isinstance(loaded, list):
+            history = loaded
+
+    history.append(
+        {
+            **asdict(item),
+            "output_path": str(output_path),
+            "processed_at": datetime.now().isoformat(
+                timespec="seconds"
+            ),
+        }
+    )
+
+    STATE_FILE.write_text(
+        json.dumps(
+            history,
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )

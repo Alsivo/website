@@ -1,0 +1,12 @@
+[
+  {
+    "keyword": "AI SaaS",
+    "target_length": 2000,
+    "related_keywords": [
+      "生成AI;業務効率化"
+    ],
+    "search_intent": "AI SaaSの特徴や活用方法を知りたい",
+    "output_path": "..\\content\\blog\\ai-saas-getting-started.mdx",
+    "processed_at": "2026-08-01T18:58:05"
+  }
+]
