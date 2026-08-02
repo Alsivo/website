@@ -7,7 +7,9 @@ from agents.researcher import research_topic
 from agents.reviewer import review_article
 from agents.writer import generate_article, revise_article
 from config import MAX_REVISION_ATTEMPTS, MIN_REVIEW_SCORE
+from utils.git_publisher import publish_generated_files
 from engines.keyword_queue import (
+    STATE_FILE,
     KeywordItem,
     get_next_keyword_item,
     mark_keyword_processed,
@@ -189,11 +191,11 @@ def main() -> None:
             "アイキャッチ画像を生成中..."
         )
 
-        image_path = generate_article_image(
-            article
+        image_url, image_file_path = (
+            generate_article_image(article)
         )
 
-        article["image"] = image_path
+        article["image"] = image_url
 
         print(
             f"画像URL：{article['image']}"
@@ -217,6 +219,35 @@ def main() -> None:
 
         print("\n===== 保存完了 =====")
         print(f"保存先：{filepath}")
+
+        print(
+            "\n[Git Publisher] "
+            "自動公開処理を確認中..."
+        )
+
+        state_path = (
+            STATE_FILE
+            if keyword_item is not None
+            else None
+        )
+
+        pushed = publish_generated_files(
+            article_path=filepath,
+            image_path=image_file_path,
+            state_path=state_path,
+        )
+
+        if pushed:
+            print(
+                "\n===== 自動公開完了 ====="
+            )
+            print(
+                "GitHubへのPushが完了しました。"
+            )
+            print(
+                "Vercelの自動デプロイ開始を"
+                "確認してください。"
+            )
 
     except Exception as error:
         print(f"\n処理に失敗しました：{error}")

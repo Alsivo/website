@@ -82,3 +82,11 @@ IMAGE_MODEL = "gpt-image-1.5"
 IMAGE_SIZE = "1536x1024"
 IMAGE_QUALITY = "medium"
 IMAGE_OUTPUT_FORMAT = "webp"
+
+# ============================================================
+# Git publishing settings
+# ============================================================
+
+AUTO_GIT_PUSH = False
+GIT_REMOTE = "origin"
+GIT_BRANCH = "main"

@@ -83,7 +83,7 @@ def create_image_prompt(
 
 def generate_article_image(
     article: dict[str, Any],
-) -> str:
+) -> tuple[str, Path]:
     """
     記事のアイキャッチ画像を生成してpublicへ保存する。
 
@@ -166,4 +166,7 @@ def generate_article_image(
         f"{output_path}"
     )
 
-    return f"/images/blog/{file_name}"
+    return (
+        f"/images/blog/{file_name}",
+        output_path,
+    )
