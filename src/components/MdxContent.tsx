@@ -1,18 +1,45 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { createHeadingId } from "../lib/headings";
 
 type MdxContentProps = {
   source: string;
 };
 
 const components = {
-  h2: (props: ComponentPropsWithoutRef<"h2">) => (
-    <h2 className="article-heading" {...props} />
-  ),
+  h2: ({
+    children,
+    ...props
+  }: ComponentPropsWithoutRef<"h2">) => {
+    const headingText = String(children);
 
-  h3: (props: ComponentPropsWithoutRef<"h3">) => (
-    <h3 className="article-subheading" {...props} />
-  ),
+    return (
+      <h2
+        id={createHeadingId(headingText)}
+        className="article-heading article-anchor-heading"
+        {...props}
+      >
+        {children}
+      </h2>
+    );
+  },
+
+  h3: ({
+    children,
+    ...props
+  }: ComponentPropsWithoutRef<"h3">) => {
+    const headingText = String(children);
+
+    return (
+      <h3
+        id={createHeadingId(headingText)}
+        className="article-subheading article-anchor-heading"
+        {...props}
+      >
+        {children}
+      </h3>
+    );
+  },
 
   p: (props: ComponentPropsWithoutRef<"p">) => (
     <p className="article-paragraph" {...props} />

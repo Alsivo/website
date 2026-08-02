@@ -1138,3 +1138,70 @@ main {
     border-radius: 18px;
   }
 }
+
+/* ==========================================================
+   Article table of contents
+   ========================================================== */
+
+.article-toc {
+  margin: 0 0 70px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 28px 30px;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.article-toc-title {
+  margin: 0 0 20px;
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.article-toc ol {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.article-toc li {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.article-toc-level-3 {
+  margin-left: 22px;
+  font-size: 13px !important;
+}
+
+.article-toc a {
+  transition: color 180ms ease;
+}
+
+.article-toc a:hover {
+  color: var(--accent);
+}
+
+.article-anchor-heading {
+  scroll-margin-top: 110px;
+}
+
+@media (max-width: 600px) {
+  .article-toc {
+    margin-bottom: 52px;
+    border-radius: 18px;
+    padding: 22px 20px;
+  }
+
+  .article-toc-level-3 {
+    margin-left: 10px;
+  }
+
+  .article-anchor-heading {
+    scroll-margin-top: 90px;
+  }
+}

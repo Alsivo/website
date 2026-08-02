@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { extractTableOfContents } from "../../../lib/headings";
 import MdxContent from "../../../components/MdxContent";
 import {
   getAllBlogSlugs,
@@ -80,6 +81,10 @@ export default async function BlogPostPage({
     notFound();
   }
 
+  const tableOfContents = extractTableOfContents(
+    post.content,
+  );
+
   const articleUrl = `${SITE_URL}/blog/${post.slug}`;
 
   const publishedDate = new Intl.DateTimeFormat("ja-JP", {
@@ -154,6 +159,34 @@ export default async function BlogPostPage({
             <span key={tag}>{tag}</span>
           ))}
         </div>
+
+        {tableOfContents.length > 0 && (
+          <nav
+            className="article-toc"
+            aria-label="記事の目次"
+          >
+            <p className="article-toc-title">
+              目次
+            </p>
+
+            <ol>
+              {tableOfContents.map((item) => (
+                <li
+                  className={
+                    item.level === 3
+                      ? "article-toc-level-3"
+                      : undefined
+                  }
+                  key={`${item.level}-${item.id}`}
+                >
+                  <a href={`#${item.id}`}>
+                    {item.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
 
         <div className="article-content">
           <MdxContent source={post.content} />
