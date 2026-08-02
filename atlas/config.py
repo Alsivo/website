@@ -87,6 +87,6 @@ IMAGE_OUTPUT_FORMAT = "webp"
 # Git publishing settings
 # ============================================================
 
-AUTO_GIT_PUSH = False
+AUTO_GIT_PUSH = True
 GIT_REMOTE = "origin"
 GIT_BRANCH = "main"
