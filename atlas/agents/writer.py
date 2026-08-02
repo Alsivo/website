@@ -1,6 +1,6 @@
 import json
 from typing import Any
-
+from copy import deepcopy
 from openai import OpenAI
 
 from config import (
@@ -58,6 +58,36 @@ ARTICLE_SCHEMA: dict[str, Any] = {
     "additionalProperties": False,
 }
 
+def build_article_schema(
+    research: dict[str, Any],
+) -> dict[str, Any]:
+    """実在する出典IDだけを選択できるSchemaを作る。"""
+
+    source_ids = [
+        str(source.get("id", "")).strip()
+        for source in research.get("sources", [])
+        if isinstance(source, dict)
+        and str(source.get("id", "")).strip()
+    ]
+
+    if not source_ids:
+        raise ValueError(
+            "記事生成に利用できる出典IDがありません。"
+        )
+
+    schema = deepcopy(ARTICLE_SCHEMA)
+
+    schema["properties"]["used_source_ids"]["items"] = {
+        "type": "string",
+        "enum": source_ids,
+    }
+
+    schema["properties"]["used_source_ids"]["maxItems"] = min(
+        10,
+        len(source_ids),
+    )
+
+    return schema
 
 def generate_article(
     plan: dict[str, Any],
@@ -77,6 +107,10 @@ def generate_article(
         indent=2,
     )
     print("[Writer] OpenAI APIへ送信...")
+
+    article_schema = build_article_schema(
+        research
+    )
 
     response = client.responses.create(
         model=MODEL,
@@ -123,7 +157,7 @@ def generate_article(
             "format": {
                 "type": "json_schema",
                 "name": "alsivo_article",
-                "schema": ARTICLE_SCHEMA,
+                "schema": article_schema,
                 "strict": True,
             }
         },
@@ -156,6 +190,10 @@ def revise_article(
 
     print("[Writer] 修正版をOpenAI APIへ送信...")
 
+    article_schema = build_article_schema(
+        research
+    )
+
     response = client.responses.create(
         model=MODEL,
         store=False,
@@ -186,7 +224,7 @@ def revise_article(
             "format": {
                 "type": "json_schema",
                 "name": "alsivo_revised_article",
-                "schema": ARTICLE_SCHEMA,
+                "schema": article_schema,
                 "strict": True,
             }
         },
