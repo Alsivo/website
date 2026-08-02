@@ -4,7 +4,6 @@ from pathlib import Path
 
 from config import (
     AUTO_GIT_PUSH,
-    GIT_BRANCH,
     GIT_REMOTE,
 )
 
@@ -63,6 +62,19 @@ def get_repository_root() -> Path:
 
     return repository_root
 
+def get_current_branch() -> str:
+    """現在チェックアウト中のGitブランチ名を取得する。"""
+
+    branch = run_git_command(
+        ["branch", "--show-current"]
+    ).strip()
+
+    if not branch:
+        raise RuntimeError(
+            "現在のGitブランチを取得できませんでした。"
+        )
+
+    return branch
 
 def get_relative_path(path: Path) -> str:
     """絶対パスをGitで使う相対パスへ変換する。"""
@@ -163,16 +175,18 @@ def publish_generated_files(
         ["commit", "-m", commit_message]
     )
 
+    current_branch = get_current_branch()
+
     print(
         f"[Git Publisher] "
-        f"{GIT_REMOTE}/{GIT_BRANCH}へPushします。"
+        f"{GIT_REMOTE}/{current_branch}へPushします。"
     )
 
     run_git_command(
         [
             "push",
             GIT_REMOTE,
-            GIT_BRANCH,
+            current_branch,
         ]
     )
 

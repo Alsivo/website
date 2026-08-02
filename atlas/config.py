@@ -89,4 +89,3 @@ IMAGE_OUTPUT_FORMAT = "webp"
 
 AUTO_GIT_PUSH = True
 GIT_REMOTE = "origin"
-GIT_BRANCH = "main"
