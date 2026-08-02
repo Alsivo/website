@@ -73,3 +73,12 @@ MAX_WEB_SEARCH_CALLS = 5
 
 MAX_REVISION_ATTEMPTS = 2
 MIN_REVIEW_SCORE = 80
+
+# ============================================================
+# Image generation settings
+# ============================================================
+
+IMAGE_MODEL = "gpt-image-1.5"
+IMAGE_SIZE = "1536x1024"
+IMAGE_QUALITY = "medium"
+IMAGE_OUTPUT_FORMAT = "webp"

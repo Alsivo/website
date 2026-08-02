@@ -36,5 +36,19 @@
     "search_intent": "ChatGPTとClaudeの最新料金・機能・利用制限を比較し、自分の用途に適したサービスを選びたい",
     "output_path": "..\\content\\blog\\chatgpt-vs-claude-pricing-features-comparison.mdx",
     "processed_at": "2026-08-01T20:10:52"
+  },
+  {
+    "keyword": "Claude 料金プラン比較",
+    "target_length": 4000,
+    "related_keywords": [
+      "Claude Pro",
+      "Claude Team",
+      "無料版",
+      "料金",
+      "機能比較"
+    ],
+    "search_intent": "Claudeの無料版と有料プランの最新料金・利用上限・機能の違いを知りたい",
+    "output_path": "..\\content\\blog\\claude-free-pro-team-pricing.mdx",
+    "processed_at": "2026-08-02T21:44:22"
   }
 ]

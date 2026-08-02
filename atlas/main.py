@@ -1,3 +1,6 @@
+from agents.image_creator import (
+    generate_article_image,
+)
 from agents.planner import create_article_plan
 from agents.publisher import publish_article
 from agents.researcher import research_topic
@@ -181,7 +184,26 @@ def main() -> None:
             )
             return
 
-        print("\n[Publisher] MDXファイルを保存中...")
+        print(
+            "\n[Image Agent] "
+            "アイキャッチ画像を生成中..."
+        )
+
+        image_path = generate_article_image(
+            article
+        )
+
+        article["image"] = image_path
+
+        print(
+            f"画像URL：{article['image']}"
+        )
+
+        print(
+            "\n[Publisher] "
+            "MDXファイルを保存中..."
+        )
+
         filepath = publish_article(
             article,
             research,

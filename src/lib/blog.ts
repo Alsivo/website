@@ -33,6 +33,7 @@ function validateFrontmatter(
     "date",
     "category",
     "readingTime",
+    "image",
   ] as const;
 
   for (const field of requiredStringFields) {
@@ -55,6 +56,7 @@ function validateFrontmatter(
     category: data.category!,
     tags: data.tags,
     readingTime: data.readingTime!,
+    image: data.image!,
     published: data.published !== false,
   };
 }

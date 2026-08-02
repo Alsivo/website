@@ -6,6 +6,7 @@ export type BlogPostFrontmatter = {
   category: string;
   tags: string[];
   readingTime: string;
+  image: string;
   published: boolean;
 };
 

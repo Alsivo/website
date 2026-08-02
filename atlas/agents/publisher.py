@@ -184,6 +184,7 @@ def validate_article(article: dict[str, Any]) -> None:
         "description",
         "slug",
         "category",
+        "image",
         "content",
     ]
 
@@ -292,12 +293,17 @@ def publish_article(
     category = escape_yaml_string(article["category"])
     reading_time = calculate_reading_time(article["content"])
 
+    image = escape_yaml_string(
+        article["image"]
+    )
+
     frontmatter_lines = [
         "---",
         f'title: "{title}"',
         f'description: "{description}"',
         f'date: "{date.today().isoformat()}"',
         f'category: "{category}"',
+        f'image: "{image}"',
         f'readingTime: "{reading_time}"',
         "tags:",
     ]

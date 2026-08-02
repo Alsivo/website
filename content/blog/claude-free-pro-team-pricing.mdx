@@ -1,0 +1,135 @@
+---
+title: "Claudeの無料版・Pro・Teamを徹底比較：料金・上限・機能の違いと選び方"
+description: "Claudeの無料・Pro・Team（＋Max/Enterpriseの位置づけ）の料金、上限、機能差を初心者向けに整理。APIは別料金である点や、上限の仕組み（5時間セッション＋週次上限、全デバイス合算）もやさしく解説。"
+date: "2026-08-02"
+category: "AIツール"
+image: "/images/blog/claude-free-pro-team-pricing.webp"
+readingTime: "8 min read"
+tags:
+  - "Claude"
+  - "AIツール"
+  - "生成AI"
+  - "仕事効率化"
+  - "自動化"
+published: true
+---
+本記事は、2026年8月2日現在の公式情報に基づいて作成しています。価格や提供条件は地域や税の扱いで変わる可能性があるため、最終的な金額は必ずアプリ内のアップグレード画面でご確認ください。[[1]](https://claude.com/pricing?m=1)[[7]](https://support.claude.com/en/articles/9267289-how-is-my-team-plan-bill-calculated?utm_source=openai)
+
+まず結論（迷ったらこう選ぶ）
+- 無料版：まずはお試し／ライト利用。上限は低めで、重い添付や長文だとすぐ使い切る可能性あり。[[5]](https://support.anthropic.com/en/articles/9797557-usage-limit-best-practices)
+- Pro：毎日使う人・長文中心・高度機能（ResearchやClaude Code等）を使いたい個人に最適。無料の少なくとも5倍の使用量。[[1]](https://claude.com/pricing?m=1)[[4]](https://support.claude.com/en/articles/11049762-choose-a-claude-plan?utm_source=openai)
+- Team：2〜150名での共同利用や集中管理・請求が必要な組織向け。SSOや監査ログなど管理機能が充実。Seat課金。[[1]](https://claude.com/pricing?m=1)
+- 重要：APIは別料金。個人向けPro/MaxにAPI利用は含まれません。APIが必要なら別途Consoleで従量課金契約を。[[6]](https://support.claude.com/en/articles/8325606-what-is-the-pro-plan?utm_source=openai)[[8]](https://platform.claude.com/docs/ja/about-claude/pricing?utm_source=openai)
+
+## Claudeのプラン構成と対象者
+- Free（無料）：基本チャットが可能。使用量は限定的。[[4]](https://support.claude.com/en/articles/11049762-choose-a-claude-plan?utm_source=openai)[[5]](https://support.anthropic.com/en/articles/9797557-usage-limit-best-practices)
+- Pro（個人）：無料の少なくとも5倍の使用量。Claude CodeやResearchなど追加機能にアクセス。個人利用向けでAPIは含まれない。[[1]](https://claude.com/pricing?m=1)[[6]](https://support.claude.com/en/articles/8325606-what-is-the-pro-plan?utm_source=openai)
+- Max（個人・大容量）：Proの5倍または20倍の使用量を選べる上位個人プラン（先行機能の優先提供など）。[[1]](https://claude.com/pricing?m=1)[[4]](https://support.claude.com/en/articles/11049762-choose-a-claude-plan?utm_source=openai)
+- Team（2〜150名）：Seat課金で組織利用。Standard/Premium席を選択でき、SSOや監査ログなどの管理機能を提供。[[1]](https://claude.com/pricing?m=1)
+- Enterprise（大規模）：Teamの全機能に加え、より高度なセキュリティ・管理やAPI課金を組み合わせる契約（要問い合わせ）。[[1]](https://claude.com/pricing?m=1)
+
+## 最新料金の目安と課金形態（米国価格の例）
+- Free：$0。[[4]](https://support.claude.com/en/articles/11049762-choose-a-claude-plan?utm_source=openai)
+- Pro：月額$20、年払い$200（UI上は月換算$17相当）。地域・通貨・税の扱いは異なる場合あり。[[1]](https://claude.com/pricing?m=1)
+- Max：5x＝月$100、20x＝月$200（年額の案内なし）。[[4]](https://support.claude.com/en/articles/11049762-choose-a-claude-plan?utm_source=openai)
+- Team（1席あたり）：
+  - Standard席：年払い$20/月、または月払い$25/月。
+  - Premium席：年払い$100/月、または月払い$125/月。
+  - 請求は席数ベース。追加・アップグレードは按分請求、削除は即時返金なしの運用がある旨が案内されています。[[1]](https://claude.com/pricing?m=1)[[7]](https://support.claude.com/en/articles/9267289-how-is-my-team-plan-bill-calculated?utm_source=openai)
+- 注意：価格・プランは変更される可能性があります。最終価格はアップグレード画面で確認してください。[[1]](https://claude.com/pricing?m=1)[[7]](https://support.claude.com/en/articles/9267289-how-is-my-team-plan-bill-calculated?utm_source=openai)
+
+## 利用上限の比較ポイント（メッセージ数ではなく“使用量”で管理）
+- 使用量は固定の「1日◯通」では公開されていません。会話の長さ、添付ファイル、使うモデルや機能（例：Research）などで増減します。[[5]](https://support.anthropic.com/en/articles/9797557-usage-limit-best-practices)
+- セッションは「ローリング5時間」の仕組みで管理。有料プランには週次上限もあります。[[1]](https://claude.com/pricing?m=1)[[5]](https://support.anthropic.com/en/articles/9797557-usage-limit-best-practices)
+- Web／Desktop／Mobile／Claude Codeの利用は同じ使用量プールから差し引かれるため、どのデバイスで使っても合算されます。[[9]](https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work?utm_source=openai)
+- Proは無料の「少なくとも5倍」の使用量。MaxはPro比で5倍または20倍。TeamはStandardがPro超、PremiumはStandardの5倍の設計です。[[1]](https://claude.com/pricing?m=1)
+- 混雑時の優先度や先行機能はMaxで優先される旨の記載があります（Pro/Teamについては優先度の詳細は明示されていません）。[[1]](https://claude.com/pricing?m=1)
+
+## 機能比較（無料 vs Pro vs Team）
+- 共通（例）：基本チャット、ファイル作成・コード実行（Create and edit files with Claude）。[[2]](https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude?utm_source=openai)
+- Pro以上：
+  - Claude Code／Cowork／Design／Science、無制限のプロジェクト、Research、より多くのモデル、Microsoft 365向けClaudeなどが含まれます（地域や提供状況により変動の可能性あり）。[[1]](https://claude.com/pricing?m=1)
+- Team：
+  - 上記の機能に加え、SSO、ドメインキャプチャ、SCIM、監査ログ、コンプライアンスAPI、データ保持制御、IP許可リスト、ネットワークレベル制御、HIPAA対応オプション、Claude Security（β）などを提供。[[1]](https://claude.com/pricing?m=1)
+  - Claude CodeはすべてのTeam席で利用可能。[[1]](https://claude.com/pricing?m=1)[[10]](https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan?utm_source=openai)
+
+## できること／できないこと（早見）
+- できること（代表例）：
+  - 基本チャット、成果物の作成（Artifacts）やファイルの作成・編集・コード実行（製品設定により制限が異なる場合あり）。[[2]](https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude?utm_source=openai)
+  - Pro以上でResearchや追加モデル、無制限プロジェクト、Microsoft 365向けClaudeなど。[[1]](https://claude.com/pricing?m=1)
+- できない／別料金：
+  - APIの利用は個人向けサブスクリプションには含まれません。APIは別途Consoleで従量課金（モデル別レート）です。[[6]](https://support.claude.com/en/articles/8325606-what-is-the-pro-plan?utm_source=openai)[[8]](https://platform.claude.com/docs/ja/about-claude/pricing?utm_source=openai)
+  - 有料上限到達後に「追加使用量（Usage credits／Bundles）」を有効化すると、API標準レートでの従量課金に自動移行します（費用管理に注意）。[[3]](https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans?utm_source=openai)
+- 判定が必要な事項：
+  - 商用利用の詳細や一部の先行機能の提供範囲は変更・段階提供の可能性があるため、最新の公式情報・利用規約を確認してください。[[1]](https://claude.com/pricing?m=1)
+
+## モデル関連の要点
+- Pro以上では「より多くのClaudeモデル」にアクセスできる旨が案内されています（具体的なモデル提供は時期や地域で変動）。[[1]](https://claude.com/pricing?m=1)
+- Maxは先行機能の優先提供や高い出力上限が示されています。高負荷時の体験を重視する個人は検討対象になります。[[1]](https://claude.com/pricing?m=1)
+- APIのモデル単価は別体系。例として、SonnetやOpusのトークン単価が提示されています。最新のレートは公式Pricingで確認してください。[[1]](https://claude.com/pricing?m=1)[[8]](https://platform.claude.com/docs/ja/about-claude/pricing?utm_source=openai)
+
+## 利用シーン別の選び方（具体例）
+- 学習・調査（短時間・短文中心）：無料開始→上限に頻繁に当たる・Researchを使いたい→Proへ。[[1]](https://claude.com/pricing?m=1)[[5]](https://support.anthropic.com/en/articles/9797557-usage-limit-best-practices)
+- 長文ライティング（毎日）：章立てや推敲で長いやり取りが多くなる→Proを基本線。特に長大な出力や先行機能重視ならMaxも検討。[[1]](https://claude.com/pricing?m=1)
+- コード補助：Claude Codeを日常的に使いたい個人はPro以上。チームでレビュー・共有や管理が必要ならTeam（StandardまたはPremium）。[[1]](https://claude.com/pricing?m=1)[[10]](https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan?utm_source=openai)
+- データ要約・資料作成（ファイル多用）：Pro以上で作業効率向上。チームのナレッジ共有・統制が必要ならTeam。[[1]](https://claude.com/pricing?m=1)
+- 小規模チームの社内利用：2〜10名で共同利用、請求の一本化やSSOが必要→Team。セキュリティ要件が高い場合はPremium席やEnterpriseも視野。[[1]](https://claude.com/pricing?m=1)
+
+## コスト試算の考え方（無料→Pro→Teamの分岐）
+- 1日の想定作業から逆算：
+  - 短文・軽い添付のみ→無料でも可。上限到達が増えたらProへ。[[5]](https://support.anthropic.com/en/articles/9797557-usage-limit-best-practices)
+  - 長文・複数ファイル・継続作業→Pro。さらに上限が足りなければMax（5x/20x）。[[1]](https://claude.com/pricing?m=1)
+  - 複数人で共用・請求の一本化・SSO/監査が必要→Team（Standard/Premium）。[[1]](https://claude.com/pricing?m=1)
+- 追加使用量の活用：有料プランで上限に達しても、Usage creditsを有効化すればAPI標準レートで継続可能。ただし予算管理のためUsage画面で消費状況を必ず確認。[[3]](https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans?utm_source=openai)
+
+## Teamプランの組織機能（席数管理・権限・請求）
+- 席数（2〜150）で契約するSeat課金モデル。StandardとPremiumから選択。PremiumはStandard比5倍の容量設計。[[1]](https://claude.com/pricing?m=1)
+- SSO、SCIM、監査ログ、コンプライアンスAPI、データ保持制御、IP許可リスト等の企業向け機能を提供。集中課金・管理が可能。[[1]](https://claude.com/pricing?m=1)
+- 請求運用：席の追加やアップグレードは按分請求、削除は即時返金なしの扱いが案内されています。税や通貨は地域差あり。[[7]](https://support.claude.com/en/articles/9267289-how-is-my-team-plan-bill-calculated?utm_source=openai)
+
+## よくある誤解と注意点
+- 「1日のメッセージ数」で上限は公表されていません。会話の長さや添付・機能で消費が変動します。[[5]](https://support.anthropic.com/en/articles/9797557-usage-limit-best-practices)
+- 上限はローリング5時間セッション＋（有料の）週次上限。全プロダクト面で共通プールとして消費されます。[[1]](https://claude.com/pricing?m=1)[[9]](https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work?utm_source=openai)
+- 価格は地域・通貨・税で変わります。必ずアップグレード画面で最終価格を確認してください。[[7]](https://support.claude.com/en/articles/9267289-how-is-my-team-plan-bill-calculated?utm_source=openai)
+- ProにはAPIが含まれません。APIは別契約・従量課金です。[[6]](https://support.claude.com/en/articles/8325606-what-is-the-pro-plan?utm_source=openai)[[8]](https://platform.claude.com/docs/ja/about-claude/pricing?utm_source=openai)
+- 個人ProとTeamの併用可否や細かな先行機能の対象は、運用や時期で変わる可能性があるため断定を避け、最新の公式情報を参照してください。[[1]](https://claude.com/pricing?m=1)
+
+## アップグレード／ダウングレードの考え方
+- 課金サイクル：年額・月額の切替やキャンセル、返金の扱いは公式のPricing・ヘルプの規定に従います。アプリ内課金（Apple/Google）経由の場合は各ストアの手続きが適用されます。[[1]](https://claude.com/pricing?m=1)
+- Teamの席変更：席の追加・アップグレードは按分で請求、削除は即時返金なしの案内。運用前に請求ポリシーを確認しましょう。[[7]](https://support.claude.com/en/articles/9267289-how-is-my-team-plan-bill-calculated?utm_source=openai)
+
+## 他サービスと比べる視点（ざっくり）
+- 比較軸の例：
+  - 価格（月額・年額の有無、Seat課金の有無）[[1]](https://claude.com/pricing?m=1)
+  - 実効上限（セッション方式、週次上限、追加使用量の有無）[[1]](https://claude.com/pricing?m=1)[[3]](https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans?utm_source=openai)[[5]](https://support.anthropic.com/en/articles/9797557-usage-limit-best-practices)
+  - 混雑時の体験（Maxの優先提供など）[[1]](https://claude.com/pricing?m=1)
+  - 管理機能（SSO/監査/SCIM/データ保持）[[1]](https://claude.com/pricing?m=1)
+  - APIの含有可否と別料金体系（モデル単価）[[6]](https://support.claude.com/en/articles/8325606-what-is-the-pro-plan?utm_source=openai)[[8]](https://platform.claude.com/docs/ja/about-claude/pricing?utm_source=openai)
+
+## 最新情報の確認先と本記事の更新方針
+- 公式Plans & Pricing（個人／Teamの料金・機能、APIレート例、年額・月額の扱い）を最優先で確認。[[1]](https://claude.com/pricing?m=1)
+- プラン比較（Free/Pro/Max）と使用量倍率の目安。[[4]](https://support.claude.com/en/articles/11049762-choose-a-claude-plan?utm_source=openai)
+- 使用量の仕組み（5時間セッション、週次上限、全プロダクト合算）。[[5]](https://support.anthropic.com/en/articles/9797557-usage-limit-best-practices)[[9]](https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work?utm_source=openai)
+- ファイル作成・コード実行の提供状況。[[2]](https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude?utm_source=openai)
+- 追加使用量（Usage credits／Bundles）の有効化と費用管理。[[3]](https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans?utm_source=openai)
+- Teamの請求（按分、地域差の但し書き）。[[7]](https://support.claude.com/en/articles/9267289-how-is-my-team-plan-bill-calculated?utm_source=openai)
+- Claude Codeの提供範囲（Team/Enterprise）。[[10]](https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan?utm_source=openai)
+
+## まとめ
+- 個人で毎日使うならPro、さらに大容量・先行機能重視ならMax。チームでの共同利用・管理が必要ならTeamを選ぶのが基本線です。[[1]](https://claude.com/pricing?m=1)
+- すべてのプランは“使用量”で管理され、固定のメッセージ数は公表されていません。5時間セッション＋（有料は）週次上限、全デバイス合算を理解しておくと、無駄な上限到達を避けられます。[[1]](https://claude.com/pricing?m=1)[[5]](https://support.anthropic.com/en/articles/9797557-usage-limit-best-practices)[[9]](https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work?utm_source=openai)
+- APIはサブスクに含まれず別料金。モデル単価は公式Pricingで最新を確認しましょう。[[6]](https://support.claude.com/en/articles/8325606-what-is-the-pro-plan?utm_source=openai)[[8]](https://platform.claude.com/docs/ja/about-claude/pricing?utm_source=openai)
+- 価格・提供条件は変動し得るため、購入前に必ずアップグレード画面で地域通貨・税込/税抜の最終価格と請求ポリシーを確認してください。[[1]](https://claude.com/pricing?m=1)[[7]](https://support.claude.com/en/articles/9267289-how-is-my-team-plan-bill-calculated?utm_source=openai)
+
+## 参考情報
+
+1. [Plans & Pricing | Claude by Anthropic](https://claude.com/pricing?m=1)
+2. [Create and edit files with Claude | Claude Help Center](https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude?utm_source=openai)
+3. [Manage usage credits for paid Claude plans | Claude Help Center](https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans?utm_source=openai)
+4. [Choose a Claude plan | Claude Help Center](https://support.claude.com/en/articles/11049762-choose-a-claude-plan?utm_source=openai)
+5. [Usage limit best practices | Claude Help Center](https://support.anthropic.com/en/articles/9797557-usage-limit-best-practices)
+6. [What is the Pro plan? | Claude Help Center](https://support.claude.com/en/articles/8325606-what-is-the-pro-plan?utm_source=openai)
+7. [How is my Team plan bill calculated? | Claude Help Center](https://support.claude.com/en/articles/9267289-how-is-my-team-plan-bill-calculated?utm_source=openai)
+8. [料金 - Claude Platform Docs](https://platform.claude.com/docs/ja/about-claude/pricing?utm_source=openai)
+9. [How do usage and length limits work? | Claude Help Center](https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work?utm_source=openai)
+10. [Use Claude Code with your Team or Enterprise plan | Claude Help Center](https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan?utm_source=openai)
