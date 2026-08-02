@@ -7,6 +7,7 @@ import MdxContent from "../../../components/MdxContent";
 import {
   getAllBlogSlugs,
   getBlogPostBySlug,
+  getRelatedBlogPosts,
 } from "../../../lib/blog";
 import {
   SITE_NAME,
@@ -83,6 +84,13 @@ export default async function BlogPostPage({
 
   const tableOfContents = extractTableOfContents(
     post.content,
+  );
+
+  const relatedPosts = getRelatedBlogPosts(
+    post.slug,
+    post.category,
+    post.tags,
+    3,
   );
 
   const articleUrl = `${SITE_URL}/blog/${post.slug}`;
@@ -191,6 +199,78 @@ export default async function BlogPostPage({
         <div className="article-content">
           <MdxContent source={post.content} />
         </div>
+        {relatedPosts.length > 0 && (
+          <section
+            className="related-posts"
+            aria-labelledby="related-posts-title"
+          >
+            <div className="related-posts-header">
+              <div>
+                <p className="section-kicker">
+                  RELATED
+                </p>
+
+                <h2 id="related-posts-title">
+                  関連記事
+                </h2>
+              </div>
+
+              <Link href="/blog">
+                すべての記事を見る →
+              </Link>
+            </div>
+
+            <div className="related-posts-grid">
+              {relatedPosts.map((relatedPost) => {
+                const formattedDate =
+                  new Intl.DateTimeFormat("ja-JP", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  }).format(
+                    new Date(relatedPost.date),
+                  );
+
+                return (
+                  <Link
+                    className="related-post-card"
+                    href={`/blog/${relatedPost.slug}`}
+                    key={relatedPost.slug}
+                  >
+                    <div className="related-post-image">
+                      <Image
+                        src={relatedPost.image}
+                        alt={`${relatedPost.title}のアイキャッチ画像`}
+                        fill
+                        sizes="(max-width: 700px) 100vw, 33vw"
+                      />
+                    </div>
+
+                    <div className="related-post-body">
+                      <div className="related-post-meta">
+                        <span>
+                          {relatedPost.category}
+                        </span>
+
+                        <time dateTime={relatedPost.date}>
+                          {formattedDate}
+                        </time>
+                      </div>
+
+                      <h3>{relatedPost.title}</h3>
+
+                      <p>{relatedPost.description}</p>
+
+                      <span className="related-post-link">
+                        記事を読む →
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        )}
       </article>
     </main>
   );

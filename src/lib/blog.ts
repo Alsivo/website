@@ -110,3 +110,41 @@ export function getBlogPostBySlug(slug: string): BlogPost | null {
 export function getAllBlogSlugs(): string[] {
   return getAllBlogPosts().map((post) => post.slug);
 }
+
+export function getRelatedBlogPosts(
+  currentSlug: string,
+  category: string,
+  tags: string[],
+  limit = 3,
+): BlogPostSummary[] {
+  const currentTags = new Set(tags);
+
+  return getAllBlogPosts()
+    .filter((post) => post.slug !== currentSlug)
+    .map((post) => {
+      const categoryScore =
+        post.category === category ? 3 : 0;
+
+      const matchingTagCount = post.tags.filter(
+        (tag) => currentTags.has(tag),
+      ).length;
+
+      return {
+        post,
+        score: categoryScore + matchingTagCount,
+      };
+    })
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => {
+      if (b.score !== a.score) {
+        return b.score - a.score;
+      }
+
+      return (
+        new Date(b.post.date).getTime()
+        - new Date(a.post.date).getTime()
+      );
+    })
+    .slice(0, limit)
+    .map(({ post }) => post);
+}
