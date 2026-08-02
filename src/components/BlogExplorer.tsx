@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { BlogPostSummary } from "../types/blog";
@@ -173,8 +174,19 @@ export default function BlogExplorer({
                 key={article.slug}
               >
                 <div className="article-card-visual">
-                  <span>{article.category}</span>
-                  <strong>AI</strong>
+                  <Image
+                    className="article-card-image"
+                    src={article.image}
+                    alt={`${article.title}のアイキャッチ画像`}
+                    fill
+                    sizes="(max-width: 800px) 100vw, 50vw"
+                  />
+
+                  <div className="article-card-image-overlay" />
+
+                  <span className="article-card-category">
+                    {article.category}
+                  </span>
                 </div>
 
                 <div className="article-card-body">
