@@ -1,0 +1,151 @@
+---
+title: "Cursorの料金プラン徹底比較：無料版・Pro・Businessの違いと選び方"
+description: "CursorのHobby（無料）/Individual（Pro・Pro+・Ultra）/Teams（旧Business相当）/Enterpriseを、料金・上限・機能・セキュリティ・サポート観点で整理。最新の確認ポイント、判断フロー、ROI試算テンプレ、導入チェックリスト付き。"
+date: "2026-08-02"
+category: "AIツール"
+image: "/images/blog/cursor-pricing-plans-comparison.webp"
+readingTime: "10 min read"
+tags:
+  - "AIツール"
+  - "生成AI"
+  - "仕事効率化"
+  - "ChatGPT"
+  - "Claude"
+published: true
+---
+この記事では、Cursorの料金プラン（Hobby/Individual/Teams/Enterprise）を俯瞰し、あなたの開発規模・頻度・セキュリティ要件に合う最適プランを5分で選べるよう整理します。記載の事実は2026年8月2日時点の公式情報に基づきます。価格や上限は更新が頻繁なため、最終判断前に必ず公式のPricingページとアプリ内のプラン表示で最新を確認してください。[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)[[5]](https://cursor.com/changelog/0-50?utm_source=openai)
+
+## 本記事で分かること
+- 目的別のおすすめプランと、すぐ使える判断フロー
+- 無料版・Pro・Pro+・Ultra・Teams（＝旧Business相当）・Enterpriseの立ち位置と価格レンジ、含まれる使用量の考え方[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)[[2]](https://www.cursor.com/blog/new-tier)
+- 上限の“数”ではなく“使用量（トークン相当のAPI価格換算）”で管理される最新の考え方[[2]](https://www.cursor.com/blog/new-tier)[[5]](https://cursor.com/changelog/0-50?utm_source=openai)
+- 企業導入で押さえるべきSSO/ガバナンス/請求のチェックリスト[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)[[4]](https://cursor.com/terms/pricing/2026-03-25?utm_source=openai)
+
+注意：無料版の正確な上限回数・トークン量、およびPro+の月額・増量幅は公開ページに明記がないため、契約画面・請求ダッシュボードの表示が最新かつ優先です。[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+
+## Cursorとは？できることの全体像
+Cursorは、AIを活用したコーディング環境です。主な特徴は次のとおりです。
+- チャット/インライン編集、背景エージェント（Background/Cloud Agent）による継続的な支援[[5]](https://cursor.com/changelog/0-50?utm_source=openai)[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- フロンティアモデルへのアクセス（例：GPT/Claude/Gemini系に加え、GrokやComposerの表記もあり）[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)[[3]](https://cursor.com/blog/june-2025-pricing?_bhlid=f6453bb6d3a946f4d86d5c4808fdb43c1069bfe1&utm_source=openai)
+- バージョンアップでMax Mode（トークンベースのシンプルな価格体系）導入。既存クォータは当時の告知では維持と案内[[5]](https://cursor.com/changelog/0-50?utm_source=openai)
+- Bugbotによるエージェント型のコードレビュー（利用はプランや従量課金の条件に依存）[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+
+使い方や消費量は、選ぶモデル・編集範囲・コンテキスト長・ツールコールの有無で大きく変わります。長いコンテキストや複数ファイル編集は消費が跳ねやすい点に注意しましょう。[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+
+## 料金プランの全体像（無料版／Pro／Business）
+Cursorの公式プラン体系は以下のとおりです。企業向けの呼称は現行「Teams」ですが、旧称「Business」が資料に残るため本記事では両者を対応づけて記載します。[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+
+- Hobby（無料）：試用〜軽微な個人利用。Agentリクエストとタブ補完は“Limited”とだけ明記（具体数値は非公開）。[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- Individual（個人向け：Pro／Pro+／Ultra）
+  - 価格の目安：ベースは$20/mo（税別）。Pro+は存在するが公開ページに具体価格・増量幅の数値は未掲示（アプリ内で選択）。[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - Ultra：$200/mo（税別）。Proの「20倍の使用量（usage）」を提供（回数ではなくAPI価格換算ベース）。[[2]](https://www.cursor.com/blog/new-tier)
+  - Proは「月あたり少なくとも$20相当の推論（API価格換算）」が含まれ、超過は後払いのオンデマンド課金へ。Autoモデルとツールコールの上限制限撤廃も告知（導入時点）。[[2]](https://www.cursor.com/blog/new-tier)[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- Teams（旧Business相当：組織・チーム向け）：$40/user/mo（税別）。チーム課金・管理、チームマーケットプレイス、Bugbotレビュー、共有コンテキストのクラウドエージェント/自動化、使用分析、チーム全体のプライバシーモード、SAML/OIDC SSOなどを提供。[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- Enterprise：価格は見積。使用量プール、請求書・PO、SCIM、レポジトリ/モデル/MCPアクセス制御、オートラン/ブラウザ/ネットワーク制御、監査ログ、サービスアカウント、AIコードトラッキングAPI、優先サポートなどが追加。[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+
+提供条件の要点：表示は税別・USD建て。セルフサーブは主要カード対応、Enterpriseは請求書/電信送金に対応。含まれる使用量を超えた分は「翌月後払い（billed in arrears）」で従量課金。再販業者は一切非公認で、購入は公式サイトのみ。[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text) 料金ポリシー上、個別のOrder Formがある場合はその条件が優先します。[[4]](https://cursor.com/terms/pricing/2026-03-25?utm_source=openai)
+
+## 5分で判断：ざっくり比較観点とフローチャート
+- 判断の軸
+  - 開発頻度/規模：月の使用量はどれくらいか（重いモデル・長文コンテキストの比率）[[2]](https://www.cursor.com/blog/new-tier)[[5]](https://cursor.com/changelog/0-50?utm_source=openai)
+  - セキュリティ/管理：SSO・プライバシーモード・監査/制御が必要か[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - サポート/請求：請求書・PO、優先サポートが必要か[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - 予算：ベース費用＋超過の従量課金を許容できるか[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+
+- フローチャート（テキスト版）
+  1) 会社ポリシーでSSO必須？ → はい：Teams/Enterpriseを検討 → 監査/詳細制御が必須ならEnterprise、それ以外はTeams[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  2) 個人/小チームで本番開発？ → はい：Individual（Pro/Pro+/Ultra）へ。月の使用量の振れが大きく、上限の余裕が常に必要→Ultra、そうでなければProまたはPro+[[2]](https://www.cursor.com/blog/new-tier)[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  3) まず試したい/学習中心？ → Hobbyから開始（上限はLimitedのため使い勝手を確認）[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+
+## 最新料金・上限の確認ポイント
+- Pricingページで必ず見る箇所
+  - 含まれる使用量（usage）の考え方、超過時のオンデマンド課金（billed in arrears）の記載[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - プラン切替UI（Individual内のPro/Pro+/Ultra）。Pro+の価格・正味の増量幅は公開数値がないため、アプリ内のPlan画面で要確認[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - Teams/Enterpriseの機能差（SSO、分析、監査/制御など）[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- 変更が頻繁な項目の見極め
+  - 旧来の“回数制”から、トークン相当の“使用量制”へ。Max Mode導入・価格体系の簡素化、既存クォータは当時の告知では維持とされるが、常に最新版を確認[[5]](https://cursor.com/changelog/0-50?utm_source=openai)
+  - Ultraの「20倍」は“usage”基準であり“回数”ではない点に注意[[2]](https://www.cursor.com/blog/new-tier)
+  - モデル別の回数目安は過去例（例：Sonnet 4/Gemini/GPT‑4.1の中央値ベースの参考値）で、将来保証ではない[[3]](https://cursor.com/blog/june-2025-pricing?_bhlid=f6453bb6d3a946f4d86d5c4808fdb43c1069bfe1&utm_source=openai)
+
+## 無料版（Hobby）の特徴と向いている人
+- 想定ユース：試用、学習、軽い個人開発
+- できること・制約の典型
+  - Agentリクエストとタブ補完は“Limited”。正確な日次/月次の数値は非公開[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - モデルや機能の使い勝手を確かめる入口として適切
+- 上限節約のコツ
+  - 編集対象を最小化（関係ファイルだけを選択）
+  - 指示は短く具体的に（冗長な前置きは省く）
+  - 差分生成や部分リファクタを優先（大規模一括より段階的に）
+
+## Cursor Pro（Individual）の特徴と向いているケース
+- 想定ユース：個人の本番開発、フリーランス、スタートアップ初期
+- 主要メリット
+  - 含まれる使用量：月あたり少なくとも$20相当の推論が含まれる（超過はオンデマンド）[[2]](https://www.cursor.com/blog/new-tier)[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - Autoモデル/ツールコールの上限制限撤廃（導入時告知）[[2]](https://www.cursor.com/blog/new-tier)
+  - フロンティアモデルへのアクセス、MCP・skills・hooks、クラウドエージェント等を活用可能[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- 具体的な使いどころ
+  - 大量リファクタやテスト生成、ライブラリアップグレードやマイグレーション
+  - バックグラウンドでの長時間処理（クラウドエージェント）と手動編集の組み合わせ[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- 費用対効果（ROI）計算の考え方
+  - 前提：月額コスト＝ベース料金（例：$20）＋超過のオンデマンド料金。超過はダッシュボードの「Included Usage」「On‑demand」で随時確認[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - 目安式：必要な時短時間（時間/月）＝ 月額コスト ÷ あなたの時給
+  - 例：時給$50、月額コスト$35（ベース＋少額の超過）なら、0.7時間/月短縮で元が取れる
+  - ポイント：モデルの重さ・コンテキスト長で消費は大きく変動するため、最初の1〜2週間は使用量ログを見て「使い方の最適化」を図る[[2]](https://www.cursor.com/blog/new-tier)[[5]](https://cursor.com/changelog/0-50?utm_source=openai)
+
+## Business（=現行のTeams）の特徴と選定ポイント
+- 想定ユース：コンプライアンス要件のある組織、複数チームでの標準化
+- 管理・セキュリティ
+  - チーム課金・管理、ルール/スキル/プラグインのマーケットプレイス、Bugbotコードレビュー、共有コンテキストのクラウドエージェント/自動化、使用分析、チーム全体のプライバシーモード、SAML/OIDC SSO[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - Enterpriseでは、使用量プール、SCIM、詳細なアクセス制御（レポジトリ/モデル/MCP）、監査ログ、オートラン/ブラウザ/ネットワーク制御、サービスアカウント、AIコードトラッキングAPI、優先サポートなどが追加[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- サポート/請求
+  - Teamsは$40/user/mo（税別）。Enterpriseは見積。セルフサーブはカード決済、Enterpriseは請求書/電信送金対応[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - 価格・条件はOrder Formが優先される場合あり[[4]](https://cursor.com/terms/pricing/2026-03-25?utm_source=openai)
+- 導入時のセキュリティ＆購買チェックリスト
+  - データ学習オプトアウト：プライバシーモード有効化でコードはCursorやモデル提供者の学習に使われないと保証[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - 認証/プロビジョニング：SAML/OIDC SSO、（Enterpriseで）SCIMの要否[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - ログ/ガバナンス：（Enterpriseで）監査ログ、各種アクセス/実行制御の範囲[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - 請求条件：請求書・PO、使用量プール、支払通貨・税の取り扱い[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)[[4]](https://cursor.com/terms/pricing/2026-03-25?utm_source=openai)
+  - 購入経路：再販・第三者は非公認（アカウント停止リスク）。公式サイトからのみ購入[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+
+## 主要機能のプラン差まとめ（表の代替・要点箇条書き）
+- 料金・含有使用量
+  - Hobby：無料。Agent/補完はLimited（数値非公開）[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - Individual（Pro/Pro+/Ultra）：ベース$20/mo。Ultraは$200/moでProの20倍の“usage”。超過は後払いのオンデマンド[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)[[2]](https://www.cursor.com/blog/new-tier)
+  - Teams：$40/user/mo。Enterprise：見積[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- モデルと“使える量”の考え方
+  - 管理基準は“リクエスト回数”より“使用量（API価格換算）”。Max Mode導入でトークンベースに簡素化（当時の告知）[[5]](https://cursor.com/changelog/0-50?utm_source=openai)
+  - モデル別の回数目安は過去の参考値で変動前提（Sonnet 4/Gemini/GPT‑4.1の例示あり）[[3]](https://cursor.com/blog/june-2025-pricing?_bhlid=f6453bb6d3a946f4d86d5c4808fdb43c1069bfe1&utm_source=openai)
+- 実行とオートメーション
+  - クラウド/背景エージェントはIndividual以上で活用幅が広がる。Teamsでは共有コンテキストでの自動化も提供[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- チーム・管理機能
+  - Teams：SSO、使用分析、チーム全体のプライバシーモード、チームマーケットプレイス、Bugbotレビュー[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+  - Enterprise：SCIM、アクセス制御、監査ログ、サービスアカウント等[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- データ保護
+  - プライバシーモード有効時、コードは学習に使われないと明記[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+
+## 既存ツール（例：社内の他AI支援や補完ツール）との住み分けの考え方
+- 標準化とガバナンスを優先：SSO・プライバシーモード・分析・監査が必須ならTeams/Enterpriseに寄せて統一[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- コストの見える化：Cursor側の「Included Usage / On‑demand」を月次でレビューし、既存ツールとの重複支出を可視化[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- ワークフロー適合：背景エージェントやBugbotなど“自動レビュー/自動実行”を中核にするならCursorでの集約が有利になりやすい[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+
+## よくある疑問と注意点
+- 無料版やPro+の“数値上限”は？ → 公開ページに数値は見当たらず、“Limited”や中間層の存在のみ明記。契約画面・請求ダッシュボードで要確認[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- Ultraの「20倍」は回数？ → いいえ。API価格換算の“usage”が基準。重いモデル比率が高いと消費は早い[[2]](https://www.cursor.com/blog/new-tier)
+- Autoやツールコールは無制限で無料？ → アクセス上限制限の撤廃が告知されたが、課金は使用量ベースで発生し得る。実際の消費はダッシュボードで都度確認[[2]](https://www.cursor.com/blog/new-tier)[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- 価格・クォータは固定？ → 価格体系の簡素化やMax Mode導入など変更が続いているため、最新版の確認が必須[[5]](https://cursor.com/changelog/0-50?utm_source=openai)
+
+## まとめ：こう選べば失敗しにくい
+- まずHobbyで操作感と“消費のクセ”を把握 → 日常的に使うならIndividual（Pro）。使用量の振れが大きい/常に余裕が必要ならUltraを検討[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)[[2]](https://www.cursor.com/blog/new-tier)
+- チーム導入は、SSOとガバナンス要件でTeams/Enterpriseを分岐。監査・細粒度制御・プール課金・請求書決済などが必要ならEnterprise[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+- 判断の最後は「ダッシュボードの使用量ログ」と「Pricingページの最新表記」。特にPro+の価格・増量幅、無料版の数値上限はアプリ内表示が正[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)[[4]](https://cursor.com/terms/pricing/2026-03-25?utm_source=openai)
+
+---
+更新頻度が高い領域（モデル別レート、含有使用量の実数、Auto/Maxの扱い、組織機能の範囲など）は、導入前に必ず最新版を確認してください。[[1]](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)[[5]](https://cursor.com/changelog/0-50?utm_source=openai)
+
+## 参考情報
+
+1. [Cursor · Pricing](https://www.cursor.com/pricing?trk=public_post_main-feed-card-text)
+2. [Updates to Ultra and Pro · Cursor](https://www.cursor.com/blog/new-tier)
+3. [Clarifying our pricing · Cursor](https://cursor.com/blog/june-2025-pricing?_bhlid=f6453bb6d3a946f4d86d5c4808fdb43c1069bfe1&utm_source=openai)
+4. [Cursor · Pricing Policy](https://cursor.com/terms/pricing/2026-03-25?utm_source=openai)
+5. [Simplified Pricing, Background Agent and Refreshed Inline Edit · Cursor](https://cursor.com/changelog/0-50?utm_source=openai)
