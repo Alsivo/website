@@ -45,6 +45,27 @@ ARTICLE_SCHEMA: dict[str, Any] = {
             "maxItems": 10,
         },
         "content": {"type": "string"},
+        "faq": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 5,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "question": {
+                        "type": "string"
+                    },
+                    "answer": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "question",
+                    "answer"
+                ],
+                "additionalProperties": False
+            }
+        },
     },
     "required": [
         "title",
@@ -54,6 +75,7 @@ ARTICLE_SCHEMA: dict[str, Any] = {
         "tags",
         "used_source_ids",
         "content",
+        "faq"
     ],
     "additionalProperties": False,
 }
@@ -143,8 +165,16 @@ def generate_article(
             "複数の出典が根拠なら[S1][S2]のように記載してください。"
             "存在しない出典IDを作らないでください。"
             "本文中にURLを直接書かないでください。"
-            "used_source_idsには、本文で実際に使った出典IDだけを入れてください。"
+            "used_source_idsには、本文またはFAQで実際に使った出典IDだけを入れてください。"
             "調査結果で確認できない最新情報は記事へ追加しないでください。"
+            "記事本文を読んだ初心者が疑問に感じやすい内容を、"
+            "FAQとして3件以上5件以下で作成してください。"
+            "質問は記事テーマに具体的に関連する内容にしてください。"
+            "回答は簡潔かつ実用的にしてください。"
+            "料金、機能、仕様、日付、プラン名などの事実をFAQ回答に含める場合は、"
+            "回答内にも根拠となる[S1]形式の出典IDを付けてください。"
+            "存在しない出典IDをFAQ内で作らないでください。"
+            "FAQはcontent本文へ重複して書かず、faqフィールドだけに入れてください。"
         ),
         input=(
             "以下の記事企画とWeb調査結果を基に記事を作成してください。\n\n"
@@ -207,13 +237,18 @@ def revise_article(
             "根拠となる[S1]形式の出典IDを付けてください。"
             "存在しない出典IDを作らないでください。"
             "本文中にURLを直接書かないでください。"
-            "used_source_idsには本文で実際に使用したIDだけを入れてください。"
+            "used_source_idsには本文またはFAQで実際に使用したIDだけを入れてください。"
             "記事冒頭にH1見出しを付けないでください。"
             "本文はMarkdown形式にしてください。"
             f"categoryは次の一覧から選択してください：{', '.join(CATEGORIES)}。"
             f"タグは{MIN_TAGS}個以上{MAX_TAGS}個以下にしてください。"
             f"既存タグを優先してください：{', '.join(CORE_TAGS)}。"
             f"新規タグは最大{MAX_NEW_TAGS}個までです。"
+            "FAQもReviewerの指摘とWeb調査結果に合わせて修正してください。"
+            "FAQは3件以上5件以下を維持してください。"
+            "FAQ回答に料金、機能、仕様、日付などの事実を含める場合は、"
+            "回答内にも有効な[S1]形式の出典IDを付けてください。"
+            "FAQはcontent本文へ重複して書かず、faqフィールドだけに入れてください。"
         ),
         input=json.dumps(
             revision_data,

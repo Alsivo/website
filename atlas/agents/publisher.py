@@ -272,6 +272,46 @@ def validate_article(article: dict[str, Any]) -> None:
             "used_source_idsに不正な値があります。"
         )
 
+    faq_items = article.get("faq")
+
+    if not isinstance(faq_items, list):
+        raise ValueError(
+            "記事データの「faq」は配列で指定してください。"
+        )
+
+    if not 3 <= len(faq_items) <= 5:
+        raise ValueError(
+            "FAQは3件以上5件以下にしてください。"
+        )
+
+    for index, item in enumerate(
+        faq_items,
+        start=1,
+    ):
+        if not isinstance(item, dict):
+            raise ValueError(
+                f"FAQの{index}件目の形式が不正です。"
+            )
+
+        question = item.get("question")
+        answer = item.get("answer")
+
+        if (
+            not isinstance(question, str)
+            or not question.strip()
+        ):
+            raise ValueError(
+                f"FAQの{index}件目の質問が未入力です。"
+            )
+
+        if (
+            not isinstance(answer, str)
+            or not answer.strip()
+        ):
+            raise ValueError(
+                f"FAQの{index}件目の回答が未入力です。"
+            )
+
 def publish_article(
     article: dict[str, Any],
     research: dict[str, Any],
@@ -291,12 +331,32 @@ def publish_article(
     title = escape_yaml_string(article["title"])
     description = escape_yaml_string(article["description"])
     category = escape_yaml_string(article["category"])
-    reading_time = calculate_reading_time(article["content"])
-
     image = escape_yaml_string(
         article["image"]
     )
 
+    # 本文とFAQを先にまとめる
+    full_content = article["content"].strip()
+
+    faq_items = article["faq"]
+
+    full_content += "\n\n## よくある質問\n"
+
+    for item in faq_items:
+        question = item["question"].strip()
+        answer = item["answer"].strip()
+
+        full_content += (
+            f"\n### {question}\n\n"
+            f"{answer}\n"
+        )
+
+    # FAQを含めた全文から読了時間を計算
+    reading_time = calculate_reading_time(
+        full_content
+    )
+
+    # reading_timeを作った後でfrontmatterを作る
     frontmatter_lines = [
         "---",
         f'title: "{title}"',
@@ -310,6 +370,7 @@ def publish_article(
 
     for tag in article["tags"]:
         escaped_tag = escape_yaml_string(tag)
+
         frontmatter_lines.append(
             f'  - "{escaped_tag}"'
         )
@@ -322,8 +383,9 @@ def publish_article(
         ]
     )
 
+    # 本文とFAQ内の出典IDをリンクへ変換
     cited_content = apply_source_citations(
-        content=article["content"],
+        content=full_content,
         research=research,
         used_source_ids=article[
             "used_source_ids"
