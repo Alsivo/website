@@ -1,15 +1,5 @@
 [
   {
-    "keyword": "AI SaaS",
-    "target_length": 2000,
-    "related_keywords": [
-      "生成AI;業務効率化"
-    ],
-    "search_intent": "AI SaaSの特徴や活用方法を知りたい",
-    "output_path": "..\\content\\blog\\ai-saas-getting-started.mdx",
-    "processed_at": "2026-08-01T18:58:05"
-  },
-  {
     "keyword": "ChatGPT 料金プラン比較",
     "target_length": 4000,
     "related_keywords": [
@@ -21,62 +11,6 @@
     ],
     "search_intent": "ChatGPTの各料金プランの最新価格・機能・利用対象を比較し、自分に合うプランを選びたい",
     "output_path": "..\\content\\blog\\chatgpt-pricing-plans-comparison.mdx",
-    "processed_at": "2026-08-01T19:55:25"
-  },
-  {
-    "keyword": "ChatGPTとClaudeの料金・機能比較",
-    "target_length": 4500,
-    "related_keywords": [
-      "ChatGPT",
-      "Claude",
-      "料金比較",
-      "生成AI",
-      "有料プラン"
-    ],
-    "search_intent": "ChatGPTとClaudeの最新料金・機能・利用制限を比較し、自分の用途に適したサービスを選びたい",
-    "output_path": "..\\content\\blog\\chatgpt-vs-claude-pricing-features-comparison.mdx",
-    "processed_at": "2026-08-01T20:10:52"
-  },
-  {
-    "keyword": "Claude 料金プラン比較",
-    "target_length": 4000,
-    "related_keywords": [
-      "Claude Pro",
-      "Claude Team",
-      "無料版",
-      "料金",
-      "機能比較"
-    ],
-    "search_intent": "Claudeの無料版と有料プランの最新料金・利用上限・機能の違いを知りたい",
-    "output_path": "..\\content\\blog\\claude-free-pro-team-pricing.mdx",
-    "processed_at": "2026-08-02T21:44:22"
-  },
-  {
-    "keyword": "Gemini 料金プラン比較",
-    "target_length": 4000,
-    "related_keywords": [
-      "Gemini Advanced",
-      "Google AI Pro",
-      "無料版",
-      "料金",
-      "機能比較"
-    ],
-    "search_intent": "Geminiの無料版と有料プランの最新価格・機能・Googleサービス連携の違いを比較したい",
-    "output_path": "..\\content\\blog\\gemini-pricing-plan-comparison.mdx",
-    "processed_at": "2026-08-02T22:45:20"
-  },
-  {
-    "keyword": "Cursor 料金プラン比較",
-    "target_length": 4000,
-    "related_keywords": [
-      "Cursor Pro",
-      "Cursor Business",
-      "無料版",
-      "AIコーディング",
-      "料金"
-    ],
-    "search_intent": "Cursorの最新料金プラン、利用上限、主要機能を比較し、個人または企業で導入すべきか判断したい",
-    "output_path": "..\\content\\blog\\cursor-pricing-plans-comparison.mdx",
-    "processed_at": "2026-08-02T22:51:16"
+    "processed_at": "2026-08-02T23:23:11"
   }
 ]
