@@ -16,7 +16,11 @@ function escapeXml(value: string): string {
 }
 
 export async function GET() {
-  const posts = getAllBlogPosts();
+  const posts = getAllBlogPosts().sort(
+    (a, b) =>
+      new Date(b.date).getTime()
+      - new Date(a.date).getTime(),
+  );
 
   const items = posts
     .map((post) => {
@@ -61,15 +65,12 @@ export async function GET() {
   </channel>
 </rss>`;
 
-  return new Response(
-    rss,
-    {
-      headers: {
-        "Content-Type":
-          "application/rss+xml; charset=utf-8",
-        "Cache-Control":
-          "public, max-age=0, s-maxage=3600",
-      },
+  return new Response(rss, {
+    headers: {
+      "Content-Type":
+        "application/rss+xml; charset=utf-8",
+      "Cache-Control":
+        "public, max-age=0, s-maxage=3600",
     },
-  );
+  });
 }

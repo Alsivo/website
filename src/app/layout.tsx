@@ -22,7 +22,8 @@ export const metadata: Metadata = {
 
   alternates: {
     types: {
-      "application/rss+xml": "https://alsivo.com/feed.xml",
+      "application/rss+xml":
+        "https://www.alsivo.com/rss.xml",
     },
   },
 };
