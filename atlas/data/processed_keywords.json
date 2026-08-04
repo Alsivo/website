@@ -26,5 +26,18 @@
     "search_intent": "ChatGPTとClaudeの最新料金・機能・利用制限を比較し、自分の用途に適したサービスを選びたい",
     "output_path": "..\\content\\blog\\chatgpt-claude-pricing-feature-limits-comparison.mdx",
     "processed_at": "2026-08-03T00:25:42"
+  },
+  {
+    "keyword": "AIプレゼン資料作成ツールおすすめ比較",
+    "target_length": 3500,
+    "related_keywords": [
+      "AIツール",
+      "プレゼン",
+      "資料作成",
+      "料金比較"
+    ],
+    "search_intent": "AIでプレゼン資料を作れるツールの料金・機能・使いやすさを比較し、自分に合うサービスを選びたい",
+    "output_path": "..\\content\\blog\\ai-presentation-tools-comparison.mdx",
+    "processed_at": "2026-08-04T23:47:00"
   }
 ]
