@@ -1,3 +1,9 @@
+import {
+  createArticleJsonLd,
+  createBreadcrumbJsonLd,
+  createFaqJsonLd,
+  serializeJsonLd,
+} from "../../../lib/structured-data";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -82,6 +88,15 @@ export default async function BlogPostPage({
     notFound();
   }
 
+  const articleJsonLd =
+    createArticleJsonLd(post);
+
+  const breadcrumbJsonLd =
+    createBreadcrumbJsonLd(post);
+
+  const faqJsonLd =
+    createFaqJsonLd(post);
+
   const tableOfContents = extractTableOfContents(
     post.content,
   );
@@ -93,50 +108,43 @@ export default async function BlogPostPage({
     3,
   );
 
-  const articleUrl = `${SITE_URL}/blog/${post.slug}`;
-
   const publishedDate = new Intl.DateTimeFormat("ja-JP", {
     year: "numeric",
     month: "long",
     day: "numeric",
   }).format(new Date(post.date));
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.title,
-    description: post.description,
-    datePublished: post.date,
-    dateModified: post.updated ?? post.date,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": articleUrl,
-    },
-    author: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: SITE_URL,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: SITE_URL,
-    },
-    keywords: post.tags.join(", "),
-    articleSection: post.category,
-    inLanguage: "ja-JP",
-  };
-
   return (
-    <main>
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+          __html: serializeJsonLd(
+            articleJsonLd,
+          ),
         }}
       />
 
-      <article className="article-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: serializeJsonLd(
+            breadcrumbJsonLd,
+          ),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: serializeJsonLd(
+            faqJsonLd,
+          ),
+        }}
+      />
+
+      <main>
+        <article className="article-page">
         <Link className="article-back-link" href="/blog">
           ← Blogへ戻る
         </Link>
@@ -271,7 +279,8 @@ export default async function BlogPostPage({
             </div>
           </section>
         )}
-      </article>
-    </main>
+        </article>
+      </main>
+    </>
   );
 }

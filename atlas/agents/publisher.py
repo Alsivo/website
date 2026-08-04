@@ -1,3 +1,4 @@
+import json
 import math
 import re
 from datetime import date
@@ -28,13 +29,18 @@ def escape_markdown_text(value: str) -> str:
         .strip()
     )
 
-
 def apply_source_citations(
     content: str,
     research: dict[str, Any],
-    used_source_ids: list[str],
+    used_source_ids: list[str] | None = None,
 ) -> str:
-    """[S1]形式の引用をリンクへ変換し、参考情報を追加する。"""
+    """
+    本文中の[S1]形式の引用をリンクへ変換し、
+    実際に本文で使われた出典だけを参考情報へ追加する。
+
+    used_source_idsは既存コードとの互換性のため受け取るが、
+    出典判定には使用しない。
+    """
 
     sources = research.get("sources")
 
@@ -49,9 +55,17 @@ def apply_source_citations(
         if not isinstance(source, dict):
             continue
 
-        source_id = str(source.get("id", "")).strip()
-        title = str(source.get("title", "")).strip()
-        url = str(source.get("url", "")).strip()
+        source_id = str(
+            source.get("id", "")
+        ).strip()
+
+        title = str(
+            source.get("title", "")
+        ).strip()
+
+        url = str(
+            source.get("url", "")
+        ).strip()
 
         if source_id and title and url:
             source_map[source_id] = {
@@ -59,30 +73,7 @@ def apply_source_citations(
                 "url": url,
             }
 
-    cleaned_source_ids = [
-        source_id.strip()
-        for source_id in used_source_ids
-        if isinstance(source_id, str)
-        and source_id.strip()
-    ]
-
-    if not cleaned_source_ids:
-        raise ValueError(
-            "used_source_idsが未入力です。"
-        )
-
-    unknown_ids = [
-        source_id
-        for source_id in cleaned_source_ids
-        if source_id not in source_map
-    ]
-
-    if unknown_ids:
-        raise ValueError(
-            "存在しない出典IDが指定されています："
-            + ", ".join(unknown_ids)
-        )
-
+    # 本文とFAQで実際に使われた出典IDを抽出
     marker_ids = set(
         re.findall(
             r"\[(S\d+)\]",
@@ -90,37 +81,39 @@ def apply_source_citations(
         )
     )
 
-    undeclared_ids = sorted(
-        marker_ids - set(cleaned_source_ids)
-    )
-
-    if undeclared_ids:
+    if not marker_ids:
         raise ValueError(
-            "本文中の出典IDがused_source_idsにありません："
-            + ", ".join(undeclared_ids)
+            "本文またはFAQに出典IDがありません。"
         )
 
-    missing_markers = [
+    # S1、S2、S10のように数字順へ並べる
+    ordered_source_ids = sorted(
+        marker_ids,
+        key=lambda source_id: int(
+            source_id[1:]
+        ),
+    )
+
+    # Researcherが取得していないIDが本文にないか確認
+    unknown_ids = [
         source_id
-        for source_id in cleaned_source_ids
-        if source_id not in marker_ids
+        for source_id in ordered_source_ids
+        if source_id not in source_map
     ]
 
-    if missing_markers:
+    if unknown_ids:
         raise ValueError(
-            "used_source_idsの出典が本文中で使われていません："
-            + ", ".join(missing_markers)
+            "本文またはFAQに存在しない出典IDがあります："
+            + ", ".join(unknown_ids)
         )
 
-    ordered_source_ids = list(
-        dict.fromkeys(cleaned_source_ids)
-    )
-
+    # [S1]を[[1]](URL)へ変換
     for index, source_id in enumerate(
         ordered_source_ids,
         start=1,
     ):
         source = source_map[source_id]
+
         citation_link = (
             f"[[{index}]]({source['url']})"
         )
@@ -141,6 +134,7 @@ def apply_source_citations(
         start=1,
     ):
         source = source_map[source_id]
+
         title = escape_markdown_text(
             source["title"]
         )
@@ -251,27 +245,6 @@ def validate_article(article: dict[str, Any]) -> None:
 
     article["tags"] = cleaned_tags
 
-    used_source_ids = article.get(
-        "used_source_ids"
-    )
-
-    if (
-        not isinstance(used_source_ids, list)
-        or not used_source_ids
-    ):
-        raise ValueError(
-            "記事データのused_source_idsが未入力です。"
-        )
-
-    if not all(
-        isinstance(source_id, str)
-        and source_id.strip()
-        for source_id in used_source_ids
-    ):
-        raise ValueError(
-            "used_source_idsに不正な値があります。"
-        )
-
     faq_items = article.get("faq")
 
     if not isinstance(faq_items, list):
@@ -356,6 +329,31 @@ def publish_article(
         full_content
     )
 
+    faq_frontmatter = []
+
+    for item in faq_items:
+        question = item["question"].strip()
+        answer = item["answer"].strip()
+
+        # JSON-LD用データには[S1]などの内部IDを残さない
+        clean_answer = re.sub(
+            r"\[S\d+\]",
+            "",
+            answer,
+        ).strip()
+
+        faq_frontmatter.append(
+            {
+                "question": question,
+                "answer": clean_answer,
+            }
+        )
+
+    faq_json = json.dumps(
+        faq_frontmatter,
+        ensure_ascii=False,
+    )
+
     # reading_timeを作った後でfrontmatterを作る
     frontmatter_lines = [
         "---",
@@ -365,6 +363,7 @@ def publish_article(
         f'category: "{category}"',
         f'image: "{image}"',
         f'readingTime: "{reading_time}"',
+        f"faq: {faq_json}",
         "tags:",
     ]
 
@@ -387,9 +386,6 @@ def publish_article(
     cited_content = apply_source_citations(
         content=full_content,
         research=research,
-        used_source_ids=article[
-            "used_source_ids"
-        ],
     )
 
     mdx = "\n".join(frontmatter_lines)

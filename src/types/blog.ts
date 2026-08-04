@@ -1,3 +1,8 @@
+export type BlogFaqItem = {
+  question: string;
+  answer: string;
+};
+
 export type BlogPostFrontmatter = {
   title: string;
   description: string;
@@ -7,6 +12,7 @@ export type BlogPostFrontmatter = {
   tags: string[];
   readingTime: string;
   image: string;
+  faq: BlogFaqItem[];
   published: boolean;
 };
 

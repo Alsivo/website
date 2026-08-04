@@ -2,10 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import type {
+  BlogFaqItem,
   BlogPost,
   BlogPostFrontmatter,
   BlogPostSummary,
-} from "../types/blog";
+} from "@/types/blog";
 
 const BLOG_DIRECTORY = path.join(process.cwd(), "content", "blog");
 
@@ -21,6 +22,62 @@ function getMdxFileNames(): string[] {
   return fs
     .readdirSync(BLOG_DIRECTORY)
     .filter((fileName) => fileName.endsWith(".mdx"));
+}
+
+function validateFaq(
+  value: unknown,
+  fileName: string,
+): BlogFaqItem[] {
+  if (!Array.isArray(value)) {
+    throw new Error(
+      `${fileName}: frontmatterの「faq」は配列にしてください。`,
+    );
+  }
+
+  if (value.length < 3 || value.length > 5) {
+    throw new Error(
+      `${fileName}: frontmatterの「faq」は3〜5件にしてください。`,
+    );
+  }
+
+  return value.map((item, index) => {
+    if (
+      typeof item !== "object" ||
+      item === null
+    ) {
+      throw new Error(
+        `${fileName}: faqの${index + 1}件目の形式が不正です。`,
+      );
+    }
+
+    const faqItem = item as Record<
+      string,
+      unknown
+    >;
+
+    if (
+      typeof faqItem.question !== "string" ||
+      faqItem.question.trim() === ""
+    ) {
+      throw new Error(
+        `${fileName}: faqの${index + 1}件目の質問が未入力です。`,
+      );
+    }
+
+    if (
+      typeof faqItem.answer !== "string" ||
+      faqItem.answer.trim() === ""
+    ) {
+      throw new Error(
+        `${fileName}: faqの${index + 1}件目の回答が未入力です。`,
+      );
+    }
+
+    return {
+      question: faqItem.question.trim(),
+      answer: faqItem.answer.trim(),
+    };
+  });
 }
 
 function validateFrontmatter(
@@ -57,6 +114,10 @@ function validateFrontmatter(
     tags: data.tags,
     readingTime: data.readingTime!,
     image: data.image!,
+    faq: validateFaq(
+      data.faq,
+      fileName,
+    ),
     published: data.published !== false,
   };
 }
