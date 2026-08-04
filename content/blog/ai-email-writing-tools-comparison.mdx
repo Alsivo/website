@@ -1,0 +1,221 @@
+---
+title: "初心者向けAIメール作成ツールおすすめ比較｜日本語精度・機能・料金で失敗しない選び方"
+description: "Gmail/Outlookの標準AIから外部クライアント、拡張機能まで。日本語の丁寧表現、料金、セキュリティを軸に選び方を整理し、無料トライアルで検証する手順とチェックリスト、用途別おすすめ候補をまとめました。"
+date: "2026-08-05"
+category: "AIツール"
+image: "/images/blog/ai-email-writing-tools-comparison.webp"
+readingTime: "13 min read"
+faq: [{"question": "無料でも実用になりますか？", "answer": "状況次第で実用です。Gmailは機能ごとに日本語/地域提供が異なるため、まず自分の環境で使えるAI機能（Help me write/Proofread等）を確認しましょう。外部クライアントではShortwaveが無料から開始でき、有料で高度機能が解放されます。拡張機能型のGrammarlyも個人/チーム向けプランがあり、価格は購入画面で提示されます。"}, {"question": "社外秘の情報をAIに入れても大丈夫？", "answer": "各製品のデータ取り扱い（学習可否・保持期間・管理者統制）を必ず確認してください。GmailのGemini機能は機能ごとに提供条件・保護の考え方が案内されています。拡張機能のGrammarlyもビジネス向け資料で管理機能や取り扱い方針のQ&Aを公開しています。機密度が高い内容は最小限の入力に留め、社内ポリシーを整備しましょう。"}, {"question": "OutlookとGmail、どちらがAIメールでは有利？", "answer": "用途と環境で選びます。Gmailは機能ごとに言語/地域/プランの提供条件が細かく、まず自分の条件で使えるかの確認が必須です。OutlookのCopilotは下書き・要約・トリアージが強力ですが、S/MIMEやDKEで暗号化されたメールには対応しません。既存の契約（Workspace/Microsoft 365）やセキュリティ要件で相性を見極めてください。"}, {"question": "中小企業が最小構成で導入するなら？", "answer": "Microsoft 365をお使いなら、SMB向けの「Microsoft 365 Business with Copilot」（Standard/Premium with Copilot）がバンドルで分かりやすい選択肢です（公開価格例：Standard with Copilot $23.50、Premium with Copilot $32、月額/1ユーザー、年契約ベース）。Google WorkspaceならGemini Business/Enterpriseのアドオンを検討し、価格は販売経路・契約で見積確認しましょう。"}, {"question": "暗号化メールでもAIは要約・返信案を提案できますか？", "answer": "OutlookのCopilotはS/MIMEやDouble Key Encryptionのメールを処理できないため、要約・返信支援は動作しません。暗号化メールが多い業務では、AI適用範囲を設計段階で切り分けることをおすすめします。"}]
+tags:
+  - "生成AI"
+  - "AIツール"
+  - "仕事効率化"
+  - "業務効率化"
+  - "自動化"
+published: true
+---
+ビジネスメールの下書きや返信に時間を取られていませんか。AIメール作成ツールを使えば、件名提案、丁寧な敬語の下書き、スレッド要約、英日翻訳まで一気通貫で支援できます。ただし「どのツールが自分に最適か」は、用途・既存環境（Gmail/Outlook）・日本語品質・セキュリティ・料金で大きく変わります。
+
+本記事は、初めての方でも短時間で2〜3候補に絞れるよう、ツールのタイプ別の違い、比較チェックリスト、用途別の選び分け、料金の考え方、トライアルの進め方まで具体的に解説します。最新の機能や提供条件は、各公式の記載を元に整理しています（機能は地域・プランで異なる場合があります）[[1]](https://support.google.com/mail/answer/16831098?hl=en)[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)[[7]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)[[9]](https://techcommunity.microsoft.com/t5/s/gxcuf89792/attachments/gxcuf89792/Microsoft365Copilot/672/1/Microsoft365-Copilot-GA-Partner-FAQ.pdf?utm_source=openai)。
+
+
+## AIメール作成ツールとは｜できること・できないこと
+- できること
+  - 下書き生成・推敲（丁寧語やトーンの調整、簡潔化など）。Gmailの「Help me write」「Proofread」など機能名ごとに提供条件が定義されています[[1]](https://support.google.com/mail/answer/16831098?hl=en)。
+  - スレッドや受信ボックスの要約・返信案の提示。OutlookのCopilotでも下書き作成や要約、トリアージを支援します[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)。
+  - 翻訳（英⇄日）や、箇条書きからのメール化など。
+- できない/注意が必要なこと
+  - 一部機能は言語・地域・プラン限定（例：Gmailの一部AI体験は米国・英語先行など）。日本語で常に同一機能を使えるとは限りません[[1]](https://support.google.com/mail/answer/16831098?hl=en)。
+  - 暗号化メール（S/MIME、Double Key Encryption）など、技術的制約でAIが参照できないケースがあります（OutlookのCopilotの制約）[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)。
+  - 固有名詞・金額・日付は誤りが混入し得ます。最終チェックは人が必ず行う前提で運用してください。
+
+
+## ツールのタイプ別の違い（どれを選ぶ？）
+1) 既存メールに組み込み（Gmail/OutlookのAI）
+- Gmail + Gemini in Gmail：Gmail画面内で下書き生成・推敲・要約などが可能。機能ごとに対応言語・地域・必要プランが異なります[[1]](https://support.google.com/mail/answer/16831098?hl=en)。個人向けはGoogleのAIプラン（Plus/Pro/Ultra）で提供、または対象のGoogle Workspaceプランに含まれる形で利用可能です[[7]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
+- Outlook + Copilot：Outlookでの下書き生成・要約・トリアージなどを提供。個人はCopilot Pro、法人はCopilot for Microsoft 365やSMB向けのバンドル（Business with Copilot）で利用形態が分かれます[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)[[3]](https://microsoftpartners.microsoft.com/abs/blog?title=New+Microsoft+365+Business+with+Copilot+SKUs+available+July+1&utm_source=openai)[[9]](https://techcommunity.microsoft.com/t5/s/gxcuf89792/attachments/gxcuf89792/Microsoft365Copilot/672/1/Microsoft365-Copilot-GA-Partner-FAQ.pdf?utm_source=openai)[[10]](https://www.microsoft.com/en-us/store/b/copilotpro?msockid=117b4dfcef72630c12ea5b8ceeb66289&utm_source=openai)。
+
+2) 専用AIメールアシスタント（外部クライアント）
+- 例：Shortwave（Gmailベース）、Superhuman（独自クライアント）。スレッド要約やAI作成、操作性の最適化が強み。無料から始められるものや、AIクォータの考え方が明示されているものもあります（Shortwave）[[4]](https://www.shortwave.com/?utm_source=openai)[[11]](https://www.shortwave.com/docs/guides/billing/?utm_source=openai)。ただし会話が長いほどAI処理コスト（クォータ）消費が増えるなど、運用上の注意点もあります[[13]](https://www.shortwave.com/docs/how-tos/before-you-contact-support/?utm_source=openai)。
+
+3) 汎用AIライティングをメール用途に活用
+- 例：ChatGPTなど。メール専用機能はなくても、カスタム指示やテンプレ化で十分に下書き支援に活用できます。機密情報の取り扱いとテンプレ整備が成否を左右します。
+
+
+## まず決める3つの優先軸
+- 用途：営業/カスタマーサポート/社内連絡/採用広報などで必要機能が変わります。スレッド要約→返信案、テンプレの差し込み、自動敬語調整など、必須要件を先に定義。
+- 日本語品質/敬語：Gmailは機能単位で日本語対応・地域提供が異なります。まず自分の環境で該当機能が使えるかを確認しましょう[[1]](https://support.google.com/mail/answer/16831098?hl=en)。
+- セキュリティ/予算：OutlookのCopilotは暗号化メールの内容を読めない等の制約があるため、機密通信の多い現場では効果が限定される可能性があります[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)。料金は、GoogleのAIプランやGeminiアドオン、MicrosoftのCopilot（アドオン/バンドル）など形態により異なり、購入画面や見積での最終確認が前提です[[7]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)[[8]](https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92204/300242326290550-pricing-document-2024-05-07-1147.pdf?utm_source=openai)[[3]](https://microsoftpartners.microsoft.com/abs/blog?title=New+Microsoft+365+Business+with+Copilot+SKUs+available+July+1&utm_source=openai)[[9]](https://techcommunity.microsoft.com/t5/s/gxcuf89792/attachments/gxcuf89792/Microsoft365Copilot/672/1/Microsoft365-Copilot-GA-Partner-FAQ.pdf?utm_source=openai)。
+
+
+## 比較のチェックリスト10項目
+1. 日本語敬語の自然さ（直訳調の回避、語尾の統一）
+2. テンプレ管理と差し込み変数（社名/担当/案件ID）
+3. 件名提案の質とパターン数
+4. スレッド要約→返信案の精度と速度
+5. カスタムトーン学習（社内スタイルガイド適用可否）
+6. 翻訳精度（英⇄日）
+7. 主要連携（カレンダー/CRM/Slack 等）
+8. 共同編集・承認フロー（レビュー→送信）
+9. セキュリティ/監査（暗号化メールの扱い、権限/ログ）[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)
+10. サポート体制（日本語対応、導入支援）
+
+
+## 用途別の選び方（例）
+- 定型返信の高速化（CS/一次対応）：件名テンプレ＋差し込み＋敬語調整が鍵。要約→返信案の質も重要。
+- 営業フォローの個別最適：過去やり取りの要約→次アクションの提案、トーンの柔軟な調整が有効。
+- クレーム一次対応の骨子づくり：謝意/お詫び/事実/今後の流れを構造化して生成→人の最終校正。
+- 採用・総務の案内文：定型テンプレに日程/会場などの差し込み、自動敬語校正。
+- 海外との英日メール：重要箇所は原文と対訳を並べて確認（固有名詞/日付/金額は必ず目視チェック）。
+
+
+## 料金の考え方（座席課金・アドオン・バンドル・クォータ）
+- 個人/コンシューマ：GoogleのAIプラン（Plus/Pro/Ultra）にGmailのGemini機能が含まれる形。価格は国・為替・同梱特典で異なり、購入画面で提示されます[[7]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。Outlookの個人向けはCopilot Proで、価格・条件はストアで随時更新です[[10]](https://www.microsoft.com/en-us/store/b/copilotpro?msockid=117b4dfcef72630c12ea5b8ceeb66289&utm_source=openai)。
+- 法人アドオン：Google WorkspaceにGemini Business/Enterpriseを加算する形。英国G-Cloudの参考年額（例：Business £201.60/年、Enterprise £302.40/年、1ユーザー）や、国内事業者の例（税別 月額2,260円/ID［Business相当］、3,400円/ID［Enterprise相当］など）が公開されています。実価格は販売経路・契約で変動します[[8]](https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92204/300242326290550-pricing-document-2024-05-07-1147.pdf?utm_source=openai)[[14]](https://www.ntt.com/content/dam/nttcom/hq/jp/about-us/disclosure/tariff/pdf/wn/c249_20240827.pdf?utm_source=openai)。
+- Microsoftの選択肢：Copilot for Microsoft 365（アドオン）に加え、中小企業向け「Microsoft 365 Business with Copilot」バンドルが恒久SKU化（Standard with Copilot $23.50/月、Premium with Copilot $32/月、1ユーザー、年契約ベースの公開価格）[[3]](https://microsoftpartners.microsoft.com/abs/blog?title=New+Microsoft+365+Business+with+Copilot+SKUs+available+July+1&utm_source=openai)[[15]](https://blogs.windows.com/japan/2026/06/04/https-www-microsoft-com-en-us-microsoft-365-blog-2026-05-28-introducing-microsoft-365-business-with-copilot-the-new-standard-for-small-business/?utm_source=openai)。エンタープライズでは従来のアドオン提供もあります[[9]](https://techcommunity.microsoft.com/t5/s/gxcuf89792/attachments/gxcuf89792/Microsoft365Copilot/672/1/Microsoft365-Copilot-GA-Partner-FAQ.pdf?utm_source=openai)。
+- クォータ/従量：サードパーティでは会話が長いほどAIクォータ消費が増え、費用や速度に影響する場合があります（Shortwave）[[11]](https://www.shortwave.com/docs/guides/billing/?utm_source=openai)[[13]](https://www.shortwave.com/docs/how-tos/before-you-contact-support/?utm_source=openai)。
+
+
+## おすすめ候補7選（タイプ別に短評・向き不向き・注意点）
+- GmailのAI（Gemini in Gmail／Help me write/Proofread など）
+  - 向き：既にGmail/Googleアカウントを使う個人・小規模。導入負荷が低い。
+  - 特徴：下書き生成・推敲・会話要約など。機能ごとに言語/地域/必要プランが異なる点に注意[[1]](https://support.google.com/mail/answer/16831098?hl=en)。個人向けはGoogleのAIプラン（Plus/Pro/Ultra）でも提供[[7]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
+  - 注意：日本で未提供の機能や英語先行の機能が残る可能性あり[[1]](https://support.google.com/mail/answer/16831098?hl=en)。
+
+- Outlook + Copilot（OutlookのAI全般）
+  - 向き：Microsoft 365利用組織、または個人のOutlookユーザー。
+  - 特徴：下書き生成・要約・トリアージ。個人はCopilot Pro、法人はCopilot for Microsoft 365やBusiness with Copilotなど複数の提供形態[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)[[3]](https://microsoftpartners.microsoft.com/abs/blog?title=New+Microsoft+365+Business+with+Copilot+SKUs+available+July+1&utm_source=openai)[[9]](https://techcommunity.microsoft.com/t5/s/gxcuf89792/attachments/gxcuf89792/Microsoft365Copilot/672/1/Microsoft365-Copilot-GA-Partner-FAQ.pdf?utm_source=openai)[[10]](https://www.microsoft.com/en-us/store/b/copilotpro?msockid=117b4dfcef72630c12ea5b8ceeb66289&utm_source=openai)。
+  - 注意：S/MIMEやDKEで暗号化されたメールは対象外[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)。
+
+- Google Workspace + Gemini（Business/Enterprise アドオン）
+  - 向き：Workspaceを使うチーム/法人で、管理・権限と合わせてAIを使いたい。
+  - 特徴：Workspaceに加算する形でGeminiが提供。英国G-Cloudの参考年額例が公開（Business £201.60/年、Enterprise £302.40/年）[[8]](https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92204/300242326290550-pricing-document-2024-05-07-1147.pdf?utm_source=openai)。国内事業者の料金例もあり（契約条件により変動）[[14]](https://www.ntt.com/content/dam/nttcom/hq/jp/about-us/disclosure/tariff/pdf/wn/c249_20240827.pdf?utm_source=openai)。
+  - 注意：正確な価格は販売経路・契約で要見積もり。
+
+- Microsoft 365 Business with Copilot（SMB向けバンドル）
+  - 向き：中小企業でメール・Office利用とAIを一体で導入したい。
+  - 特徴：Standard with Copilot $23.50、Premium with Copilot $32（いずれも月額/1ユーザー、年契約ベースの公開価格）[[3]](https://microsoftpartners.microsoft.com/abs/blog?title=New+Microsoft+365+Business+with+Copilot+SKUs+available+July+1&utm_source=openai)[[15]](https://blogs.windows.com/japan/2026/06/04/https-www-microsoft-com-en-us-microsoft-365-blog-2026-05-28-introducing-microsoft-365-business-with-copilot-the-new-standard-for-small-business/?utm_source=openai)。
+  - 注意：SKUや価格は見直される可能性があるため、最新情報を確認[[3]](https://microsoftpartners.microsoft.com/abs/blog?title=New+Microsoft+365+Business+with+Copilot+SKUs+available+July+1&utm_source=openai)。
+
+- Shortwave（Gmailベースの外部クライアント）
+  - 向き：Gmailユーザーで、要約/検索/AI作成を一つのUIで素早く使いたい個人・チーム。
+  - 特徴：スレッド要約、AI検索、AI作成・パーソナライズ。無料から開始でき、有料プランで高度なAI機能が解放[[4]](https://www.shortwave.com/?utm_source=openai)[[11]](https://www.shortwave.com/docs/guides/billing/?utm_source=openai)。
+  - 注意：長い会話ほどAIクォータ消費が増えるため、コスト/速度影響に留意[[13]](https://www.shortwave.com/docs/how-tos/before-you-contact-support/?utm_source=openai)。
+
+- Superhuman（独自クライアント + AI）
+  - 向き：ショートカット中心の高速操作とAI要約・下書きを両立したい忙しい個人。
+  - 特徴：AIでの下書き・要約・文体最適化。プラン/AIクレジット仕様は公式に集約[[5]](https://superhuman.com/plans?utm_source=openai)。
+  - 注意：価格は通貨・契約期間で変動。最新プランページで確認[[5]](https://superhuman.com/plans?utm_source=openai)。
+
+- Grammarly（拡張機能型）
+  - 向き：Gmail/Outlookなど多くの入力欄で、文体統一・トーン調整・生成を横断的に使いたい個人〜チーム。
+  - 特徴：生成（プロンプト）、トーン調整、ガイドライン適用、管理機能のプラン構成がある[[6]](https://www.grammarly.com/plans?msockid=3448fb579d7f677d2081eda39cff664a&utm_source=openai)[[12]](https://assets.ctfassets.net/1e6ajr2k4140/5Whu6mjEBDLsTtjpjnjYbx/bf42aefe0a730bd449001f64fb9aee98/Grammarly_s_Answers_to_Your_AI_Vendor_Questions.pdf?utm_source=openai)。
+  - 注意：価格は地域・チーム規模・請求期間で変動。購入画面で要確認[[6]](https://www.grammarly.com/plans?msockid=3448fb579d7f677d2081eda39cff664a&utm_source=openai)。
+
+
+## 導入ステップ（そのまま真似できる）
+1) 目的の明確化：どの業務の何分を短縮したいか（例：CS一次返信を平均5分短縮）。
+2) 候補タイプの決定：既存メール組み込み（Gmail/Outlook）→専用クライアント→拡張機能→汎用AIの順で小さく試す。
+3) 比較表の作成：機能（要約→返信/テンプレ/敬語）・料金（座席/アドオン/バンドル/クォータ）・セキュリティ（暗号化対応/監査）。
+4) 無料トライアル：実メール3案件（定型/難案件/英日）を同条件で試す。
+5) 社内ルール整備：機密情報の入力基準、レビュー者、送信前承認の有無、ログ保管。
+6) 定着化：よく使うテンプレをナレッジ化、フィードバック会、KPI（作成時間/一次返信SLA/誤生成率）。
+
+
+## トライアル時のチェックシート
+- 日本語敬語の自然さ（「恐れ入りますが」「お手数ですが」等の定型）
+- テンプレ＋差し込みの自動化（署名/会社名/案件ID）
+- 要約→返信案生成の速度/質（5往復以上の長スレッドでも維持できるか）
+- ハルシネーション頻度（固有名詞・金額・日付の誤り）
+- 機密情報の取り扱い設定（学習可否/保持期間/権限）
+- 記録と監査（編集履歴/送信ログ）
+- 暗号化メールや保護付きファイルへの対応可否[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)
+- ブラウザ拡張やモバイル対応の使い勝手
+- ユーザー教育のしやすさ（オンボード/ガイド）
+- サポート対応速度（日本語問い合わせの有無）
+
+
+## セキュリティとコンプライアンスの確認ポイント
+- 入力データの学習可否/保存期間/管理者統制（製品・契約で異なるため、各公式のデータ保護記述を確認。GmailのGemini機能は機能ごとに提供条件が記載）[[1]](https://support.google.com/mail/answer/16831098?hl=en)。
+- 暗号化メールの対応：OutlookのCopilotはS/MIMEやDKE暗号化メールを処理できないためワークフローに影響する可能性[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)。
+- アクセス権限・監査ログ：組織の情報ガバナンスに適合するか。
+- ベンダー認証（SOC2/ISO等）：調達基準に応じて要審査。
+
+
+## 失敗しやすい落とし穴と回避策
+- 丸投げで送信しない：必ず人が最終チェック（特に固有名詞・金額・日付）。
+- プロンプトの曖昧さ：相手・目的・トーン・制約（文字数/期限）を明記。
+- テンプレ乱立：公式テンプレを少数精鋭にし、定期的に棚卸し。
+- トーンの不一致：社内スタイルガイドを定義し、AI側に明示。
+- 法務NG表現：免責・約束表現をテンプレ側でコントロール。
+- 無料プラン依存：クォータ上限や機能差で本番運用が止まらないか事前に確認（Shortwaveのクォータ概念などを参考）[[11]](https://www.shortwave.com/docs/guides/billing/?utm_source=openai)[[13]](https://www.shortwave.com/docs/how-tos/before-you-contact-support/?utm_source=openai)。
+
+
+## 実践サンプル（プロンプト例）
+- 件名案：
+  - 「以下の要点から、社外向けに簡潔で開封されやすい件名を5案。敬語・全角記号統一。要点: ◯◯」
+- 丁寧なクレーム一次返信：
+  - 「お詫び→事実→原因（現時点の認識）→今後の対応→再発防止、の順で300字。相手の負担軽減表現を優先。」
+- 営業フォロー：
+  - 「先日の打合せ要点を3行で要約→次の具体アクション提案を2件→前向きな結び。固有名詞と日付はプレースホルダで。」
+- 英→日（丁寧なビジネス日本語）：
+  - 「次の英文メールを、日本の取引先向けに過度に硬すぎない敬語で自然な日本語へ。外来語は一般的表記に。」
+- 長文要約→返信案：
+  - 「このスレッドを5点で要約→相手の懸念に沿った返信骨子→礼儀正しい結び。誤情報を入れないこと。」
+
+
+## まとめ｜用途×タイプで最短選定
+- まずは、今の環境で最小コストに近い「既存サービスのAI機能」から（GmailのGemini機能/OutlookのCopilot）[[1]](https://support.google.com/mail/answer/16831098?hl=en)[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)。
+- その後、要約や操作性を高めたいなら専用クライアント（Shortwave/Superhuman等）[[4]](https://www.shortwave.com/?utm_source=openai)[[5]](https://superhuman.com/plans?utm_source=openai)、ナレッジ化・文体統一を重視するなら拡張機能（Grammarly等）[[6]](https://www.grammarly.com/plans?msockid=3448fb579d7f677d2081eda39cff664a&utm_source=openai)[[12]](https://assets.ctfassets.net/1e6ajr2k4140/5Whu6mjEBDLsTtjpjnjYbx/bf42aefe0a730bd449001f64fb9aee98/Grammarly_s_Answers_to_Your_AI_Vendor_Questions.pdf?utm_source=openai)。
+- 料金は「本体サブスク＋アドオン/バンドル＋クォータ」で合算し、無料トライアルで実メール3案件をテスト。機能の日本語/地域提供や暗号化メールの制約は公式の最新情報で必ず確認しましょう[[1]](https://support.google.com/mail/answer/16831098?hl=en)[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)[[3]](https://microsoftpartners.microsoft.com/abs/blog?title=New+Microsoft+365+Business+with+Copilot+SKUs+available+July+1&utm_source=openai)[[7]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)[[8]](https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92204/300242326290550-pricing-document-2024-05-07-1147.pdf?utm_source=openai)[[9]](https://techcommunity.microsoft.com/t5/s/gxcuf89792/attachments/gxcuf89792/Microsoft365Copilot/672/1/Microsoft365-Copilot-GA-Partner-FAQ.pdf?utm_source=openai)[[10]](https://www.microsoft.com/en-us/store/b/copilotpro?msockid=117b4dfcef72630c12ea5b8ceeb66289&utm_source=openai)。
+
+## 紹介したサービスを確認する
+
+### ChatGPT
+
+[ChatGPTを公式サイトで確認する](https://chatgpt.com/)
+
+### Gemini
+
+[Geminiを公式サイトで確認する](https://gemini.google.com/)
+
+
+## よくある質問
+
+### 無料でも実用になりますか？
+
+状況次第で実用です。Gmailは機能ごとに日本語/地域提供が異なるため、まず自分の環境で使えるAI機能（Help me write/Proofread等）を確認しましょう[[1]](https://support.google.com/mail/answer/16831098?hl=en)。外部クライアントではShortwaveが無料から開始でき、有料で高度機能が解放されます[[4]](https://www.shortwave.com/?utm_source=openai)[[11]](https://www.shortwave.com/docs/guides/billing/?utm_source=openai)。拡張機能型のGrammarlyも個人/チーム向けプランがあり、価格は購入画面で提示されます[[6]](https://www.grammarly.com/plans?msockid=3448fb579d7f677d2081eda39cff664a&utm_source=openai)。
+
+### 社外秘の情報をAIに入れても大丈夫？
+
+各製品のデータ取り扱い（学習可否・保持期間・管理者統制）を必ず確認してください。GmailのGemini機能は機能ごとに提供条件・保護の考え方が案内されています[[1]](https://support.google.com/mail/answer/16831098?hl=en)。拡張機能のGrammarlyもビジネス向け資料で管理機能や取り扱い方針のQ&Aを公開しています[[12]](https://assets.ctfassets.net/1e6ajr2k4140/5Whu6mjEBDLsTtjpjnjYbx/bf42aefe0a730bd449001f64fb9aee98/Grammarly_s_Answers_to_Your_AI_Vendor_Questions.pdf?utm_source=openai)。機密度が高い内容は最小限の入力に留め、社内ポリシーを整備しましょう。
+
+### OutlookとGmail、どちらがAIメールでは有利？
+
+用途と環境で選びます。Gmailは機能ごとに言語/地域/プランの提供条件が細かく、まず自分の条件で使えるかの確認が必須です[[1]](https://support.google.com/mail/answer/16831098?hl=en)。OutlookのCopilotは下書き・要約・トリアージが強力ですが、S/MIMEやDKEで暗号化されたメールには対応しません[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)。既存の契約（Workspace/Microsoft 365）やセキュリティ要件で相性を見極めてください。
+
+### 中小企業が最小構成で導入するなら？
+
+Microsoft 365をお使いなら、SMB向けの「Microsoft 365 Business with Copilot」（Standard/Premium with Copilot）がバンドルで分かりやすい選択肢です（公開価格例：Standard with Copilot $23.50、Premium with Copilot $32、月額/1ユーザー、年契約ベース）[[3]](https://microsoftpartners.microsoft.com/abs/blog?title=New+Microsoft+365+Business+with+Copilot+SKUs+available+July+1&utm_source=openai)[[15]](https://blogs.windows.com/japan/2026/06/04/https-www-microsoft-com-en-us-microsoft-365-blog-2026-05-28-introducing-microsoft-365-business-with-copilot-the-new-standard-for-small-business/?utm_source=openai)。Google WorkspaceならGemini Business/Enterpriseのアドオンを検討し、価格は販売経路・契約で見積確認しましょう[[8]](https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92204/300242326290550-pricing-document-2024-05-07-1147.pdf?utm_source=openai)。
+
+### 暗号化メールでもAIは要約・返信案を提案できますか？
+
+OutlookのCopilotはS/MIMEやDouble Key Encryptionのメールを処理できないため、要約・返信支援は動作しません[[2]](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)。暗号化メールが多い業務では、AI適用範囲を設計段階で切り分けることをおすすめします。
+
+## 参考情報
+
+1. [Learn about Gemini features in Gmail - Gmail Help](https://support.google.com/mail/answer/16831098?hl=en)
+2. [Outlook の Copilot についてよく寄せられる質問 | Microsoft Support](https://support.microsoft.com/ja-jp/outlook/frequently-asked-questions-about-copilot-in-outlook?utm_source=openai)
+3. [New Microsoft 365 Business with Copilot SKUs available July 1](https://microsoftpartners.microsoft.com/abs/blog?title=New+Microsoft+365+Business+with+Copilot+SKUs+available+July+1&utm_source=openai)
+4. [Shortwave — Automate your email with AI](https://www.shortwave.com/?utm_source=openai)
+5. [Superhuman Suite | Pricing & Plans](https://superhuman.com/plans?utm_source=openai)
+6. [Grammarly Prices and Plans | Grammarly](https://www.grammarly.com/plans?msockid=3448fb579d7f677d2081eda39cff664a&utm_source=openai)
+7. [Google AI のプラン（クラウド ストレージ付き） - Google One](https://one.google.com/intl/ja_jp/about/google-ai-plans/)
+8. [Service 06 - Google Workspace Licences Pricelist](https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/92204/300242326290550-pricing-document-2024-05-07-1147.pdf?utm_source=openai)
+9. [Microsoft 365 Copilot General](https://techcommunity.microsoft.com/t5/s/gxcuf89792/attachments/gxcuf89792/Microsoft365Copilot/672/1/Microsoft365-Copilot-GA-Partner-FAQ.pdf?utm_source=openai)
+10. [Copilot Pro Plan & Pricing – Premium AI Features & Latest Models I Microsoft Store](https://www.microsoft.com/en-us/store/b/copilotpro?msockid=117b4dfcef72630c12ea5b8ceeb66289&utm_source=openai)
+11. [Billing](https://www.shortwave.com/docs/guides/billing/?utm_source=openai)
+12. [Grammarly’s](https://assets.ctfassets.net/1e6ajr2k4140/5Whu6mjEBDLsTtjpjnjYbx/bf42aefe0a730bd449001f64fb9aee98/Grammarly_s_Answers_to_Your_AI_Vendor_Questions.pdf?utm_source=openai)
+13. [Before you contact support](https://www.shortwave.com/docs/how-tos/before-you-contact-support/?utm_source=openai)
+14. [Google Workspaceサービス利用規約〖現改比較表〗2024年8月27日現在 ～2024年](https://www.ntt.com/content/dam/nttcom/hq/jp/about-us/disclosure/tariff/pdf/wn/c249_20240827.pdf?utm_source=openai)
+15. [パートナー主導の勢いと、広がるアクセス：新しい Microsoft 365 Business with Copilot SKU - Windows Blog for Japan](https://blogs.windows.com/japan/2026/06/04/https-www-microsoft-com-en-us-microsoft-365-blog-2026-05-28-introducing-microsoft-365-business-with-copilot-the-new-standard-for-small-business/?utm_source=openai)
