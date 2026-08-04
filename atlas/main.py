@@ -173,6 +173,21 @@ def main() -> None:
         print(f"説明文：{article['description']}")
         print(f"カテゴリー：{article['category']}")
         print(f"タグ：{', '.join(article['tags'])}")
+
+        recommended_tools = article.get(
+            "recommended_tools",
+            [],
+        )
+
+        print(
+            "紹介対象："
+            + (
+                ", ".join(recommended_tools)
+                if recommended_tools
+                else "なし"
+            )
+        )
+
         print(
             "使用出典："
             + ", ".join(article["used_source_ids"])

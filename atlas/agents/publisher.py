@@ -12,6 +12,10 @@ from config import (
     MAX_TAGS,
     MIN_TAGS,
 )
+from engines.affiliate_registry import (
+    build_affiliate_section,
+    load_affiliate_registry,
+)
 
 BLOG_DIR = Path("../content/blog")
 
@@ -285,6 +289,57 @@ def validate_article(article: dict[str, Any]) -> None:
                 f"FAQの{index}件目の回答が未入力です。"
             )
 
+    recommended_tools = article.get(
+        "recommended_tools"
+    )
+
+    if not isinstance(
+        recommended_tools,
+        list,
+    ):
+        raise ValueError(
+            "recommended_toolsは配列で指定してください。"
+        )
+
+    if len(recommended_tools) > 5:
+        raise ValueError(
+            "recommended_toolsは最大5件です。"
+        )
+
+    if not all(
+        isinstance(tool_name, str)
+        and tool_name.strip()
+        for tool_name in recommended_tools
+    ):
+        raise ValueError(
+            "recommended_toolsに不正な値があります。"
+        )
+
+    cleaned_recommended_tools = list(
+        dict.fromkeys(
+            tool_name.strip()
+            for tool_name in recommended_tools
+        )
+    )
+
+    registry = load_affiliate_registry()
+
+    unknown_tools = [
+        tool_name
+        for tool_name in cleaned_recommended_tools
+        if tool_name not in registry
+    ]
+
+    if unknown_tools:
+        raise ValueError(
+            "リンク台帳に存在しないサービスがあります："
+            + ", ".join(unknown_tools)
+        )
+
+    article[
+        "recommended_tools"
+    ] = cleaned_recommended_tools
+
 def publish_article(
     article: dict[str, Any],
     research: dict[str, Any],
@@ -308,9 +363,21 @@ def publish_article(
         article["image"]
     )
 
-    # 本文とFAQを先にまとめる
+    # 本文を準備する
     full_content = article["content"].strip()
 
+    # 記事で紹介したサービスのCTAを追加する
+    affiliate_section = build_affiliate_section(
+        article["recommended_tools"]
+    )
+
+    if affiliate_section:
+        full_content += (
+            "\n"
+            + affiliate_section
+        )
+
+    # CTAの後ろへFAQを追加する
     faq_items = article["faq"]
 
     full_content += "\n\n## よくある質問\n"

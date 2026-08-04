@@ -12,7 +12,9 @@ from config import (
     MODEL,
     OPENAI_API_KEY,
 )
-
+from engines.affiliate_registry import (
+    get_affiliate_tool_names,
+)
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
@@ -45,6 +47,14 @@ ARTICLE_SCHEMA: dict[str, Any] = {
             "maxItems": 10,
         },
         "content": {"type": "string"},
+        "recommended_tools": {
+            "type": "array",
+            "items": {
+                "type": "string",
+            },
+            "minItems": 0,
+            "maxItems": 5,
+        },
         "faq": {
             "type": "array",
             "minItems": 3,
@@ -75,7 +85,8 @@ ARTICLE_SCHEMA: dict[str, Any] = {
         "tags",
         "used_source_ids",
         "content",
-        "faq"
+        "recommended_tools",
+        "faq",
     ],
     "additionalProperties": False,
 }
@@ -83,7 +94,7 @@ ARTICLE_SCHEMA: dict[str, Any] = {
 def build_article_schema(
     research: dict[str, Any],
 ) -> dict[str, Any]:
-    """実在する出典IDだけを選択できるSchemaを作る。"""
+    """記事生成時に使用する動的Schemaを作る。"""
 
     source_ids = [
         str(source.get("id", "")).strip()
@@ -97,16 +108,42 @@ def build_article_schema(
             "記事生成に利用できる出典IDがありません。"
         )
 
+    affiliate_tool_names = (
+        get_affiliate_tool_names()
+    )
+
+    # 最初にSchemaのコピーを作る
     schema = deepcopy(ARTICLE_SCHEMA)
 
-    schema["properties"]["used_source_ids"]["items"] = {
+    # 実在する出典IDだけを選択可能にする
+    schema["properties"][
+        "used_source_ids"
+    ]["items"] = {
         "type": "string",
         "enum": source_ids,
     }
 
-    schema["properties"]["used_source_ids"]["maxItems"] = min(
+    schema["properties"][
+        "used_source_ids"
+    ]["maxItems"] = min(
         10,
         len(source_ids),
+    )
+
+    # リンク台帳に登録されたサービスだけを
+    # recommended_toolsで選択可能にする
+    schema["properties"][
+        "recommended_tools"
+    ]["items"] = {
+        "type": "string",
+        "enum": affiliate_tool_names,
+    }
+
+    schema["properties"][
+        "recommended_tools"
+    ]["maxItems"] = min(
+        5,
+        len(affiliate_tool_names),
     )
 
     return schema
@@ -128,6 +165,15 @@ def generate_article(
         ensure_ascii=False,
         indent=2,
     )
+
+    affiliate_tool_names = (
+        get_affiliate_tool_names()
+    )
+
+    affiliate_tool_text = ", ".join(
+        affiliate_tool_names
+    )
+
     print("[Writer] OpenAI APIへ送信...")
 
     article_schema = build_article_schema(
@@ -175,13 +221,22 @@ def generate_article(
             "回答内にも根拠となる[S1]形式の出典IDを付けてください。"
             "存在しない出典IDをFAQ内で作らないでください。"
             "FAQはcontent本文へ重複して書かず、faqフィールドだけに入れてください。"
+            "recommended_toolsには、記事内で実際に紹介または比較したサービスのうち、"
+            "読者が公式ページで確認する価値が高いものを最大5件入れてください。"
+            "CTAへ登録可能なサービス一覧に存在する正式名称だけを使用してください。"
+            "記事内で扱っていないサービスは入れないでください。"
+            "適切なサービスがない場合は空の配列にしてください。"
+            "recommended_toolsのために、本文へ不自然な紹介や宣伝を追加しないでください。"
+            "根拠のないランキングや過度な推奨表現を作らないでください。"
         ),
         input=(
             "以下の記事企画とWeb調査結果を基に記事を作成してください。\n\n"
             "===== 記事企画 =====\n"
             f"{plan_text}\n\n"
             "===== Web調査結果 =====\n"
-            f"{research_text}"
+            f"{research_text}\n\n"
+            "===== CTAへ登録可能なサービス =====\n"
+            f"{affiliate_tool_text}"
         ),
         text={
             "format": {
@@ -211,11 +266,18 @@ def revise_article(
 ) -> dict[str, Any]:
     """Reviewerの指摘と調査結果を基に記事全体を修正する。"""
 
+    affiliate_tool_names = (
+        get_affiliate_tool_names()
+    )
+
     revision_data = {
         "article_plan": plan,
         "web_research": research,
         "current_article": article,
         "review_result": review,
+        "cta_registered_tools": (
+            affiliate_tool_names
+        ),
     }
 
     print("[Writer] 修正版をOpenAI APIへ送信...")
@@ -249,6 +311,11 @@ def revise_article(
             "FAQ回答に料金、機能、仕様、日付などの事実を含める場合は、"
             "回答内にも有効な[S1]形式の出典IDを付けてください。"
             "FAQはcontent本文へ重複して書かず、faqフィールドだけに入れてください。"
+            "recommended_toolsもReviewerの指摘に合わせて修正してください。"
+            "cta_registered_toolsに存在する正式名称だけを使用してください。"
+            "記事内で実際に紹介または比較したサービスだけを最大5件選んでください。"
+            "該当するサービスがなければ空の配列にしてください。"
+            "修正時にも根拠のないランキングや過度な購入誘導を追加しないでください。"
         ),
         input=json.dumps(
             revision_data,
