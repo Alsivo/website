@@ -1,99 +1,110 @@
 {
-  "ChatGPT": {
-    "official_url": "https://chatgpt.com/",
-    "affiliate_url": "",
-    "cta_label": "ChatGPTを公式サイトで確認する",
-    "aliases": [
-      "ChatGPT",
-      "OpenAI ChatGPT"
-    ]
-  },
-  "Claude": {
-    "official_url": "https://claude.ai/",
-    "affiliate_url": "",
-    "cta_label": "Claudeを公式サイトで確認する",
-    "aliases": [
-      "Claude",
-      "Claude AI"
-    ]
-  },
-  "Gemini": {
-    "official_url": "https://gemini.google.com/",
-    "affiliate_url": "",
-    "cta_label": "Geminiを公式サイトで確認する",
-    "aliases": [
-      "Gemini",
-      "Google Gemini"
-    ]
-  },
   "Canva": {
     "official_url": "https://www.canva.com/",
     "affiliate_url": "",
     "cta_label": "Canvaを公式サイトで確認する",
     "aliases": [
-      "Canva",
-      "Canva AI"
-    ]
+      "Canva"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
   },
   "Gamma": {
     "official_url": "https://gamma.app/",
     "affiliate_url": "",
     "cta_label": "Gammaを公式サイトで確認する",
     "aliases": [
-      "Gamma",
-      "Gamma AI"
-    ]
+      "Gamma"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
+  },
+  "ChatGPT": {
+    "official_url": "https://chatgpt.com/",
+    "affiliate_url": "",
+    "cta_label": "ChatGPTを公式サイトで確認する",
+    "aliases": [
+      "ChatGPT"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
+  },
+  "Claude": {
+    "official_url": "https://claude.ai/",
+    "affiliate_url": "",
+    "cta_label": "Claudeを公式サイトで確認する",
+    "aliases": [
+      "Claude"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
+  },
+  "Gemini": {
+    "official_url": "https://gemini.google.com/",
+    "affiliate_url": "",
+    "cta_label": "Geminiを公式サイトで確認する",
+    "aliases": [
+      "Gemini"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
   },
   "Cursor": {
     "official_url": "https://www.cursor.com/",
     "affiliate_url": "",
     "cta_label": "Cursorを公式サイトで確認する",
     "aliases": [
-      "Cursor",
-      "Cursor AI"
-    ]
-  },
-  "Beautiful.ai": {
-    "official_url": "https://www.beautiful.ai/",
-    "affiliate_url": "",
-    "cta_label": "Beautiful.aiを公式サイトで確認する",
-    "aliases": [
-      "Beautiful.ai"
-    ]
-  },
-  "Pitch": {
-    "official_url": "https://pitch.com/",
-    "affiliate_url": "",
-    "cta_label": "Pitchを公式サイトで確認する",
-    "aliases": [
-      "Pitch"
-    ]
-  },
-  "Prezi": {
-    "official_url": "https://prezi.com/",
-    "affiliate_url": "",
-    "cta_label": "Preziを公式サイトで確認する",
-    "aliases": [
-      "Prezi",
-      "Prezi AI"
-    ]
-  },
-  "SlidesAI": {
-    "official_url": "https://www.slidesai.io/",
-    "affiliate_url": "",
-    "cta_label": "SlidesAIを公式サイトで確認する",
-    "aliases": [
-      "SlidesAI",
-      "SlidesAI.io"
-    ]
-  },
-  "Decktopus": {
-    "official_url": "https://www.decktopus.com/",
-    "affiliate_url": "",
-    "cta_label": "Decktopusを公式サイトで確認する",
-    "aliases": [
-      "Decktopus",
-      "Decktopus AI"
-    ]
+      "Cursor"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
   }
 }

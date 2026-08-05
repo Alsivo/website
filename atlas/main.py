@@ -14,6 +14,9 @@ from engines.keyword_queue import (
     get_next_keyword_item,
     mark_keyword_processed,
 )
+from engines.affiliate_manager import (
+    print_affiliate_selection,
+)
 
 
 def select_topic() -> tuple[str, KeywordItem | None]:
@@ -63,6 +66,13 @@ def select_topic() -> tuple[str, KeywordItem | None]:
 
 def main() -> None:
     try:
+        print(
+            "\n[Affiliate Manager] "
+            "広告案件を確認中...\n"
+        )
+
+        print_affiliate_selection()
+
         topic, keyword_item = select_topic()
 
         print("\n[Researcher] 最新情報を調査中...\n")

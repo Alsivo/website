@@ -135,16 +135,32 @@ def build_affiliate_section(
         if item is None:
             continue
 
-        affiliate_url = item["affiliate_url"]
-        official_url = item["official_url"]
+        affiliate_url = item.get(
+            "affiliate_url",
+            "",
+        )
+
+        official_url = item[
+            "official_url"
+        ]
+
+        affiliate_status = item.get(
+            "affiliate_status",
+            "none",
+        )
+
+        use_affiliate_link = (
+            affiliate_status == "active"
+            and bool(affiliate_url)
+        )
 
         destination_url = (
             affiliate_url
-            if affiliate_url
+            if use_affiliate_link
             else official_url
         )
 
-        if affiliate_url:
+        if use_affiliate_link:
             has_affiliate_link = True
 
         lines.extend(
