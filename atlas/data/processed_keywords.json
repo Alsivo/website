@@ -65,5 +65,18 @@
     "search_intent": "AI文章作成ツールの料金・日本語品質・用途・使いやすさを比較し、自分に合うサービスを選びたい",
     "output_path": "..\\content\\blog\\ai-writing-tools-comparison-japanese-quality-pricing-ux.mdx",
     "processed_at": "2026-08-05T23:38:41"
+  },
+  {
+    "keyword": "AI画像生成ツールおすすめ比較",
+    "target_length": 4000,
+    "related_keywords": [
+      "AI画像生成",
+      "画像生成AI",
+      "商用利用",
+      "料金比較"
+    ],
+    "search_intent": "AI画像生成ツールの料金・画質・日本語対応・商用利用条件を比較し、自分に合うサービスを選びたい",
+    "output_path": "..\\content\\blog\\ai-image-generators-comparison.mdx",
+    "processed_at": "2026-08-05T23:46:08"
   }
 ]
