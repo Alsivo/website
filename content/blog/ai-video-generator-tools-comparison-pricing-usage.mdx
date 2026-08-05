@@ -1,0 +1,193 @@
+---
+title: "AI動画生成ツールおすすめ比較｜料金・生成時間・画質・商用利用のチェックポイントと選び方"
+description: "主要AI動画生成ツールを、料金（クレジット制の考え方）、生成時間、画質、商用利用条件の4軸＋運用性でやさしく整理。Runway、Luma Dream Machine、Pika、Google Veo（Vertex AI）、Kling AIの一次情報を基に、1分あたり実質コストの計算法、規約の見落としがちな注意点、はじめての検証手順まで解説します。"
+date: "2026-08-05"
+category: "AIツール"
+image: "/images/blog/ai-video-generator-tools-comparison-pricing-usage.webp"
+readingTime: "11 min read"
+faq: [{"question": "1分あたりの実質コストはどう計算すればよいですか？", "answer": "例としてRunway Gen‑4.5は1秒=12クレジットなので、1分=720クレジットです。1分あたり実質コスト＝720×クレジット単価（または月額プラン配布クレジットで何分作れるか）で試算します。"}, {"question": "無料プランでも商用利用できますか？", "answer": "ツールとプランにより異なります。例としてLumaは有料プランにCommercial useが明記され、無料は非商用・透かし等の制約が示されます。PikaはFAQでPro/Fancyのみ商用可、Basic/Standardは不可と記載されています。必ず最新のTOS/FAQ/価格ページを照合してください。"}, {"question": "生成時間はどれくらいかかりますか？", "answer": "混雑状況やプランの優先度、解像度や尺で変わります。Pikaの価格ページにもプランで速度差がある旨の表記があります。実運用前にピーク/オフピークで試すのが安全です。"}, {"question": "企業導入での注意点は？", "answer": "商用可否やデータ取り扱い、ポリシーに加え、クラウドAPI型（例：Veo）は一部エンドポイントがPre‑GA（プレビュー）でも商用利用可の注記があり、将来の仕様変更リスクを考慮した設計が必要です。"}, {"question": "Soraは今も選択肢に入りますか？", "answer": "OpenAIはSora製品の終了を公式に告知しています。現状、一般ユーザー向けの選択肢としては想定しにくい状態です。"}]
+tags:
+  - "生成AI"
+  - "AIツール"
+  - "Gemini"
+  - "OpenAI"
+  - "業務効率化"
+published: true
+---
+導入
+AIで動画を作る手段が一気に増えました。しかし、料金がクレジット制で分かりにくかったり、1本あたりの実質コストや生成時間、画質、商用利用の条件がツールごとに違っていて、選びにくいのが実情です。
+本記事は、一次情報（公式サイト・ドキュメント）で確認できる範囲を基に、主要サービスの特徴と比較軸、コスト試算の考え方、規約の注意点、検証手順を整理します。価格や条件は変わることがあるため、申込前に必ず最新の公式表示を再確認してください。
+
+## この記事でわかること（想定読者・結論サマリー）
+- 想定読者: 初めてAI動画生成を導入する個人クリエイター、SNS運用担当者、マーケ/広報担当者、教育・中小企業の現場担当者。
+- 結論サマリー（一次情報ベースの要点）
+  - クレジット制の理解が最重要。たとえばRunwayの最新モデルGen‑4.5は「1秒あたり12クレジット」消費が明記。1分=720クレジットという基準で逆算できる。[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)
+  - 商用利用はツール/プランで異なる。Runwayは商用利用可と案内（規約順守が前提）。[[9]](https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes?utm_source=openai) Luma Dream Machineは有料プランで“Commercial use”を明記。無料は非商用や透かしの制約が示される。[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai) PikaはFAQで「Pro/Fancyのみ商用可、Basic/Standardは不可」と記載。申込前にTOS/FAQ/価格ページの整合を要確認。[[3]](https://pika.art/terms-of-service?utm_source=openai)[[12]](https://pika.art/faq?trk=public_post-text&utm_source=openai)
+  - 開発者やエンタープライズは、Google Veo（Vertex AI）などのクラウド経由の提供形態も選択肢。利用量課金で、一部エンドポイントはPre‑GA（プレビュー）でも商用利用可の注記があるため、将来変更リスクも含めて設計する。[[4]](https://cloud.google.com/blog/products/ai-machine-learning/veo-3-fast-available-for-everyone-on-vertex-ai?hl=en&utm_source=openai)[[13]](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-0-generate?authuser=0000&hl=en&utm_source=openai)
+  - 終了済サービス（例: OpenAI Sora）の例もあるため、将来の継続性は断定しないことが安全。[[6]](https://openai.com/index/sora-is-here/?utm_source=openai)
+
+## AI動画生成ツールのタイプ分類
+- テキスト→動画（Text-to-Video）: テキスト指示から短尺クリップを生成。
+- 画像→動画（Image-to-Video）: 1枚の画像から被写体やカメラワークを動かす。
+- 動画→動画（Video-to-Video）: 既存映像にスタイルや動きを適用、再生成。
+- テンプレ/アバター/クラウドAPI: テンプレ主体の量産、アバターによる説明動画、多言語対応、またはAPIでシステム連携。例: テンプレ型（Canva Magic Media など）。
+
+## まず確認すべき比較軸5つ
+1) 料金体系とクレジット消費
+- 秒数や解像度、モデル世代でクレジット消費が増減。Runway Gen‑4.5は「1秒=12クレジット」。[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)
+- 月額サブスクに毎月クレジットが配布され、不足分は追加購入という運用の例（Runwayの価格ページ）。[[7]](https://runwayml.com/pricing?utm_source=openai)
+
+2) 生成時間（待ち行列/優先度）
+- プランで生成速度や優先度が変わることがある（例: Pikaのプラン説明に速度差の表記）。混雑状況でも変動し得るため、想定ピーク時間帯で試すのが安全。[[11]](https://pika.art/pricing?interval=month&utm_source=openai)
+
+3) 画質（解像度/フレーム/安定性）
+- 公式が常に定量の画質値を出すとは限らないため、同一プロンプトで比較し、手指の破綻やブレ、文字再現性などを自前で点検する。
+
+4) 商用利用とライセンス
+- 「商用可否」「ウォーターマーク有無」「無料/有料での差」「入力・出力データの学習利用可否」を必ず確認。Runwayは商用利用可のヘルプを公開。[[9]](https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes?utm_source=openai) Lumaは有料プランにCommercial useの明記があり、無料は非商用や透かしの制約が示唆される。[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)
+- Pikaはプランで商用可否が分かれる旨をFAQ/TOSが示す。加入前に整合性チェックが必要。[[3]](https://pika.art/terms-of-service?utm_source=openai)[[12]](https://pika.art/faq?trk=public_post-text&utm_source=openai)
+
+5) 運用性（日本語対応/制御/サポート/ポリシー）
+- ポリシーや許容されない用途も要確認（RunwayのUsage Policy参照）。[[10]](https://runway.com/safety/usage-policy?utm_source=openai)
+- 企業導入はAPIや権限管理、ログ、データ取り扱いの設計も併せて検討。
+
+## 主要ツールの比較（早見・要点のみ）
+以下は公式の一次情報に基づく要点です。価格・仕様は変更され得るため、申込前に各公式の最新表示を再確認してください。
+
+- Runway（Gen‑4.5）
+  - 料金/消費: クレジット制。Gen‑4.5は「1秒=12クレジット」。月額プランでクレジット配布＋追加購入が可能。[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)[[7]](https://runwayml.com/pricing?utm_source=openai)
+  - 商用利用: ヘルプで「作成物はあなたのもの。商用利用可」と案内（規約順守が前提）。[[9]](https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes?utm_source=openai)
+  - 補足: プランにより利用できる機能や制約が異なる。[[8]](https://help.runwayml.com/hc/en-us/articles/21664961171475-Which-plan-is-right-for-me?utm_source=openai) 不適切用途の制限あり（Usage Policy）。[[10]](https://runway.com/safety/usage-policy?utm_source=openai)
+
+- Luma Dream Machine（Luma AI）
+  - 料金/消費: シンプルなクレジット制。動画は長さ・解像度に応じて消費が変わる。[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)
+  - 商用利用: 有料プランにCommercial useを明記。無料は非商用・透かしなどの制約がライセンスガイドで示される。[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)
+
+- Pika
+  - 料金/プラン: Basic/Standard/Pro/Fancy などの複数プラン。月次クレジット配布。解像度や速度優先度に差がある旨を価格ページが示す。[[11]](https://pika.art/pricing?interval=month&utm_source=openai)
+  - 商用利用: FAQで「Pro/Fancyは商用可、Basic/Standardは不可」と明記。TOSは「プランに明示がある場合を除き非商用」。加入前にTOS/FAQ/価格ページの整合を必ず確認。[[12]](https://pika.art/faq?trk=public_post-text&utm_source=openai)[[3]](https://pika.art/terms-of-service?utm_source=openai)
+
+- Google Veo（Vertex AI 経由）
+  - 提供形態: Veo 3がVertex AIで広く利用可能になった旨の発表あり。[[4]](https://cloud.google.com/blog/products/ai-machine-learning/veo-3-fast-available-for-everyone-on-vertex-ai?hl=en&utm_source=openai)
+  - 料金/条件: 使用量ベースの課金。ドキュメント上で一部エンドポイントはPre‑GA（プレビュー）だが商用/本番利用可と注記。将来的な仕様変更リスクを考慮。[[4]](https://cloud.google.com/blog/products/ai-machine-learning/veo-3-fast-available-for-everyone-on-vertex-ai?hl=en&utm_source=openai)[[13]](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-0-generate?authuser=0000&hl=en&utm_source=openai)
+
+- Kling AI（Kuaishou/可灵）
+  - 提供状況: グローバル向けベータ提供の公式発表（2024年）。[[5]](https://ir.kuaishou.com/news-releases/news-release-details/kuaishou-launches-full-beta-testing-kling-ai-global-users-0?utm_source=openai)
+  - 料金/プラン: 3階層（Gold/Platinum/Diamond）の人民元建てサブスク公表。実運用では支払い通貨/決済/税の確認が必要。[[5]](https://ir.kuaishou.com/news-releases/news-release-details/kuaishou-launches-full-beta-testing-kling-ai-global-users-0?utm_source=openai)
+
+- 参考: OpenAI Sora
+  - 公式に「製品終了」（2026/04/26）と告知。現時点で一般向けの選択肢としては想定しにくい。[[6]](https://openai.com/index/sora-is-here/?utm_source=openai)
+
+- テンプレ/アバター/ノーコード系の例
+  - テンプレ主体の量産編集や、プレゼン用スライドからの動画化、アバターを使った説明動画などのジャンルもある（例: Canva Magic Media）。詳細の料金・条件は各公式で確認を。
+
+## ユースケース別の候補整理（断定しない目安）
+- 短尺SNS・プロモ: クイックに試せるクレジット制のRunway/Luma/Pikaを候補に。解像度や透かし、商用可否はプランごとに必ず確認。[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)[[12]](https://pika.art/faq?trk=public_post-text&utm_source=openai)
+- 高品質CM/ミュージックビデオの試作: Runway（高世代モデル/商用可の案内あり）を中心に、要件次第でVeo（Vertex AI）も検討。Veoは使用量課金でPre‑GAの注意点を考慮。[[9]](https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes?utm_source=openai)[[4]](https://cloud.google.com/blog/products/ai-machine-learning/veo-3-fast-available-for-everyone-on-vertex-ai?hl=en&utm_source=openai)[[13]](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-0-generate?authuser=0000&hl=en&utm_source=openai)
+- 解説・教育/社内研修（アバター解説など）: テンプレ/アバター型も選択肢。BGMや音声合成のライセンス、顔・商標の権利に注意。
+- 開発者向けAPI連携/業務システム組み込み: Vertex AI経由のVeoを検討（使用量課金、エンドポイントの提供状態を都度確認）。[[4]](https://cloud.google.com/blog/products/ai-machine-learning/veo-3-fast-available-for-everyone-on-vertex-ai?hl=en&utm_source=openai)[[13]](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-0-generate?authuser=0000&hl=en&utm_source=openai)
+- 海外発の先進モデルを試したい: Kling AIのグローバルベータは公表済。通貨/税/地域制約の実務面は事前確認。[[5]](https://ir.kuaishou.com/news-releases/news-release-details/kuaishou-launches-full-beta-testing-kling-ai-global-users-0?utm_source=openai)
+
+## 料金比較のコツ：サブスクとクレジット、無料枠の使い分け
+- クレジットの基本式
+  - 例（Runway Gen‑4.5）: 1秒=12クレジット → 1分=720クレジット。[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)
+  - 1分あたり実質コスト =（1分に必要なクレジット）×（クレジット単価）。月額プランで毎月配布されるクレジットがある場合、配布量÷720で「1分動画を何本つくれるか」の目安が出せる。[[7]](https://runwayml.com/pricing?utm_source=openai)
+- Lumaのように「長さ・解像度で消費が変わる」タイプは、ターゲット解像度/尺で必要クレジットを見積もる。[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)
+- Pikaのようにプランで解像度や速度優先が変わる場合、無料や低価格帯は制約があることを前提に試算する。[[11]](https://pika.art/pricing?interval=month&utm_source=openai)
+- 無料枠の活用: 透かしや非商用などの制約を把握し、画質や動きの傾向把握用に使う。商用案件は必ず商用可のプラン/ライセンスで本番出力を行う。[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)[[12]](https://pika.art/faq?trk=public_post-text&utm_source=openai)
+
+具体例（計算手順の例示）
+- 60秒×3本をRunwayで作りたい場合のクレジット目安: 60秒×12クレジット/秒×3本=2,160クレジット。これを毎月の配布クレジットや追加購入の単価に当てはめて月コストを試算する。[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)[[7]](https://runwayml.com/pricing?utm_source=openai)
+
+## 生成時間と品質を左右する要因
+- 待ち行列/優先度: プランにより優先度が異なる場合がある（Pikaの速度差表記）。混雑時間帯は待機が増えることも。[[11]](https://pika.art/pricing?interval=month&utm_source=openai)
+- 解像度・尺: 高解像度・長尺ほど負荷が高く時間も消費クレジットも増えやすい（Runway/Lumaのクレジット設計からの一般的示唆）。[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)
+- 指示の具体性: カメラワーク/被写体/スタイル/参照画像の有無。
+- 後処理: アップスケールやフレーム補間、カラー調整は別途時間・コストの考慮が必要。
+
+## 商用利用・ライセンスの注意点（必読）
+- 商用可否はツールとプランで異なる
+  - Runway: 商用利用可の案内あり（規約順守が前提）。[[9]](https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes?utm_source=openai)
+  - Luma: 有料プランはCommercial use。無料は非商用・透かしの可能性がライセンスガイドで示唆。[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)
+  - Pika: FAQでPro/Fancyのみ商用可、Basic/Standardは不可。TOSも「原則非商用、プランで明示された場合のみ可」。表記差異が出る場合があるため、TOS/FAQ/価格ページの三点確認が必須。[[3]](https://pika.art/terms-of-service?utm_source=openai)[[12]](https://pika.art/faq?trk=public_post-text&utm_source=openai)
+- 透かし（ウォーターマーク）: 無料や低価格帯では付く場合がある（Lumaの無料に関する記載の示唆）。[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)
+- データ取り扱い: 入出力がサービス改善や学習に用いられる可能性の有無を確認。機密案件は同意や設定を厳密に管理する。
+- ポリシー遵守: 不適切用途の禁止や制限（RunwayのUsage Policyなど）。[[10]](https://runway.com/safety/usage-policy?utm_source=openai)
+- クラウドAPI系（Veoなど）の注意: Pre‑GAのエンドポイントは商用可注記があっても将来の仕様変更・非互換の可能性があるため、冗長化やSLA/変更追随の運用設計を。[[13]](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-0-generate?authuser=0000&hl=en&utm_source=openai)
+
+## 失敗しない選び方フローチャート（文字版）
+1. 用途を決める（SNS短尺/広告/教育/内製研修/開発者API連携）
+2. 必要品質を決める（解像度/動きの自然さ/キャラ一貫性/文字再現）
+3. 予算と本数を見積もる（1本の尺×本数→必要クレジットを逆算）[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)[[7]](https://runwayml.com/pricing?utm_source=openai)
+4. 権利とルールを確認（商用可否/透かし/学習利用/人物・商標/BGM）[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)[[9]](https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes?utm_source=openai)[[12]](https://pika.art/faq?trk=public_post-text&utm_source=openai)
+5. 候補を2〜3に絞り、同一プロンプトで比較。ピーク/オフピークの速度差も試す。[[11]](https://pika.art/pricing?interval=month&utm_source=openai)
+6. 本番要件で小規模PoC→運用フロー固め（命名規則/バックアップ/再現性確保）。
+
+## はじめての検証手順（無料で試す順番とチェックリスト）
+- 手順
+  1) 無料または低額プランでRunway/Luma/Pikaを順に試す（画質傾向と操作感を把握）。[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)[[11]](https://pika.art/pricing?interval=month&utm_source=openai)
+  2) 企業連携やAPI前提なら、Vertex AI（Veo）のドキュメントを確認し、課金/提供状態（GA/Pre‑GA）を把握。[[4]](https://cloud.google.com/blog/products/ai-machine-learning/veo-3-fast-available-for-everyone-on-vertex-ai?hl=en&utm_source=openai)[[13]](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-0-generate?authuser=0000&hl=en&utm_source=openai)
+  3) 海外ベータの最新動向に関心があればKling AIの提供条件を確認（通貨/決済/地域）。[[5]](https://ir.kuaishou.com/news-releases/news-release-details/kuaishou-launches-full-beta-testing-kling-ai-global-users-0?utm_source=openai)
+
+- 評価チェックリスト
+  - 動きの自然さ（被写体の形崩れ、手指、物理挙動）
+  - ブレ/ノイズ、カメラワーク（パン/ドリー/チルトの滑らかさ）
+  - 文字・ロゴ再現（禁止/制限がない題材でテスト）
+  - 生成時間の安定性（時間帯差、再実行時のばらつき）[[11]](https://pika.art/pricing?interval=month&utm_source=openai)
+  - コストの見通し（1本あたり消費クレジット→月間必要量→プラン適合）[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)[[7]](https://runwayml.com/pricing?utm_source=openai)
+  - ライセンス適合（商用可否、透かし、データ取り扱い）[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)[[9]](https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes?utm_source=openai)[[12]](https://pika.art/faq?trk=public_post-text&utm_source=openai)
+
+## まとめ：ツールは「用途×コスト×権利」で選ぶ
+- まずは要件（用途/品質/本数）から必要クレジットを逆算し、1分あたりの実質コストを見える化。[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)[[7]](https://runwayml.com/pricing?utm_source=openai)
+- 次に生成速度・安定性を実試験で確認（ピーク/オフピーク）。[[11]](https://pika.art/pricing?interval=month&utm_source=openai)
+- 最後に商用利用条件・透かし・データ取り扱い・ポリシーを照合し、安心して使えるプランを選ぶ。[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)[[9]](https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes?utm_source=openai)[[10]](https://runway.com/safety/usage-policy?utm_source=openai)[[12]](https://pika.art/faq?trk=public_post-text&utm_source=openai)
+- 迷ったら2〜3サービスを同一条件で小さく比較し、学びを次回のプロンプト改善や運用設計に反映しましょう。
+
+## 紹介したサービスを確認する
+
+### Gemini
+
+[Geminiを公式サイトで確認する](https://gemini.google.com/)
+
+### Canva
+
+[Canvaを公式サイトで確認する](https://www.canva.com/)
+
+
+## よくある質問
+
+### 1分あたりの実質コストはどう計算すればよいですか？
+
+例としてRunway Gen‑4.5は1秒=12クレジットなので、1分=720クレジットです。1分あたり実質コスト＝720×クレジット単価（または月額プラン配布クレジットで何分作れるか）で試算します。[[1]](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)[[7]](https://runwayml.com/pricing?utm_source=openai)
+
+### 無料プランでも商用利用できますか？
+
+ツールとプランにより異なります。例としてLumaは有料プランにCommercial useが明記され、無料は非商用・透かし等の制約が示されます。PikaはFAQでPro/Fancyのみ商用可、Basic/Standardは不可と記載されています。必ず最新のTOS/FAQ/価格ページを照合してください。[[2]](https://www.lumadreammachine.app/pricing?utm_source=openai)[[3]](https://pika.art/terms-of-service?utm_source=openai)[[12]](https://pika.art/faq?trk=public_post-text&utm_source=openai)
+
+### 生成時間はどれくらいかかりますか？
+
+混雑状況やプランの優先度、解像度や尺で変わります。Pikaの価格ページにもプランで速度差がある旨の表記があります。実運用前にピーク/オフピークで試すのが安全です。[[11]](https://pika.art/pricing?interval=month&utm_source=openai)
+
+### 企業導入での注意点は？
+
+商用可否やデータ取り扱い、ポリシーに加え、クラウドAPI型（例：Veo）は一部エンドポイントがPre‑GA（プレビュー）でも商用利用可の注記があり、将来の仕様変更リスクを考慮した設計が必要です。[[13]](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-0-generate?authuser=0000&hl=en&utm_source=openai)
+
+### Soraは今も選択肢に入りますか？
+
+OpenAIはSora製品の終了を公式に告知しています。現状、一般ユーザー向けの選択肢としては想定しにくい状態です。[[6]](https://openai.com/index/sora-is-here/?utm_source=openai)
+
+## 参考情報
+
+1. [Creating with Gen-4.5 – Runway](https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5?utm_source=openai)
+2. [Simple, Transparent Pricing - Luma Dream Machine](https://www.lumadreammachine.app/pricing?utm_source=openai)
+3. [Pika](https://pika.art/terms-of-service?utm_source=openai)
+4. [Veo 3 Fast available for everyone on Vertex AI | Google Cloud Blog](https://cloud.google.com/blog/products/ai-machine-learning/veo-3-fast-available-for-everyone-on-vertex-ai?hl=en&utm_source=openai)
+5. [Kuaishou Launches Full Beta Testing for ‘Kling AI’ to Global Users, Elevates Model Capabilities | Kuaishou Technology](https://ir.kuaishou.com/news-releases/news-release-details/kuaishou-launches-full-beta-testing-kling-ai-global-users-0?utm_source=openai)
+6. [Sora is here | OpenAI](https://openai.com/index/sora-is-here/?utm_source=openai)
+7. [AI Image and Video Pricing from $12/month | Runway AI](https://runwayml.com/pricing?utm_source=openai)
+8. [Which plan is right for me? – Runway](https://help.runwayml.com/hc/en-us/articles/21664961171475-Which-plan-is-right-for-me?utm_source=openai)
+9. [Can I use the content I made in Runway for commercial purposes? – Runway](https://help.runwayml.com/hc/en-us/articles/21668707517587-Can-I-use-the-content-I-made-in-Runway-for-commercial-purposes?utm_source=openai)
+10. [Runway's Usage Policy | Runway](https://runway.com/safety/usage-policy?utm_source=openai)
+11. [Pika](https://pika.art/pricing?interval=month&utm_source=openai)
+12. [Pika](https://pika.art/faq?trk=public_post-text&utm_source=openai)
+13. [Veo 3  |  Gemini Enterprise Agent Platform  |  Google Cloud Documentation](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-0-generate?authuser=0000&hl=en&utm_source=openai)

@@ -78,5 +78,18 @@
     "search_intent": "AI画像生成ツールの料金・画質・日本語対応・商用利用条件を比較し、自分に合うサービスを選びたい",
     "output_path": "..\\content\\blog\\ai-image-generators-comparison.mdx",
     "processed_at": "2026-08-05T23:46:08"
+  },
+  {
+    "keyword": "AI動画生成ツールおすすめ比較",
+    "target_length": 4000,
+    "related_keywords": [
+      "AI動画生成",
+      "動画作成",
+      "生成AI",
+      "料金比較"
+    ],
+    "search_intent": "AI動画生成ツールの料金・生成時間・画質・商用利用条件を比較し、自分に合うサービスを選びたい",
+    "output_path": "..\\content\\blog\\ai-video-generator-tools-comparison-pricing-usage.mdx",
+    "processed_at": "2026-08-05T23:55:32"
   }
 ]
