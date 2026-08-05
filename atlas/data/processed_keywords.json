@@ -52,5 +52,18 @@
     "search_intent": "AIでメール作成を支援するツールの機能や料金を比較し、自分に合うサービスを選びたい",
     "output_path": "..\\content\\blog\\ai-email-writing-tools-comparison.mdx",
     "processed_at": "2026-08-05T01:54:37"
+  },
+  {
+    "keyword": "AI文章作成ツールおすすめ比較",
+    "target_length": 4000,
+    "related_keywords": [
+      "AIライティング",
+      "文章生成",
+      "ブログ作成",
+      "料金比較"
+    ],
+    "search_intent": "AI文章作成ツールの料金・日本語品質・用途・使いやすさを比較し、自分に合うサービスを選びたい",
+    "output_path": "..\\content\\blog\\ai-writing-tools-comparison-japanese-quality-pricing-ux.mdx",
+    "processed_at": "2026-08-05T23:38:41"
   }
 ]
