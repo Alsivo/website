@@ -104,5 +104,18 @@
     "search_intent": "AIコード生成ツールの料金・対応IDE・コード品質・使いやすさを比較し、自分に合うサービスを選びたい",
     "output_path": "..\\content\\blog\\ai-codegen-tools-comparison.mdx",
     "processed_at": "2026-08-06T00:15:13"
+  },
+  {
+    "keyword": "Claude 料金プラン比較",
+    "target_length": 3500,
+    "related_keywords": [
+      "Claude Pro",
+      "Claude Max",
+      "無料版",
+      "料金"
+    ],
+    "search_intent": "Claudeの無料版と有料プランの料金・機能・利用上限を比較し、自分に合うプランを選びたい",
+    "output_path": "..\\content\\blog\\claude-pricing-plans-comparison-pro-max.mdx",
+    "processed_at": "2026-08-06T01:06:30"
   }
 ]
