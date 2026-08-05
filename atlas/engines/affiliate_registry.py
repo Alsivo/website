@@ -56,6 +56,19 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
         cta_label = item.get("cta_label")
         aliases = item.get("aliases", [])
 
+        affiliate_status = item.get(
+            "affiliate_status",
+            "none",
+        )
+        network = item.get(
+            "network",
+            "",
+        )
+        program_name = item.get(
+            "program_name",
+            "",
+        )
+
         if (
             not isinstance(official_url, str)
             or not official_url.startswith("http")
@@ -83,9 +96,44 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
                 f"{tool_name}のcta_labelが未入力です。"
             )
 
-        if not isinstance(aliases, list):
+        if not isinstance(
+            affiliate_status,
+            str,
+        ):
             raise ValueError(
-                f"{tool_name}のaliasesは配列にしてください。"
+                f"{tool_name}のaffiliate_statusが不正です。"
+            )
+
+        if affiliate_status not in {
+            "none",
+            "pending",
+            "active",
+            "paused",
+            "rejected",
+        }:
+            raise ValueError(
+                f"{tool_name}のaffiliate_statusが"
+                "許可されていません："
+                f"{affiliate_status}"
+            )
+
+        if not isinstance(network, str):
+            raise ValueError(
+                f"{tool_name}のnetworkが不正です。"
+            )
+
+        if not isinstance(program_name, str):
+            raise ValueError(
+                f"{tool_name}のprogram_nameが不正です。"
+            )
+
+        if (
+            affiliate_status == "active"
+            and not affiliate_url
+        ):
+            raise ValueError(
+                f"{tool_name}はactiveですが、"
+                "affiliate_urlが未入力です。"
             )
 
         validated[tool_name.strip()] = {
@@ -93,6 +141,13 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
             "affiliate_url": affiliate_url.strip(),
             "cta_label": cta_label.strip(),
             "aliases": aliases,
+            "affiliate_status": (
+                affiliate_status.strip()
+            ),
+            "network": network.strip(),
+            "program_name": (
+                program_name.strip()
+            ),
         }
 
     return validated
@@ -109,7 +164,7 @@ def get_affiliate_tool_names() -> list[str]:
 def build_affiliate_section(
     recommended_tools: list[str],
 ) -> str:
-    """おすすめツールからMarkdownのCTA欄を作る。"""
+    """おすすめツールからMDX形式のCTA欄を作る。"""
 
     if not recommended_tools:
         return ""
@@ -117,7 +172,12 @@ def build_affiliate_section(
     registry = load_affiliate_registry()
 
     selected_tools = list(
-        dict.fromkeys(recommended_tools)
+        dict.fromkeys(
+            tool_name.strip()
+            for tool_name in recommended_tools
+            if isinstance(tool_name, str)
+            and tool_name.strip()
+        )
     )
 
     lines = [
@@ -126,7 +186,6 @@ def build_affiliate_section(
         "",
     ]
 
-    has_affiliate_link = False
     valid_tool_count = 0
 
     for tool_name in selected_tools:
@@ -135,19 +194,33 @@ def build_affiliate_section(
         if item is None:
             continue
 
-        affiliate_url = item.get(
-            "affiliate_url",
-            "",
-        )
+        affiliate_url = str(
+            item.get(
+                "affiliate_url",
+                "",
+            )
+        ).strip()
 
-        official_url = item[
-            "official_url"
-        ]
+        official_url = str(
+            item.get(
+                "official_url",
+                "",
+            )
+        ).strip()
 
-        affiliate_status = item.get(
-            "affiliate_status",
-            "none",
-        )
+        affiliate_status = str(
+            item.get(
+                "affiliate_status",
+                "none",
+            )
+        ).strip()
+
+        affiliate_network = str(
+            item.get(
+                "network",
+                "",
+            )
+        ).strip()
 
         use_affiliate_link = (
             affiliate_status == "active"
@@ -160,15 +233,35 @@ def build_affiliate_section(
             else official_url
         )
 
-        if use_affiliate_link:
-            has_affiliate_link = True
+        link_type = (
+            "affiliate"
+            if use_affiliate_link
+            else "official"
+        )
+
+        network = (
+            affiliate_network
+            if use_affiliate_link
+            and affiliate_network
+            else "none"
+        )
+
+        link_markup = (
+            "<AffiliateLink"
+            f' href="{destination_url}"'
+            f' service="{tool_name}"'
+            f' linkType="{link_type}"'
+            f' network="{network}"'
+            ">"
+            f"{item['cta_label']}"
+            "</AffiliateLink>"
+        )
 
         lines.extend(
             [
                 f"### {tool_name}",
                 "",
-                f"[{item['cta_label']}]"
-                f"({destination_url})",
+                link_markup,
                 "",
             ]
         )
@@ -177,14 +270,5 @@ def build_affiliate_section(
 
     if valid_tool_count == 0:
         return ""
-
-    if has_affiliate_link:
-        lines.extend(
-            [
-                "> 本ページには広告・"
-                "アフィリエイトリンクが含まれます。",
-                "",
-            ]
-        )
 
     return "\n".join(lines)

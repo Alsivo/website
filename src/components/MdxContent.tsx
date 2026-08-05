@@ -1,5 +1,8 @@
-import type { ComponentPropsWithoutRef } from "react";
+import type {
+  ComponentPropsWithoutRef,
+} from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import AffiliateLink from "./AffiliateLink";
 import { createHeadingId } from "../lib/headings";
 
 type MdxContentProps = {
@@ -7,6 +10,8 @@ type MdxContentProps = {
 };
 
 const components = {
+  AffiliateLink,
+
   h2: ({
     children,
     ...props
@@ -41,23 +46,47 @@ const components = {
     );
   },
 
-  p: (props: ComponentPropsWithoutRef<"p">) => (
-    <p className="article-paragraph" {...props} />
+  p: (
+    props: ComponentPropsWithoutRef<"p">,
+  ) => (
+    <p
+      className="article-paragraph"
+      {...props}
+    />
   ),
 
-  ul: (props: ComponentPropsWithoutRef<"ul">) => (
-    <ul className="article-list" {...props} />
+  ul: (
+    props: ComponentPropsWithoutRef<"ul">,
+  ) => (
+    <ul
+      className="article-list"
+      {...props}
+    />
   ),
 
-  ol: (props: ComponentPropsWithoutRef<"ol">) => (
-    <ol className="article-list" {...props} />
+  ol: (
+    props: ComponentPropsWithoutRef<"ol">,
+  ) => (
+    <ol
+      className="article-list"
+      {...props}
+    />
   ),
 
-  blockquote: (props: ComponentPropsWithoutRef<"blockquote">) => (
-    <blockquote className="article-quote" {...props} />
+  blockquote: (
+    props: ComponentPropsWithoutRef<
+      "blockquote"
+    >,
+  ) => (
+    <blockquote
+      className="article-quote"
+      {...props}
+    />
   ),
 
-  a: (props: ComponentPropsWithoutRef<"a">) => (
+  a: (
+    props: ComponentPropsWithoutRef<"a">,
+  ) => (
     <a
       className="article-link"
       rel="noopener noreferrer"
@@ -67,6 +96,13 @@ const components = {
   ),
 };
 
-export default function MdxContent({ source }: MdxContentProps) {
-  return <MDXRemote source={source} components={components} />;
+export default function MdxContent({
+  source,
+}: MdxContentProps) {
+  return (
+    <MDXRemote
+      source={source}
+      components={components}
+    />
+  );
 }

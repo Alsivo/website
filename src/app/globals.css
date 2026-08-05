@@ -1350,3 +1350,48 @@ main {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================
+   Affiliate CTA
+   ========================================================== */
+
+.affiliate-cta-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 20px;
+  border: 1px solid currentColor;
+  border-radius: 10px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.affiliate-cta-link:hover {
+  transform: translateY(-1px);
+  opacity: 0.88;
+}
+
+.affiliate-cta-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.affiliate-cta-link-paid::after {
+  margin-left: 8px;
+  font-size: 0.75em;
+  font-weight: 600;
+  content: "広告";
+}
+
+@media (max-width: 640px) {
+  .affiliate-cta-link {
+    display: flex;
+    width: 100%;
+  }
+}
