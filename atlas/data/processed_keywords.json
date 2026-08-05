@@ -91,5 +91,18 @@
     "search_intent": "AI動画生成ツールの料金・生成時間・画質・商用利用条件を比較し、自分に合うサービスを選びたい",
     "output_path": "..\\content\\blog\\ai-video-generator-tools-comparison-pricing-usage.mdx",
     "processed_at": "2026-08-05T23:55:32"
+  },
+  {
+    "keyword": "AIコード生成ツールおすすめ比較",
+    "target_length": 4000,
+    "related_keywords": [
+      "AIコーディング",
+      "コード生成",
+      "Cursor",
+      "Claude Code"
+    ],
+    "search_intent": "AIコード生成ツールの料金・対応IDE・コード品質・使いやすさを比較し、自分に合うサービスを選びたい",
+    "output_path": "..\\content\\blog\\ai-codegen-tools-comparison.mdx",
+    "processed_at": "2026-08-06T00:15:13"
   }
 ]
