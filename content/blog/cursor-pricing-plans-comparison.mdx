@@ -1,0 +1,207 @@
+---
+title: "Cursorの料金プランを徹底比較：無料版とProの違い・上限・おすすめの選び方"
+description: "Cursorの無料版とPro（個人向け）を中心に、料金・主な機能・利用上限・課金の仕組みをわかりやすく比較。用途別の最適プラン、上限の考え方、節約テク、導入時の注意点まで解説します。"
+date: "2026-08-08"
+category: "AIツール"
+image: "/images/blog/cursor-pricing-plans-comparison.webp"
+readingTime: "11 min read"
+faq: [{"question": "無料トライアルはありますか？", "answer": "無料のHobbyプランが提供されており、クレジットカード不要で利用を開始できます。Composerも利用可能です。"}, {"question": "上限（fast/slowや回数）はいつリセットされますか？", "answer": "加入日を基準に毎月リセットされます。月初固定ではありません。"}, {"question": "従量課金（usage-based）はどのタイミングで請求されますか？", "answer": "追加利用が20米ドルに到達した時点、または翌月初（2〜3日）にまとめて請求されます。ダッシュボードでspending cap（支出上限）を設定できます。"}, {"question": "チームのfast枠はメンバー間で共有されますか？", "answer": "共有されません。月500回のpremium（速い）リクエストはユーザーごとに個別枠として付与されます。"}, {"question": "コードはAIの学習に使われますか？", "answer": "Privacyモードを有効にしている場合、コード等のデータはCursorやモデル提供者の学習に利用されないと明記されています。機密プロジェクトでは必ず設定を確認してください。"}]
+tags:
+  - "AIツール"
+  - "仕事効率化"
+  - "プログラミング"
+  - "生成AI"
+  - "Cursor"
+published: true
+---
+はじめに：この記事でわかること
+- 無料（Hobby）と有料（Pro中心）の違いを、料金・機能・上限・課金の流れで把握できます。
+- 自分の使い方（学習・個人開発・業務・チーム）に合うプランを、具体的な判断基準とサインで即決できます。
+- 上限の仕組み（fast/slow）、従量課金（usage-based）、支出上限（spending cap）など、ハマりやすいポイントを回避できます。[[1]](https://cursor.com/pricing?trk=public_post-text)[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+価格や上限は見直しが頻繁です。最終決定前に必ず公式の最新情報を確認してください。[[1]](https://cursor.com/pricing?trk=public_post-text)
+
+
+## Cursorとは（超要約）
+Cursorは、エディタに組み込まれたAIコーディング環境です。チャットによる相談、インラインでのコード提案・編集、Composerによる生成・改修支援、コード自動補完などを通じて、リファクタやバグ修正、テスト作成を効率化します。無料プランでもComposerは利用可能です。[[1]](https://cursor.com/pricing?trk=public_post-text)
+
+
+## 料金プランの全体像（個人・チーム・企業）
+- 系統と主な対象
+  - Individual（個人）: Hobby（無料）、Pro、Pro+、Ultra。[[1]](https://cursor.com/pricing?trk=public_post-text)
+  - Teams（チーム）: Standard、Premium。[[1]](https://cursor.com/pricing?trk=public_post-text)
+  - Enterprise（企業）: 個別見積り。[[1]](https://cursor.com/pricing?trk=public_post-text)
+- 価格の目安（税抜）
+  - Pro: 月額20米ドル。[[1]](https://cursor.com/pricing?trk=public_post-text)
+  - Teams Standard: 1ユーザーあたり月額40米ドル。[[1]](https://cursor.com/pricing?trk=public_post-text)
+  - 価格は税抜表記で、超過は従量課金（usage-based）。[[1]](https://cursor.com/pricing?trk=public_post-text)
+- 提供・購入条件の要点
+  - 正規の購入チャネルは公式サイトのみ（リセラー購入は非正規）。[[1]](https://cursor.com/pricing?trk=public_post-text)
+  - 地域別の特別価格が導入される場合あり（例: インド向け「Cursor Start（₹649/月）」）。日本向けの専用価格は記事作成時点で未確認。[[3]](https://cursor.com/blog/cursor-start?utm_source=openai)
+
+機能・上限は頻繁に見直されます。本文の数値や構成は確認時点の公式情報に基づきますが、読了後も最新のPricing/Docsを確認してください。[[1]](https://cursor.com/pricing?trk=public_post-text)[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+
+## プラン比較（保存版・早見表）
+将来変更の可能性があるため、最終的には公式でご確認ください。[[1]](https://cursor.com/pricing?trk=public_post-text)[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+| プラン | 料金（税抜/月） | 含まれる使用量の目安 | fast/slow の扱い | 主な機能 | 想定ユーザー |
+|---|---|---|---|---|---|
+| Hobby（無料） | 無料（カード不要）[[1]](https://cursor.com/pricing?trk=public_post-text) | ・「遅い（slow）premium」月50回[[2]](https://docs.cursor.ac.cn/account/plans-and-usage) ・補完2,000回/月[[2]](https://docs.cursor.ac.cn/account/plans-and-usage) | fast枠は実質なし。slow中心で待機が発生しやすい[[2]](https://docs.cursor.ac.cn/account/plans-and-usage) | Composer利用可、Agentは限定的[[1]](https://cursor.com/pricing?trk=public_post-text) | 学習・小規模修正 |
+| Pro（個人） | 20米ドル[[1]](https://cursor.com/pricing?trk=public_post-text) | ・「速い（fast）premium」月500回[[2]](https://docs.cursor.ac.cn/account/plans-and-usage) ・「遅い（slow）premium」実質無制限（レート制御・待機あり）[[2]](https://docs.cursor.ac.cn/account/plans-and-usage) ・補完“無制限”（レート制御・待機あり）[[2]](https://docs.cursor.ac.cn/account/plans-and-usage) ・o1‑miniは1日10回目安[[2]](https://docs.cursor.ac.cn/account/plans-and-usage) | fast枠を使い切るとslowに自動フォールバック[[2]](https://docs.cursor.ac.cn/account/plans-and-usage) | frontier modelsへのアクセス、MCP/skills/hooks、Cloud agents、Bugbot など（一部使用量は従量課金）[[1]](https://cursor.com/pricing?trk=public_post-text) | 継続開発・個人PJ |
+| Pro+（個人上級） | 価格はPricing参照[[1]](https://cursor.com/pricing?trk=public_post-text) | Pro比でAgent上限が約3倍（固定値は非公開）[[1]](https://cursor.com/pricing?trk=public_post-text) | 同上 | Pro相当＋上限拡大[[1]](https://cursor.com/pricing?trk=public_post-text) | 反復が多い個人開発者 |
+| Ultra（個人最上位） | 価格はPricing参照[[1]](https://cursor.com/pricing?trk=public_post-text) | Pro比でAgent上限が約20倍、優先アクセス[[1]](https://cursor.com/pricing?trk=public_post-text) | 同上 | Pro相当＋大幅上限・優先度[[1]](https://cursor.com/pricing?trk=public_post-text) | 重いワークロード |
+| Teams Standard | 40米ドル/ユーザー[[1]](https://cursor.com/pricing?trk=public_post-text) | premium（fast）枠はユーザー個別。共有不可[[2]](https://docs.cursor.ac.cn/account/plans-and-usage) | 個人ごとのfast枠＋slowフォールバック[[2]](https://docs.cursor.ac.cn/account/plans-and-usage) | チーム請求・管理、共有コンテキスト、Bugbot、Cloud agents、自動化、利用分析、Privacyモード、SAML/OIDC SSO[[1]](https://cursor.com/pricing?trk=public_post-text) | 小規模〜中規模チーム |
+| Teams Premium | 価格はPricing参照[[1]](https://cursor.com/pricing?trk=public_post-text) | Standard比でAgent上限が約5倍[[1]](https://cursor.com/pricing?trk=public_post-text) | 同上 | Standard相当＋上限拡大[[1]](https://cursor.com/pricing?trk=public_post-text) | 高負荷チーム |
+| Enterprise | 個別見積り[[1]](https://cursor.com/pricing?trk=public_post-text) | 組織要件に応じて設計 | Pooled usage 等[[1]](https://cursor.com/pricing?trk=public_post-text) | 請求書/PO、SCIM、詳細なアクセス制御、監査ログ、サービスアカウント、優先サポート等[[1]](https://cursor.com/pricing?trk=public_post-text) | 大規模・厳格要件 |
+
+
+## プラン比較（ポイント要約）
+- Hobby（無料）
+  - 料金: 無料、クレジットカード不要。[[1]](https://cursor.com/pricing?trk=public_post-text)
+  - 機能の要旨: Composer利用可、Agent（エージェント）機能は限定的。[[1]](https://cursor.com/pricing?trk=public_post-text)
+  - 上限の目安: 月50回の「遅い（slow）premium」リクエスト、補完（completions）2,000回。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+- Pro（個人）
+  - 料金: 月額20米ドル（税抜）。[[1]](https://cursor.com/pricing?trk=public_post-text)
+  - 機能の要旨: Agent上限の拡大、frontier modelsへのアクセス、MCP/skills/hooks、Cloud agents、Bugbot（使用量に応じて計上）。[[1]](https://cursor.com/pricing?trk=public_post-text)
+  - 上限の目安: 月500回の「速い（fast）premium」リクエスト。遅いpremiumは“実質無制限”（ただしレート制御・待機が発生する場合あり）。補完は“無制限”（同様にレート制御・待機の影響あり）。o1‑miniは1日10回の目安あり。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+- Pro+ / Ultra（個人・上級）
+  - 位置づけ: Pro比でAgent上限がさらに拡大（Pro+は約3倍、Ultraは約20倍）。正確な固定値テーブルは非公開で倍率表示のみ。[[1]](https://cursor.com/pricing?trk=public_post-text)
+
+- Teams（小規模〜中規模チーム）
+  - Standard: 1ユーザー/月40米ドル。チーム請求・管理、内部マーケットプレイス、Bugbot、Cloud agents/自動化（共有コンテキスト）、利用分析、Privacyモード（チーム単位）、SAML/OIDC SSOなど。[[1]](https://cursor.com/pricing?trk=public_post-text)
+  - Premium: 上記に加え、Agent上限がStandardの約5倍。[[1]](https://cursor.com/pricing?trk=public_post-text)
+  - 上限の扱い: 「月500回のfast premiumリクエスト」はユーザーごとの個別枠で、チーム内で共有されません。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+- 課金の仕組み（共通）
+  - 含まれる使用量を超えると従量課金が発生。ダッシュボードで有効化・支出上限（spending cap）を設定可。上限到達後は「遅いプール」に自動フォールバックします。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+  - 超過分の請求は「追加分が20米ドル到達時」または「翌月初（2〜3日）」にまとめて行われます。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+
+## 無料版でできること／できないこと（具体例）
+- できること（例）
+  - 学習用のサンプルコードや小さなスニペットの生成。
+  - 単一ファイルや小規模な関数のリファクタ。
+  - 軽微なバグ修正の提案。
+  - Composerを使った短い改修依頼。[[1]](https://cursor.com/pricing?trk=public_post-text)
+- 厳しくなるケース（例）
+  - 大きなリポジトリ全体の一括リファクタ。
+  - 長文の連続Composer（途中で中断・待ち時間増の可能性）。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+  - 大規模なテスト一括生成や長い要件を含む生成（fast枠が尽きるとslowにフォールバック）。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+
+## Cursor Proの強み（時間短縮インパクト）
+- fast（premium）枠が拡大するため、待ち時間の少ない応答で連続作業がしやすい。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- 高性能なfrontier modelsへのアクセスにより、難易度の高い改修・設計補助の精度が期待できる（モデル構成は随時更新）。[[1]](https://cursor.com/pricing?trk=public_post-text)
+- AgentやCloud agents、Bugbotなど自動化・レビュー系の機能を併用しやすく、反復作業の効率化に寄与。[[1]](https://cursor.com/pricing?trk=public_post-text)
+- 費用対効果の目安（編集部試算）: 例として、1日あたり30分の短縮が見込めるなら、時給や為替・税の条件にもよりますが、月額の回収は現実的です（効果は作業内容に依存）。
+
+
+## 利用上限の考え方（初心者向け用語解説付き）
+- fast/slowプール: fastは応答優先度が高く待ちにくい枠、slowは待ち時間が生じやすい枠。fastを使い切るとslowに自動フォールバック。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- premiumリクエスト: 高性能モデルや優先度付きの呼び出し。Proは月500 fastが目安。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- completions（補完）: エディタの自動補完。Proは“無制限”記載だが、実際はレート制御や待機の影響を受けます（使い放題＝常時即応ではない点に注意）。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- リセット: 上限は加入日を基準に毎月リセット。月初固定ではないため、更新日前は枠が枯渇しやすい。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- 従量課金とspending cap: 追加利用を有効化するとfastを継続できるが、費用が増えるためcap設定がおすすめ。20米ドル到達時/翌月初に請求。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+上限節約テク（例）
+- 依頼を小さく分割し、長文の一括Composerを避ける。
+- エラー原因や要件を先に整理してプロンプトを短くする。
+- モデル選択を見直し、常に最上位モデルを使わない（モデル単価はModelsページ参照）。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+
+## ユースケース別のおすすめと、切り替えサイン
+- 学習・学生
+  - まずはHobbyで十分。上限に頻繁に当たらない限りはOK。[[1]](https://cursor.com/pricing?trk=public_post-text)[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- 個人アプリ開発（継続作業）
+  - 仕様変更やテスト生成が増えるならProを検討。fast枠で中断が減り、反復が安定。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- 業務の生産性向上・副業
+  - タスクの連続実行・レビューを重ねるならPro以上。BugbotやCloud agentsの活用余地がある。費用は時給×短縮時間で評価。
+- OSS貢献・リファクタ中心
+  - 長いコンテキストを扱う作業が多いならPro。枠不足が続く場合はPro+も検討（倍率のみ公表、正確な含有量は非公開）。[[1]](https://cursor.com/pricing?trk=public_post-text)
+- 小規模チーム
+  - セキュリティや管理要件（SSO、利用分析）があればTeams Standardから。Agent上限が常に逼迫するならPremium（約5倍）を検討。[[1]](https://cursor.com/pricing?trk=public_post-text)
+
+無料→Proへ切り替えるサイン（具体指標）
+- 日中にfast枠不足でslow落ち・待機が頻発する。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- 長文のコード提案が途中で止まりやすい／Composerが中断しやすい。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- 上位モデルの利用頻度が高く、精度や一貫性を重視したくなった。[[1]](https://cursor.com/pricing?trk=public_post-text)
+
+
+## 費用対効果の測り方と棲み分け
+- 時間価値で定量化: 「時給×短縮時間/月」と「月額＋従量課金」を比較。
+- 代替ツールとの重複を避ける設計: 既に一般的なAI補完を使っている場合、Cursorでは“生成・編集・自動化（Agent/Bugbot）”に役割を集中させると重複コストが減ります。
+- エディタ外の発想整理や要件定義は、ChatGPT/Claude/Geminiのような汎用チャットも併用する、など役割分担で最適化。
+
+
+## チーム・ビジネス利用の検討ポイント（概要）
+- 個人Proとの最大の違いは“管理と可視化”。チーム請求・管理、共有の自動化コンテキスト、利用分析、Privacyモード（チーム単位）、SAML/OIDC SSOなどが提供。[[1]](https://cursor.com/pricing?trk=public_post-text)
+- Teamsのfast枠はユーザー個別で、共有されない点に注意。席数単位で計画を立てる。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- 監査・アクセス制御・請求書対応などが必要ならEnterprise領域。[[1]](https://cursor.com/pricing?trk=public_post-text)
+
+
+## 安全性とプライバシー
+- Privacyモード有効時は、コード等のデータがCursorやモデル提供者の学習に利用されないことが明記されています。機密コードでは必ず設定を確認しましょう。[[1]](https://cursor.com/pricing?trk=public_post-text)
+- 組織のセキュリティ・コンプライアンス要件（SSO、監査ログなど）が強い場合は、Teams/Enterpriseの機能差で適合性を判断。[[1]](https://cursor.com/pricing?trk=public_post-text)
+
+
+## 導入・切替・解約の流れ（できるだけ安全側のガイド）
+- 導入
+  - 公式サイト（直販）からアカウント作成・購入。リセラー経由は非正規。[[1]](https://cursor.com/pricing?trk=public_post-text)
+- プラン変更
+  - Pricingページからプランを選択。含まれる使用量を超える利用は従量課金（usage-based）を有効化し、spending capを設定しておくと安心。[[1]](https://cursor.com/pricing?trk=public_post-text)[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- 請求と超過の扱い
+  - 超過分は20米ドル到達時、または翌月初（2〜3日）にまとめて請求されます。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- 年額割引・学割・解約の即時/期間満了扱い
+  - 記事作成時点で、これらの詳細は公式で一般公開の明確な記載を確認できていません。最新のPricing/Q&Aまたはサポートを必ずご確認ください。[[1]](https://cursor.com/pricing?trk=public_post-text)
+
+
+## はじめての設定ガイド（最初のひと工夫）
+- プロジェクトのインデックス化: よく触るディレクトリから順にAIが把握しやすい状態に整える。
+- 除外パス設定: 生成物/ビルド成果物、巨大なログは対象外にして無駄なトークン消費を抑制。
+- モデル選択の考え方: 難題のみfrontier models、日常は軽量モデルで回す等の住み分け（モデルと単価は公式のModelsページ参照）。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- ショートカットとプロンプトの型: よく使う修正依頼（例: 「関数の責務分離」「型安全化」）をテンプレ化し、1リクエストあたりの追加説明を短縮。
+
+
+## まとめ
+- 無料（Hobby）は学習・小規模修正に最適。Composerは無料でも使えます。[[1]](https://cursor.com/pricing?trk=public_post-text)
+- Proはfast枠の拡大とfrontier models等で、連続作業・大規模改修の中断を減らしやすい。月500 fastや従量課金の仕組みを理解して計画的に使いましょう。[[1]](https://cursor.com/pricing?trk=public_post-text)[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+- チームは“管理と可視化”が鍵。SSOや利用分析が必要ならTeams、さらに厳格な統制ならEnterpriseを検討。[[1]](https://cursor.com/pricing?trk=public_post-text)
+- 価格・上限は変動しやすいため、最終的には公式の最新情報で再確認してください。[[1]](https://cursor.com/pricing?trk=public_post-text)
+
+## 紹介したサービスを確認する
+
+### Cursor
+
+<AffiliateLink href="https://www.cursor.com/" service="Cursor" linkType="official" network="none">Cursorを公式サイトで確認する</AffiliateLink>
+
+
+## よくある質問
+
+### 無料トライアルはありますか？
+
+無料のHobbyプランが提供されており、クレジットカード不要で利用を開始できます。Composerも利用可能です。[[1]](https://cursor.com/pricing?trk=public_post-text)
+
+### 上限（fast/slowや回数）はいつリセットされますか？
+
+加入日を基準に毎月リセットされます。月初固定ではありません。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+### 従量課金（usage-based）はどのタイミングで請求されますか？
+
+追加利用が20米ドルに到達した時点、または翌月初（2〜3日）にまとめて請求されます。ダッシュボードでspending cap（支出上限）を設定できます。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+### チームのfast枠はメンバー間で共有されますか？
+
+共有されません。月500回のpremium（速い）リクエストはユーザーごとに個別枠として付与されます。[[2]](https://docs.cursor.ac.cn/account/plans-and-usage)
+
+### コードはAIの学習に使われますか？
+
+Privacyモードを有効にしている場合、コード等のデータはCursorやモデル提供者の学習に利用されないと明記されています。機密プロジェクトでは必ず設定を確認してください。[[1]](https://cursor.com/pricing?trk=public_post-text)
+
+## 参考情報
+
+1. [Cursor · Pricing](https://cursor.com/pricing?trk=public_post-text)
+2. [Cursor - 计划与使用 - Cursor 文档](https://docs.cursor.ac.cn/account/plans-and-usage)
+3. [Introducing Cursor Start · Cursor](https://cursor.com/blog/cursor-start?utm_source=openai)

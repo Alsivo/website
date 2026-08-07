@@ -130,5 +130,18 @@
     "search_intent": "Geminiの無料版と有料プランの料金・機能・利用上限を比較し、自分に合うプランを選びたい",
     "output_path": "..\\content\\blog\\gemini-pricing-plan-comparison.mdx",
     "processed_at": "2026-08-07T23:47:36"
+  },
+  {
+    "keyword": "Cursor 料金プラン比較",
+    "target_length": 3500,
+    "related_keywords": [
+      "Cursor 無料版",
+      "Cursor Pro",
+      "AIコーディング",
+      "料金"
+    ],
+    "search_intent": "Cursorの無料版と有料プランの料金・機能・利用上限を比較し、自分に合うプランを選びたい",
+    "output_path": "..\\content\\blog\\cursor-pricing-plans-comparison.mdx",
+    "processed_at": "2026-08-08T00:03:30"
   }
 ]
