@@ -56,3 +56,6 @@ atlas/.env
 atlas/credentials/
 atlas/token.json
 atlas/data/search_console/
+
+# Atlas editorial runtime data
+atlas/data/editorial/
