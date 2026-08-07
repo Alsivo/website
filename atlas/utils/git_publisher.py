@@ -193,3 +193,113 @@ def publish_generated_files(
     print("[Git Publisher] Push完了！")
 
     return True
+
+def publish_additional_files(
+    paths: list[Path],
+    commit_prefix: str,
+) -> bool:
+    """
+    Atlasが更新した追加ファイルをCommit・Pushする。
+
+    例：
+    internal_links.jsonなど。
+    """
+
+    if not AUTO_GIT_PUSH:
+        print(
+            "[Git Publisher] AUTO_GIT_PUSH=Falseのため、"
+            "Commit・Pushをスキップしました。"
+        )
+        return False
+
+    if not paths:
+        print(
+            "[Git Publisher] "
+            "追加公開対象ファイルがありません。"
+        )
+        return False
+
+    get_repository_root()
+
+    existing_paths = [
+        path
+        for path in paths
+        if path.exists()
+    ]
+
+    if not existing_paths:
+        raise FileNotFoundError(
+            "Gitへ追加するファイルが"
+            "存在しません。"
+        )
+
+    relative_paths = [
+        get_relative_path(path)
+        for path in existing_paths
+    ]
+
+    print(
+        "[Git Publisher] "
+        "追加ファイルをステージします。"
+    )
+
+    run_git_command(
+        [
+            "add",
+            "--",
+            *relative_paths,
+        ]
+    )
+
+    if not has_staged_changes():
+        print(
+            "[Git Publisher] "
+            "追加ファイルに変更はありません。"
+        )
+        return False
+
+    timestamp = datetime.now().strftime(
+        "%Y-%m-%d %H:%M"
+    )
+
+    commit_message = (
+        f"{commit_prefix}: {timestamp}"
+    )
+
+    print(
+        "[Git Publisher] "
+        f"Commit：{commit_message}"
+    )
+
+    run_git_command(
+        [
+            "commit",
+            "-m",
+            commit_message,
+        ]
+    )
+
+    current_branch = (
+        get_current_branch()
+    )
+
+    print(
+        "[Git Publisher] "
+        f"{GIT_REMOTE}/"
+        f"{current_branch}へPushします。"
+    )
+
+    run_git_command(
+        [
+            "push",
+            GIT_REMOTE,
+            current_branch,
+        ]
+    )
+
+    print(
+        "[Git Publisher] "
+        "追加ファイルのPush完了！"
+    )
+
+    return True

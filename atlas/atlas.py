@@ -13,7 +13,9 @@ from config import (
     ATLAS_RUN_SEARCH_CONSOLE,
     ATLAS_USE_CACHED_SEARCH_CONSOLE_ON_ERROR,
 )
-
+from utils.git_publisher import (
+    publish_additional_files,
+)
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -46,6 +48,12 @@ EDITORIAL_DECISION_FILE = (
     / "latest_decision.json"
 )
 
+INTERNAL_LINKS_FILE = (
+    BASE_DIR
+    / "data"
+    / "internal_links"
+    / "internal_links.json"
+)
 
 def ensure_directories() -> None:
     """自動運転に必要なフォルダを作る。"""
@@ -615,6 +623,67 @@ def main() -> None:
                 "AI編集長が不正なactionを"
                 f"返しました：{action}"
             )
+
+        if action in {
+            "new_article",
+            "rewrite_article",
+        }:
+            log(
+                "AI関連記事を更新します。",
+                log_file,
+            )
+
+            internal_link_result = (
+                run_python_script(
+                    "internal_links.py",
+                    log_file,
+                )
+            )
+
+            if (
+                internal_link_result.returncode
+                != 0
+            ):
+                raise RuntimeError(
+                    "AI関連記事更新に"
+                    "失敗しました。"
+                )
+
+            log(
+                "AI関連記事更新完了。",
+                log_file,
+            )
+
+            log(
+                "関連記事データを"
+                "GitHubへ反映します。",
+                log_file,
+            )
+
+            pushed = (
+                publish_additional_files(
+                    paths=[
+                        INTERNAL_LINKS_FILE,
+                    ],
+                    commit_prefix=(
+                        "Update Atlas related posts"
+                    ),
+                )
+            )
+
+            if pushed:
+                log(
+                    "関連記事データの"
+                    "GitHub Push完了。",
+                    log_file,
+                )
+            else:
+                log(
+                    "関連記事データに"
+                    "Git差分がないため、"
+                    "Pushをスキップしました。",
+                    log_file,
+                )
 
         save_latest_run(
             status="success",

@@ -10,6 +10,14 @@ import type {
 
 const BLOG_DIRECTORY = path.join(process.cwd(), "content", "blog");
 
+const INTERNAL_LINKS_FILE = path.join(
+  process.cwd(),
+  "atlas",
+  "data",
+  "internal_links",
+  "internal_links.json",
+);
+
 function ensureBlogDirectory(): void {
   if (!fs.existsSync(BLOG_DIRECTORY)) {
     fs.mkdirSync(BLOG_DIRECTORY, { recursive: true });
@@ -172,40 +180,81 @@ export function getAllBlogSlugs(): string[] {
   return getAllBlogPosts().map((post) => post.slug);
 }
 
+type InternalLinkItem = {
+  slug: string;
+  anchor?: string;
+  reason?: string;
+};
+
+type InternalLinkMap = Record<
+  string,
+  InternalLinkItem[]
+>;
+
+function getInternalLinkMap(): InternalLinkMap {
+  if (!fs.existsSync(INTERNAL_LINKS_FILE)) {
+    return {};
+  }
+
+  try {
+    const fileContents = fs.readFileSync(
+      INTERNAL_LINKS_FILE,
+      "utf8",
+    );
+
+    const data = JSON.parse(
+      fileContents,
+    ) as unknown;
+
+    if (
+      typeof data !== "object"
+      || data === null
+      || Array.isArray(data)
+    ) {
+      return {};
+    }
+
+    return data as InternalLinkMap;
+  } catch {
+    return {};
+  }
+}
+
 export function getRelatedBlogPosts(
   currentSlug: string,
-  category: string,
-  tags: string[],
+  _category: string,
+  _tags: string[],
   limit = 3,
 ): BlogPostSummary[] {
-  const currentTags = new Set(tags);
+  const internalLinkMap =
+    getInternalLinkMap();
 
-  return getAllBlogPosts()
-    .filter((post) => post.slug !== currentSlug)
-    .map((post) => {
-      const categoryScore =
-        post.category === category ? 3 : 0;
+  const selectedLinks =
+    internalLinkMap[currentSlug] ?? [];
 
-      const matchingTagCount = post.tags.filter(
-        (tag) => currentTags.has(tag),
-      ).length;
+  if (selectedLinks.length === 0) {
+    return [];
+  }
 
-      return {
-        post,
-        score: categoryScore + matchingTagCount,
-      };
-    })
-    .filter(({ score }) => score > 0)
-    .sort((a, b) => {
-      if (b.score !== a.score) {
-        return b.score - a.score;
-      }
+  const allPosts = getAllBlogPosts();
 
-      return (
-        new Date(b.post.date).getTime()
-        - new Date(a.post.date).getTime()
-      );
-    })
+  const postMap = new Map(
+    allPosts.map((post) => [
+      post.slug,
+      post,
+    ]),
+  );
+
+  return selectedLinks
     .slice(0, limit)
-    .map(({ post }) => post);
+    .map((link) =>
+      postMap.get(link.slug),
+    )
+    .filter(
+      (
+        post,
+      ): post is BlogPostSummary =>
+        post !== undefined
+        && post.slug !== currentSlug,
+    );
 }
