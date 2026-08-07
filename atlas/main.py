@@ -204,12 +204,11 @@ def main() -> None:
         )
 
         if not approved:
-            print(
-                "\n最大修正回数に達しました。"
+            raise RuntimeError(
+                "最大修正回数に達しました。"
                 "記事は保存せず、"
                 "キーワードも未処理のまま残します。"
             )
-            return
 
         print(
             "\n[Image Agent] "
@@ -273,9 +272,15 @@ def main() -> None:
                 "Vercelの自動デプロイ開始を"
                 "確認してください。"
             )
+        else:
+            raise RuntimeError(
+                "記事ファイルは生成されましたが、"
+                "GitHubへのPushが完了しませんでした。"
+            )
 
     except Exception as error:
         print(f"\n処理に失敗しました：{error}")
+        raise
 
 
 if __name__ == "__main__":

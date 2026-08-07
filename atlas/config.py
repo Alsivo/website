@@ -128,3 +128,19 @@ REWRITE_BACKUP_DIR_NAME = (
 )
 
 REWRITE_MIN_REVIEW_SCORE = 85
+
+# ============================================================
+# Atlas Automation
+# ============================================================
+
+ATLAS_AUTO_MODE = True
+
+ATLAS_RUN_SEARCH_CONSOLE = True
+
+ATLAS_RUN_AFFILIATE_MANAGER = True
+
+ATLAS_USE_CACHED_SEARCH_CONSOLE_ON_ERROR = True
+
+ATLAS_LOCK_TIMEOUT_HOURS = 6
+
+ATLAS_LOG_RETENTION_DAYS = 30

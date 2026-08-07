@@ -62,3 +62,7 @@ atlas/data/editorial/
 
 # Atlas rewrite runtime backups
 atlas/data/rewrite_backups/
+
+# Atlas automation runtime
+atlas/data/automation/
+atlas/logs/
