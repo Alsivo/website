@@ -51,3 +51,8 @@ atlas/.env
 
 # Python IDE
 .vscode/settings.json
+
+# Google API credentials
+atlas/credentials/
+atlas/token.json
+atlas/data/search_console/

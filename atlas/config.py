@@ -89,3 +89,15 @@ IMAGE_OUTPUT_FORMAT = "webp"
 
 AUTO_GIT_PUSH = True
 GIT_REMOTE = "origin"
+
+# ============================================================
+# Google Search Console
+# ============================================================
+
+SEARCH_CONSOLE_SITE_URL = (
+    "sc-domain:alsivo.com"
+)
+
+SEARCH_CONSOLE_LOOKBACK_DAYS = 28
+
+SEARCH_CONSOLE_ROW_LIMIT = 25000
