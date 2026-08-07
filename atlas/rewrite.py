@@ -1,0 +1,365 @@
+import json
+import shutil
+from datetime import datetime
+from pathlib import Path
+import sys
+
+from agents.publisher import (
+    publish_article,
+)
+from agents.researcher import (
+    research_topic,
+)
+from agents.reviewer import (
+    review_article,
+)
+from agents.rewriter import (
+    rewrite_article,
+)
+from config import (
+    MAX_REWRITE_ATTEMPTS,
+    REWRITE_BACKUP_DIR_NAME,
+    REWRITE_MIN_REVIEW_SCORE,
+)
+from engines.article_loader import (
+    load_article_by_slug,
+)
+from engines.editorial_context import (
+    get_queries_for_slug,
+)
+
+
+BASE_DIR = Path(__file__).resolve().parent
+
+DECISION_FILE = (
+    BASE_DIR
+    / "data"
+    / "editorial"
+    / "latest_decision.json"
+)
+
+BACKUP_DIR = (
+    BASE_DIR
+    / "data"
+    / REWRITE_BACKUP_DIR_NAME
+)
+
+
+def load_editorial_decision() -> dict:
+    """最新のAI編集長判断を読む。"""
+
+    if not DECISION_FILE.exists():
+        raise FileNotFoundError(
+            "latest_decision.jsonがありません。"
+            "先にpython editorial.pyを"
+            "実行してください。"
+        )
+
+    return json.loads(
+        DECISION_FILE.read_text(
+            encoding="utf-8",
+        )
+    )
+
+
+def backup_article(
+    article: dict,
+) -> Path:
+    """リライト前のMDXをバックアップする。"""
+
+    BACKUP_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    timestamp = datetime.now().strftime(
+        "%Y%m%d_%H%M%S"
+    )
+
+    backup_path = (
+        BACKUP_DIR
+        / (
+            f"{article['slug']}"
+            f"_{timestamp}.mdx"
+        )
+    )
+
+    shutil.copy2(
+        article["filepath"],
+        backup_path,
+    )
+
+    return backup_path
+
+
+def build_rewrite_topic(
+    article: dict,
+    decision: dict,
+    query_rows: list[dict],
+) -> str:
+    """Researcherへ渡すリライト調査テーマを作る。"""
+
+    query_text = ", ".join(
+        str(
+            row.get(
+                "query",
+                "",
+            )
+        )
+        for row in query_rows
+        if row.get(
+            "query"
+        )
+    )
+
+    return (
+        f"既存記事タイトル：{article['title']}\n"
+        f"主な強化キーワード："
+        f"{decision.get('target_keyword', '')}\n"
+        f"Search Console検索語："
+        f"{query_text}\n"
+        "既存記事を最新情報へ更新するため、"
+        "料金・機能・仕様・提供条件・"
+        "重要な変更点を一次情報中心に調査する"
+    )
+
+
+def main() -> None:
+    try:
+        manual_slug = (
+            sys.argv[1].strip()
+            if len(sys.argv) >= 2
+            else ""
+        )
+
+        if manual_slug:
+            decision = {
+                "action":
+                    "rewrite_article",
+                "priority_score":
+                    100,
+                "reason":
+                    "手動リライトテスト",
+                "target_keyword":
+                    "",
+                "target_slug":
+                    manual_slug,
+                "target_title":
+                    "",
+                "search_intent":
+                    "",
+                "recommended_focus": [],
+                "target_queries": [],
+                "monetization_opportunity":
+                    "",
+                "expected_effect":
+                    "",
+            }
+        else:
+            decision = (
+                load_editorial_decision()
+            )
+
+        if (
+            decision.get("action")
+            != "rewrite_article"
+        ):
+            print(
+                "最新の編集判断は"
+                "rewrite_articleではありません。"
+            )
+            return
+
+        slug = str(
+            decision.get(
+                "target_slug",
+                "",
+            )
+        ).strip()
+
+        if not slug:
+            raise ValueError(
+                "target_slugがありません。"
+            )
+
+        print(
+            f"\n[Rewrite] 対象記事：{slug}"
+        )
+
+        article = (
+            load_article_by_slug(
+                slug
+            )
+        )
+
+        query_rows = (
+            get_queries_for_slug(
+                slug
+            )
+        )
+
+        print(
+            "[Rewrite] "
+            "最新情報を再調査中..."
+        )
+
+        topic = build_rewrite_topic(
+            article,
+            decision,
+            query_rows,
+        )
+
+        research = research_topic(
+            topic
+        )
+
+        rewritten = rewrite_article(
+            existing_article=article,
+            editorial_decision=decision,
+            search_queries=query_rows,
+            research=research,
+        )
+
+        review = None
+
+        for attempt in range(
+            MAX_REWRITE_ATTEMPTS + 1
+        ):
+            print(
+                "\n[Reviewer] "
+                "リライト記事を確認中 "
+                f"({attempt + 1}/"
+                f"{MAX_REWRITE_ATTEMPTS + 1})..."
+            )
+
+            review_plan = {
+                "suggested_title":
+                    rewritten["title"],
+                "search_intent":
+                    decision.get(
+                        "search_intent",
+                        "",
+                    ),
+                "target_keyword":
+                    decision.get(
+                        "target_keyword",
+                        "",
+                    ),
+            }
+
+            review = review_article(
+                review_plan,
+                rewritten,
+                research,
+            )
+
+            approved = (
+                review["approved"]
+                and review["score"]
+                >= REWRITE_MIN_REVIEW_SCORE
+            )
+
+            print(
+                "品質スコア："
+                f"{review['score']} / 100"
+            )
+
+            if approved:
+                break
+
+            if (
+                attempt
+                >= MAX_REWRITE_ATTEMPTS
+            ):
+                break
+
+            print(
+                "[Rewrite] "
+                "Reviewer指摘を反映して"
+                "再リライトします..."
+            )
+
+            correction_decision = {
+                **decision,
+                "recommended_focus": (
+                    review.get(
+                        "improvement_instructions",
+                        [],
+                    )
+                ),
+            }
+
+            rewritten = rewrite_article(
+                existing_article=article,
+                editorial_decision=
+                    correction_decision,
+                search_queries=
+                    query_rows,
+                research=research,
+            )
+
+        if review is None:
+            raise RuntimeError(
+                "Reviewer結果がありません。"
+            )
+
+        approved = (
+            review["approved"]
+            and review["score"]
+            >= REWRITE_MIN_REVIEW_SCORE
+        )
+
+        if not approved:
+            print(
+                "\nリライト品質が基準未満のため、"
+                "元記事は変更しません。"
+            )
+            return
+
+        backup_path = backup_article(
+            article
+        )
+
+        print(
+            "\n[Rewrite] "
+            "元記事をバックアップしました："
+        )
+        print(
+            backup_path
+        )
+
+        rewritten["image"] = article[
+            "image"
+        ]
+
+        filepath = publish_article(
+            rewritten,
+            research,
+            original_date=article[
+                "date"
+            ],
+            is_rewrite=True,
+        )
+
+        print(
+            "\n===== リライト完了 ====="
+        )
+
+        print(
+            f"記事：{filepath}"
+        )
+
+        print(
+            "改善内容："
+            f"{rewritten['rewrite_summary']}"
+        )
+
+    except Exception as error:
+        print(
+            "\nリライト処理に"
+            f"失敗しました：{error}"
+        )
+
+
+if __name__ == "__main__":
+    main()

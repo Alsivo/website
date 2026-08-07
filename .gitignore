@@ -59,3 +59,6 @@ atlas/data/search_console/
 
 # Atlas editorial runtime data
 atlas/data/editorial/
+
+# Atlas rewrite runtime backups
+atlas/data/rewrite_backups/

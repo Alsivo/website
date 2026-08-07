@@ -360,3 +360,39 @@ def build_editorial_context() -> dict[str, Any]:
         "active_affiliate_programs":
             load_active_affiliate_programs(),
     }
+
+def get_queries_for_slug(
+    slug: str,
+    limit: int = 20,
+) -> list[dict[str, Any]]:
+    """特定記事に流入している検索語を取得する。"""
+
+    rows = load_page_query_data()
+
+    slug_path = (
+        f"/blog/{slug}"
+    )
+
+    matched_rows = [
+        row
+        for row in rows
+        if slug_path
+        in str(
+            row.get(
+                "page",
+                "",
+            )
+        )
+    ]
+
+    matched_rows.sort(
+        key=lambda row: (
+            row.get(
+                "impressions",
+                0,
+            )
+        ),
+        reverse=True,
+    )
+
+    return matched_rows[:limit]

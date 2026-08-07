@@ -343,6 +343,8 @@ def validate_article(article: dict[str, Any]) -> None:
 def publish_article(
     article: dict[str, Any],
     research: dict[str, Any],
+    original_date: str | None = None,
+    is_rewrite: bool = False,
 ) -> Path:
     """記事データをMDXファイルとして保存する。"""
 
@@ -421,18 +423,40 @@ def publish_article(
         ensure_ascii=False,
     )
 
+    published_date = (
+        original_date
+        if original_date
+        else date.today().isoformat()
+    )
+
+    updated_date = (
+        date.today().isoformat()
+        if is_rewrite
+        else ""
+    )
+
     # reading_timeを作った後でfrontmatterを作る
     frontmatter_lines = [
         "---",
         f'title: "{title}"',
         f'description: "{description}"',
-        f'date: "{date.today().isoformat()}"',
-        f'category: "{category}"',
-        f'image: "{image}"',
-        f'readingTime: "{reading_time}"',
-        f"faq: {faq_json}",
-        "tags:",
+        f'date: "{published_date}"',
     ]
+
+    if updated_date:
+        frontmatter_lines.append(
+            f'updated: "{updated_date}"'
+        )
+
+    frontmatter_lines.extend(
+        [
+            f'category: "{category}"',
+            f'image: "{image}"',
+            f'readingTime: "{reading_time}"',
+            f"faq: {faq_json}",
+            "tags:",
+        ]
+    )
 
     for tag in article["tags"]:
         escaped_tag = escape_yaml_string(tag)

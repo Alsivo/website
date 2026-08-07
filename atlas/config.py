@@ -116,3 +116,15 @@ EDITORIAL_LOW_CTR_THRESHOLD = 0.02
 EDITORIAL_MAX_EXISTING_ARTICLES = 30
 
 EDITORIAL_MAX_KEYWORDS = 30
+
+# ============================================================
+# Auto Rewrite
+# ============================================================
+
+MAX_REWRITE_ATTEMPTS = 2
+
+REWRITE_BACKUP_DIR_NAME = (
+    "rewrite_backups"
+)
+
+REWRITE_MIN_REVIEW_SCORE = 85
