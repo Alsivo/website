@@ -1,0 +1,214 @@
+{
+  "programs": [
+    {
+      "service": "ChatGPT",
+      "program_found": true,
+      "program_type": "referral",
+      "program_name": "ChatGPT Promotional Subscriptions / Free Trial Invites",
+      "network": "",
+      "program_url": "https://help.openai.com/en/articles/8381046-free-trial-invites-faq",
+      "commission": "No cash payout. Eligible users may share referral links/codes that grant invitees a free, limited‑duration trial of a paid ChatGPT subscription; campaign details vary.",
+      "cookie_duration": "",
+      "target_country": "",
+      "application_required": false,
+      "research_notes": "OpenAI periodically enables in‑product/email referral campaigns letting some users generate limited referral links or codes. These provide free trial access for invitees; terms (eligibility, number of invites, duration, payment method requirement) vary by campaign. Article updated 9 days ago as of Aug 8, 2026.",
+      "sources": [
+        {
+          "title": "ChatGPT Promotional Subscriptions/Free Trial Invites FAQ",
+          "url": "https://help.openai.com/en/articles/8381046-free-trial-invites-faq",
+          "source_type": "help"
+        }
+      ],
+      "priority": 82,
+      "source_articles": [
+        "chatgpt-pricing-plans-comparison"
+      ],
+      "verified_at": "2026-08-08"
+    },
+    {
+      "service": "Claude",
+      "program_found": true,
+      "program_type": "partner",
+      "program_name": "Claude Partner Network",
+      "network": "",
+      "program_url": "https://claude.com/partners",
+      "commission": "",
+      "cookie_duration": "",
+      "target_country": "",
+      "application_required": true,
+      "research_notes": "2026年8月8日現在、一般ユーザー向けの恒常的なアフィリエイト/紹介報酬プログラムは公式サイトや主要ネットワーク上で確認できませんでした。一方で、Anthropicは企業向けの公式パートナープログラム「Claude Partner Network」を2026年3月12日に発表し、2026年6月3日にServices Track（選定基準の公開）およびPartner Hub（パートナー向けポータル/公開ディレクトリ）を追加しています。申請は公式ページ（claude.com/partners）から行えます。同ネットワークではトレーニング、技術支援、共同マーケティング支援が提供され、プログラム内文脈で“referral credit（紹介クレジット）やdeal protection（ディール保護）”の言及はあるものの、コミッション率やクッキー期間などの報酬条件は公開されていません。加えて、Claude Marketplace向けのパートナー待機リスト（claude.com/marketplace-partners）も用意されています。なお、消費者向けには2025年5月22日〜6月4日に『Claude 4 Invite Sweepstakes/Contest』という期間限定の紹介キャンペーンが実施され、アプリ内で紹介リンクが発行されましたが、これは終了済みで恒常プログラムではありません。",
+      "sources": [
+        {
+          "title": "Anthropic invests $100 million into the Claude Partner Network",
+          "url": "https://www.anthropic.com/news/claude-partner-network?cmid=03693516-1d21-4130-ac10-3f9892c0929b",
+          "source_type": "official"
+        },
+        {
+          "title": "Introducing the Services Track and Partner Hub of the Claude Partner Network",
+          "url": "https://www.anthropic.com/news/services-track-partner-hub?pubDate=20260417",
+          "source_type": "official"
+        },
+        {
+          "title": "Partners | Claude by Anthropic",
+          "url": "https://claude.com/partners",
+          "source_type": "official"
+        },
+        {
+          "title": "Partner waitlist | Claude by Anthropic",
+          "url": "https://claude.com/marketplace-partners",
+          "source_type": "official"
+        },
+        {
+          "title": "Claude 4 Invite Sweepstakes Official Rules",
+          "url": "https://support.claude.com/en/articles/11140763-claude-4-invite-sweepstakes-official-rules",
+          "source_type": "help"
+        },
+        {
+          "title": "Claude 4 Invite Contest",
+          "url": "https://support.claude.com/en/articles/11408405-claude-4-invite-contest",
+          "source_type": "help"
+        }
+      ],
+      "priority": 79,
+      "source_articles": [
+        "claude-pricing-plans-comparison-pro-max"
+      ],
+      "verified_at": "2026-08-08"
+    },
+    {
+      "service": "Cursor",
+      "program_found": false,
+      "program_type": null,
+      "program_name": "",
+      "network": "",
+      "program_url": "https://cursor.com/help/account-and-billing/referral-program",
+      "commission": "",
+      "cookie_duration": "",
+      "target_country": "",
+      "application_required": null,
+      "research_notes": "As of July 26, 2026, Cursor’s team stated in the official community forum that the referral program has been closed; new referral invites and rewards are no longer available. Previously (May–July 2026), a limited-rollout referral program offered new users 50% off their first month and rewarded referrers with $25 in usage credits per paid signup, capped at 10 rewards per billing cycle, but that program is no longer active. The team also confirmed there is no separate affiliate/partner program. Earned referral credits remain on accounts and are applied to eligible usage charges; credits could not be used to pay the base subscription. Cursor runs community initiatives like Ambassador and Campus Lead programs, but these are not affiliate or referral programs and list no monetary commissions.",
+      "sources": [
+        {
+          "title": "Referral program and Total spend section are missing from my dashboard - #8 by deanrie (closure announced)",
+          "url": "https://forum.cursor.com/t/referral-program-and-total-spend-section-are-missing-from-my-dashboard/164902/8",
+          "source_type": "official"
+        },
+        {
+          "title": "Cursor Referral Program - #19 by kevinn (limited rollout details)",
+          "url": "https://forum.cursor.com/t/cursor-referral-program/40555/19",
+          "source_type": "official"
+        },
+        {
+          "title": "Maxed out referrals, what to do now? - #3 by deanrie (no separate affiliate/partner program)",
+          "url": "https://forum.cursor.com/t/maxed-out-referrals-what-to-do-now/165017/3",
+          "source_type": "official"
+        },
+        {
+          "title": "Can account referral credits be used to purchase the Pro plan? - #4 by deanrie (credits cannot pay subscription)",
+          "url": "https://forum.cursor.com/t/can-account-referral-credits-be-used-to-purchase-the-pro-plan/166072/4",
+          "source_type": "official"
+        },
+        {
+          "title": "Referral program | Cursor Docs",
+          "url": "https://cursor.com/help/account-and-billing/referral-program",
+          "source_type": "help"
+        },
+        {
+          "title": "Cursor · Community (Ambassador and Campus Lead programs)",
+          "url": "https://cursor.com/community",
+          "source_type": "official"
+        }
+      ],
+      "priority": 76,
+      "source_articles": [
+        "cursor-pricing-plans-comparison"
+      ],
+      "verified_at": "2026-08-08"
+    },
+    {
+      "service": "Gemini",
+      "program_found": false,
+      "program_type": null,
+      "program_name": "",
+      "network": "",
+      "program_url": "",
+      "commission": "",
+      "cookie_duration": "",
+      "target_country": "",
+      "application_required": null,
+      "research_notes": "指定の公式URL（gemini.google.com）に紐づくGemini（GoogleのAIサービス）について、公式ヘルプ/サポート、Google公式ブログ、主要アフィリエイトネットワークの公開情報を横断検索しましたが、Geminiそのもののアフィリエイト/紹介（リファラル）プログラムは見つかりませんでした。Gemini Apps Help（公式）には利用方法・プラン/上限・機能案内はあるものの、紹介制度やアフィリエイトへの言及はありません。また、Geminiの紹介制度有無を問い合わせる公式コミュニティスレッドは存在しますが、制度案内ページへの公式誘導は確認できません。参考として、Google自体は他プロダクトで紹介/アフィリエイト施策（例: Pixelの紹介プログラム、Google Workspaceのアフィリエイト）を運用していますが、これらはGemini（gemini.google.com）とは別プロダクトであり流用不可です。以上より、現時点（2026-08-08時点）で『Gemini（gemini.google.com）向けの公開アフィリエイト/紹介プログラムは提供されていない』と判断しました。",
+      "sources": [
+        {
+          "title": "Gemini Apps Help（ヘルプセンタートップ）",
+          "url": "https://support.google.com/gemini/",
+          "source_type": "help"
+        },
+        {
+          "title": "Gemini Apps limits & upgrades for Google AI subscribers（Geminiの上限/アップグレード案内）",
+          "url": "https://support.google.com/gemini/answer/16275805",
+          "source_type": "help"
+        },
+        {
+          "title": "Does gemini or google flow has any affiliate program?（Gemini Apps コミュニティの質疑）",
+          "url": "https://support.google.com/gemini/thread/437482987/does-gemini-or-google-flow-has-any-affiliate-program",
+          "source_type": "help"
+        },
+        {
+          "title": "Pixel Referral Program（Google公式ストアの紹介プログラム例。Geminiとは別）",
+          "url": "https://store.google.com/magazine/pixel-referrals?hl=en-US",
+          "source_type": "official"
+        },
+        {
+          "title": "Google Workspace Affiliate Program Terms（Workspace向けアフィリエイトの公式規約。Geminiとは別）",
+          "url": "https://storage.googleapis.com/workspace-affiliate/terms/affiliate_program_northam_tcs.pdf",
+          "source_type": "official"
+        }
+      ],
+      "priority": 75,
+      "source_articles": [
+        "gemini-pricing-plan-comparison"
+      ],
+      "verified_at": "2026-08-08"
+    },
+    {
+      "service": "Canva",
+      "program_found": true,
+      "program_type": "affiliate",
+      "program_name": "Canva Pro Affiliate Program",
+      "network": "Impact",
+      "program_url": "https://www.canva.com/pt_br/aprenda/programa-de-afiliados/1000/",
+      "commission": "月額プラン: 最初の2か月分の月額料金の80%／年額プラン: 年額料金の15%（一回限り）",
+      "cookie_duration": "",
+      "target_country": "",
+      "application_required": true,
+      "research_notes": "公式のCanvaコンテンツ（日本語・ポルトガル語・インドネシア語）で、現行のアフィリエイト制度の存在と詳細を確認。日本語の公式記事（最終更新日: 2026年1月23日）に報酬条件（80%/15%）が明記。ポルトガル語の公式記事には、応募がImpact（app.impact.com）経由であることを示す直接リンクが含まれており、申請導線を確認。インドネシア語ページで、プログラムがImpactで運用されている旨を補強。Cookie期間や対象国の明記は見つからなかったため未記入。過去の表現として「最大$36」の文言が残る地域ページもあるが、2026年の記事の条件（80%/15%）を採用。",
+      "sources": [
+        {
+          "title": "Canva アフィリエイトパートナーとしてCanva Pro を宣伝する16の方法（最終更新日: 2026年1月23日）",
+          "url": "https://www.canva.com/ja_jp/learn/16-great-ways-to-promote-as-a-canva-pro-partner/1000/",
+          "source_type": "official"
+        },
+        {
+          "title": "Afiliados do Canva Pro: Como Ganhar Dinheiro com o Canva（Impact申請リンク記載）",
+          "url": "https://www.canva.com/pt_br/aprenda/programa-de-afiliados/1000/",
+          "source_type": "official"
+        },
+        {
+          "title": "Langkah awal sebagai mitra afiliasi Canva Pro（Impact運用の記載）",
+          "url": "https://www.canva.com/id_id/belajar/memulai-afiliasi-canva/",
+          "source_type": "official"
+        },
+        {
+          "title": "Case study: Canva goes from novice to 9,000 diverse partnerships with Impact’s Partnership Cloud",
+          "url": "https://go.impact.com/CS-PC-EV-Canva.html",
+          "source_type": "affiliate_network"
+        }
+      ],
+      "priority": 68,
+      "source_articles": [
+        "ai-presentation-tools-comparison"
+      ],
+      "verified_at": "2026-08-08"
+    }
+  ]
+}

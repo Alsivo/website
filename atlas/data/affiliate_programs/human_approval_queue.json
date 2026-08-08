@@ -1,0 +1,41 @@
+{
+  "programs": [
+    {
+      "service": "Canva",
+      "priority": 88,
+      "program_name": "Canva Pro Affiliate Program",
+      "program_type": "affiliate",
+      "network": "Impact",
+      "program_url": "https://www.canva.com/pt_br/aprenda/programa-de-afiliados/1000/",
+      "commission": "月額プラン: 最初の2か月分の月額料金の80%／年額プラン: 年額料金の15%（一回限り）",
+      "cookie_duration": "",
+      "target_country": "",
+      "application_required": true,
+      "verified_at": "2026-08-08",
+      "source_articles": [
+        {
+          "slug": "ai-presentation-tools-comparison",
+          "title": "AIプレゼン資料作成ツールおすすめ比較｜2026年最新・料金と機能で選ぶ（PowerPoint/Googleスライド/Canva対応）",
+          "match_score": 88
+        },
+        {
+          "slug": "ai-image-generators-comparison",
+          "title": "AI画像生成ツールおすすめ比較｜料金・画質・日本語対応・商用利用で選ぶ",
+          "match_score": 65
+        },
+        {
+          "slug": "ai-video-generator-tools-comparison-pricing-usage",
+          "title": "AI動画生成ツールおすすめ比較｜料金・生成時間・画質・商用利用のチェックポイントと選び方",
+          "match_score": 65
+        },
+        {
+          "slug": "ai-writing-tools-comparison-japanese-quality-pricing-ux",
+          "title": "AI文章作成ツールおすすめ比較｜日本語品質・料金・用途・使いやすさで後悔しない選び方",
+          "match_score": 65
+        }
+      ],
+      "approval_status": "approved_for_application",
+      "human_notes": "Canva Pro Affiliate Programへ申請予定。Impact経由の申請可否と日本からの参加条件を申請画面で最終確認する。"
+    }
+  ]
+}

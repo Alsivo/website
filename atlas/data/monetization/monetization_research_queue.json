@@ -1,0 +1,16 @@
+{
+  "minimum_match_score": 50,
+  "programs": [
+    {
+      "service": "Canva",
+      "priority": 68,
+      "source_articles": [
+        "ai-presentation-tools-comparison"
+      ],
+      "source_titles": [
+        "AIプレゼン資料作成ツールおすすめ比較｜2026年最新・料金と機能で選ぶ（PowerPoint/Googleスライド/Canva対応）"
+      ],
+      "status": "pending_research"
+    }
+  ]
+}
