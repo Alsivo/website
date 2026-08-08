@@ -1,0 +1,276 @@
+{
+  "ai-codegen-tools-comparison": {
+    "title": "AIコード生成ツールおすすめ比較：料金・対応IDE・コード品質・使いやすさで選ぶ",
+    "priority": 65,
+    "services": [
+      "Claude",
+      "Cursor"
+    ],
+    "program_candidates": [
+      {
+        "service": "Claude",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "Cursor",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
+  "ai-email-writing-tools-comparison": {
+    "title": "2026年版 初心者向けAIメール作成ツール比較｜Gmail/Outlook対応・日本語品質・機能・料金の選び方",
+    "priority": 65,
+    "services": [
+      "ChatGPT",
+      "Gemini"
+    ],
+    "program_candidates": [
+      {
+        "service": "ChatGPT",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "Gemini",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
+  "ai-image-generators-comparison": {
+    "title": "AI画像生成ツールおすすめ比較｜料金・画質・日本語対応・商用利用で選ぶ",
+    "priority": 65,
+    "services": [
+      "Canva",
+      "ChatGPT"
+    ],
+    "program_candidates": [
+      {
+        "service": "Canva",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "ChatGPT",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
+  "ai-meeting-minutes-tools-comparison": {
+    "title": "AI議事録ツールおすすめ比較：料金・精度・要約・対応言語で失敗しない選び方",
+    "priority": 65,
+    "services": [
+      "ChatGPT",
+      "Gemini"
+    ],
+    "program_candidates": [
+      {
+        "service": "ChatGPT",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "Gemini",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
+  "ai-presentation-tools-comparison": {
+    "title": "AIプレゼン資料作成ツールおすすめ比較｜2026年最新・料金と機能で選ぶ（PowerPoint/Googleスライド/Canva対応）",
+    "priority": 70,
+    "services": [
+      "Canva",
+      "Gamma",
+      "Gemini"
+    ],
+    "program_candidates": [
+      {
+        "service": "Canva",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "Gamma",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "Gemini",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": {
+      "clicks": 0.0,
+      "impressions": 5.0,
+      "ctr": 0.0,
+      "position": 74.2
+    }
+  },
+  "ai-video-generator-tools-comparison-pricing-usage": {
+    "title": "AI動画生成ツールおすすめ比較｜料金・生成時間・画質・商用利用のチェックポイントと選び方",
+    "priority": 65,
+    "services": [
+      "Canva",
+      "Gemini"
+    ],
+    "program_candidates": [
+      {
+        "service": "Canva",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "Gemini",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
+  "ai-writing-tools-comparison-japanese-quality-pricing-ux": {
+    "title": "AI文章作成ツールおすすめ比較｜日本語品質・料金・用途・使いやすさで後悔しない選び方",
+    "priority": 65,
+    "services": [
+      "Canva",
+      "ChatGPT",
+      "Claude",
+      "Gemini"
+    ],
+    "program_candidates": [
+      {
+        "service": "Canva",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "ChatGPT",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "Claude",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "Gemini",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
+  "chatgpt-claude-pricing-feature-limits-comparison": {
+    "title": "ChatGPTとClaudeの料金・機能・利用制限を徹底比較：用途別の最適解と選び方",
+    "priority": 65,
+    "services": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "program_candidates": [
+      {
+        "service": "ChatGPT",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "Claude",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
+  "chatgpt-pricing-plans-comparison": {
+    "title": "ChatGPTの料金プランを徹底比較｜Free・Plus・Business（旧Team）・Enterpriseの違いと選び方",
+    "priority": 65,
+    "services": [
+      "ChatGPT"
+    ],
+    "program_candidates": [
+      {
+        "service": "ChatGPT",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
+  "claude-pricing-plans-comparison-pro-max": {
+    "title": "Claudeの無料版・Pro・Maxを徹底比較：料金・上限・機能から最適プランの選び方",
+    "priority": 65,
+    "services": [
+      "Claude"
+    ],
+    "program_candidates": [
+      {
+        "service": "Claude",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
+  "cursor-pricing-plans-comparison": {
+    "title": "Cursorの料金プランを徹底比較：無料／Pro／Businessの違いと最適な選び方",
+    "priority": 65,
+    "services": [
+      "Cursor"
+    ],
+    "program_candidates": [
+      {
+        "service": "Cursor",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
+  "gemini-pricing-plan-comparison": {
+    "title": "Geminiの料金プラン比較：無料版・Google AI Pro・Google AI Ultraの違いとおすすめの選び方",
+    "priority": 65,
+    "services": [
+      "Gemini"
+    ],
+    "program_candidates": [
+      {
+        "service": "Gemini",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  }
+}
