@@ -294,6 +294,53 @@ def build_comparison_table(
     return "\n".join(lines)
 
 
+def insert_before_summary(
+    content: str,
+    section: str,
+) -> tuple[str, bool]:
+    """
+    「まとめ」系H2の直前へsectionを挿入する。
+    見つからない場合は本文末尾へ追加する。
+    """
+
+    if not section:
+        return content, False
+
+    summary_headings = [
+        "## まとめ",
+        "## 結論",
+        "## 最後に",
+        "## さいごに",
+    ]
+
+    for heading in summary_headings:
+        if heading not in content:
+            continue
+
+        before, after = content.split(
+            heading,
+            1,
+        )
+
+        updated_content = (
+            before.rstrip()
+            + "\n\n"
+            + section.strip()
+            + "\n\n"
+            + heading
+            + after
+        )
+
+        return updated_content, True
+
+    return (
+        content.rstrip()
+        + "\n\n"
+        + section.strip(),
+        False,
+    )
+
+
 def calculate_reading_time(content: str) -> str:
     """Markdown記号を除いた本文文字数から読了時間を計算する。"""
 
@@ -484,6 +531,125 @@ def validate_article(article: dict[str, Any]) -> None:
         "comparison_table"
     )
 
+    cta_plan = article.get(
+        "cta_plan"
+    )
+
+    if not isinstance(
+        cta_plan,
+        dict,
+    ):
+        raise ValueError(
+            "cta_planはオブジェクトにしてください。"
+        )
+
+    primary_service = cta_plan.get(
+        "primary_service"
+    )
+
+    placement = cta_plan.get(
+        "placement"
+    )
+
+    cta_label = cta_plan.get(
+        "cta_label"
+    )
+
+    reason = cta_plan.get(
+        "reason"
+    )
+
+    if (
+        primary_service is not None
+        and (
+            not isinstance(
+                primary_service,
+                str,
+            )
+            or not primary_service.strip()
+        )
+    ):
+        raise ValueError(
+            "cta_planのprimary_serviceが不正です。"
+        )
+
+    if placement not in {
+        "after_comparison",
+        "before_faq",
+    }:
+        raise ValueError(
+            "cta_planのplacementが不正です。"
+        )
+
+    if (
+        cta_label is not None
+        and (
+            not isinstance(
+                cta_label,
+                str,
+            )
+            or not cta_label.strip()
+        )
+    ):
+        raise ValueError(
+            "cta_planのcta_labelが不正です。"
+        )
+
+    if (
+        not isinstance(reason, str)
+        or not reason.strip()
+    ):
+        raise ValueError(
+            "cta_planのreasonが未入力です。"
+        )
+
+    recommended_tools = article.get(
+        "recommended_tools",
+        [],
+    )
+
+    if (
+        primary_service is not None
+        and primary_service
+        not in recommended_tools
+    ):
+        raise ValueError(
+            "cta_planのprimary_serviceは"
+            "recommended_toolsに含まれる"
+            "サービスを指定してください。"
+        )
+
+    comparison_table = article.get(
+        "comparison_table"
+    )
+
+    if (
+        placement == "after_comparison"
+        and comparison_table is None
+    ):
+        raise ValueError(
+            "comparison_tableがない記事では"
+            "after_comparisonを指定できません。"
+        )
+
+    if (
+        primary_service is None
+        and cta_label is not None
+    ):
+        raise ValueError(
+            "primary_serviceがnullの場合は"
+            "cta_labelもnullにしてください。"
+        )
+
+    if (
+        primary_service is not None
+        and cta_label is None
+    ):
+        raise ValueError(
+            "primary_serviceを設定する場合は"
+            "cta_labelも設定してください。"
+        )
+
     if comparison_table is not None:
         if not isinstance(
             comparison_table,
@@ -517,11 +683,11 @@ def validate_article(article: dict[str, Any]) -> None:
 
         if (
             not isinstance(columns, list)
-            or not 2 <= len(columns) <= 6
+            or not 2 <= len(columns) <= 8
         ):
             raise ValueError(
                 "comparison_tableのcolumnsは"
-                "2件以上6件以下にしてください。"
+                "2件以上8件以下にしてください。"
             )
 
         if not all(
@@ -622,6 +788,19 @@ def publish_article(
     # 本文を準備する
     full_content = article["content"].strip()
 
+    # CTA Planを取得する
+    cta_plan = article.get(
+        "cta_plan",
+        {},
+    )
+
+    placement = str(
+        cta_plan.get(
+            "placement",
+            "before_faq",
+        )
+    ).strip()
+
     # 比較表を作成する
     comparison_section = (
         build_comparison_table(
@@ -631,28 +810,66 @@ def publish_article(
         )
     )
 
-    # 比較表がある場合は本文末尾へ追加する
-    if comparison_section:
-        full_content += (
-            "\n\n"
-            + comparison_section
+    # CTAを作成する
+    affiliate_section = (
+        build_affiliate_section(
+            article["recommended_tools"],
+            cta_plan,
         )
-
-    # 記事で紹介したサービスのCTAを追加する
-    affiliate_section = build_affiliate_section(
-        article["recommended_tools"]
     )
 
-    if affiliate_section:
-        full_content += (
-            "\n"
-            + affiliate_section
+    # ========================================================
+    # after_comparison
+    # 比較表 → CTA → まとめ
+    # ========================================================
+
+    if (
+        placement == "after_comparison"
+        and comparison_section
+    ):
+        combined_section = (
+            comparison_section
         )
 
-    # CTAの後ろへFAQを追加する
+        if affiliate_section:
+            combined_section += (
+                "\n\n"
+                + affiliate_section.strip()
+            )
+
+        full_content, _ = (
+            insert_before_summary(
+                full_content,
+                combined_section,
+            )
+        )
+
+    # ========================================================
+    # before_faq
+    # 比較表 → まとめ → CTA → FAQ
+    # ========================================================
+
+    else:
+        if comparison_section:
+            full_content, _ = (
+                insert_before_summary(
+                    full_content,
+                    comparison_section,
+                )
+            )
+
+        if affiliate_section:
+            full_content += (
+                "\n\n"
+                + affiliate_section.strip()
+            )
+
+    # FAQを追加する
     faq_items = article["faq"]
 
-    full_content += "\n\n## よくある質問\n"
+    full_content += (
+        "\n\n## よくある質問\n"
+    )
 
     for item in faq_items:
         question = item["question"].strip()

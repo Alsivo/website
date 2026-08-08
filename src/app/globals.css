@@ -1389,6 +1389,59 @@ main {
   content: "広告";
 }
 
+/* ==========================================================
+   Affiliate CTA priority
+   ========================================================== */
+
+.affiliate-cta-link-primary {
+  min-height: 54px;
+  padding: 14px 24px;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+  font-size: 15px;
+  box-shadow:
+    0 10px 30px rgba(88, 101, 242, 0.16);
+}
+
+.affiliate-cta-link-primary:hover {
+  border-color: var(--accent-dark);
+  background: var(--accent-dark);
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.affiliate-cta-link-secondary {
+  min-height: 48px;
+  padding: 12px 20px;
+  border-color: var(--line);
+  background: white;
+  color: var(--foreground);
+  font-size: 14px;
+}
+
+.affiliate-cta-link-secondary:hover {
+  border-color: var(--foreground);
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.affiliate-cta-link-comparison {
+  min-height: 50px;
+  padding: 13px 22px;
+  border-color: rgba(88, 101, 242, 0.3);
+  background: rgba(88, 101, 242, 0.06);
+  color: var(--accent-dark);
+  font-size: 14px;
+}
+
+.affiliate-cta-link-comparison:hover {
+  border-color: var(--accent);
+  background: rgba(88, 101, 242, 0.1);
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
 @media (max-width: 640px) {
   .affiliate-cta-link {
     display: flex;

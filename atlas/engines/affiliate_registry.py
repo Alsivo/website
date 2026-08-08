@@ -96,6 +96,22 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
                 f"{tool_name}のcta_labelが未入力です。"
             )
 
+        if not isinstance(aliases, list):
+            raise ValueError(
+                f"{tool_name}のaliasesは"
+                "配列にしてください。"
+            )
+
+        if not all(
+            isinstance(alias, str)
+            and alias.strip()
+            for alias in aliases
+        ):
+            raise ValueError(
+                f"{tool_name}のaliasesに"
+                "不正な値があります。"
+            )
+
         if not isinstance(
             affiliate_status,
             str,
@@ -140,7 +156,10 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
             "official_url": official_url.strip(),
             "affiliate_url": affiliate_url.strip(),
             "cta_label": cta_label.strip(),
-            "aliases": aliases,
+            "aliases": [
+                alias.strip()
+                for alias in aliases
+            ],
             "affiliate_status": (
                 affiliate_status.strip()
             ),
@@ -163,6 +182,7 @@ def get_affiliate_tool_names() -> list[str]:
 
 def build_affiliate_section(
     recommended_tools: list[str],
+    cta_plan: dict[str, Any] | None = None,
 ) -> str:
     """おすすめツールからMDX形式のCTA欄を作る。"""
 
@@ -179,6 +199,58 @@ def build_affiliate_section(
             and tool_name.strip()
         )
     )
+
+    primary_service = None
+    primary_cta_label = None
+    cta_placement = "before_faq"
+
+    if isinstance(
+        cta_plan,
+        dict,
+    ):
+        raw_primary_service = (
+            cta_plan.get(
+                "primary_service"
+            )
+        )
+
+        raw_cta_label = (
+            cta_plan.get(
+                "cta_label"
+            )
+        )
+
+        raw_placement = cta_plan.get(
+            "placement"
+        )
+
+        if (
+            isinstance(
+                raw_primary_service,
+                str,
+            )
+            and raw_primary_service.strip()
+        ):
+            primary_service = (
+                raw_primary_service.strip()
+            )
+
+        if (
+            isinstance(
+                raw_cta_label,
+                str,
+            )
+            and raw_cta_label.strip()
+        ):
+            primary_cta_label = (
+                raw_cta_label.strip()
+            )
+
+        if raw_placement in {
+            "after_comparison",
+            "before_faq",
+        }:
+            cta_placement = raw_placement
 
     lines = [
         "",
@@ -246,14 +318,44 @@ def build_affiliate_section(
             else "none"
         )
 
+        # cta_planで指定されたサービスをPrimaryにする。
+        # 指定がない場合は最初の有効サービスをPrimaryにする。
+        if primary_service is not None:
+            cta_type = (
+                "primary"
+                if tool_name
+                == primary_service
+                else "secondary"
+            )
+        else:
+            cta_type = (
+                "primary"
+                if valid_tool_count == 0
+                else "secondary"
+            )
+
+        display_label = item[
+            "cta_label"
+        ]
+
+        if (
+            cta_type == "primary"
+            and primary_cta_label
+        ):
+            display_label = (
+                primary_cta_label
+            )
+
         link_markup = (
             "<AffiliateLink"
             f' href="{destination_url}"'
             f' service="{tool_name}"'
             f' linkType="{link_type}"'
             f' network="{network}"'
+            f' ctaType="{cta_type}"'
+            f' ctaPlacement="{cta_placement}"'
             ">"
-            f"{item['cta_label']}"
+            f"{display_label}"
             "</AffiliateLink>"
         )
 

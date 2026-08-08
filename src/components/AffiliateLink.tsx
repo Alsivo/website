@@ -5,11 +5,18 @@ import type {
   ReactNode,
 } from "react";
 
+type CtaType =
+  | "primary"
+  | "comparison"
+  | "secondary";
+
 type AffiliateLinkProps = {
   href: string;
   service: string;
   linkType?: "affiliate" | "official";
   network?: string;
+  ctaType?: CtaType;
+  ctaPlacement?: "after_comparison" | "before_faq";
   children: ReactNode;
 };
 
@@ -31,12 +38,13 @@ export default function AffiliateLink({
   service,
   linkType = "official",
   network = "none",
+  ctaType = "primary",
+  ctaPlacement = "before_faq",
   children,
 }: AffiliateLinkProps) {
   const handleClick = (
-    event: MouseEvent<HTMLAnchorElement>,
+    event: MouseEvent,
   ) => {
-    console.log("clicked");
 
     const currentWindow =
       window as WindowWithGtag;
@@ -56,6 +64,8 @@ export default function AffiliateLink({
           service_name: service,
           link_type: linkType,
           affiliate_network: network,
+          cta_type: ctaType,
+          cta_placement: ctaPlacement,
           link_url: href,
           page_path:
             window.location.pathname,
@@ -74,6 +84,7 @@ export default function AffiliateLink({
         linkType === "affiliate"
           ? "affiliate-cta-link-paid"
           : "affiliate-cta-link-official",
+        `affiliate-cta-link-${ctaType}`,
       ].join(" ")}
       href={href}
       onClick={handleClick}

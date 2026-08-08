@@ -69,7 +69,7 @@ ARTICLE_SCHEMA: dict[str, Any] = {
                         "columns": {
                             "type": "array",
                             "minItems": 2,
-                            "maxItems": 6,
+                            "maxItems": 8,
                             "items": {
                                 "type": "string",
                             },
@@ -87,7 +87,7 @@ ARTICLE_SCHEMA: dict[str, Any] = {
                                     "values": {
                                         "type": "array",
                                         "minItems": 2,
-                                        "maxItems": 6,
+                                        "maxItems": 8,
                                         "items": {
                                             "type": "string",
                                         },
@@ -109,6 +109,34 @@ ARTICLE_SCHEMA: dict[str, Any] = {
                     "additionalProperties": False,
                 },
             ]
+        },
+        "cta_plan": {
+            "type": "object",
+            "properties": {
+                "primary_service": {
+                    "type": ["string", "null"],
+                },
+                "placement": {
+                    "type": "string",
+                    "enum": [
+                        "after_comparison",
+                        "before_faq",
+                    ],
+                },
+                "cta_label": {
+                    "type": ["string", "null"],
+                },
+                "reason": {
+                    "type": "string",
+                },
+            },
+            "required": [
+                "primary_service",
+                "placement",
+                "cta_label",
+                "reason",
+            ],
+            "additionalProperties": False,
         },
         "faq": {
             "type": "array",
@@ -142,6 +170,7 @@ ARTICLE_SCHEMA: dict[str, Any] = {
         "content",
         "recommended_tools",
         "comparison_table",
+        "cta_plan",
         "faq",
     ],
     "additionalProperties": False,
@@ -298,6 +327,24 @@ def generate_article(
             "比較表の内容はcontent本文へMarkdown表として重複して書かないでください。"
             "comparison_table内の料金、機能、仕様、利用上限などの事実にも、"
             "根拠となる[S1]形式の出典IDを値の直後に付けてください。"
+            "cta_planでは、この記事の読者が次に取るべき行動を"
+            "自然に支援するCTA設計を行ってください。"
+            "primary_serviceはrecommended_toolsに含まれる"
+            "サービスから1つだけ選択してください。"
+            "特定サービスを推奨する根拠が十分でない場合は、"
+            "primary_serviceをnullにしてください。"
+            "比較表を見た直後に公式サイトやサービス詳細を"
+            "確認することが自然な記事では、"
+            "placementをafter_comparisonにしてください。"
+            "比較表がない記事、または本文を最後まで読んだ後の方が"
+            "CTAが自然な記事ではplacementをbefore_faqにしてください。"
+            "cta_labelはクリックを煽る表現ではなく、"
+            "リンク先で何を確認できるか分かる具体的な文言にしてください。"
+            "例：『Cursorの最新料金・プランを確認する』。"
+            "『今すぐ申し込む』『絶対おすすめ』などの"
+            "過度な販促表現は使用しないでください。"
+            "reasonには、そのサービスと配置を選んだ理由を"
+            "簡潔に記述してください。"
         ),
         input=(
             "以下の記事企画とWeb調査結果を基に記事を作成してください。\n\n"
@@ -394,6 +441,15 @@ def revise_article(
             "記事内容的に比較表が不要ならnullにしてください。"
             "comparison_table内の事実情報にも有効な[S1]形式の"
             "出典IDを維持または追加してください。"
+            "cta_planもレビュー内容に応じて必要なら修正してください。"
+            "primary_serviceを設定する場合は、"
+            "recommended_toolsに含まれるサービスだけを使用してください。"
+            "comparison_tableがある記事では、"
+            "after_comparisonが自然か再確認してください。"
+            "特定サービスへの誘導根拠が弱い場合は、"
+            "primary_serviceをnullにしてください。"
+            "cta_labelは過度な販促表現を避け、"
+            "リンク先で確認できる内容が分かる文言にしてください。"
         ),
         input=json.dumps(
             revision_data,
