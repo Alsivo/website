@@ -55,6 +55,61 @@ ARTICLE_SCHEMA: dict[str, Any] = {
             "minItems": 0,
             "maxItems": 5,
         },
+        "comparison_table": {
+            "anyOf": [
+                {
+                    "type": "null",
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                        },
+                        "columns": {
+                            "type": "array",
+                            "minItems": 2,
+                            "maxItems": 6,
+                            "items": {
+                                "type": "string",
+                            },
+                        },
+                        "rows": {
+                            "type": "array",
+                            "minItems": 2,
+                            "maxItems": 12,
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "label": {
+                                        "type": "string",
+                                    },
+                                    "values": {
+                                        "type": "array",
+                                        "minItems": 2,
+                                        "maxItems": 6,
+                                        "items": {
+                                            "type": "string",
+                                        },
+                                    },
+                                },
+                                "required": [
+                                    "label",
+                                    "values",
+                                ],
+                                "additionalProperties": False,
+                            },
+                        },
+                    },
+                    "required": [
+                        "title",
+                        "columns",
+                        "rows",
+                    ],
+                    "additionalProperties": False,
+                },
+            ]
+        },
         "faq": {
             "type": "array",
             "minItems": 3,
@@ -86,6 +141,7 @@ ARTICLE_SCHEMA: dict[str, Any] = {
         "used_source_ids",
         "content",
         "recommended_tools",
+        "comparison_table",
         "faq",
     ],
     "additionalProperties": False,
@@ -228,6 +284,20 @@ def generate_article(
             "適切なサービスがない場合は空の配列にしてください。"
             "recommended_toolsのために、本文へ不自然な紹介や宣伝を追加しないでください。"
             "根拠のないランキングや過度な推奨表現を作らないでください。"
+            "料金比較、プラン比較、複数サービス比較など、"
+            "表形式にすると読者が判断しやすい記事では、"
+            "comparison_tableを作成してください。"
+            "比較表が不要な記事ではcomparison_tableをnullにしてください。"
+            "comparison_tableのcolumnsには比較対象名を入れてください。"
+            "rowsのlabelには比較項目、valuesには各対象の値を入れてください。"
+            "columnsの件数と各rowのvaluesの件数は必ず一致させてください。"
+            "料金、無料プラン、利用上限、機能などの事実は、"
+            "提供されたWeb調査結果で確認できる情報だけを使用してください。"
+            "確認できない情報を推測して表へ入れないでください。"
+            "確認できない場合は「要確認」や「公式サイトで確認」としてください。"
+            "比較表の内容はcontent本文へMarkdown表として重複して書かないでください。"
+            "comparison_table内の料金、機能、仕様、利用上限などの事実にも、"
+            "根拠となる[S1]形式の出典IDを値の直後に付けてください。"
         ),
         input=(
             "以下の記事企画とWeb調査結果を基に記事を作成してください。\n\n"
@@ -316,6 +386,14 @@ def revise_article(
             "記事内で実際に紹介または比較したサービスだけを最大5件選んでください。"
             "該当するサービスがなければ空の配列にしてください。"
             "修正時にも根拠のないランキングや過度な購入誘導を追加しないでください。"
+            "comparison_tableがある場合は、"
+            "Reviewerの指摘とWeb調査結果に合わせて修正してください。"
+            "比較対象数と各行のvalues数は必ず一致させてください。"
+            "比較表内の料金・仕様・プラン情報も、"
+            "Web調査結果で確認できる情報だけを使用してください。"
+            "記事内容的に比較表が不要ならnullにしてください。"
+            "comparison_table内の事実情報にも有効な[S1]形式の"
+            "出典IDを維持または追加してください。"
         ),
         input=json.dumps(
             revision_data,

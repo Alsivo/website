@@ -154,6 +154,146 @@ def apply_source_citations(
         + "\n"
     )
 
+
+def escape_markdown_table_cell(
+    value: str,
+) -> str:
+    """Markdown表セル用に文字列を安全にする。"""
+
+    return (
+        value.replace("|", "\\|")
+        .replace("\n", " ")
+        .strip()
+    )
+
+
+def build_comparison_table(
+    comparison_table: dict[str, Any] | None,
+) -> str:
+    """比較表データをMarkdown表へ変換する。"""
+
+    if comparison_table is None:
+        return ""
+
+    if not isinstance(
+        comparison_table,
+        dict,
+    ):
+        raise ValueError(
+            "comparison_tableの形式が不正です。"
+        )
+
+    title = str(
+        comparison_table.get(
+            "title",
+            "",
+        )
+    ).strip()
+
+    columns = comparison_table.get(
+        "columns",
+        [],
+    )
+
+    rows = comparison_table.get(
+        "rows",
+        [],
+    )
+
+    if (
+        not title
+        or not isinstance(columns, list)
+        or len(columns) < 2
+        or not isinstance(rows, list)
+        or not rows
+    ):
+        raise ValueError(
+            "comparison_tableの内容が不足しています。"
+        )
+
+    cleaned_columns = [
+        escape_markdown_table_cell(
+            str(column)
+        )
+        for column in columns
+    ]
+
+    lines = [
+        f"## {title}",
+        "",
+        "| 比較項目 | "
+        + " | ".join(
+            cleaned_columns
+        )
+        + " |",
+        "| --- | "
+        + " | ".join(
+            "---"
+            for _ in cleaned_columns
+        )
+        + " |",
+    ]
+
+    for index, row in enumerate(
+        rows,
+        start=1,
+    ):
+        if not isinstance(row, dict):
+            raise ValueError(
+                f"comparison_tableの"
+                f"{index}行目が不正です。"
+            )
+
+        label = (
+            escape_markdown_table_cell(
+                str(
+                    row.get(
+                        "label",
+                        "",
+                    )
+                )
+            )
+        )
+
+        values = row.get(
+            "values",
+            [],
+        )
+
+        if (
+            not label
+            or not isinstance(
+                values,
+                list,
+            )
+            or len(values)
+            != len(cleaned_columns)
+        ):
+            raise ValueError(
+                "comparison_tableの列数が"
+                f"一致していません：{index}行目"
+            )
+
+        cleaned_values = [
+            escape_markdown_table_cell(
+                str(value)
+            )
+            for value in values
+        ]
+
+        lines.append(
+            "| "
+            + label
+            + " | "
+            + " | ".join(
+                cleaned_values
+            )
+            + " |"
+        )
+
+    return "\n".join(lines)
+
+
 def calculate_reading_time(content: str) -> str:
     """Markdown記号を除いた本文文字数から読了時間を計算する。"""
 
@@ -340,6 +480,120 @@ def validate_article(article: dict[str, Any]) -> None:
         "recommended_tools"
     ] = cleaned_recommended_tools
 
+    comparison_table = article.get(
+        "comparison_table"
+    )
+
+    if comparison_table is not None:
+        if not isinstance(
+            comparison_table,
+            dict,
+        ):
+            raise ValueError(
+                "comparison_tableは"
+                "オブジェクトまたはnullにしてください。"
+            )
+
+        title = comparison_table.get(
+            "title"
+        )
+
+        columns = comparison_table.get(
+            "columns"
+        )
+
+        rows = comparison_table.get(
+            "rows"
+        )
+
+        if (
+            not isinstance(title, str)
+            or not title.strip()
+        ):
+            raise ValueError(
+                "comparison_tableのtitleが"
+                "未入力です。"
+            )
+
+        if (
+            not isinstance(columns, list)
+            or not 2 <= len(columns) <= 6
+        ):
+            raise ValueError(
+                "comparison_tableのcolumnsは"
+                "2件以上6件以下にしてください。"
+            )
+
+        if not all(
+            isinstance(column, str)
+            and column.strip()
+            for column in columns
+        ):
+            raise ValueError(
+                "comparison_tableのcolumnsに"
+                "空欄または不正な値があります。"
+            )
+
+        if (
+            not isinstance(rows, list)
+            or not 2 <= len(rows) <= 12
+        ):
+            raise ValueError(
+                "comparison_tableのrowsは"
+                "2件以上12件以下にしてください。"
+            )
+
+        for index, row in enumerate(
+            rows,
+            start=1,
+        ):
+            if not isinstance(
+                row,
+                dict,
+            ):
+                raise ValueError(
+                    f"比較表の{index}行目の"
+                    "形式が不正です。"
+                )
+
+            label = row.get(
+                "label"
+            )
+
+            values = row.get(
+                "values"
+            )
+
+            if (
+                not isinstance(label, str)
+                or not label.strip()
+            ):
+                raise ValueError(
+                    f"比較表の{index}行目の"
+                    "labelが未入力です。"
+                )
+
+            if (
+                not isinstance(values, list)
+                or len(values)
+                != len(columns)
+            ):
+                raise ValueError(
+                    f"比較表の{index}行目の"
+                    "values数とcolumns数が"
+                    "一致していません。"
+                )
+
+            if not all(
+                isinstance(value, str)
+                and value.strip()
+                for value in values
+            ):
+                raise ValueError(
+                    f"比較表の{index}行目に"
+                    "空欄または不正な値があります。"
+                )
+
 def publish_article(
     article: dict[str, Any],
     research: dict[str, Any],
@@ -367,6 +621,22 @@ def publish_article(
 
     # 本文を準備する
     full_content = article["content"].strip()
+
+    # 比較表を作成する
+    comparison_section = (
+        build_comparison_table(
+            article.get(
+                "comparison_table"
+            )
+        )
+    )
+
+    # 比較表がある場合は本文末尾へ追加する
+    if comparison_section:
+        full_content += (
+            "\n\n"
+            + comparison_section
+        )
 
     # 記事で紹介したサービスのCTAを追加する
     affiliate_section = build_affiliate_section(

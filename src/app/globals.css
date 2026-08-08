@@ -1395,3 +1395,69 @@ main {
     width: 100%;
   }
 }
+
+/* ==========================================================
+   Article comparison table
+   ========================================================== */
+
+.article-table-wrapper {
+  width: 100%;
+  margin: 30px 0 46px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: white;
+}
+
+.article-table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.article-table-head {
+  background: rgba(88, 101, 242, 0.07);
+}
+
+.article-table-header {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.article-table-cell {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--line);
+  color: #414340;
+  vertical-align: top;
+}
+
+.article-table tbody tr:last-child
+.article-table-cell {
+  border-bottom: 0;
+}
+
+.article-table tbody tr:hover {
+  background: rgba(88, 101, 242, 0.025);
+}
+
+@media (max-width: 600px) {
+  .article-table-wrapper {
+    margin: 24px 0 38px;
+    border-radius: 14px;
+  }
+
+  .article-table {
+    min-width: 560px;
+    font-size: 13px;
+  }
+
+  .article-table-header,
+  .article-table-cell {
+    padding: 13px 14px;
+  }
+}

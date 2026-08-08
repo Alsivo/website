@@ -84,6 +84,44 @@ const components = {
     />
   ),
 
+  table: (
+    props: ComponentPropsWithoutRef<"table">,
+  ) => (
+    <div className="article-table-wrapper">
+      <table
+        className="article-table"
+        {...props}
+      />
+    </div>
+  ),
+
+  thead: (
+    props: ComponentPropsWithoutRef<"thead">,
+  ) => (
+    <thead
+      className="article-table-head"
+      {...props}
+    />
+  ),
+
+  th: (
+    props: ComponentPropsWithoutRef<"th">,
+  ) => (
+    <th
+      className="article-table-header"
+      {...props}
+    />
+  ),
+
+  td: (
+    props: ComponentPropsWithoutRef<"td">,
+  ) => (
+    <td
+      className="article-table-cell"
+      {...props}
+    />
+  ),
+
   a: (
     props: ComponentPropsWithoutRef<"a">,
   ) => (
