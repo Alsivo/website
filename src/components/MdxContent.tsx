@@ -4,6 +4,7 @@ import type {
 import { MDXRemote } from "next-mdx-remote/rsc";
 import AffiliateLink from "./AffiliateLink";
 import { createHeadingId } from "../lib/headings";
+import remarkGfm from "remark-gfm";
 
 type MdxContentProps = {
   source: string;
@@ -141,6 +142,11 @@ export default function MdxContent({
     <MDXRemote
       source={source}
       components={components}
+      options={{
+        mdxOptions: {
+          remarkPlugins: [remarkGfm],
+        },
+      }}
     />
   );
 }
