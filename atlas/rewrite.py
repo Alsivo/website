@@ -314,7 +314,7 @@ def main() -> None:
                 "\nリライト品質が基準未満のため、"
                 "元記事は変更しません。"
             )
-            return
+            sys.exit(1)
 
         backup_path = backup_article(
             article
@@ -331,6 +331,100 @@ def main() -> None:
         rewritten["image"] = article[
             "image"
         ]
+
+        # --------------------------------------------------------
+        # リライト時のCTA Planを保証する
+        # --------------------------------------------------------
+
+        rewritten_cta_plan = rewritten.get(
+            "cta_plan"
+        )
+
+        if not isinstance(
+            rewritten_cta_plan,
+            dict,
+        ):
+            existing_cta_plan = article.get(
+                "cta_plan"
+            )
+
+            if isinstance(
+                existing_cta_plan,
+                dict,
+            ):
+                rewritten["cta_plan"] = (
+                    existing_cta_plan
+                )
+
+            else:
+                recommended_tools = (
+                    rewritten.get(
+                        "recommended_tools",
+                        [],
+                    )
+                )
+
+                primary_service = ""
+
+                if (
+                    isinstance(
+                        recommended_tools,
+                        list,
+                    )
+                    and recommended_tools
+                ):
+                    first_tool = (
+                        recommended_tools[0]
+                    )
+
+                    if isinstance(
+                        first_tool,
+                        str,
+                    ):
+                        primary_service = (
+                            first_tool.strip()
+                        )
+
+                comparison_table = (
+                    rewritten.get(
+                        "comparison_table"
+                    )
+                )
+
+                has_comparison_table = (
+                    isinstance(
+                        comparison_table,
+                        dict,
+                    )
+                    and bool(
+                        comparison_table
+                    )
+                )
+
+                placement = (
+                    "after_comparison"
+                    if has_comparison_table
+                    else "before_faq"
+                )
+
+                rewritten["cta_plan"] = {
+                    "primary_service":
+                        primary_service,
+                    "placement":
+                        placement,
+                    "cta_label":
+                        (
+                            f"{primary_service}の"
+                            "公式サイトを確認する"
+                            if primary_service
+                            else ""
+                        ),
+                    "reason":
+                        (
+                            "リライト記事の"
+                            "フォールバックCTA設定"
+                        ),
+                }
 
         filepath = publish_article(
             rewritten,
@@ -359,6 +453,8 @@ def main() -> None:
             "\nリライト処理に"
             f"失敗しました：{error}"
         )
+
+        sys.exit(1)
 
 
 if __name__ == "__main__":

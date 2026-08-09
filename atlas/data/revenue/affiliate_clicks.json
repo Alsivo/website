@@ -32,17 +32,6 @@
       "network": "(not set)",
       "clicks": 1,
       "page_path": "/blog/claude-pricing-plans-comparison-pro-max"
-    },
-    {
-      "date": "2026-08-09",
-      "service": "ChatGPT",
-      "article_slug": "chatgpt-pricing-plans-comparison",
-      "cta_type": "primary",
-      "cta_placement": "before_faq",
-      "link_type": "official",
-      "network": "none",
-      "clicks": 1,
-      "page_path": "/blog/chatgpt-pricing-plans-comparison"
     }
   ]
 }

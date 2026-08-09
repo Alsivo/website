@@ -144,3 +144,15 @@ ATLAS_USE_CACHED_SEARCH_CONSOLE_ON_ERROR = True
 ATLAS_LOCK_TIMEOUT_HOURS = 6
 
 ATLAS_LOG_RETENTION_DAYS = 30
+
+# Atlas自動運転：GA4 Affiliate Click
+ATLAS_RUN_GA4_AFFILIATE = True
+
+# GA4取得失敗時、前回取得データで続行する
+ATLAS_USE_CACHED_GA4_ON_ERROR = True
+
+# Atlas自動運転：Revenue Summary
+ATLAS_RUN_REVENUE_TRACKER = True
+
+# Revenue集計失敗時、前回集計結果で続行する
+ATLAS_USE_CACHED_REVENUE_ON_ERROR = True

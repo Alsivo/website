@@ -12,6 +12,10 @@ from config import (
     ATLAS_RUN_AFFILIATE_MANAGER,
     ATLAS_RUN_SEARCH_CONSOLE,
     ATLAS_USE_CACHED_SEARCH_CONSOLE_ON_ERROR,
+    ATLAS_RUN_GA4_AFFILIATE,
+    ATLAS_USE_CACHED_GA4_ON_ERROR,
+    ATLAS_RUN_REVENUE_TRACKER,
+    ATLAS_USE_CACHED_REVENUE_ON_ERROR,
 )
 from utils.git_publisher import (
     publish_additional_files,
@@ -351,6 +355,91 @@ def update_search_console(
         "失敗しました。"
     )
 
+def update_ga4_affiliate_clicks(
+    log_file: Path,
+) -> None:
+    """GA4のAffiliate Clickデータを更新する。"""
+
+    if not ATLAS_RUN_GA4_AFFILIATE:
+        log(
+            "GA4 Affiliate Click更新：SKIP",
+            log_file,
+        )
+        return
+
+    log(
+        "GA4 Affiliate Clickデータを更新します。",
+        log_file,
+    )
+
+    result = run_python_script(
+        "ga4_affiliate_report.py",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "GA4 Affiliate Click更新成功。",
+            log_file,
+        )
+        return
+
+    if ATLAS_USE_CACHED_GA4_ON_ERROR:
+        log(
+            "GA4 Affiliate Click更新に失敗しました。"
+            "前回取得データを使用して続行します。",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "GA4 Affiliate Clickデータの"
+        "更新に失敗しました。"
+    )
+
+
+def update_revenue_summary(
+    log_file: Path,
+) -> None:
+    """Affiliate収益サマリーを更新する。"""
+
+    if not ATLAS_RUN_REVENUE_TRACKER:
+        log(
+            "Revenue Summary更新：SKIP",
+            log_file,
+        )
+        return
+
+    log(
+        "Revenue Summaryを更新します。",
+        log_file,
+    )
+
+    result = run_python_script(
+        "engines/revenue_tracker.py",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Revenue Summary更新成功。",
+            log_file,
+        )
+        return
+
+    if ATLAS_USE_CACHED_REVENUE_ON_ERROR:
+        log(
+            "Revenue Summary更新に失敗しました。"
+            "前回集計結果を使用して続行します。",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "Revenue Summaryの"
+        "更新に失敗しました。"
+    )
+
 
 def run_editorial_director(
     log_file: Path,
@@ -456,7 +545,7 @@ def run_new_article(
 def run_rewrite(
     decision: dict[str, Any],
     log_file: Path,
-) -> None:
+) -> Path:
     """AI編集長が選択した記事をリライトする。"""
 
     slug = str(
@@ -490,6 +579,20 @@ def run_rewrite(
         raise RuntimeError(
             "記事リライトに失敗しました。"
         )
+    article_path = (
+        BASE_DIR.parent
+        / "content"
+        / "blog"
+        / f"{slug}.mdx"
+    )
+
+    if not article_path.exists():
+        raise FileNotFoundError(
+            "リライト記事が見つかりません："
+            f"{article_path}"
+        )
+
+    return article_path
 
 
 def save_latest_run(
@@ -528,6 +631,8 @@ def main() -> None:
 
     action = ""
 
+    rewritten_article_path: Path | None = None
+
     try:
         acquire_lock()
 
@@ -551,6 +656,14 @@ def main() -> None:
         )
 
         update_search_console(
+            log_file
+        )
+
+        update_ga4_affiliate_clicks(
+            log_file
+        )
+
+        update_revenue_summary(
             log_file
         )
 
@@ -606,9 +719,11 @@ def main() -> None:
             )
 
         elif action == "rewrite_article":
-            run_rewrite(
-                decision,
-                log_file,
+            rewritten_article_path = (
+                run_rewrite(
+                    decision,
+                    log_file,
+                )
             )
 
         elif action == "wait":
@@ -655,31 +770,42 @@ def main() -> None:
             )
 
             log(
-                "関連記事データを"
+                "更新コンテンツを"
                 "GitHubへ反映します。",
                 log_file,
             )
 
+            publish_paths = [
+                INTERNAL_LINKS_FILE,
+            ]
+
+            if (
+                action == "rewrite_article"
+                and rewritten_article_path
+                is not None
+            ):
+                publish_paths.append(
+                    rewritten_article_path
+                )
+
             pushed = (
                 publish_additional_files(
-                    paths=[
-                        INTERNAL_LINKS_FILE,
-                    ],
+                    paths=publish_paths,
                     commit_prefix=(
-                        "Update Atlas related posts"
+                        "Update Atlas content"
                     ),
                 )
             )
 
             if pushed:
                 log(
-                    "関連記事データの"
+                    "更新コンテンツの"
                     "GitHub Push完了。",
                     log_file,
                 )
             else:
                 log(
-                    "関連記事データに"
+                    "更新コンテンツに"
                     "Git差分がないため、"
                     "Pushをスキップしました。",
                     log_file,
