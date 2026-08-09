@@ -7,6 +7,9 @@ from agents.editor import (
 from engines.editorial_context import (
     build_editorial_context,
 )
+from engines.rewrite_history import (
+    is_rewrite_allowed,
+)
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -37,6 +40,37 @@ def main() -> None:
                 context
             )
         )
+
+        if (
+            decision.get(
+                "action"
+            )
+            == "rewrite_article"
+        ):
+            target_slug = str(
+                decision.get(
+                    "target_slug",
+                    "",
+                )
+            ).strip()
+
+            if target_slug:
+                (
+                    rewrite_allowed,
+                    rewrite_cooldown_reason,
+                ) = is_rewrite_allowed(
+                    target_slug
+                )
+
+                decision[
+                    "rewrite_allowed"
+                ] = rewrite_allowed
+
+                decision[
+                    "rewrite_cooldown_reason"
+                ] = (
+                    rewrite_cooldown_reason
+                )
 
         OUTPUT_DIR.mkdir(
             parents=True,
@@ -88,6 +122,36 @@ def main() -> None:
                 "対象slug："
                 f"{decision['target_slug']}"
             )
+
+        if (
+            decision.get(
+                "action"
+            )
+            == "rewrite_article"
+        ):
+            rewrite_allowed = (
+                decision.get(
+                    "rewrite_allowed"
+                )
+            )
+
+            rewrite_reason = str(
+                decision.get(
+                    "rewrite_cooldown_reason",
+                    "",
+                )
+            )
+
+            print(
+                "リライト可否："
+                f"{rewrite_allowed}"
+            )
+
+            if rewrite_reason:
+                print(
+                    "クールダウン判定："
+                    f"{rewrite_reason}"
+                )
 
         if decision[
             "recommended_focus"

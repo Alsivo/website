@@ -694,6 +694,54 @@ def main() -> None:
             )
         )
 
+        # ----------------------------------------------------
+        # リライトクールダウン確認
+        # ----------------------------------------------------
+
+        if action == "rewrite_article":
+            rewrite_allowed = (
+                decision.get(
+                    "rewrite_allowed",
+                    True,
+                )
+            )
+
+            rewrite_cooldown_reason = str(
+                decision.get(
+                    "rewrite_cooldown_reason",
+                    "",
+                )
+            ).strip()
+
+            if rewrite_allowed is False:
+                target_slug = str(
+                    decision.get(
+                        "target_slug",
+                        "",
+                    )
+                ).strip()
+
+                log(
+                    "リライト対象は"
+                    "クールダウン中のため"
+                    "今回は実行しません："
+                    f"{target_slug}",
+                    log_file,
+                )
+
+                if rewrite_cooldown_reason:
+                    log(
+                        "クールダウン理由："
+                        f"{rewrite_cooldown_reason}",
+                        log_file,
+                    )
+
+                action = "wait"
+
+                decision[
+                    "action"
+                ] = "wait"
+
         log(
             "AI編集長判断："
             f"{action}",
