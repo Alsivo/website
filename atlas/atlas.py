@@ -59,6 +59,13 @@ INTERNAL_LINKS_FILE = (
     / "internal_links.json"
 )
 
+EXPANSION_CANDIDATES_FILE = (
+    BASE_DIR
+    / "data"
+    / "content_expansion"
+    / "expansion_candidates.json"
+)
+
 def ensure_directories() -> None:
     """自動運転に必要なフォルダを作る。"""
 
@@ -441,6 +448,147 @@ def update_revenue_summary(
     )
 
 
+def load_top_expansion_candidate(
+) -> dict[str, Any] | None:
+    """Expansion候補から最優先の新記事候補を返す。"""
+
+    if not EXPANSION_CANDIDATES_FILE.exists():
+        return None
+
+    try:
+        data = json.loads(
+            EXPANSION_CANDIDATES_FILE.read_text(
+                encoding="utf-8",
+            )
+        )
+    except json.JSONDecodeError:
+        return None
+
+    candidates = data.get(
+        "candidates",
+        [],
+    )
+
+    if not isinstance(
+        candidates,
+        list,
+    ):
+        return None
+
+    valid_candidates = [
+        item
+        for item in candidates
+        if (
+            isinstance(
+                item,
+                dict,
+            )
+            and item.get(
+                "status"
+            )
+            == "ready"
+        )
+    ]
+
+    if not valid_candidates:
+        return None
+
+    valid_candidates.sort(
+        key=lambda item: int(
+            item.get(
+                "priority",
+                0,
+            )
+            or 0
+        ),
+        reverse=True,
+    )
+
+    return valid_candidates[0]
+
+def mark_expansion_candidate_used(
+    target_keyword: str,
+) -> None:
+    """使用したExpansion候補を完了状態にする。"""
+
+    target_keyword = (
+        target_keyword.strip()
+    )
+
+    if not target_keyword:
+        return
+
+    if not EXPANSION_CANDIDATES_FILE.exists():
+        return
+
+    try:
+        data = json.loads(
+            EXPANSION_CANDIDATES_FILE.read_text(
+                encoding="utf-8",
+            )
+        )
+    except json.JSONDecodeError:
+        return
+
+    candidates = data.get(
+        "candidates",
+        [],
+    )
+
+    if not isinstance(
+        candidates,
+        list,
+    ):
+        return
+
+    updated = False
+
+    for item in candidates:
+        if not isinstance(
+            item,
+            dict,
+        ):
+            continue
+
+        keyword = str(
+            item.get(
+                "target_keyword",
+                "",
+            )
+        ).strip()
+
+        if (
+            keyword
+            == target_keyword
+            and item.get(
+                "status"
+            )
+            == "ready"
+        ):
+            item[
+                "status"
+            ] = "used"
+
+            item[
+                "used_at"
+            ] = datetime.now().isoformat()
+
+            updated = True
+            break
+
+    if not updated:
+        return
+
+    EXPANSION_CANDIDATES_FILE.write_text(
+        json.dumps(
+            data,
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
 def run_editorial_director(
     log_file: Path,
 ) -> dict[str, Any]:
@@ -507,10 +655,31 @@ def run_new_article(
         for path in blog_dir.glob("*.mdx")
     }
 
+    if target_keyword:
+        input_text = (
+            "1\n"
+            f"{target_keyword}\n"
+        )
+
+        log(
+            "AI編集長が選択したキーワードを"
+            "main.pyへ渡します："
+            f"{target_keyword}",
+            log_file,
+        )
+    else:
+        input_text = "2\n"
+
+        log(
+            "対象キーワードがないため、"
+            "Keyword Queueを使用します。",
+            log_file,
+        )
+
     result = run_python_script(
         "main.py",
         log_file,
-        input_text="2\n",
+        input_text=input_text,
     )
 
     if result.returncode != 0:
@@ -736,11 +905,109 @@ def main() -> None:
                         log_file,
                     )
 
-                action = "wait"
+                expansion_candidate = (
+                    load_top_expansion_candidate()
+                )
 
-                decision[
-                    "action"
-                ] = "wait"
+                if expansion_candidate is not None:
+                    action = "new_article"
+
+                    decision[
+                        "action"
+                    ] = "new_article"
+
+                    decision[
+                        "target_keyword"
+                    ] = str(
+                        expansion_candidate.get(
+                            "target_keyword",
+                            "",
+                        )
+                    ).strip()
+
+                    decision[
+                        "target_title"
+                    ] = str(
+                        expansion_candidate.get(
+                            "suggested_title",
+                            "",
+                        )
+                    ).strip()
+
+                    decision[
+                        "target_slug"
+                    ] = ""
+
+                    decision[
+                        "reason"
+                    ] = (
+                        "リライト対象が"
+                        "クールダウン中のため、"
+                        "記事拡張候補へ切り替え。 "
+                        + str(
+                            expansion_candidate.get(
+                                "reason",
+                                "",
+                            )
+                        ).strip()
+                    )
+
+                    decision[
+                        "expansion_topic"
+                    ] = str(
+                        expansion_candidate.get(
+                            "topic",
+                            "",
+                        )
+                    ).strip()
+
+                    decision[
+                        "expansion_priority"
+                    ] = int(
+                        expansion_candidate.get(
+                            "priority",
+                            0,
+                        )
+                        or 0
+                    )
+
+                    decision[
+                        "priority_score"
+                    ] = int(
+                        expansion_candidate.get(
+                            "priority",
+                            0,
+                        )
+                        or 0
+                    )
+
+                    log(
+                        "新記事候補へ切り替えます："
+                        f"{decision['target_keyword']}",
+                        log_file,
+                    )
+
+                    priority_score = int(
+                        decision.get(
+                            "priority_score",
+                            0,
+                        )
+                        or 0
+                    )
+
+                    reason = str(
+                        decision.get(
+                            "reason",
+                            "",
+                        )
+                    )
+
+                else:
+                    action = "wait"
+
+                    decision[
+                        "action"
+                    ] = "wait"
 
         log(
             "AI編集長判断："
@@ -765,6 +1032,32 @@ def main() -> None:
                 decision,
                 log_file,
             )
+
+            expansion_topic = str(
+                decision.get(
+                    "expansion_topic",
+                    "",
+                )
+            ).strip()
+
+            if expansion_topic:
+                target_keyword = str(
+                    decision.get(
+                        "target_keyword",
+                        "",
+                    )
+                ).strip()
+
+                mark_expansion_candidate_used(
+                    target_keyword
+                )
+
+                log(
+                    "Expansion候補を"
+                    "使用済みにしました："
+                    f"{target_keyword}",
+                    log_file,
+                )
 
         elif action == "rewrite_article":
             rewritten_article_path = (

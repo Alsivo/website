@@ -66,3 +66,9 @@ atlas/data/rewrite_backups/
 # Atlas automation runtime
 atlas/data/automation/
 atlas/logs/
+
+# Atlas content expansion runtime data
+atlas/data/content_expansion/content_gaps.json
+atlas/data/content_expansion/expansion_queue.json
+atlas/data/content_expansion/expansion_decisions.json
+atlas/data/content_expansion/expansion_candidates.json

@@ -1,0 +1,114 @@
+{
+  "clusters": [
+    {
+      "cluster": "AIチャット",
+      "priority": 90,
+      "topics": [
+        "ChatGPT",
+        "Claude",
+        "Gemini"
+      ]
+    },
+    {
+      "cluster": "AI文章作成",
+      "priority": 85,
+      "topics": [
+        "AI文章作成",
+        "AIメール作成",
+        "AIブログ作成",
+        "AI要約",
+        "AI校正"
+      ]
+    },
+    {
+      "cluster": "AIコード生成",
+      "priority": 85,
+      "topics": [
+        "AIコード生成",
+        "Cursor",
+        "GitHub Copilot",
+        "Claude Code",
+        "AIプログラミング"
+      ]
+    },
+    {
+      "cluster": "AI画像生成",
+      "priority": 80,
+      "topics": [
+        "AI画像生成",
+        "Canva",
+        "Adobe Firefly",
+        "Midjourney"
+      ]
+    },
+    {
+      "cluster": "AI動画生成",
+      "priority": 80,
+      "topics": [
+        "AI動画生成",
+        "Runway",
+        "Canva動画生成"
+      ]
+    },
+    {
+      "cluster": "AIプレゼン",
+      "priority": 80,
+      "topics": [
+        "AIプレゼン",
+        "Gamma",
+        "Canvaプレゼン",
+        "AIスライド作成"
+      ]
+    },
+    {
+      "cluster": "AI議事録・文字起こし",
+      "priority": 85,
+      "topics": [
+        "AI議事録",
+        "AI文字起こし",
+        "Notta",
+        "Otter",
+        "Fireflies"
+      ]
+    },
+    {
+      "cluster": "AI PDF・文書処理",
+      "priority": 80,
+      "topics": [
+        "AI PDF要約",
+        "PDF質問AI",
+        "ChatPDF",
+        "AI文書要約"
+      ]
+    },
+    {
+      "cluster": "AI検索",
+      "priority": 80,
+      "topics": [
+        "AI検索",
+        "Perplexity",
+        "ChatGPT検索",
+        "Gemini検索"
+      ]
+    },
+    {
+      "cluster": "AI翻訳",
+      "priority": 75,
+      "topics": [
+        "AI翻訳",
+        "DeepL",
+        "ChatGPT翻訳"
+      ]
+    },
+    {
+      "cluster": "AIデータ分析",
+      "priority": 75,
+      "topics": [
+        "AIデータ分析",
+        "ChatGPTデータ分析",
+        "Excel AI",
+        "AIグラフ作成"
+      ]
+    }
+  ]
+}
