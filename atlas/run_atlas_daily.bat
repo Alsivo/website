@@ -10,13 +10,31 @@ echo ========================================
 
 ".venv\Scripts\python.exe" atlas.py
 
-set EXIT_CODE=%ERRORLEVEL%
+set ATLAS_EXIT_CODE=%ERRORLEVEL%
 
 echo.
 echo ========================================
-echo Atlas finished
-echo Exit code: %EXIT_CODE%
+echo Atlas main process finished
+echo Exit code: %ATLAS_EXIT_CODE%
+echo ========================================
+
+echo.
+echo Running Atlas Health Check...
+
+".venv\Scripts\python.exe" -m engines.atlas_health
+
+set HEALTH_EXIT_CODE=%ERRORLEVEL%
+
+echo.
+echo ========================================
+echo Atlas Daily Automation finished
+echo Atlas exit code: %ATLAS_EXIT_CODE%
+echo Health exit code: %HEALTH_EXIT_CODE%
 echo Finished: %date% %time%
 echo ========================================
 
-exit /b %EXIT_CODE%
+if not "%ATLAS_EXIT_CODE%"=="0" (
+    exit /b %ATLAS_EXIT_CODE%
+)
+
+exit /b %HEALTH_EXIT_CODE%
