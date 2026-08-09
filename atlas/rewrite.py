@@ -27,6 +27,9 @@ from engines.article_loader import (
 from engines.editorial_context import (
     get_queries_for_slug,
 )
+from engines.rewrite_history import (
+    record_rewrite,
+)
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -435,12 +438,35 @@ def main() -> None:
             is_rewrite=True,
         )
 
+        history_path = record_rewrite(
+            slug=slug,
+            title=str(
+                rewritten.get(
+                    "title",
+                    article.get(
+                        "title",
+                        "",
+                    ),
+                )
+            ).strip(),
+            reason=str(
+                decision.get(
+                    "reason",
+                    "",
+                )
+            ).strip(),
+        )
+
         print(
             "\n===== リライト完了 ====="
         )
 
         print(
             f"記事：{filepath}"
+        )
+
+        print(
+            f"リライト履歴：{history_path}"
         )
 
         print(
