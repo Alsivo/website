@@ -1,7 +1,9 @@
 import json
 from pathlib import Path
 from typing import Any
-
+from engines.expansion_history import (
+    expansion_was_used,
+)
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 
@@ -104,26 +106,36 @@ def build_expansion_candidates(
         if priority < MIN_PRIORITY:
             continue
 
+        topic = str(
+            item.get(
+                "topic",
+                "",
+            )
+        ).strip()
+
+        target_keyword = str(
+            item.get(
+                "target_keyword",
+                "",
+            )
+        ).strip()
+
+        if expansion_was_used(
+            topic,
+            target_keyword,
+        ):
+            continue
+
         candidates.append(
             {
                 "topic":
-                    str(
-                        item.get(
-                            "topic",
-                            "",
-                        )
-                    ).strip(),
+                    topic,
                 "action":
                     action,
                 "priority":
                     priority,
                 "target_keyword":
-                    str(
-                        item.get(
-                            "target_keyword",
-                            "",
-                        )
-                    ).strip(),
+                    target_keyword,
                 "suggested_title":
                     str(
                         item.get(

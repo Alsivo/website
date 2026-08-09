@@ -20,6 +20,9 @@ from config import (
 from utils.git_publisher import (
     publish_additional_files,
 )
+from engines.expansion_history import (
+    record_expansion_used,
+)
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -589,6 +592,103 @@ def mark_expansion_candidate_used(
         encoding="utf-8",
     )
 
+def refresh_content_expansion(
+    log_file: Path,
+) -> None:
+    """Content Expansion関連データを再生成する。"""
+
+    commands = [
+        (
+            "engines/content_expansion.py",
+            [
+                "-m",
+                "engines.content_expansion",
+            ],
+        ),
+        (
+            "engines/content_expansion_queue.py",
+            [
+                "-m",
+                "engines.content_expansion_queue",
+            ],
+        ),
+        (
+            "expansion.py",
+            [
+                "expansion.py",
+            ],
+        ),
+        (
+            "engines/expansion_candidates.py",
+            [
+                "-m",
+                "engines.expansion_candidates",
+            ],
+        ),
+    ]
+
+    log(
+        "Content Expansionを"
+        "再計算します。",
+        log_file,
+    )
+
+    for label, arguments in commands:
+        log(
+            "Content Expansion処理："
+            f"{label}",
+            log_file,
+        )
+
+        env = dict(
+            os.environ
+        )
+
+        env[
+            "PYTHONIOENCODING"
+        ] = "utf-8"
+
+        env[
+            "PYTHONUTF8"
+        ] = "1"
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                *arguments,
+            ],
+            cwd=BASE_DIR,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            env=env,
+        )
+
+        for line in result.stdout.splitlines():
+            log(
+                f"  {line}",
+                log_file,
+            )
+
+        for line in result.stderr.splitlines():
+            log(
+                f"  [stderr] {line}",
+                log_file,
+            )
+
+        if result.returncode != 0:
+            raise RuntimeError(
+                "Content Expansion更新に"
+                "失敗しました："
+                f"{label}"
+            )
+
+    log(
+        "Content Expansion再計算完了。",
+        log_file,
+    )
+
 def run_editorial_director(
     log_file: Path,
 ) -> dict[str, Any]:
@@ -628,7 +728,7 @@ def run_editorial_director(
 def run_new_article(
     decision: dict[str, Any],
     log_file: Path,
-) -> None:
+) -> Path:
     """新規記事を生成し、MDX作成まで確認する。"""
 
     target_keyword = str(
@@ -709,6 +809,16 @@ def run_new_article(
             f"{filepath.name}",
             log_file,
         )
+
+    if len(new_files) != 1:
+        raise RuntimeError(
+            "新規記事は1件だけ生成される想定です。"
+            f"実際：{len(new_files)}件"
+        )
+
+    return next(
+        iter(new_files)
+    )
 
 
 def run_rewrite(
@@ -1028,9 +1138,11 @@ def main() -> None:
         )
 
         if action == "new_article":
-            run_new_article(
-                decision,
-                log_file,
+            new_article_path = (
+                run_new_article(
+                    decision,
+                    log_file,
+                )
             )
 
             expansion_topic = str(
@@ -1050,6 +1162,31 @@ def main() -> None:
 
                 mark_expansion_candidate_used(
                     target_keyword
+                )
+
+                record_expansion_used(
+                    topic=expansion_topic,
+                    target_keyword=target_keyword,
+                    article_slug=(
+                        new_article_path.stem
+                    ),
+                    article_title=str(
+                        decision.get(
+                            "target_title",
+                            "",
+                        )
+                    ).strip(),
+                )
+
+                log(
+                    "Expansion Historyへ"
+                    "記録しました："
+                    f"{expansion_topic}",
+                    log_file,
+                )
+
+                refresh_content_expansion(
+                    log_file
                 )
 
                 log(
