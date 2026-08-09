@@ -116,9 +116,7 @@ def get_date_range(
 
     end_date = (
         date.today()
-        - timedelta(
-            days=1,
-        )
+        - timedelta(days=1)
     )
 
     start_date = (

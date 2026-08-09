@@ -1,8 +1,46 @@
 {
-  "total_clicks": 0,
+  "total_clicks": 5,
   "total_conversions": 0,
   "total_revenue": 0,
   "conversion_rate": 0.0,
-  "by_service": {},
-  "by_article": {}
+  "by_service": {
+    "(not set)": {
+      "clicks": 4,
+      "conversions": 0,
+      "revenue": 0.0,
+      "conversion_rate": 0.0
+    },
+    "ChatGPT": {
+      "clicks": 1,
+      "conversions": 0,
+      "revenue": 0.0,
+      "conversion_rate": 0.0
+    }
+  },
+  "by_article": {
+    "cursor-pricing-plans-comparison": {
+      "clicks": 2,
+      "conversions": 0,
+      "revenue": 0.0,
+      "conversion_rate": 0.0
+    },
+    "ai-codegen-tools-comparison": {
+      "clicks": 1,
+      "conversions": 0,
+      "revenue": 0.0,
+      "conversion_rate": 0.0
+    },
+    "claude-pricing-plans-comparison-pro-max": {
+      "clicks": 1,
+      "conversions": 0,
+      "revenue": 0.0,
+      "conversion_rate": 0.0
+    },
+    "chatgpt-pricing-plans-comparison": {
+      "clicks": 1,
+      "conversions": 0,
+      "revenue": 0.0,
+      "conversion_rate": 0.0
+    }
+  }
 }
