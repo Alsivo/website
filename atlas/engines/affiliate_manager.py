@@ -438,21 +438,97 @@ def create_cta_label(
 def sync_affiliate_registry() -> dict[str, dict[str, Any]]:
     """
     最適案件を選択して、
-    affiliate_links.jsonを自動更新する。
+    affiliate_links.jsonを安全に更新する。
+
+    既存サービスは保持し、
+    今回取得したサービスだけ最新情報で上書きする。
     """
 
     selected_programs = (
         select_best_programs()
     )
 
+    # ----------------------------------------------------
+    # 既存Registryを読み込み
+    # ----------------------------------------------------
+
     registry: dict[
         str,
-        dict[str, Any]
+        dict[str, Any],
     ] = {}
+
+    if REGISTRY_FILE.exists():
+        try:
+            existing_data = json.loads(
+                REGISTRY_FILE.read_text(
+                    encoding="utf-8",
+                )
+            )
+
+            if isinstance(
+                existing_data,
+                dict,
+            ):
+                registry = {
+                    str(key): value
+                    for key, value
+                    in existing_data.items()
+                    if isinstance(
+                        value,
+                        dict,
+                    )
+                }
+
+        except json.JSONDecodeError:
+            # 壊れている場合のみ
+            # 新規Registryとして再構築する
+            registry = {}
+
+    # ----------------------------------------------------
+    # 今回取得したサービスだけ更新
+    # ----------------------------------------------------
 
     for tool_name, program in (
         selected_programs.items()
     ):
+        existing_item = (
+            registry.get(
+                tool_name,
+                {},
+            )
+        )
+
+        existing_aliases = (
+            existing_item.get(
+                "aliases",
+                [],
+            )
+            if isinstance(
+                existing_item,
+                dict,
+            )
+            else []
+        )
+
+        if not isinstance(
+            existing_aliases,
+            list,
+        ):
+            existing_aliases = []
+
+        aliases = [
+            str(alias).strip()
+            for alias
+            in existing_aliases
+            if str(alias).strip()
+        ]
+
+        if tool_name not in aliases:
+            aliases.insert(
+                0,
+                tool_name,
+            )
+
         registry[tool_name] = {
             "official_url": (
                 program["official_url"]
@@ -467,9 +543,7 @@ def sync_affiliate_registry() -> dict[str, dict[str, Any]]:
                 tool_name,
                 program,
             ),
-            "aliases": [
-                tool_name,
-            ],
+            "aliases": aliases,
             "affiliate_status": (
                 program["status"]
             ),
