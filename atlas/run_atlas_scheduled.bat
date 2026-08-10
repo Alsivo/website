@@ -1,7 +1,8 @@
 @echo off
+setlocal
 
-cd /d "C:\Users\hkimu\Documents\GitHub\website\atlas"
+cd /d "%~dp0"
 
-call .venv\Scripts\activate.bat
+call run_atlas_daily.bat
 
-python atlas.py
+exit /b %ERRORLEVEL%

@@ -26,10 +26,18 @@ echo Running Atlas Health Check...
 set HEALTH_EXIT_CODE=%ERRORLEVEL%
 
 echo.
+echo Running Atlas Dashboard...
+
+".venv\Scripts\python.exe" -m engines.atlas_dashboard
+
+set DASHBOARD_EXIT_CODE=%ERRORLEVEL%
+
+echo.
 echo ========================================
 echo Atlas Daily Automation finished
 echo Atlas exit code: %ATLAS_EXIT_CODE%
 echo Health exit code: %HEALTH_EXIT_CODE%
+echo Dashboard exit code: %DASHBOARD_EXIT_CODE%
 echo Finished: %date% %time%
 echo ========================================
 
@@ -37,4 +45,8 @@ if not "%ATLAS_EXIT_CODE%"=="0" (
     exit /b %ATLAS_EXIT_CODE%
 )
 
-exit /b %HEALTH_EXIT_CODE%
+if not "%HEALTH_EXIT_CODE%"=="0" (
+    exit /b %HEALTH_EXIT_CODE%
+)
+
+exit /b %DASHBOARD_EXIT_CODE%
