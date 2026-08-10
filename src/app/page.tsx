@@ -157,6 +157,18 @@ export default function Home() {
           お問い合わせページも近日公開します。
         </p>
       </section>
+
+      <p
+        style={{
+          fontSize: "10px",
+          opacity: 0.35,
+          textAlign: "center",
+          padding: "8px 16px",
+          margin: 0,
+        }}
+      >
+        Impact-Site-Verification: 34354601-c219-4542-a128-a042a3086334
+      </p>
     </main>
   );
 }
