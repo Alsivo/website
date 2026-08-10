@@ -39,6 +39,14 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <meta
+          name="impact-site-verification"
+          {...{
+            value: "34354601-c219-4542-a128-a042a3086334",
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <Header />
 
