@@ -1,9 +1,19 @@
 import json
 from pathlib import Path
 from typing import Any
+from datetime import date, datetime
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
+
+PROGRAM_RESULTS_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+    / "program_research_results.json"
+)
+
+PROGRAM_RESEARCH_COOLDOWN_DAYS = 30
 
 DECISIONS_FILE = (
     BASE_DIR
@@ -61,10 +71,104 @@ def load_opportunity_decisions() -> list[dict[str, Any]]:
 
     return decisions
 
+def load_recent_program_research(
+) -> dict[str, dict[str, Any]]:
+    """過去のAffiliate Program調査結果をサービス別に読む。"""
+
+    if not PROGRAM_RESULTS_FILE.exists():
+        return {}
+
+    try:
+        data = json.loads(
+            PROGRAM_RESULTS_FILE.read_text(
+                encoding="utf-8",
+            )
+        )
+    except json.JSONDecodeError:
+        return {}
+
+    programs = data.get(
+        "programs",
+        [],
+    )
+
+    if not isinstance(
+        programs,
+        list,
+    ):
+        return {}
+
+    result: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    for item in programs:
+        if not isinstance(
+            item,
+            dict,
+        ):
+            continue
+
+        service = str(
+            item.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        result[
+            service
+        ] = item
+
+    return result
+
+def program_research_is_recent(
+    item: dict[str, Any],
+) -> bool:
+    """Affiliate Program調査がクールダウン期間内か判定する。"""
+
+    verified_at_text = str(
+        item.get(
+            "verified_at",
+            "",
+        )
+    ).strip()
+
+    if not verified_at_text:
+        return False
+
+    try:
+        verified_at = (
+            datetime.fromisoformat(
+                verified_at_text
+            ).date()
+        )
+    except ValueError:
+        return False
+
+    elapsed_days = (
+        date.today()
+        - verified_at
+    ).days
+
+    return (
+        0
+        <= elapsed_days
+        < PROGRAM_RESEARCH_COOLDOWN_DAYS
+    )
+
 def build_program_discovery_queue(
     decisions: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     """案件探索対象サービスを作成する。"""
+
+    researched_programs = (
+        load_recent_program_research()
+    )
 
     service_map: dict[
         str,
@@ -92,6 +196,21 @@ def build_program_discovery_queue(
             continue
 
         service = service.strip()
+
+        previous_research = (
+            researched_programs.get(
+                service
+            )
+        )
+
+        if (
+            previous_research
+            is not None
+            and program_research_is_recent(
+                previous_research
+            )
+        ):
+            continue
 
         priority = int(
             decision.get(

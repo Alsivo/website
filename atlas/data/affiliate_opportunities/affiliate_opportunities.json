@@ -1,7 +1,7 @@
 {
   "ai-codegen-tools-comparison": {
     "title": "AIコード生成ツールおすすめ比較：料金・対応IDE・コード品質・使いやすさで選ぶ",
-    "priority": 65,
+    "priority": 80,
     "services": [
       "Claude",
       "Cursor"
@@ -20,11 +20,16 @@
         "program_name": "公式リンク"
       }
     ],
-    "search_console": null
+    "search_console": {
+      "clicks": 0.0,
+      "impressions": 1.0,
+      "ctr": 0.0,
+      "position": 7.0
+    }
   },
   "ai-email-writing-tools-comparison": {
     "title": "2026年版 初心者向けAIメール作成ツール比較｜Gmail/Outlook対応・日本語品質・機能・料金の選び方",
-    "priority": 65,
+    "priority": 80,
     "services": [
       "ChatGPT",
       "Gemini"
@@ -43,11 +48,16 @@
         "program_name": "公式リンク"
       }
     ],
-    "search_console": null
+    "search_console": {
+      "clicks": 0.0,
+      "impressions": 1.0,
+      "ctr": 0.0,
+      "position": 8.0
+    }
   },
   "ai-image-generators-comparison": {
     "title": "AI画像生成ツールおすすめ比較｜料金・画質・日本語対応・商用利用で選ぶ",
-    "priority": 65,
+    "priority": 80,
     "services": [
       "Canva",
       "ChatGPT"
@@ -66,7 +76,12 @@
         "program_name": "公式リンク"
       }
     ],
-    "search_console": null
+    "search_console": {
+      "clicks": 0.0,
+      "impressions": 1.0,
+      "ctr": 0.0,
+      "position": 6.0
+    }
   },
   "ai-meeting-minutes-tools-comparison": {
     "title": "AI議事録ツールおすすめ比較：料金・精度・要約・対応言語で失敗しない選び方",
@@ -125,6 +140,13 @@
       "ctr": 0.0,
       "position": 74.2
     }
+  },
+  "ai-search-recommendations": {
+    "title": "初心者向けAI検索おすすめ8選｜用途別の選び方と安全な使い方ガイド",
+    "priority": 35,
+    "services": [],
+    "program_candidates": [],
+    "search_console": null
   },
   "ai-video-generator-tools-comparison-pricing-usage": {
     "title": "AI動画生成ツールおすすめ比較｜料金・生成時間・画質・商用利用のチェックポイントと選び方",
@@ -186,9 +208,32 @@
     ],
     "search_console": null
   },
+  "best-ai-translation-tools": {
+    "title": "AI翻訳のおすすめと選び方｜英日・日英の業務で失敗しない最短ルート",
+    "priority": 65,
+    "services": [
+      "ChatGPT",
+      "DeepL"
+    ],
+    "program_candidates": [
+      {
+        "service": "ChatGPT",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      },
+      {
+        "service": "DeepL",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
   "chatgpt-claude-pricing-feature-limits-comparison": {
     "title": "ChatGPTとClaudeの料金・機能・利用制限を徹底比較：用途別の最適解と選び方",
-    "priority": 65,
+    "priority": 80,
     "services": [
       "ChatGPT",
       "Claude"
@@ -207,7 +252,12 @@
         "program_name": "公式リンク"
       }
     ],
-    "search_console": null
+    "search_console": {
+      "clicks": 0.0,
+      "impressions": 1.0,
+      "ctr": 0.0,
+      "position": 10.0
+    }
   },
   "chatgpt-pricing-plans-comparison": {
     "title": "ChatGPTの料金プランを徹底比較｜Free・Plus・Business（旧Team）・Enterpriseの違いと選び方",
@@ -226,8 +276,8 @@
     "search_console": null
   },
   "claude-pricing-plans-comparison-pro-max": {
-    "title": "Claudeの無料版・Pro・Maxを徹底比較：料金・上限・機能から最適プランの選び方",
-    "priority": 65,
+    "title": "Claudeの無料版・Pro・Maxを徹底比較｜料金・上限リセット・機能差でわかるPro/Maxの違い",
+    "priority": 80,
     "services": [
       "Claude"
     ],
@@ -239,7 +289,12 @@
         "program_name": "公式リンク"
       }
     ],
-    "search_console": null
+    "search_console": {
+      "clicks": 0.0,
+      "impressions": 2.0,
+      "ctr": 0.0,
+      "position": 10.0
+    }
   },
   "cursor-pricing-plans-comparison": {
     "title": "Cursorの料金プランを徹底比較：無料／Pro／Businessの違いと最適な選び方",
@@ -250,6 +305,22 @@
     "program_candidates": [
       {
         "service": "Cursor",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
+  },
+  "deepl-pricing-plans-guide": {
+    "title": "DeepLの料金プラン徹底解説：無料・Pro・Teams・APIの違いと最適プランの選び方",
+    "priority": 65,
+    "services": [
+      "DeepL"
+    ],
+    "program_candidates": [
+      {
+        "service": "DeepL",
         "affiliate_status": "none",
         "network": "",
         "program_name": "公式リンク"

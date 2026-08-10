@@ -1,0 +1,133 @@
+{
+  "feedback": [
+    {
+      "slug": "ai-presentation-tools-comparison",
+      "pages": [
+        "https://www.alsivo.com/blog/ai-presentation-tools-comparison"
+      ],
+      "clicks": 0.0,
+      "impressions": 5.0,
+      "ctr": 0.0,
+      "position": 74.2,
+      "action": "rethink",
+      "priority": 45,
+      "reason": "検索露出はあるものの順位が非常に低いため、記事テーマや検索意図の再検討候補です。",
+      "top_queries": [
+        {
+          "query": "プレゼン 資料作成 ツール",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 85.0
+        },
+        {
+          "query": "プレゼンテーション ai",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 90.0
+        },
+        {
+          "query": "資料作成 ai",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 90.0
+        },
+        {
+          "query": "提案資料 ai",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 91.0
+        }
+      ]
+    },
+    {
+      "slug": "claude-pricing-plans-comparison-pro-max",
+      "pages": [
+        "https://alsivo.com/blog/claude-pricing-plans-comparison-pro-max",
+        "https://www.alsivo.com/blog/claude-pricing-plans-comparison-pro-max"
+      ],
+      "clicks": 0.0,
+      "impressions": 4.0,
+      "ctr": 0.0,
+      "position": 10.25,
+      "action": "monitor",
+      "priority": 20,
+      "reason": "表示回数が少なく、判断材料が不足しています。",
+      "top_queries": [
+        {
+          "query": "claude 利用制限 リセット",
+          "clicks": 0.0,
+          "impressions": 2.0,
+          "ctr": 0.0,
+          "position": 10.0
+        },
+        {
+          "query": "claude pro max 違い",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 19.0
+        }
+      ]
+    },
+    {
+      "slug": "ai-codegen-tools-comparison",
+      "pages": [
+        "https://www.alsivo.com/blog/ai-codegen-tools-comparison"
+      ],
+      "clicks": 0.0,
+      "impressions": 1.0,
+      "ctr": 0.0,
+      "position": 7.0,
+      "action": "monitor",
+      "priority": 20,
+      "reason": "表示回数が少なく、判断材料が不足しています。",
+      "top_queries": []
+    },
+    {
+      "slug": "ai-email-writing-tools-comparison",
+      "pages": [
+        "https://www.alsivo.com/blog/ai-email-writing-tools-comparison"
+      ],
+      "clicks": 0.0,
+      "impressions": 1.0,
+      "ctr": 0.0,
+      "position": 8.0,
+      "action": "monitor",
+      "priority": 20,
+      "reason": "表示回数が少なく、判断材料が不足しています。",
+      "top_queries": []
+    },
+    {
+      "slug": "ai-image-generators-comparison",
+      "pages": [
+        "https://www.alsivo.com/blog/ai-image-generators-comparison"
+      ],
+      "clicks": 0.0,
+      "impressions": 1.0,
+      "ctr": 0.0,
+      "position": 6.0,
+      "action": "monitor",
+      "priority": 20,
+      "reason": "表示回数が少なく、判断材料が不足しています。",
+      "top_queries": []
+    },
+    {
+      "slug": "chatgpt-claude-pricing-feature-limits-comparison",
+      "pages": [
+        "https://www.alsivo.com/blog/chatgpt-claude-pricing-feature-limits-comparison"
+      ],
+      "clicks": 0.0,
+      "impressions": 1.0,
+      "ctr": 0.0,
+      "position": 10.0,
+      "action": "monitor",
+      "priority": 20,
+      "reason": "表示回数が少なく、判断材料が不足しています。",
+      "top_queries": []
+    }
+  ]
+}

@@ -265,6 +265,13 @@ def fetch_affiliate_clicks(
                 f"{raw_date[6:8]}"
             )
 
+        # 旧計測形式の affiliate_click を除外する
+        if (
+            not service
+            or service == "(not set)"
+        ):
+            continue
+
         results.append(
             {
                 "date": formatted_date,

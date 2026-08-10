@@ -106,5 +106,42 @@
     "cookie_days": 0,
     "program_score": 0.0,
     "last_verified": "2026-08-05"
+  },
+  "ChatPDF": {
+    "official_url": "https://www.chatpdf.com/",
+    "affiliate_url": "",
+    "cta_label": "ChatPDFを公式サイトで確認する",
+    "aliases": [
+      "ChatPDF"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": ""
+  },
+  "DeepL": {
+    "official_url": "https://www.deepl.com/",
+    "affiliate_url": "",
+    "cta_label": "DeepLを公式サイトで確認する",
+    "aliases": [
+      "DeepL",
+      "DeepL Pro"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": ""
   }
 }

@@ -365,6 +365,53 @@ def update_search_console(
         "失敗しました。"
     )
 
+def update_seo_feedback(
+    log_file: Path,
+) -> None:
+    """SEO Feedbackと改善候補を更新する。"""
+
+    log(
+        "SEO Feedbackを更新します。",
+        log_file,
+    )
+
+    result = run_python_script(
+        "engines/seo_feedback.py",
+        log_file,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "SEO Feedbackの更新に失敗しました。"
+        )
+
+    result = run_python_script(
+        "engines/seo_improvement_queue.py",
+        log_file,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "SEO Improvement Queueの"
+            "更新に失敗しました。"
+        )
+
+    result = run_python_script(
+        "engines/seo_action_planner.py",
+        log_file,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "SEO Action Planの"
+            "更新に失敗しました。"
+        )
+
+    log(
+        "SEO Feedback更新成功。",
+        log_file,
+    )
+
 def update_ga4_affiliate_clicks(
     log_file: Path,
 ) -> None:
@@ -935,6 +982,10 @@ def main() -> None:
         )
 
         update_search_console(
+            log_file
+        )
+
+        update_seo_feedback(
             log_file
         )
 

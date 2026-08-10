@@ -1,0 +1,49 @@
+{
+  "queue": [
+    {
+      "slug": "ai-presentation-tools-comparison",
+      "action": "rethink",
+      "queue_score": 55,
+      "seo_priority": 45,
+      "impressions": 5.0,
+      "clicks": 0.0,
+      "ctr": 0.0,
+      "position": 74.2,
+      "reason": "検索露出はあるものの順位が非常に低いため、記事テーマや検索意図の再検討候補です。",
+      "pages": [
+        "https://www.alsivo.com/blog/ai-presentation-tools-comparison"
+      ],
+      "top_queries": [
+        {
+          "query": "プレゼン 資料作成 ツール",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 85.0
+        },
+        {
+          "query": "プレゼンテーション ai",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 90.0
+        },
+        {
+          "query": "資料作成 ai",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 90.0
+        },
+        {
+          "query": "提案資料 ai",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 91.0
+        }
+      ],
+      "status": "ready"
+    }
+  ]
+}

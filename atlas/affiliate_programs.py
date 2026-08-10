@@ -144,15 +144,103 @@ def research_programs(
 def save_results(
     results: list[dict[str, Any]],
 ) -> Path:
-    """案件調査結果を保存する。"""
+    """案件調査結果を既存結果へ追加・更新して保存する。"""
 
     RESULT_FILE.parent.mkdir(
         parents=True,
         exist_ok=True,
     )
 
+    existing_programs: list[
+        dict[str, Any]
+    ] = []
+
+    if RESULT_FILE.exists():
+        try:
+            existing_data = json.loads(
+                RESULT_FILE.read_text(
+                    encoding="utf-8",
+                )
+            )
+        except json.JSONDecodeError as error:
+            raise ValueError(
+                "program_research_results.jsonの"
+                "JSON形式が不正です。"
+            ) from error
+
+        programs = existing_data.get(
+            "programs",
+            [],
+        )
+
+        if isinstance(
+            programs,
+            list,
+        ):
+            existing_programs = [
+                item
+                for item in programs
+                if isinstance(
+                    item,
+                    dict,
+                )
+            ]
+
+    program_map: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    # 既存結果を先に登録
+    for item in existing_programs:
+        service = str(
+            item.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        program_map[
+            service
+        ] = item
+
+    # 今回の調査結果で追加・上書き
+    for item in results:
+        service = str(
+            item.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        program_map[
+            service
+        ] = item
+
+    merged_programs = list(
+        program_map.values()
+    )
+
+    merged_programs.sort(
+        key=lambda item: int(
+            item.get(
+                "priority",
+                0,
+            )
+            or 0
+        ),
+        reverse=True,
+    )
+
     data = {
-        "programs": results,
+        "programs":
+            merged_programs,
     }
 
     RESULT_FILE.write_text(
@@ -160,7 +248,8 @@ def save_results(
             data,
             ensure_ascii=False,
             indent=2,
-        ),
+        )
+        + "\n",
         encoding="utf-8",
     )
 

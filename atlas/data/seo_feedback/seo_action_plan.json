@@ -1,0 +1,126 @@
+{
+  "plans": [
+    {
+      "slug": "ai-presentation-tools-comparison",
+      "seo_priority": 45,
+      "seo_action": "rethink",
+      "planned_action": "wait",
+      "impressions": 5.0,
+      "clicks": 0.0,
+      "ctr": 0.0,
+      "position": 74.2,
+      "action_reason": "表示回数が20未満のため、大幅な変更は行わずSearch Consoleデータの蓄積を待ちます。",
+      "top_queries": [
+        {
+          "query": "プレゼン 資料作成 ツール",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 85.0
+        },
+        {
+          "query": "プレゼンテーション ai",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 90.0
+        },
+        {
+          "query": "資料作成 ai",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 90.0
+        },
+        {
+          "query": "提案資料 ai",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 91.0
+        }
+      ],
+      "status": "waiting"
+    },
+    {
+      "slug": "claude-pricing-plans-comparison-pro-max",
+      "seo_priority": 20,
+      "seo_action": "monitor",
+      "planned_action": "wait",
+      "impressions": 4.0,
+      "clicks": 0.0,
+      "ctr": 0.0,
+      "position": 10.25,
+      "action_reason": "SEO Feedbackでmonitor判定です。検索データが不足しているため、記事変更は行いません。",
+      "top_queries": [
+        {
+          "query": "claude 利用制限 リセット",
+          "clicks": 0.0,
+          "impressions": 2.0,
+          "ctr": 0.0,
+          "position": 10.0
+        },
+        {
+          "query": "claude pro max 違い",
+          "clicks": 0.0,
+          "impressions": 1.0,
+          "ctr": 0.0,
+          "position": 19.0
+        }
+      ],
+      "status": "waiting"
+    },
+    {
+      "slug": "ai-codegen-tools-comparison",
+      "seo_priority": 20,
+      "seo_action": "monitor",
+      "planned_action": "wait",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "ctr": 0.0,
+      "position": 7.0,
+      "action_reason": "SEO Feedbackでmonitor判定です。検索データが不足しているため、記事変更は行いません。",
+      "top_queries": [],
+      "status": "waiting"
+    },
+    {
+      "slug": "ai-email-writing-tools-comparison",
+      "seo_priority": 20,
+      "seo_action": "monitor",
+      "planned_action": "wait",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "ctr": 0.0,
+      "position": 8.0,
+      "action_reason": "SEO Feedbackでmonitor判定です。検索データが不足しているため、記事変更は行いません。",
+      "top_queries": [],
+      "status": "waiting"
+    },
+    {
+      "slug": "ai-image-generators-comparison",
+      "seo_priority": 20,
+      "seo_action": "monitor",
+      "planned_action": "wait",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "ctr": 0.0,
+      "position": 6.0,
+      "action_reason": "SEO Feedbackでmonitor判定です。検索データが不足しているため、記事変更は行いません。",
+      "top_queries": [],
+      "status": "waiting"
+    },
+    {
+      "slug": "chatgpt-claude-pricing-feature-limits-comparison",
+      "seo_priority": 20,
+      "seo_action": "monitor",
+      "planned_action": "wait",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "ctr": 0.0,
+      "position": 10.0,
+      "action_reason": "SEO Feedbackでmonitor判定です。検索データが不足しているため、記事変更は行いません。",
+      "top_queries": [],
+      "status": "waiting"
+    }
+  ]
+}

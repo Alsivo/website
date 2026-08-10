@@ -33,6 +33,13 @@ SEARCH_CONSOLE_PAGE_QUERY_FILE = (
     / "page_query_performance.csv"
 )
 
+SEO_ACTION_PLAN_FILE = (
+    BASE_DIR
+    / "data"
+    / "seo_feedback"
+    / "seo_action_plan.json"
+)
+
 KEYWORDS_FILE = (
     WEBSITE_DIR.parent
     / "data-content-engine"
@@ -131,6 +138,62 @@ def load_page_query_data() -> list[dict[str, Any]]:
 
     return rows
 
+
+def load_seo_action_plan(
+) -> dict[str, Any]:
+    """SEO Action Planを読み込む。"""
+
+    if not SEO_ACTION_PLAN_FILE.exists():
+        return {
+            "available": False,
+            "plans": [],
+            "reason":
+                "seo_action_plan.jsonがありません。",
+        }
+
+    try:
+        data = json.loads(
+            SEO_ACTION_PLAN_FILE.read_text(
+                encoding="utf-8",
+            )
+        )
+    except json.JSONDecodeError:
+        return {
+            "available": False,
+            "plans": [],
+            "reason":
+                "seo_action_plan.jsonが壊れています。",
+        }
+
+    plans = data.get(
+        "plans",
+        [],
+    )
+
+    if not isinstance(
+        plans,
+        list,
+    ):
+        return {
+            "available": False,
+            "plans": [],
+            "reason":
+                "SEO Action Planのplansが不正です。",
+        }
+
+    valid_plans = [
+        item
+        for item in plans
+        if isinstance(
+            item,
+            dict,
+        )
+    ]
+
+    return {
+        "available": True,
+        "plans": valid_plans,
+    }
 
 def extract_frontmatter_value(
     text: str,
@@ -353,6 +416,8 @@ def build_editorial_context() -> dict[str, Any]:
             load_search_console_summary(),
         "page_query_data":
             load_page_query_data(),
+        "seo_action_plan":
+            load_seo_action_plan(),
         "existing_articles":
             load_existing_articles(),
         "unprocessed_keywords":

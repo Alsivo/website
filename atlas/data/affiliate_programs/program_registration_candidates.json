@@ -113,6 +113,40 @@
           "source_type": "help"
         }
       ]
+    },
+    {
+      "service": "DeepL",
+      "priority": 72,
+      "program_type": "partner",
+      "program_name": "DeepL Partner Program",
+      "network": "",
+      "program_url": "https://www.deepl.com/en/partners/contact-us",
+      "commission": "",
+      "cookie_duration": "",
+      "target_country": "",
+      "application_required": true,
+      "research_notes": "2026-08-10時点で、DeepLは一般向けのアフィリエイト／紹介（リファラル）プログラムの公式告知や主要ネットワーク（Impact、PartnerStack、Awin、CJ、Rakuten Advertising等）での公開プログラムを確認できませんでした。一方で、公式サイト上にパートナーエコシステム（リセールや技術連携等）への参加フォームとパートナー企業ディレクトリが公開されており、パートナープログラムの存在と申請導線を確認できました。報酬体系・クッキー期間・対象国の明示は見当たらなかったため空欄としています。",
+      "verified_at": "2026-08-10",
+      "source_articles": [
+        "deepl-pricing-plans-guide"
+      ],
+      "sources": [
+        {
+          "title": "Join the DeepL partner ecosystem",
+          "url": "https://www.deepl.com/en/partners/contact-us",
+          "source_type": "official"
+        },
+        {
+          "title": "DeepL Partner directory",
+          "url": "https://www.deepl.com/en/partners/directory",
+          "source_type": "official"
+        },
+        {
+          "title": "DeepL Marketplace (linked from partner pages)",
+          "url": "https://marketplace.deepl-partners.com/",
+          "source_type": "official"
+        }
+      ]
     }
   ],
   "not_found": [

@@ -1,67 +1,10 @@
 {
   "programs": [
     {
-      "service": "ChatGPT",
-      "priority": 82,
+      "service": "DeepL",
+      "priority": 72,
       "source_articles": [
-        "chatgpt-pricing-plans-comparison"
-      ],
-      "status": "pending_research",
-      "program_found": null,
-      "program_type": null,
-      "program_name": "",
-      "network": "",
-      "program_url": "",
-      "commission": "",
-      "cookie_duration": "",
-      "target_country": "",
-      "application_required": null,
-      "research_notes": "",
-      "verified_at": null
-    },
-    {
-      "service": "Claude",
-      "priority": 79,
-      "source_articles": [
-        "claude-pricing-plans-comparison-pro-max"
-      ],
-      "status": "pending_research",
-      "program_found": null,
-      "program_type": null,
-      "program_name": "",
-      "network": "",
-      "program_url": "",
-      "commission": "",
-      "cookie_duration": "",
-      "target_country": "",
-      "application_required": null,
-      "research_notes": "",
-      "verified_at": null
-    },
-    {
-      "service": "Cursor",
-      "priority": 76,
-      "source_articles": [
-        "cursor-pricing-plans-comparison"
-      ],
-      "status": "pending_research",
-      "program_found": null,
-      "program_type": null,
-      "program_name": "",
-      "network": "",
-      "program_url": "",
-      "commission": "",
-      "cookie_duration": "",
-      "target_country": "",
-      "application_required": null,
-      "research_notes": "",
-      "verified_at": null
-    },
-    {
-      "service": "Gemini",
-      "priority": 75,
-      "source_articles": [
-        "gemini-pricing-plan-comparison"
+        "deepl-pricing-plans-guide"
       ],
       "status": "pending_research",
       "program_found": null,

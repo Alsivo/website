@@ -126,6 +126,48 @@ def make_editorial_decision(
             "検索意図が明確な未処理キーワードから"
             "新規記事を優先してください。"
 
+            "seo_action_planはSEO Feedback Engineが"
+            "Search Console実績をもとに算出した"
+            "安全側の改善判断です。"
+
+            "seo_action_planでplanned_actionがwaitの"
+            "記事は、SEOデータ不足を意味します。"
+            "その記事をSearch Console上の理由だけで"
+            "rewrite_articleに選ばないでください。"
+
+            "planned_actionがrewriteの記事は、"
+            "リライト候補として強く考慮してください。"
+
+            "planned_actionがstrengthenの記事は、"
+            "全面的な再設計よりも既存内容を活かした"
+            "部分的改善が適しています。"
+
+            "planned_actionがtitle_onlyの記事は、"
+            "本文の全面リライトではなく、"
+            "タイトルやdescription改善が"
+            "主目的であることを考慮してください。"
+
+            "seo_action_planがavailableの場合、"
+            "既存記事をrewrite_articleに選択する際は、"
+            "必ず対象slugのSEO Action Planを確認してください。"
+
+            "対象slugのplanned_actionがwaitの場合は、"
+            "Search Console上の順位や検索語が魅力的でも"
+            "rewrite_articleを選択してはいけません。"
+
+            "また、seo_action_planに対象slugが存在しない場合も、"
+            "Search Consoleデータだけを理由として"
+            "rewrite_articleを選択してはいけません。"
+
+            "現段階でrewrite_articleを自動選択してよいのは、"
+            "原則としてplanned_actionがrewriteの"
+            "記事だけです。"
+
+            "planned_actionがstrengthenまたはtitle_onlyの場合は、"
+            "専用の部分改善処理が未実装のため、"
+            "現時点ではrewrite_articleを選ばず、"
+            "新規記事またはwaitを優先してください。"
+            
             "既存記事が掲載順位4〜20位程度で、"
             "一定の表示回数がある場合は、"
             "リライトによって上位表示できる可能性を"
