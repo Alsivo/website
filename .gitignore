@@ -79,3 +79,6 @@ atlas/data/revenue/revenue_summary.json
 
 # Atlas portfolio runtime data
 atlas/data/portfolio/
+
+# Atlas dashboard runtime data
+atlas/data/dashboard/
