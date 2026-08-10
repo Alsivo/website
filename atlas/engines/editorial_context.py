@@ -40,6 +40,13 @@ SEO_ACTION_PLAN_FILE = (
     / "seo_action_plan.json"
 )
 
+PORTFOLIO_PLAN_FILE = (
+    BASE_DIR
+    / "data"
+    / "portfolio"
+    / "portfolio_plan.json"
+)
+
 KEYWORDS_FILE = (
     WEBSITE_DIR.parent
     / "data-content-engine"
@@ -193,6 +200,68 @@ def load_seo_action_plan(
     return {
         "available": True,
         "plans": valid_plans,
+    }
+
+
+def load_portfolio_plan(
+) -> dict[str, Any]:
+    """Portfolio Planを読み込む。"""
+
+    if not PORTFOLIO_PLAN_FILE.exists():
+        return {
+            "available": False,
+            "summary": {},
+            "articles": [],
+            "reason":
+                "portfolio_plan.jsonがありません。",
+        }
+
+    try:
+        data = json.loads(
+            PORTFOLIO_PLAN_FILE.read_text(
+                encoding="utf-8",
+            )
+        )
+    except json.JSONDecodeError:
+        return {
+            "available": False,
+            "summary": {},
+            "articles": [],
+            "reason":
+                "portfolio_plan.jsonが壊れています。",
+        }
+
+    articles = data.get(
+        "articles",
+        [],
+    )
+
+    if not isinstance(
+        articles,
+        list,
+    ):
+        return {
+            "available": False,
+            "summary": {},
+            "articles": [],
+            "reason":
+                "Portfolio Planのarticlesが不正です。",
+        }
+
+    return {
+        "available": True,
+        "summary": data.get(
+            "summary",
+            {},
+        ),
+        "articles": [
+            item
+            for item in articles
+            if isinstance(
+                item,
+                dict,
+            )
+        ],
     }
 
 def extract_frontmatter_value(
@@ -418,6 +487,8 @@ def build_editorial_context() -> dict[str, Any]:
             load_page_query_data(),
         "seo_action_plan":
             load_seo_action_plan(),
+        "portfolio_plan":
+            load_portfolio_plan(),
         "existing_articles":
             load_existing_articles(),
         "unprocessed_keywords":

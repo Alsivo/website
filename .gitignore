@@ -74,6 +74,8 @@ atlas/data/content_expansion/expansion_decisions.json
 atlas/data/content_expansion/expansion_candidates.json
 
 # Atlas revenue runtime data
-
 atlas/data/revenue/affiliate_clicks.json
 atlas/data/revenue/revenue_summary.json
+
+# Atlas portfolio runtime data
+atlas/data/portfolio/

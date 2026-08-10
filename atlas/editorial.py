@@ -6,11 +6,98 @@ from agents.editor import (
 )
 from engines.editorial_context import (
     build_editorial_context,
+    load_portfolio_plan,
 )
 from engines.rewrite_history import (
     is_rewrite_allowed,
 )
 
+
+def check_portfolio_permission(
+    target_slug: str,
+) -> tuple[bool, str]:
+    """Portfolio Planで記事変更が許可されているか確認する。"""
+
+    target_slug = (
+        target_slug.strip()
+    )
+
+    if not target_slug:
+        return (
+            False,
+            "対象slugがありません。",
+        )
+
+    portfolio = (
+        load_portfolio_plan()
+    )
+
+    if not portfolio.get(
+        "available"
+    ):
+        return (
+            False,
+            "Portfolio Planを確認できないため、"
+            "安全側で記事変更を停止します。",
+        )
+
+    articles = portfolio.get(
+        "articles",
+        [],
+    )
+
+    for item in articles:
+        if not isinstance(
+            item,
+            dict,
+        ):
+            continue
+
+        slug = str(
+            item.get(
+                "slug",
+                "",
+            )
+        ).strip()
+
+        if slug != target_slug:
+            continue
+
+        allowed = bool(
+            item.get(
+                "execution_allowed",
+                False,
+            )
+        )
+
+        if allowed:
+            return (
+                True,
+                "Portfolio Planで"
+                "実行が許可されています。",
+            )
+
+        reason = str(
+            item.get(
+                "budget_reason",
+                "",
+            )
+        ).strip()
+
+        return (
+            False,
+            reason
+            or (
+                "Portfolio Planで"
+                "実行が許可されていません。"
+            ),
+        )
+
+    return (
+        False,
+        "対象記事がPortfolio Planに"
+        "存在しないため、安全側で停止します。",
+    )
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -56,10 +143,32 @@ def main() -> None:
 
             if target_slug:
                 (
+                    portfolio_allowed,
+                    portfolio_reason,
+                ) = check_portfolio_permission(
+                    target_slug
+                )
+
+                decision[
+                    "portfolio_allowed"
+                ] = portfolio_allowed
+
+                decision[
+                    "portfolio_reason"
+                ] = portfolio_reason
+
+                (
                     rewrite_allowed,
                     rewrite_cooldown_reason,
                 ) = is_rewrite_allowed(
                     target_slug
+                )
+
+                # PortfolioとCooldownの
+                # 両方を通過した場合だけ許可
+                rewrite_allowed = (
+                    portfolio_allowed
+                    and rewrite_allowed
                 )
 
                 decision[

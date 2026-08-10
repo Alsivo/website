@@ -498,6 +498,33 @@ def update_revenue_summary(
     )
 
 
+def update_portfolio_plan(
+    log_file: Path,
+) -> None:
+    """記事ポートフォリオ評価を更新する。"""
+
+    log(
+        "Portfolio Planを更新します。",
+        log_file,
+    )
+
+    result = run_python_script(
+        "engines/portfolio_optimizer.py",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Portfolio Plan更新成功。",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "Portfolio Planの"
+        "更新に失敗しました。"
+    )
+
 def load_top_expansion_candidate(
 ) -> dict[str, Any] | None:
     """Expansion候補から最優先の新記事候補を返す。"""
@@ -997,11 +1024,15 @@ def main() -> None:
             log_file
         )
 
+        update_portfolio_plan(
+            log_file
+        )
+
         decision = (
             run_editorial_director(
-                log_file
-            )
+            log_file
         )
+    )
 
         action = str(
             decision.get(
@@ -1025,10 +1056,24 @@ def main() -> None:
         )
 
         # ----------------------------------------------------
-        # リライトクールダウン確認
+        # リライト実行可否確認
         # ----------------------------------------------------
 
         if action == "rewrite_article":
+            portfolio_allowed = (
+                decision.get(
+                    "portfolio_allowed",
+                    True,
+                )
+            )
+
+            portfolio_reason = str(
+                decision.get(
+                    "portfolio_reason",
+                    "",
+                )
+            ).strip()
+
             rewrite_allowed = (
                 decision.get(
                     "rewrite_allowed",
@@ -1043,14 +1088,57 @@ def main() -> None:
                 )
             ).strip()
 
-            if rewrite_allowed is False:
-                target_slug = str(
-                    decision.get(
-                        "target_slug",
-                        "",
+            target_slug = str(
+                decision.get(
+                    "target_slug",
+                    "",
+                )
+            ).strip()
+
+            # ------------------------------------------------
+            # Portfolio側で拒否された場合
+            # ------------------------------------------------
+
+            if portfolio_allowed is False:
+                log(
+                    "Portfolio Planで"
+                    "実行が許可されていないため、"
+                    "今回はリライトしません："
+                    f"{target_slug}",
+                    log_file,
+                )
+
+                if portfolio_reason:
+                    log(
+                        "Portfolio理由："
+                        f"{portfolio_reason}",
+                        log_file,
                     )
+
+                # Portfolioによる拒否時は、
+                # 新規記事へ切り替えず安全側で停止する
+                action = "wait"
+
+                decision[
+                    "action"
+                ] = "wait"
+
+                reason = (
+                    "Portfolio Planの"
+                    "安全制御により記事変更を停止。 "
+                    + portfolio_reason
                 ).strip()
 
+                decision[
+                    "reason"
+                ] = reason
+
+            # ------------------------------------------------
+            # Portfolioは許可しているが、
+            # リライトCooldownで拒否された場合
+            # ------------------------------------------------
+
+            elif rewrite_allowed is False:
                 log(
                     "リライト対象は"
                     "クールダウン中のため"
