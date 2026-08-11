@@ -47,9 +47,9 @@ export default function Home() {
           </p>
 
           <h1>
-            AIを、
-            <br />
-            もっとわかりやすく。
+            <span>AIを</span>
+            <br className="mobile-title-break" />
+            <span>もっとわかりやすく。</span>
           </h1>
 
           <p className="media-hero-description">
@@ -239,9 +239,11 @@ export default function Home() {
           </p>
 
           <h2>
-            AIを、あなたの仕事の
+            <span>AIを</span>
+            <br className="mobile-about-break" />
+            <span>あなたの仕事の</span>
             <br />
-            一番身近な味方へ。
+            <span>一番身近な味方へ。</span>
           </h2>
         </div>
 
