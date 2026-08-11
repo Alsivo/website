@@ -1945,9 +1945,18 @@ main {
   }
 
   .media-hero h1 {
-    font-size: clamp(42px, 12vw, 56px);
+    font-size: clamp(38px, 10.5vw, 50px);
     line-height: 1.12;
     white-space: normal;
+  }
+
+  .media-hero h1 span {
+    white-space: nowrap;
+  }
+
+  .mobile-title-break,
+  .mobile-about-break {
+    display: block;
   }
 
   .mobile-title-break,
