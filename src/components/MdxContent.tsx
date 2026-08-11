@@ -47,14 +47,35 @@ const components = {
     );
   },
 
-  p: (
-    props: ComponentPropsWithoutRef<"p">,
-  ) => (
-    <p
-      className="article-paragraph"
-      {...props}
-    />
-  ),
+  p: ({
+    children,
+    ...props
+  }: ComponentPropsWithoutRef<"p">) => {
+    const text = String(children).trim();
+
+    const isItemTitle =
+      /^\d+\)\s+[^：:]{1,40}$/.test(text);
+
+    if (isItemTitle) {
+      return (
+        <p
+          className="article-item-title"
+          {...props}
+        >
+          {children}
+        </p>
+      );
+    }
+
+    return (
+      <p
+        className="article-paragraph"
+        {...props}
+      >
+        {children}
+      </p>
+    );
+  },
 
   ul: (
     props: ComponentPropsWithoutRef<"ul">,
