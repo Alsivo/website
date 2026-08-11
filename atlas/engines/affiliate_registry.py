@@ -254,7 +254,7 @@ def build_affiliate_section(
 
     lines = [
         "",
-        "## 紹介したサービスを確認する",
+        "## 公式情報を確認する",
         "",
     ]
 
@@ -361,8 +361,6 @@ def build_affiliate_section(
 
         lines.extend(
             [
-                f"### {tool_name}",
-                "",
                 link_markup,
                 "",
             ]

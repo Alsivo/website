@@ -78,24 +78,58 @@ export default function AffiliateLink({
   };
 
   return (
-    <a
+    <div
       className={[
-        "affiliate-cta-link",
-        linkType === "affiliate"
-          ? "affiliate-cta-link-paid"
-          : "affiliate-cta-link-official",
-        `affiliate-cta-link-${ctaType}`,
+        "affiliate-cta-card",
+        `affiliate-cta-card-${ctaType}`,
       ].join(" ")}
-      href={href}
-      onClick={handleClick}
-      rel={
-        linkType === "affiliate"
-          ? "sponsored nofollow noopener noreferrer"
-          : "noopener noreferrer"
-      }
-      target="_blank"
     >
-      {children}
-    </a>
+      <div className="affiliate-cta-card-content">
+        <p className="affiliate-cta-eyebrow">
+          公式情報を確認
+        </p>
+
+        <p className="affiliate-cta-service">
+          {service}
+        </p>
+
+        <p className="affiliate-cta-description">
+          料金や利用条件は変更されることがあります。
+          契約・登録前に公式サイトで最新情報をご確認ください。
+        </p>
+      </div>
+
+      <a
+        className={[
+          "affiliate-cta-link",
+          linkType === "affiliate"
+            ? "affiliate-cta-link-paid"
+            : "affiliate-cta-link-official",
+          `affiliate-cta-link-${ctaType}`,
+        ].join(" ")}
+        href={href}
+        onClick={handleClick}
+        rel={
+          linkType === "affiliate"
+            ? "sponsored nofollow noopener noreferrer"
+            : "noopener noreferrer"
+        }
+        target="_blank"
+      >
+        <span>{children}</span>
+        <span
+          className="affiliate-cta-arrow"
+          aria-hidden="true"
+        >
+          ↗
+        </span>
+      </a>
+
+      {linkType === "affiliate" && (
+        <p className="affiliate-cta-disclosure">
+          このリンクには広告が含まれます
+        </p>
+      )}
+    </div>
   );
 }
