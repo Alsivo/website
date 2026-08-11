@@ -47,35 +47,14 @@ const components = {
     );
   },
 
-  p: ({
-    children,
-    ...props
-  }: ComponentPropsWithoutRef<"p">) => {
-    const text = String(children).trim();
-
-    const isItemTitle =
-      /^\d+\)\s+[^：:]{1,40}$/.test(text);
-
-    if (isItemTitle) {
-      return (
-        <p
-          className="article-item-title"
-          {...props}
-        >
-          {children}
-        </p>
-      );
-    }
-
-    return (
-      <p
-        className="article-paragraph"
-        {...props}
-      >
-        {children}
-      </p>
-    );
-  },
+  p: (
+    props: ComponentPropsWithoutRef<"p">,
+  ) => (
+    <p
+      className="article-paragraph"
+      {...props}
+    />
+  ),
 
   ul: (
     props: ComponentPropsWithoutRef<"ul">,
@@ -90,15 +69,13 @@ const components = {
     props: ComponentPropsWithoutRef<"ol">,
   ) => (
     <ol
-      className="article-list"
+      className="article-list article-numbered-list"
       {...props}
     />
   ),
 
   blockquote: (
-    props: ComponentPropsWithoutRef<
-      "blockquote"
-    >,
+    props: ComponentPropsWithoutRef<"blockquote">,
   ) => (
     <blockquote
       className="article-quote"
