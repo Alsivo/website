@@ -1,161 +1,270 @@
-const services = [
+import Image from "next/image";
+import Link from "next/link";
+import { getAllBlogPosts } from "../lib/blog";
+
+
+const categoryLinks = [
   {
-    number: "01",
-    title: "AI Knowledge",
-    description:
-      "AIツールの選び方や活用方法を、実践的で分かりやすい情報として届けます。",
-    status: "Coming soon",
+    label: "料金・プラン比較",
+    keyword: "料金",
   },
   {
-    number: "02",
-    title: "AI Tools",
-    description:
-      "日々の仕事を効率化し、誰でもすぐに使えるシンプルなAIツールを提供します。",
-    status: "Coming soon",
+    label: "文章作成",
+    keyword: "文章",
   },
   {
-    number: "03",
-    title: "AI Services",
-    description:
-      "AIを活用した仕組みやサービスを通して、仕事の新しい選択肢をつくります。",
-    status: "Coming soon",
+    label: "画像生成",
+    keyword: "画像",
+  },
+  {
+    label: "資料作成",
+    keyword: "プレゼン",
+  },
+  {
+    label: "コード生成",
+    keyword: "コード",
+  },
+  {
+    label: "AIツール比較",
+    keyword: "比較",
   },
 ];
 
+
 export default function Home() {
+  const articles = getAllBlogPosts();
+
+  const featuredArticles = articles.slice(0, 3);
+
+  const latestArticles = articles.slice(0, 6);
+
   return (
     <main>
-      <section className="hero" id="top">
-        <div className="hero-glow hero-glow-one" aria-hidden="true" />
-        <div className="hero-glow hero-glow-two" aria-hidden="true" />
-
-        <div className="hero-content">
-          <p className="eyebrow">AI FOR EVERYDAY WORK</p>
+      <section className="media-hero">
+        <div className="media-hero-content">
+          <p className="eyebrow">
+            AI TOOLS & PRACTICAL GUIDES
+          </p>
 
           <h1>
             AIを、
             <br />
-            あなたの仕事の
-            <br />
-            <span>一番身近な味方へ。</span>
+            もっとわかりやすく。
           </h1>
 
-          <p className="hero-description">
-            Alsivoは、AIに関する情報・ツール・サービスを通して、
-            <br className="desktop-break" />
-            誰もがAIを自然に活用できる未来をつくります。
+          <p className="media-hero-description">
+            ChatGPTやClaudeなどのAIツールを、
+            料金・機能・使い方まで分かりやすく比較。
+            仕事でAIを使うための実践的な情報を届けます。
           </p>
 
-          <div className="hero-actions">
-            <a className="button button-primary" href="#services">
-              Alsivoについて
+          <div className="media-hero-actions">
+            <Link
+              className="button button-primary"
+              href="/blog"
+            >
+              記事を探す
               <span aria-hidden="true">→</span>
-            </a>
+            </Link>
 
-            <a className="button button-secondary" href="#services">
-              サービスを見る
-            </a>
+            <Link
+              className="media-text-link"
+              href="/about"
+            >
+              Alsivoについて
+            </Link>
           </div>
         </div>
 
-        <div className="scroll-guide" aria-hidden="true">
-          <span>SCROLL</span>
-          <div />
-        </div>
+        <div
+          className="media-hero-orb"
+          aria-hidden="true"
+        />
       </section>
 
-      <section className="mission section" id="mission">
-        <div className="section-label">
-          <span>01</span>
-          <p>MISSION</p>
-        </div>
+      {featuredArticles.length > 0 && (
+        <section className="home-section home-featured">
+          <div className="home-section-heading">
+            <div>
+              <p className="section-kicker">
+                FEATURED
+              </p>
 
-        <div className="mission-content">
-          <p className="section-kicker">AIをもっと身近に。</p>
+              <h2>
+                まず読んでほしい記事
+              </h2>
+            </div>
 
-          <h2>
-            技術を意識せず、
-            <br />
-            誰もがAIの力を活かせる社会へ。
-          </h2>
-
-          <div className="mission-copy">
-            <p>
-              AIは、一部の専門家だけが使う特別な技術ではありません。
-              調べる、考える、つくる、伝える。日々の仕事のあらゆる場面で、
-              人の可能性を広げる存在になりつつあります。
-            </p>
-
-            <p>
-              Alsivoは、複雑なAIを分かりやすく、使いやすく届けます。
-              AIが人に代わるのではなく、人の仕事を支える最も身近なパートナーになる。
-              そんな未来を目指します。
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="services section" id="services">
-        <div className="section-heading">
-          <div className="section-label">
-            <span>02</span>
-            <p>WHAT WE DO</p>
+            <Link href="/blog">
+              すべての記事を見る →
+            </Link>
           </div>
 
+          <div className="home-featured-grid">
+            {featuredArticles.map(
+              (article, index) => (
+                <Link
+                  className={
+                    index === 0
+                      ? "home-featured-card home-featured-card-main"
+                      : "home-featured-card"
+                  }
+                  href={`/blog/${article.slug}`}
+                  key={article.slug}
+                >
+                  <div className="home-featured-image">
+                    <Image
+                      src={article.image}
+                      alt={`${article.title}のアイキャッチ画像`}
+                      fill
+                      sizes={
+                        index === 0
+                          ? "(max-width: 900px) 100vw, 66vw"
+                          : "(max-width: 900px) 100vw, 33vw"
+                      }
+                    />
+
+                    <span>
+                      {article.category}
+                    </span>
+                  </div>
+
+                  <div className="home-featured-body">
+                    <h3>{article.title}</h3>
+
+                    <p>
+                      {article.description}
+                    </p>
+
+                    <span className="home-card-link">
+                      記事を読む →
+                    </span>
+                  </div>
+                </Link>
+              ),
+            )}
+          </div>
+        </section>
+      )}
+
+      <section className="home-section home-discovery">
+        <div className="home-section-heading">
           <div>
-            <p className="section-kicker">知る。使う。広げる。</p>
-            <h2>AIを仕事につなげる、3つのアプローチ。</h2>
+            <p className="section-kicker">
+              DISCOVER
+            </p>
+
+            <h2>
+              目的から探す
+            </h2>
           </div>
         </div>
 
-        <div className="service-grid">
-          {services.map((service) => (
-            <article className="service-card" key={service.number}>
-              <div className="service-card-top">
-                <span className="service-number">{service.number}</span>
-                <span className="service-status">{service.status}</span>
-              </div>
+        <div className="home-category-grid">
+          {categoryLinks.map((item) => (
+            <Link
+              href="/blog"
+              className="home-category-card"
+              key={item.label}
+            >
+              <span>{item.label}</span>
 
-              <div>
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-              </div>
-
-              <span className="service-arrow" aria-hidden="true">
-                ↗
+              <span aria-hidden="true">
+                →
               </span>
-            </article>
+            </Link>
           ))}
         </div>
       </section>
 
-      <section className="statement section">
-        <p>OUR VISION</p>
+      {latestArticles.length > 0 && (
+        <section className="home-section home-latest">
+          <div className="home-section-heading">
+            <div>
+              <p className="section-kicker">
+                LATEST
+              </p>
 
-        <h2>
-          Human potential,
-          <br />
-          amplified by AI.
-        </h2>
+              <h2>
+                最新の記事
+              </h2>
+            </div>
 
-        <span>人の可能性を、AIでもっと大きく。</span>
-      </section>
+            <Link href="/blog">
+              記事一覧へ →
+            </Link>
+          </div>
 
-      <section className="contact section" id="contact">
+          <div className="home-latest-grid">
+            {latestArticles.map(
+              (article) => (
+                <Link
+                  className="home-latest-card"
+                  href={`/blog/${article.slug}`}
+                  key={article.slug}
+                >
+                  <div className="home-latest-image">
+                    <Image
+                      src={article.image}
+                      alt={`${article.title}のアイキャッチ画像`}
+                      fill
+                      sizes="(max-width: 700px) 100vw, 33vw"
+                    />
+                  </div>
+
+                  <div className="home-latest-body">
+                    <span className="home-latest-category">
+                      {article.category}
+                    </span>
+
+                    <h3>
+                      {article.title}
+                    </h3>
+
+                    <p>
+                      {article.description}
+                    </p>
+                  </div>
+                </Link>
+              ),
+            )}
+          </div>
+        </section>
+      )}
+
+      <section className="home-about">
         <div>
-          <p className="section-kicker">CONTACT</p>
+          <p className="section-kicker">
+            ABOUT ALSIVO
+          </p>
+
           <h2>
-            Alsivoのこれからに、
+            AIを、あなたの仕事の
             <br />
-            ご期待ください。
+            一番身近な味方へ。
           </h2>
         </div>
 
-        <p>
-          AIメディア、AIツール、サービスを順次公開予定です。
-          <br />
-          お問い合わせページも近日公開します。
-        </p>
+        <div className="home-about-copy">
+          <p>
+            Alsivoは、AIツールや生成AIに関する情報を、
+            分かりやすく実践的に届けるメディアです。
+          </p>
+
+          <p>
+            新しい技術をただ紹介するのではなく、
+            「結局どれを選べばいいのか」
+            「仕事でどう使えばいいのか」を、
+            初めて使う人にも伝わる形で整理します。
+          </p>
+
+          <Link
+            className="media-text-link"
+            href="/about"
+          >
+            Alsivoについて詳しく見る →
+          </Link>
+        </div>
       </section>
 
       <p
@@ -167,7 +276,8 @@ export default function Home() {
           margin: 0,
         }}
       >
-        Impact-Site-Verification: e1b1347b-5614-46cc-b69d-047b228a9dac
+        Impact-Site-Verification:
+        e1b1347b-5614-46cc-b69d-047b228a9dac
       </p>
     </main>
   );
