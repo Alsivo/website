@@ -155,16 +155,6 @@ export default async function BlogPostPage({
 
         <p className="article-lead">{post.description}</p>
 
-        <div className="article-hero-image">
-          <Image
-            src={post.image}
-            alt={`${post.title}のアイキャッチ画像`}
-            fill
-            priority
-            sizes="(max-width: 820px) 100vw, 780px"
-          />
-        </div>
-
         <div className="article-meta-row">
           <time dateTime={post.date}>{publishedDate}</time>
           <span>{post.readingTime}</span>

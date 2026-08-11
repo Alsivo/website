@@ -784,12 +784,6 @@ main {
   width: 100%;
 }
 
-.article-paragraph,
-.article-list,
-.article-quote {
-  max-width: 960px;
-}
-
 .article-page > h1 {
   margin: 20px 0 24px;
   font-size: clamp(40px, 5vw, 64px);
