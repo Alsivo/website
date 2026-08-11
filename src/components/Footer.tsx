@@ -19,7 +19,7 @@ export default function Footer() {
         </Link>
 
         <p>
-          AIを、あなたの仕事の
+          AIをあなたの仕事の
           一番身近な味方へ。
         </p>
       </div>
