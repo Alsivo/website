@@ -781,11 +781,11 @@ main {
 }
 
 .article-page > h1 {
-  margin: 20px 0 28px;
-  font-size: clamp(44px, 6vw, 76px);
+  margin: 20px 0 24px;
+  font-size: clamp(40px, 5vw, 64px);
   font-weight: 600;
-  letter-spacing: -0.065em;
-  line-height: 1.15;
+  letter-spacing: -0.055em;
+  line-height: 1.18;
 }
 
 .article-category {
@@ -812,31 +812,32 @@ main {
 }
 
 .article-heading {
-  margin: 70px 0 22px;
-  font-size: 34px;
-  letter-spacing: -0.04em;
+  margin: 64px 0 20px;
+  font-size: 32px;
+  letter-spacing: -0.035em;
   line-height: 1.4;
 }
 
 .article-subheading {
-  margin: 44px 0 18px;
-  font-size: 24px;
-  letter-spacing: -0.03em;
+  margin: 40px 0 16px;
+  font-size: 23px;
+  letter-spacing: -0.025em;
+  line-height: 1.45;
 }
 
 .article-paragraph {
-  margin: 0 0 26px;
-  color: #414340;
+  margin: 0 0 24px;
+  color: #343734;
   font-size: 17px;
-  line-height: 2;
+  line-height: 1.9;
 }
 
 .article-list {
-  margin: 0 0 30px;
-  padding-left: 26px;
-  color: #414340;
+  margin: 0 0 28px;
+  padding-left: 24px;
+  color: #343734;
   font-size: 17px;
-  line-height: 2;
+  line-height: 1.9;
 }
 
 .article-quote {
@@ -885,7 +886,8 @@ main {
   }
 
   .article-page > h1 {
-    font-size: 46px;
+    font-size: 36px;
+    line-height: 1.22;
   }
 
   .article-lead {
@@ -893,7 +895,7 @@ main {
   }
 
   .article-heading {
-    font-size: 29px;
+    font-size: 27px;
   }
 }
 .article-back-link {
@@ -969,6 +971,16 @@ main {
 
   .article-tag-list {
     margin-bottom: 52px;
+  }
+
+  .article-subheading {
+    font-size: 21px;
+  }
+
+  .article-paragraph,
+  .article-list {
+    font-size: 16px;
+    line-height: 1.85;
   }
 }
 .blog-filter-panel {
@@ -1210,11 +1222,11 @@ main {
    ========================================================== */
 
 .article-toc {
-  margin: 0 0 70px;
+  margin: 0 0 56px;
   border: 1px solid var(--line);
-  border-radius: 22px;
-  padding: 28px 30px;
-  background: rgba(255, 255, 255, 0.68);
+  border-radius: 18px;
+  padding: 24px 26px;
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .article-toc-title {
@@ -1235,8 +1247,8 @@ main {
 
 .article-toc li {
   color: var(--muted);
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 1.65;
 }
 
 .article-toc-level-3 {
@@ -1512,6 +1524,11 @@ main {
   .affiliate-cta-link {
     display: flex;
     width: 100%;
+  }
+
+  .affiliate-cta-link-primary {
+    min-height: 56px;
+    font-size: 15px;
   }
 }
 
