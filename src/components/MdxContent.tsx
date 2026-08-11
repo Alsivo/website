@@ -88,7 +88,12 @@ const components = {
   table: (
     props: ComponentPropsWithoutRef<"table">,
   ) => (
-    <div className="article-table-wrapper">
+    <div
+      className="article-table-wrapper"
+      role="region"
+      aria-label="比較表"
+      tabIndex={0}
+    >
       <table
         className="article-table"
         {...props}
