@@ -20,13 +20,13 @@ published: true
 
 ## まずは結論：目的別おすすめ早見
 以下は「まず試す一本」を決めるための道しるべです。モデルのアップデートやプロンプト設計で結果は変わるため、絶対評価ではありません。
-- 法務・開示の安心感を優先：Adobe Firefly
+- **法務・開示の安心感を優先：** Adobe Firefly
   - 「Content Credentials（C2PA準拠のメタデータ）」付与や、商用利用を前提に設計という公式の立場が明示されています。[[1]](https://www.adobe.com/ai/overview/firefly/gen-ai-approach.html?utm_source=openai)[[12]](https://helpx-origin-ew1.aws116.adobeitc.com/gr_en/legal/product-descriptions/adobe-firefly.html?utm_source=openai)[[2]](https://news.adobe.com/news/2025/02/firefly-web-app-commercially-safe?utm_source=openai) 商用条件は追加規約に従います。[[9]](https://wwwimages2.adobe.com/content/dam/cc/jp/legal/servicetou/Adobe-Generative-AI-Additional-Terms_ja_JP_20240415.pdf?utm_source=openai)
-- 操作のしやすさ（日本語指示）と実務ワークフロー：OpenAI（ChatGPT／Images API）
+- **操作のしやすさ（日本語指示）と実務ワークフロー：** OpenAI（ChatGPT／Images API）
   - 会話形式で指示が伝えやすく、画像生成APIも用意。安全策やC2PAメタデータ付与に関する案内があります。[[5]](https://openai.com/index/image-generation-api/?utm_source=openai)[[10]](https://openai.com/ja-JP/index/image-generation-api/?utm_source=openai)
-- スタイル探索・表現力：Midjourney
+- **スタイル探索・表現力：** Midjourney
   - 月額プラン／GPU時間ベースで大量試行がしやすい設計。非公開生成（Stealth）は上位プラン、商用条件は収益規模で要件があります。[[4]](https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans)
-- コスパと自由度（上級者・社内運用）：Stable Diffusion系
+- **コスパと自由度（上級者・社内運用）：** Stable Diffusion系
   - ローカルや自社クラウドで運用可能。ただし最新モデルはライセンス条件がモデルごとに異なり、特に企業規模による条件差に注意が必要です。[[6]](https://stability.ai/license?utm_source=openai)[[7]](https://huggingface.co/stabilityai/stable-diffusion-3.5-large/blob/refs%2Fpr%2F102/LICENSE.md?code=true&utm_source=openai)
 
 ## AI画像生成ツールの選び方4基準
@@ -59,12 +59,12 @@ published: true
 
 ## 比較の方法と評価ルール（本記事の前提）
 - 共通プロンプトの骨子（例）
-  - 被写体：レモンの炭酸飲料ボトルの製品写真
-  - スタイル：爽やか、逆光、水滴、広告バナー用
-  - 構図：中央配置、余白多め（テキスト入れ想定）
-  - ネガティブ：歪み、余分な指、文字化け
+  - **被写体：** レモンの炭酸飲料ボトルの製品写真
+  - **スタイル：** 爽やか、逆光、水滴、広告バナー用
+  - **構図：** 中央配置、余白多め（テキスト入れ想定）
+  - **ネガティブ：** 歪み、余分な指、文字化け
 - 出力サイズ・生成回数を各ツールで近づけ、人物やロゴの扱いは各規約に従って回避。
-- 安全性・開示：C2PAメタデータの付与や安全策の有無を確認（Adobe/ OpenAIは公表）。[[1]](https://www.adobe.com/ai/overview/firefly/gen-ai-approach.html?utm_source=openai)[[12]](https://helpx-origin-ew1.aws116.adobeitc.com/gr_en/legal/product-descriptions/adobe-firefly.html?utm_source=openai)[[5]](https://openai.com/index/image-generation-api/?utm_source=openai)
+- **安全性・開示：** C2PAメタデータの付与や安全策の有無を確認（Adobe/ OpenAIは公表）。[[1]](https://www.adobe.com/ai/overview/firefly/gen-ai-approach.html?utm_source=openai)[[12]](https://helpx-origin-ew1.aws116.adobeitc.com/gr_en/legal/product-descriptions/adobe-firefly.html?utm_source=openai)[[5]](https://openai.com/index/image-generation-api/?utm_source=openai)
 
 ## 主要ツールの総合比較サマリー（要点）
 - Adobe Firefly
@@ -120,20 +120,20 @@ published: true
 - 生成物の保管・開示ポリシー（非公開生成オプションの有無：Midjourneyは上位プランでStealth）。[[4]](https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans)
 
 ## 作例傾向と使い分け（目安）
-- 写真風：ライティング・レンズ情報を具体化。肌・金属・液体の質感を比較。
-- イラスト：画材・タッチ・時代性を明示。
-- 文字入り：フォント風味・配置・文字数を短く。日本語レンダリングはモデル差があるため事前検証を。
+- **写真風：** ライティング・レンズ情報を具体化。肌・金属・液体の質感を比較。
+- **イラスト：** 画材・タッチ・時代性を明示。
+- **文字入り：** フォント風味・配置・文字数を短く。日本語レンダリングはモデル差があるため事前検証を。
 
 ## 日本語で失敗しないプロンプト作成のコツ
-- 構造化する：目的→被写体→スタイル→構図→ライティング→解像度→ネガティブの順で短文化。
-- 数値化する：色温度・露出感・焦点距離・画角などを具体に。
-- 参照画像を使う：テイストの共有に有効（各ツールの対応方法は仕様確認）。
-- 反復で詰める：生成→短いフィードバック→再生成を数回まわす。
+- **構造化する：** 目的→被写体→スタイル→構図→ライティング→解像度→ネガティブの順で短文化。
+- **数値化する：** 色温度・露出感・焦点距離・画角などを具体に。
+- **参照画像を使う：** テイストの共有に有効（各ツールの対応方法は仕様確認）。
+- **反復で詰める：** 生成→短いフィードバック→再生成を数回まわす。
 
 ## 用途別おすすめシナリオと導入ステップ
-- SNS画像・バナー：まずはAdobe FireflyかChatGPT（OpenAI）で小ロット検証。C2PA開示を求めるワークフローならFireflyを優先。[[1]](https://www.adobe.com/ai/overview/firefly/gen-ai-approach.html?utm_source=openai)[[5]](https://openai.com/index/image-generation-api/?utm_source=openai)
-- ブログ挿絵・社内資料：指示の反復が多いならChatGPTの会話型で素早く試作。[[5]](https://openai.com/index/image-generation-api/?utm_source=openai)
-- ECモックアップ：背景差し替え・生成塗りつぶしを活用（Photoshop等と連携する場合はFireflyのクレジット消費設計を確認）。[[8]](https://www.adobe.com/jp/products/firefly/plans.html?msockid=06d42e57136a681e0400386c120169e8&utm_source=openai)
+- **SNS画像・バナー：** まずはAdobe FireflyかChatGPT（OpenAI）で小ロット検証。C2PA開示を求めるワークフローならFireflyを優先。[[1]](https://www.adobe.com/ai/overview/firefly/gen-ai-approach.html?utm_source=openai)[[5]](https://openai.com/index/image-generation-api/?utm_source=openai)
+- **ブログ挿絵・社内資料：** 指示の反復が多いならChatGPTの会話型で素早く試作。[[5]](https://openai.com/index/image-generation-api/?utm_source=openai)
+- **ECモックアップ：** 背景差し替え・生成塗りつぶしを活用（Photoshop等と連携する場合はFireflyのクレジット消費設計を確認）。[[8]](https://www.adobe.com/jp/products/firefly/plans.html?msockid=06d42e57136a681e0400386c120169e8&utm_source=openai)
 
 導入の最初の一歩（共通）
 1) 目的・画角・解像度を決め、10〜20枚の試作で実効コストを算出（クレジット/GPU/トークン）。[[8]](https://www.adobe.com/jp/products/firefly/plans.html?msockid=06d42e57136a681e0400386c120169e8&utm_source=openai)[[4]](https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans)[[5]](https://openai.com/index/image-generation-api/?utm_source=openai)
@@ -144,8 +144,8 @@ published: true
 - Canva、Microsoft Designer/Copilot、Leonardo AIなども選択肢です。本記事では一次情報の範囲外につき詳細比較は割愛します。導入時は各公式の料金・規約・日本語対応の最新情報をご確認ください。
 
 ## まとめ：迷ったらこれ—最初の1本と次点、次にやること
-- まず1本：開示・法務面を重視するならAdobe Firefly。[[1]](https://www.adobe.com/ai/overview/firefly/gen-ai-approach.html?utm_source=openai)[[12]](https://helpx-origin-ew1.aws116.adobeitc.com/gr_en/legal/product-descriptions/adobe-firefly.html?utm_source=openai)[[9]](https://wwwimages2.adobe.com/content/dam/cc/jp/legal/servicetou/Adobe-Generative-AI-Additional-Terms_ja_JP_20240415.pdf?utm_source=openai)
-- 次点：会話で素早く詰めたい/自社組み込みも視野ならOpenAI（ChatGPT／Images API）。[[5]](https://openai.com/index/image-generation-api/?utm_source=openai)
+- **まず1本：** 開示・法務面を重視するならAdobe Firefly。[[1]](https://www.adobe.com/ai/overview/firefly/gen-ai-approach.html?utm_source=openai)[[12]](https://helpx-origin-ew1.aws116.adobeitc.com/gr_en/legal/product-descriptions/adobe-firefly.html?utm_source=openai)[[9]](https://wwwimages2.adobe.com/content/dam/cc/jp/legal/servicetou/Adobe-Generative-AI-Additional-Terms_ja_JP_20240415.pdf?utm_source=openai)
+- **次点：** 会話で素早く詰めたい/自社組み込みも視野ならOpenAI（ChatGPT／Images API）。[[5]](https://openai.com/index/image-generation-api/?utm_source=openai)
 - スタイル探索重視ならMidjourney（非公開生成や収益規模の条件に注意）。[[4]](https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans)
 - コスト最適化と自由度を求めるならStable Diffusion（モデルごとのライセンスを厳密に確認）。[[6]](https://stability.ai/license?utm_source=openai)[[7]](https://huggingface.co/stabilityai/stable-diffusion-3.5-large/blob/refs%2Fpr%2F102/LICENSE.md?code=true&utm_source=openai)
 

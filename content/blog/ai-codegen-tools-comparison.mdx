@@ -109,25 +109,25 @@ published: true
 
 ## ユースケース別おすすめ（すぐ選びたい人向け早見）
 - Webバックエンド（Node/Java/Python）
-  - 既存IDEを活かしつつ幅広い言語で使いたい: GitHub Copilot[[1]](https://github.com/features/copilot/plans)
-  - AWS連携や英語での設計対話を重視: Amazon Q Developer[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)
+  - **既存IDEを活かしつつ幅広い言語で使いたい:** GitHub Copilot[[1]](https://github.com/features/copilot/plans)
+  - **AWS連携や英語での設計対話を重視:** Amazon Q Developer[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)
 - フロントエンド（React/Vue/TypeScript）
-  - エディタ内での対話的修正やファイル横断提案を試したい: Cursor（Bugbot連係も想定）[[8]](https://cursor.com/blog/may-2026-bugbot-changes?utm_source=openai)
+  - **エディタ内での対話的修正やファイル横断提案を試したい:** Cursor（Bugbot連係も想定）[[8]](https://cursor.com/blog/may-2026-bugbot-changes?utm_source=openai)
 - データサイエンス/スクリプト（Python）
-  - 方針検討や説明重視の対話で進めたい: Claude Code（利用はClaudeの同一プールから消費）[[4]](https://claude.com/pricing?utm_source=openai)
+  - **方針検討や説明重視の対話で進めたい:** Claude Code（利用はClaudeの同一プールから消費）[[4]](https://claude.com/pricing?utm_source=openai)
 - インフラ/IaC（Terraform、CloudFormation）
-  - AWS中心で英語対話に抵抗がない: Amazon Q Developer[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)
+  - **AWS中心で英語対話に抵抗がない:** Amazon Q Developer[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)
 - 企業導入（監査/データ保持/自己ホスト重視）
   - 席課金＋従量の設計や学習利用の既定/オプトアウト、監査・ポリシー設定を必ず確認。Copilotのプラン/データ利用記載を参照のうえ、要件適合は自社の法務/セキュリティ部門と最終確認を[[1]](https://github.com/features/copilot/plans)。
 
 ## 導入と検証のステップ（2週間トライアル計画）
-- Day 1-2: セットアップ/ショートカット習熟
+- **Day 1-2:** セットアップ/ショートカット習熟
   - 既存IDEで拡張を入れる（またはCursorを導入）。CopilotはIDEごとにチャット可用性が異なる点を把握[[1]](https://github.com/features/copilot/plans)。Amazon Q DeveloperはAWS Toolkit前提を確認[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)。
-- Day 3-7: 課題別ベンチ
+- **Day 3-7:** 課題別ベンチ
   - CRUD APIの新規実装、ユニットテスト生成、既知バグ修正、リファクタ、セキュリティ提案の5本勝負で比較。各課題でプロンプト/操作を同条件化。
-- Day 8-12: 既存リポへの適用
+- **Day 8-12:** 既存リポへの適用
   - プロジェクト全体を読み込ませ、変更提案や説明の妥当性を確認。大規模対話や高性能モードは従量消費が増えやすいため、警告/上限を設定（CopilotのAI Creditsに注意）[[1]](https://github.com/features/copilot/plans)。
-- Day 13-14: 定量・定性の比較レビューと最終決定
+- **Day 13-14:** 定量・定性の比較レビューと最終決定
   - テスト合格率、修正回数、生成コードの可読性、説明の明瞭さ、編集反映の質、実行速度、設定容易性、月次コスト見込みを集計。
 
 ## 評価チェックリスト（コピペ可）
@@ -150,10 +150,10 @@ published: true
   - 長時間のチャットや大規模編集、モデル切替は従量消費が増えがち。AI Creditsや行数/トークン課金の上限/警告を設定する（Copilotのクレジット、Cursorのモード別課金、Amazon Qの行数プールなど）[[1]](https://github.com/features/copilot/plans)[[2]](https://aws.amazon.com/jp/q/developer/pricing/?loc=7&p=qdev&z=subnav&utm_source=openai)[[9]](https://docs.cursor.com/account/pricing?utm_source=openai)。
 
 ## まとめ：タイプ別の最終おすすめと次の一手
-- 既存IDE中心でまず1本選ぶなら：GitHub Copilot（幅広いIDE対応と導入のしやすさ）[[1]](https://github.com/features/copilot/plans)
-- AWSワークロード重視で英語運用可なら：Amazon Q Developer（対応言語とAgentic Coding）[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)
-- AIに寄り添った新しい編集体験を試すなら：Cursor（Bugbotやモード別課金に注意）[[8]](https://cursor.com/blog/may-2026-bugbot-changes?utm_source=openai)[[9]](https://docs.cursor.com/account/pricing?utm_source=openai)
-- 会話を軸に構想→実装の往復をしたいなら：Claude Code（Claudeサブスクの同一プール消費。API価格は別体系）[[4]](https://claude.com/pricing?utm_source=openai)[[10]](https://platform.claude.com/docs/en/about-claude/pricing?_bhlid=1e790afecf6d3d1d026f3e05f0013b84d88c3c57&utm_source=openai)
+- **既存IDE中心でまず1本選ぶなら：** GitHub Copilot（幅広いIDE対応と導入のしやすさ）[[1]](https://github.com/features/copilot/plans)
+- **AWSワークロード重視で英語運用可なら：** Amazon Q Developer（対応言語とAgentic Coding）[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)
+- **AIに寄り添った新しい編集体験を試すなら：** Cursor（Bugbotやモード別課金に注意）[[8]](https://cursor.com/blog/may-2026-bugbot-changes?utm_source=openai)[[9]](https://docs.cursor.com/account/pricing?utm_source=openai)
+- **会話を軸に構想→実装の往復をしたいなら：** Claude Code（Claudeサブスクの同一プール消費。API価格は別体系）[[4]](https://claude.com/pricing?utm_source=openai)[[10]](https://platform.claude.com/docs/en/about-claude/pricing?_bhlid=1e790afecf6d3d1d026f3e05f0013b84d88c3c57&utm_source=openai)
 
 最後に、価格や無料枠、IDE機能マトリクス、データ取り扱いは変動が早い分野です。選定前に公式の最新ページを必ず再確認し、2週間のミニPoCで自分たちのコードベースに合うかを検証しましょう。
 
