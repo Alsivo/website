@@ -1191,9 +1191,12 @@ def main(
 
     rewritten_article_path: Path | None = None
 
+    lock_acquired = False
+
     try:
         acquire_lock()
 
+        lock_acquired = True
         log(
             "================================",
             log_file,
@@ -1675,7 +1678,9 @@ def main(
 
         # 最終状態を表示する前に
         # 実行中Lockを解除する
-        release_lock()
+        if lock_acquired:
+            release_lock()
+            lock_acquired = False
 
         update_atlas_health(
             log_file
@@ -1691,6 +1696,17 @@ def main(
         )
 
     except Exception as error:
+        # Lock取得前に失敗した場合は、
+        # 別AtlasプロセスのLockや状態を変更しない
+        if not lock_acquired:
+            log(
+                "Atlasを開始できませんでした："
+                f"{error}",
+                log_file,
+            )
+
+            raise
+
         save_latest_run(
             status="error",
             action=action,
@@ -1698,6 +1714,7 @@ def main(
         )
 
         release_lock()
+        lock_acquired = False
 
         try:
             update_atlas_health(
@@ -1725,7 +1742,8 @@ def main(
         raise
 
     finally:
-        release_lock()
+        if lock_acquired:
+            release_lock()
 
 
 if __name__ == "__main__":
