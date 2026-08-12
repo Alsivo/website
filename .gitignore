@@ -82,3 +82,5 @@ atlas/data/portfolio/
 
 # Atlas dashboard runtime data
 atlas/data/dashboard/
+atlas/data/daily_report/
+atlas/data/alerts/

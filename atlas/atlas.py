@@ -729,6 +729,34 @@ def update_daily_report(
     )
 
 
+def update_atlas_alert(
+    log_file: Path,
+) -> None:
+    """Atlas Alertを更新する。"""
+
+    log(
+        "Atlas Alertを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.atlas_alert",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Atlas Alert更新成功。",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "Atlas Alertの"
+        "更新に失敗しました。"
+    )
+
+
 def update_portfolio_plan(
     log_file: Path,
 ) -> None:
@@ -1722,6 +1750,10 @@ def main(
             log_file
         )
 
+        update_atlas_alert(
+            log_file
+        )
+
         log(
             "Atlas自動運転が完了しました。",
             log_file,
@@ -1758,6 +1790,10 @@ def main(
             )
 
             update_daily_report(
+                log_file
+            )
+
+            update_atlas_alert(
                 log_file
             )
 
