@@ -729,6 +729,62 @@ def update_daily_report(
     )
 
 
+def update_performance_history(
+    log_file: Path,
+) -> None:
+    """Performance Historyを更新する。"""
+
+    log(
+        "Performance Historyを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.performance_history",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Performance History更新成功。",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "Performance Historyの"
+        "更新に失敗しました。"
+    )
+
+
+def update_performance_trend(
+    log_file: Path,
+) -> None:
+    """Performance Trendを更新する。"""
+
+    log(
+        "Performance Trendを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.performance_trend",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Performance Trend更新成功。",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "Performance Trendの"
+        "更新に失敗しました。"
+    )
+
+
 def update_atlas_alert(
     log_file: Path,
 ) -> None:
@@ -1750,6 +1806,14 @@ def main(
             log_file
         )
 
+        update_performance_history(
+            log_file
+        )
+
+        update_performance_trend(
+            log_file
+        )
+
         update_atlas_alert(
             log_file
         )
@@ -1790,6 +1854,14 @@ def main(
             )
 
             update_daily_report(
+                log_file
+            )
+
+            update_performance_history(
+                log_file
+            )
+
+            update_performance_trend(
                 log_file
             )
 
