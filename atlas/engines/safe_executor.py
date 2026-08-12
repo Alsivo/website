@@ -2,12 +2,23 @@ import json
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+import subprocess
+import sys
 from engines.title_optimizer import (
     optimize_article_title,
     save_result as save_title_result,
 )
+from engines.content_strengthener import (
+    strengthen_existing_article,
+    save_result as save_strengthen_result,
+)
 
 BASE_DIR = Path(__file__).resolve().parents[1]
+
+REWRITE_SCRIPT = (
+    BASE_DIR
+    / "rewrite.py"
+)
 
 OPTIMIZATION_DECISION_FILE = (
     BASE_DIR
@@ -446,36 +457,111 @@ def execute_plan(
         }
 
     if action == "STRENGTHEN":
+        result = (
+            strengthen_existing_article(
+                slug=target,
+                reason=str(
+                    plan.get(
+                        "reason",
+                        "",
+                    )
+                ).strip(),
+                dry_run=dry_run,
+            )
+        )
+
+        save_strengthen_result(
+            result
+        )
+
         return {
             "status":
-                "not_implemented",
+                result.get(
+                    "status",
+                    "",
+                ),
             "executed":
-                False,
+                bool(
+                    result.get(
+                        "changed",
+                        False,
+                    )
+                ),
             "action":
                 action,
             "target":
                 target,
-            "reason":
-                (
-                    "STRENGTHEN Executorは"
-                    "まだ未実装です。"
-                ),
+            "dry_run":
+                dry_run,
+            "result":
+                result,
         }
 
     if action == "REWRITE":
+        command = [
+            sys.executable,
+            str(
+                REWRITE_SCRIPT
+            ),
+            target,
+        ]
+
+        if dry_run:
+            command.append(
+                "--dry-run"
+            )
+
+        completed = (
+            subprocess.run(
+                command,
+                cwd=BASE_DIR,
+                check=False,
+            )
+        )
+
+        if completed.returncode != 0:
+            return {
+                "status":
+                    "failed",
+                "executed":
+                    False,
+                "action":
+                    action,
+                "target":
+                    target,
+                "dry_run":
+                    dry_run,
+                "returncode":
+                    completed.returncode,
+                "reason":
+                    (
+                        "rewrite.pyが"
+                        "異常終了しました。"
+                    ),
+            }
+
         return {
             "status":
-                "not_implemented",
+                (
+                    "dry_run"
+                    if dry_run
+                    else "updated"
+                ),
             "executed":
-                False,
+                not dry_run,
             "action":
                 action,
             "target":
                 target,
+            "dry_run":
+                dry_run,
+            "returncode":
+                completed.returncode,
             "reason":
                 (
-                    "REWRITEのSafe Executor接続は"
-                    "まだ未実装です。"
+                    "REWRITE Dry Run完了"
+                    if dry_run
+                    else "REWRITE実行完了"
                 ),
         }
 

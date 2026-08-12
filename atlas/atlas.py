@@ -795,24 +795,64 @@ def update_optimization_decision(
         log_file,
     )
 
-    success = run_python_module(
+    result = run_python_module(
         "engines.optimization_decision",
         log_file,
     )
 
-    if success:
+    if result.returncode == 0:
         log(
             "Optimization Decision更新成功。",
             log_file,
         )
-    else:
+        return True
+
+    log(
+        "Optimization Decisionの"
+        "更新に失敗しました。",
+        log_file,
+    )
+
+    return False
+
+
+def update_safe_executor(
+    log_file: Path,
+    apply_mode: bool = False,
+) -> bool:
+    """Safe Executorを更新する。"""
+
+    log(
+        "Safe Executorを更新します。",
+        log_file,
+    )
+
+    arguments = (
+        ["--apply"]
+        if apply_mode
+        else None
+    )
+
+    result = run_python_module(
+        "engines.safe_executor",
+        log_file,
+        arguments=arguments,
+    )
+
+    if result.returncode == 0:
         log(
-            "Optimization Decisionの"
-            "更新に失敗しました。",
+            "Safe Executor更新成功。",
             log_file,
         )
+        return True
 
-    return success
+    log(
+        "Safe Executorの"
+        "更新に失敗しました。",
+        log_file,
+    )
+
+    return False
 
 
 def update_atlas_alert(
@@ -1848,6 +1888,11 @@ def main(
             log_file
         )
 
+        update_safe_executor(
+            log_file,
+            apply_mode=False,
+        )
+
         update_atlas_alert(
             log_file
         )
@@ -1901,6 +1946,11 @@ def main(
 
             update_optimization_decision(
                 log_file
+            )
+
+            update_safe_executor(
+                log_file,
+                apply_mode=False,
             )
 
             update_atlas_alert(

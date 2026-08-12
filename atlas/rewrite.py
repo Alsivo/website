@@ -129,9 +129,22 @@ def build_rewrite_topic(
 
 def main() -> None:
     try:
+        args = sys.argv[1:]
+
+        dry_run = (
+            "--dry-run"
+            in args
+        )
+
+        positional_args = [
+            arg
+            for arg in args
+            if not arg.startswith("--")
+        ]
+
         manual_slug = (
-            sys.argv[1].strip()
-            if len(sys.argv) >= 2
+            positional_args[0].strip()
+            if positional_args
             else ""
         )
 
@@ -318,6 +331,33 @@ def main() -> None:
                 "元記事は変更しません。"
             )
             sys.exit(1)
+
+        if dry_run:
+            print(
+                "\n===== リライト DRY RUN 完了 ====="
+            )
+
+            print(
+                f"記事：{slug}"
+            )
+
+            print(
+                "品質スコア："
+                f"{review['score']} / 100"
+            )
+
+            print(
+                "改善内容："
+                f"{rewritten['rewrite_summary']}"
+            )
+
+            print(
+                "DRY RUNのため、"
+                "元記事・リライト履歴は"
+                "変更していません。"
+            )
+
+            return
 
         backup_path = backup_article(
             article
