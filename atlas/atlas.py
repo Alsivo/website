@@ -701,6 +701,34 @@ def update_atlas_dashboard(
     )
 
 
+def update_daily_report(
+    log_file: Path,
+) -> None:
+    """Atlas Daily Reportを更新する。"""
+
+    log(
+        "Atlas Daily Reportを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.atlas_daily_report",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Atlas Daily Report更新成功。",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "Atlas Daily Reportの"
+        "更新に失敗しました。"
+    )
+
+
 def update_portfolio_plan(
     log_file: Path,
 ) -> None:
@@ -1690,6 +1718,10 @@ def main(
             log_file
         )
 
+        update_daily_report(
+            log_file
+        )
+
         log(
             "Atlas自動運転が完了しました。",
             log_file,
@@ -1722,6 +1754,10 @@ def main(
             )
 
             update_atlas_dashboard(
+                log_file
+            )
+
+            update_daily_report(
                 log_file
             )
 

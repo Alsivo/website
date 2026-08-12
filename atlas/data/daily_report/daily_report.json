@@ -1,0 +1,163 @@
+{
+  "generated_at": "2026-08-12T13:45:30.668271",
+  "system": {
+    "status": "success",
+    "action": "wait",
+    "message": "Atlas自動運転完了",
+    "finished_at": "2026-08-12T13:45:30.340257",
+    "health": "healthy",
+    "health_reason": "Atlasは正常に稼働しています。",
+    "lock_active": false
+  },
+  "editorial": {
+    "action": "wait",
+    "priority_score": 40,
+    "reason": "SEO Action Planで全既存記事がplanned_action=wait。Search Consoleの表示回数が全体で25、各記事・クエリもデータ不足。未処理キーワード一覧は既存記事でほぼ網羅済みのため新規記事の有力候補もなし。現時点でのリライト選択はガイドライン違反のため待機。",
+    "target_keyword": "",
+    "target_slug": "",
+    "target_title": "",
+    "recommended_focus": [
+      "Search Consoleのデータ蓄積（最低2〜4週間、各URLで30〜50impressions目安）を待つ",
+      "「claude 利用制限 リセット」のインデックスとURLマッピングを監視（/claude-usage-limit-reset への集約が進むか確認）",
+      "「claude pro max 違い」「プレゼン 資料作成 ツール」など低表示クエリの増減を観測し、次回のtitle_only/strengthen候補抽出に備える"
+    ],
+    "target_queries": [
+      "claude 利用制限 リセット",
+      "claude pro max 違い",
+      "プレゼン 資料作成 ツール"
+    ]
+  },
+  "seo": {
+    "period": {
+      "start_date": "2026-07-13",
+      "end_date": "2026-08-09"
+    },
+    "clicks": 1.0,
+    "impressions": 25.0,
+    "ctr": 0.04,
+    "average_position": 20.08,
+    "tracked_articles": 6,
+    "ready_actions": 0,
+    "opportunity_pages": 0,
+    "low_ctr_pages": 0,
+    "top_queries": [
+      {
+        "clicks": 0.0,
+        "impressions": 2.0,
+        "ctr": 0.0,
+        "position": 10.0,
+        "query": "claude 利用制限 リセット"
+      },
+      {
+        "clicks": 0.0,
+        "impressions": 1.0,
+        "ctr": 0.0,
+        "position": 19.0,
+        "query": "claude pro max 違い"
+      },
+      {
+        "clicks": 0.0,
+        "impressions": 1.0,
+        "ctr": 0.0,
+        "position": 85.0,
+        "query": "プレゼン 資料作成 ツール"
+      },
+      {
+        "clicks": 0.0,
+        "impressions": 1.0,
+        "ctr": 0.0,
+        "position": 90.0,
+        "query": "プレゼンテーション ai"
+      },
+      {
+        "clicks": 0.0,
+        "impressions": 1.0,
+        "ctr": 0.0,
+        "position": 91.0,
+        "query": "提案資料 ai"
+      }
+    ]
+  },
+  "revenue": {
+    "clicks": 11,
+    "conversions": 0,
+    "revenue": 0.0,
+    "conversion_rate": 0.0,
+    "epc": 0.0,
+    "action_counts": {
+      "monetize": 3,
+      "wait_approval": 0,
+      "improve_cta": 0,
+      "expand_content": 0,
+      "keep": 0,
+      "wait_data": 0
+    },
+    "top_action": {
+      "service": "ChatGPT",
+      "source_action": "MONETIZE",
+      "destination": "monetization",
+      "next_engine": "domestic_asp_candidate_queue",
+      "priority": 90,
+      "clicks": 8,
+      "conversions": 0,
+      "revenue": 0.0,
+      "epc": 0.0,
+      "reason": "クリック需要がありますが、収益化可能なAffiliate案件が有効化されていません。",
+      "next": "国内ASPまたは直接案件を優先して確認する"
+    }
+  },
+  "portfolio": {
+    "evaluated_articles": 9,
+    "executable_count": 0,
+    "investment_counts": {
+      "invest": 0,
+      "maintain": 0,
+      "observe": 4,
+      "deprioritize": 5
+    },
+    "top_articles": [
+      {
+        "slug": "chatgpt-pricing-plans-comparison",
+        "score": 18.8,
+        "investment_level": "observe",
+        "planned_action": "wait",
+        "execution_allowed": false
+      },
+      {
+        "slug": "ai-email-writing-tools-comparison",
+        "score": 15.32,
+        "investment_level": "observe",
+        "planned_action": "wait",
+        "execution_allowed": false
+      },
+      {
+        "slug": "ai-presentation-tools-comparison",
+        "score": 14.1,
+        "investment_level": "deprioritize",
+        "planned_action": "wait",
+        "execution_allowed": false
+      },
+      {
+        "slug": "ai-codegen-tools-comparison",
+        "score": 13.92,
+        "investment_level": "deprioritize",
+        "planned_action": "wait",
+        "execution_allowed": false
+      },
+      {
+        "slug": "ai-image-generators-comparison",
+        "score": 13.92,
+        "investment_level": "deprioritize",
+        "planned_action": "wait",
+        "execution_allowed": false
+      }
+    ]
+  },
+  "summary": {
+    "status": "normal",
+    "requires_attention": true,
+    "messages": [
+      "Revenue Actionがあります：ChatGPT"
+    ]
+  }
+}
