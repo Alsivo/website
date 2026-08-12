@@ -1,0 +1,2388 @@
+import json
+from pathlib import Path
+from typing import Any
+
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+
+RESEARCH_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+    / "program_research_results.json"
+)
+
+OUTPUT_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+    / "program_registration_candidates.json"
+)
+
+
+def load_research_results(
+) -> list[dict[str, Any]]:
+    """Phase 34のWeb調査結果を読み込む。"""
+
+    if not RESEARCH_FILE.exists():
+        raise FileNotFoundError(
+            "program_research_results.jsonが"
+            "見つかりません："
+            f"{RESEARCH_FILE}"
+        )
+
+    data = json.loads(
+        RESEARCH_FILE.read_text(
+            encoding="utf-8",
+        )
+    )
+
+    programs = data.get(
+        "programs",
+        [],
+    )
+
+    if not isinstance(
+        programs,
+        list,
+    ):
+        raise ValueError(
+            "programsは配列にしてください。"
+        )
+
+    return programs
+
+
+def classify_program(
+    program: dict[str, Any],
+) -> str:
+    """
+    調査結果から、
+    実際に収益化可能な登録候補かを分類する。
+    """
+
+    program_found = program.get(
+        "program_found"
+    )
+
+    program_type = program.get(
+        "program_type"
+    )
+
+    program_url = str(
+        program.get(
+            "program_url",
+            "",
+        )
+    ).strip()
+
+    commission = str(
+        program.get(
+            "commission",
+            "",
+        )
+    ).strip()
+
+    sources = program.get(
+        "sources",
+        [],
+    )
+
+    # 調査の結果、案件自体が確認できなかった
+    if program_found is not True:
+        return "not_found"
+
+    # URLがなければ人間による再確認が必要
+    if not program_url:
+        return "needs_review"
+
+    # 信頼できる根拠があるか
+    if not isinstance(
+        sources,
+        list,
+    ):
+        return "needs_review"
+
+    trusted_source_found = any(
+        isinstance(source, dict)
+        and source.get(
+            "source_type"
+        ) in {
+            "official",
+            "affiliate_network",
+        }
+        for source in sources
+    )
+
+    if not trusted_source_found:
+        return "needs_review"
+
+    # Referralが存在しても、
+    # 紹介者への報酬が確認できないなら
+    # アフィリエイト登録候補にはしない
+    if (
+        program_type == "referral"
+        and not commission
+    ):
+        return "needs_review"
+
+    # 報酬条件が確認できない案件も
+    # 自動的に登録候補にはしない
+    if not commission:
+        return "needs_review"
+
+    return "registration_candidates"
+
+
+def build_registration_candidates(
+    programs: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """案件を登録候補・要確認・未発見へ分類する。"""
+
+    result = {
+        "registration_candidates": [],
+        "needs_review": [],
+        "not_found": [],
+    }
+
+    for program in programs:
+        classification = (
+            classify_program(
+                program
+            )
+        )
+
+        item = {
+            "service": program.get(
+                "service",
+                "",
+            ),
+            "priority": program.get(
+                "priority",
+                0,
+            ),
+            "program_type": program.get(
+                "program_type"
+            ),
+            "program_name": program.get(
+                "program_name",
+                "",
+            ),
+            "network": program.get(
+                "network",
+                "",
+            ),
+            "program_url": program.get(
+                "program_url",
+                "",
+            ),
+            "commission": program.get(
+                "commission",
+                "",
+            ),
+            "cookie_duration": program.get(
+                "cookie_duration",
+                "",
+            ),
+            "target_country": program.get(
+                "target_country",
+                "",
+            ),
+            "application_required": (
+                program.get(
+                    "application_required"
+                )
+            ),
+            "research_notes": program.get(
+                "research_notes",
+                "",
+            ),
+            "verified_at": program.get(
+                "verified_at"
+            ),
+            "source_articles": program.get(
+                "source_articles",
+                [],
+            ),
+            "sources": program.get(
+                "sources",
+                [],
+            ),
+        }
+
+        result[
+            classification
+        ].append(
+            item
+        )
+
+    for key in result:
+        result[key].sort(
+            key=lambda item: item.get(
+                "priority",
+                0,
+            ),
+            reverse=True,
+        )
+
+    return result
+
+
+def save_registration_candidates(
+    data: dict[str, Any],
+) -> Path:
+    """登録候補一覧をJSON保存する。"""
+
+    OUTPUT_FILE.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    OUTPUT_FILE.write_text(
+        json.dumps(
+            data,
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
+    return OUTPUT_FILE
+
+
+def print_registration_candidates(
+    data: dict[str, Any],
+) -> None:
+    """候補を見やすく表示する。"""
+
+    print(
+        "\n===== Affiliate Program Candidates =====\n"
+    )
+
+    sections = [
+        (
+            "registration_candidates",
+            "登録候補",
+        ),
+        (
+            "needs_review",
+            "要確認",
+        ),
+        (
+            "not_found",
+            "未発見",
+        ),
+    ]
+
+    for key, label in sections:
+        items = data.get(
+            key,
+            [],
+        )
+
+        print(
+            f"--- {label} ({len(items)}件) ---"
+        )
+
+        if not items:
+            print("なし\n")
+            continue
+
+        for item in items:
+            print(
+                f"[{item['priority']}点] "
+                f"{item['service']}"
+            )
+
+            print(
+                "  program: "
+                + (
+                    item["program_name"]
+                    or "不明"
+                )
+            )
+
+            print(
+                "  network: "
+                + (
+                    item["network"]
+                    or "不明"
+                )
+            )
+
+            print(
+                "  URL: "
+                + (
+                    item["program_url"]
+                    or "なし"
+                )
+            )
+
+            print(
+                "  commission: "
+                + (
+                    item["commission"]
+                    or "不明"
+                )
+            )
+
+            print()
+
+
+def main() -> None:
+    programs = (
+        load_research_results()
+    )
+
+    data = (
+        build_registration_candidates(
+            programs
+        )
+    )
+
+    filepath = (
+        save_registration_candidates(
+            data
+        )
+    )
+
+    print_registration_candidates(
+        data
+    )
+
+    print(
+        f"保存先：{filepath}"
+    )
+
+
+if __name__ == "__main__":
+    main()import json
+from pathlib import Path
+from typing import Any
+
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+
+MONETIZATION_FILE = (
+    BASE_DIR
+    / "data"
+    / "monetization"
+    / "monetization_matches.json"
+)
+
+PROGRAM_CANDIDATES_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+    / "program_registration_candidates.json"
+)
+
+OUTPUT_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+    / "human_approval_queue.json"
+)
+
+
+def load_json(
+    filepath: Path,
+) -> dict[str, Any]:
+    """JSONファイルを読み込む。"""
+
+    if not filepath.exists():
+        raise FileNotFoundError(
+            f"ファイルが見つかりません：{filepath}"
+        )
+
+    try:
+        data = json.loads(
+            filepath.read_text(
+                encoding="utf-8",
+            )
+        )
+    except json.JSONDecodeError as error:
+        raise ValueError(
+            f"{filepath.name}のJSON形式が不正です。"
+        ) from error
+
+    if not isinstance(
+        data,
+        dict,
+    ):
+        raise ValueError(
+            f"{filepath.name}の最上位は"
+            "オブジェクトにしてください。"
+        )
+
+    return data
+
+
+def build_candidate_map(
+    data: dict[str, Any],
+) -> dict[str, dict[str, Any]]:
+    """登録候補をサービス名で引ける形にする。"""
+
+    candidates = data.get(
+        "registration_candidates",
+        [],
+    )
+
+    if not isinstance(
+        candidates,
+        list,
+    ):
+        raise ValueError(
+            "registration_candidatesは"
+            "配列にしてください。"
+        )
+
+    result: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    for item in candidates:
+        if not isinstance(
+            item,
+            dict,
+        ):
+            continue
+
+        service = str(
+            item.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        result[service] = item
+
+    return result
+
+
+def build_approval_queue(
+    monetization_data: dict[str, Any],
+    program_data: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """人間確認が必要な案件候補を作る。"""
+
+    matches = monetization_data.get(
+        "matches",
+        [],
+    )
+
+    if not isinstance(
+        matches,
+        list,
+    ):
+        raise ValueError(
+            "matchesは配列にしてください。"
+        )
+
+    candidate_map = (
+        build_candidate_map(
+            program_data
+        )
+    )
+
+    service_map: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    for match in matches:
+        if not isinstance(
+            match,
+            dict,
+        ):
+            continue
+
+        if (
+            match.get(
+                "monetization_status"
+            )
+            != "candidate"
+        ):
+            continue
+
+        service = str(
+            match.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        program = candidate_map.get(
+            service
+        )
+
+        if program is None:
+            continue
+
+        score = int(
+            match.get(
+                "match_score",
+                0,
+            )
+            or 0
+        )
+
+        slug = str(
+            match.get(
+                "slug",
+                "",
+            )
+        ).strip()
+
+        title = str(
+            match.get(
+                "title",
+                "",
+            )
+        ).strip()
+
+        if service not in service_map:
+            service_map[service] = {
+                "service": service,
+                "priority": score,
+                "program_name": program.get(
+                    "program_name",
+                    "",
+                ),
+                "program_type": program.get(
+                    "program_type"
+                ),
+                "network": program.get(
+                    "network",
+                    "",
+                ),
+                "program_url": program.get(
+                    "program_url",
+                    "",
+                ),
+                "commission": program.get(
+                    "commission",
+                    "",
+                ),
+                "cookie_duration": program.get(
+                    "cookie_duration",
+                    "",
+                ),
+                "target_country": program.get(
+                    "target_country",
+                    "",
+                ),
+                "application_required": (
+                    program.get(
+                        "application_required"
+                    )
+                ),
+                "verified_at": program.get(
+                    "verified_at"
+                ),
+                "source_articles": [],
+                "approval_status": "pending",
+                "human_notes": "",
+            }
+
+        service_map[
+            service
+        ]["priority"] = max(
+            service_map[
+                service
+            ]["priority"],
+            score,
+        )
+
+        if slug:
+            service_map[
+                service
+            ]["source_articles"].append(
+                {
+                    "slug": slug,
+                    "title": title,
+                    "match_score": score,
+                }
+            )
+
+    queue = list(
+        service_map.values()
+    )
+
+    queue.sort(
+        key=lambda item: item[
+            "priority"
+        ],
+        reverse=True,
+    )
+
+    return queue
+
+
+def save_approval_queue(
+    queue: list[dict[str, Any]],
+) -> Path:
+    """Human Approval Queueを保存する。"""
+
+    OUTPUT_FILE.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    OUTPUT_FILE.write_text(
+        json.dumps(
+            {
+                "programs": queue,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
+    return OUTPUT_FILE
+
+
+def print_approval_queue(
+    queue: list[dict[str, Any]],
+) -> None:
+    """Human Approval Queueを表示する。"""
+
+    print(
+        "\n===== Affiliate Human Approval Queue =====\n"
+    )
+
+    if not queue:
+        print(
+            "現在、承認待ち案件はありません。"
+        )
+        return
+
+    for index, item in enumerate(
+        queue,
+        start=1,
+    ):
+        print(
+            f"{index}. "
+            f"{item['service']} "
+            f"({item['priority']}点)"
+        )
+
+        print(
+            "   program: "
+            + (
+                item["program_name"]
+                or "不明"
+            )
+        )
+
+        print(
+            "   network: "
+            + (
+                item["network"]
+                or "不明"
+            )
+        )
+
+        print(
+            "   commission: "
+            + (
+                item["commission"]
+                or "不明"
+            )
+        )
+
+        print(
+            "   URL: "
+            + (
+                item["program_url"]
+                or "なし"
+            )
+        )
+
+        print(
+            "   approval_status: "
+            f"{item['approval_status']}"
+        )
+
+        print()
+
+
+def main() -> None:
+    monetization_data = (
+        load_json(
+            MONETIZATION_FILE
+        )
+    )
+
+    program_data = (
+        load_json(
+            PROGRAM_CANDIDATES_FILE
+        )
+    )
+
+    queue = (
+        build_approval_queue(
+            monetization_data,
+            program_data,
+        )
+    )
+
+    filepath = (
+        save_approval_queue(
+            queue
+        )
+    )
+
+    print_approval_queue(
+        queue
+    )
+
+    print(
+        f"保存先：{filepath}"
+    )
+
+
+if __name__ == "__main__":
+    main()import argparse
+import json
+from pathlib import Path
+from typing import Any
+
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+
+APPROVAL_QUEUE_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+    / "human_approval_queue.json"
+)
+
+AFFILIATE_LINKS_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_links.json"
+)
+
+
+def load_json(
+    filepath: Path,
+) -> dict[str, Any]:
+    """JSONファイルを読み込む。"""
+
+    if not filepath.exists():
+        raise FileNotFoundError(
+            f"ファイルが見つかりません：{filepath}"
+        )
+
+    try:
+        data = json.loads(
+            filepath.read_text(
+                encoding="utf-8",
+            )
+        )
+    except json.JSONDecodeError as error:
+        raise ValueError(
+            f"{filepath.name}のJSON形式が不正です。"
+        ) from error
+
+    if not isinstance(
+        data,
+        dict,
+    ):
+        raise ValueError(
+            f"{filepath.name}の最上位は"
+            "オブジェクトにしてください。"
+        )
+
+    return data
+
+
+def get_approved_programs(
+    approval_data: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """申請可と人間が判断した案件だけ取得する。"""
+
+    programs = approval_data.get(
+        "programs",
+        [],
+    )
+
+    if not isinstance(
+        programs,
+        list,
+    ):
+        raise ValueError(
+            "human_approval_queue.jsonの"
+            "programsは配列にしてください。"
+        )
+
+    result = []
+
+    for item in programs:
+        if not isinstance(
+            item,
+            dict,
+        ):
+            continue
+
+        if item.get(
+            "approval_status"
+        ) not in {
+            "approved_for_application",
+            "applied",
+            "approved",
+        }:
+            continue
+
+        result.append(
+            item
+        )
+
+    return result
+
+def build_activation_preview(
+    approved_programs: list[dict[str, Any]],
+    registry: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Affiliate Registry更新候補を作る。"""
+
+    preview = []
+
+    for program in approved_programs:
+        service = str(
+            program.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        registry_item = registry.get(
+            service
+        )
+
+        if not isinstance(
+            registry_item,
+            dict,
+        ):
+            continue
+
+        approval_status = str(
+            program.get(
+                "approval_status",
+                "",
+            )
+        ).strip()
+
+        if approval_status == (
+            "approved_for_application"
+        ):
+            next_status = (
+                registry_item.get(
+                    "affiliate_status",
+                    "none",
+                )
+            )
+
+        elif approval_status == "applied":
+            next_status = "pending"
+
+        elif approval_status == "approved":
+            next_status = "active"
+
+        else:
+            continue
+
+        preview.append(
+            {
+                "service": service,
+                "approval_status": (
+                    approval_status
+                ),
+                "current_affiliate_status": (
+                    registry_item.get(
+                        "affiliate_status",
+                        "none",
+                    )
+                ),
+                "next_affiliate_status": (
+                    next_status
+                ),
+                "network": program.get(
+                    "network",
+                    "",
+                ),
+                "program_name": program.get(
+                    "program_name",
+                    "",
+                ),
+            }
+        )
+
+    return preview
+
+def print_activation_preview(
+    preview: list[dict[str, Any]],
+) -> None:
+    """更新予定を表示する。"""
+
+    print(
+        "\n===== Affiliate Activation Preview =====\n"
+    )
+
+    if not preview:
+        print(
+            "現在、反映対象はありません。"
+        )
+        return
+
+    for item in preview:
+        print(
+            f"{item['service']}"
+        )
+
+        print(
+            "  approval_status: "
+            f"{item['approval_status']}"
+        )
+
+        print(
+            "  affiliate_status: "
+            f"{item['current_affiliate_status']}"
+            " -> "
+            f"{item['next_affiliate_status']}"
+        )
+
+        print(
+            "  network: "
+            + (
+                item["network"]
+                or "未設定"
+            )
+        )
+
+        print()
+
+def apply_activation_updates(
+    approved_programs: list[dict[str, Any]],
+    registry: dict[str, Any],
+) -> tuple[dict[str, Any], list[str]]:
+    """
+    Human Approval Queueの状態を
+    affiliate_links.jsonへ安全に反映する。
+    """
+
+    updated_registry = dict(
+        registry
+    )
+
+    messages: list[str] = []
+
+    for program in approved_programs:
+        service = str(
+            program.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        registry_item = updated_registry.get(
+            service
+        )
+
+        if not isinstance(
+            registry_item,
+            dict,
+        ):
+            messages.append(
+                f"{service}: Registry未登録のためスキップ"
+            )
+            continue
+
+        approval_status = str(
+            program.get(
+                "approval_status",
+                "",
+            )
+        ).strip()
+
+        updated_item = dict(
+            registry_item
+        )
+
+        # ----------------------------------------------------
+        # まだ申請前
+        # ----------------------------------------------------
+
+        if (
+            approval_status
+            == "approved_for_application"
+        ):
+            messages.append(
+                f"{service}: 申請前のため変更なし"
+            )
+            continue
+
+        # ----------------------------------------------------
+        # 申請済み → pending
+        # ----------------------------------------------------
+
+        if approval_status == "applied":
+            updated_item[
+                "affiliate_status"
+            ] = "pending"
+
+            network = str(
+                program.get(
+                    "network",
+                    "",
+                )
+            ).strip()
+
+            program_name = str(
+                program.get(
+                    "program_name",
+                    "",
+                )
+            ).strip()
+
+            if network:
+                updated_item[
+                    "network"
+                ] = network
+
+            if program_name:
+                updated_item[
+                    "program_name"
+                ] = program_name
+
+            updated_registry[
+                service
+            ] = updated_item
+
+            messages.append(
+                f"{service}: pendingへ更新"
+            )
+
+            continue
+
+        # ----------------------------------------------------
+        # 承認済み → active
+        # ----------------------------------------------------
+
+        if approval_status == "approved":
+            affiliate_url = str(
+                program.get(
+                    "affiliate_url",
+                    "",
+                )
+            ).strip()
+
+            if not affiliate_url:
+                raise ValueError(
+                    f"{service}はapprovedですが、"
+                    "affiliate_urlが未入力です。"
+                )
+
+            if not affiliate_url.startswith(
+                "http"
+            ):
+                raise ValueError(
+                    f"{service}のaffiliate_urlが"
+                    "不正です。"
+                )
+
+            updated_item[
+                "affiliate_status"
+            ] = "active"
+
+            updated_item[
+                "affiliate_url"
+            ] = affiliate_url
+
+            network = str(
+                program.get(
+                    "network",
+                    "",
+                )
+            ).strip()
+
+            program_name = str(
+                program.get(
+                    "program_name",
+                    "",
+                )
+            ).strip()
+
+            if network:
+                updated_item[
+                    "network"
+                ] = network
+
+            if program_name:
+                updated_item[
+                    "program_name"
+                ] = program_name
+
+            updated_registry[
+                service
+            ] = updated_item
+
+            messages.append(
+                f"{service}: activeへ更新"
+            )
+
+    return (
+        updated_registry,
+        messages,
+    )
+
+def save_affiliate_registry(
+    registry: dict[str, Any],
+) -> None:
+    """affiliate_links.jsonを保存する。"""
+
+    AFFILIATE_LINKS_FILE.write_text(
+        json.dumps(
+            registry,
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Affiliate案件状態を"
+            "affiliate_links.jsonへ反映します。"
+        )
+    )
+
+    parser.add_argument(
+        "--apply",
+        action="store_true",
+        help=(
+            "実際にaffiliate_links.jsonを"
+            "更新する場合に指定します。"
+        ),
+    )
+
+    args = parser.parse_args()
+
+    approval_data = load_json(
+        APPROVAL_QUEUE_FILE
+    )
+
+    registry = load_json(
+        AFFILIATE_LINKS_FILE
+    )
+
+    approved_programs = (
+        get_approved_programs(
+            approval_data
+        )
+    )
+
+    preview = (
+        build_activation_preview(
+            approved_programs,
+            registry,
+        )
+    )
+
+    print_activation_preview(
+        preview
+    )
+
+    if not args.apply:
+        print(
+            "\nDry Runです。"
+            "affiliate_links.jsonは"
+            "変更していません。"
+        )
+        print(
+            "実際に反映する場合のみ"
+            " --apply を付けて実行してください。"
+        )
+        return
+
+    updated_registry, messages = (
+        apply_activation_updates(
+            approved_programs,
+            registry,
+        )
+    )
+
+    save_affiliate_registry(
+        updated_registry
+    )
+
+    print(
+        "\n===== Affiliate Activation Result =====\n"
+    )
+
+    for message in messages:
+        print(
+            f"- {message}"
+        )
+
+    print(
+        "\naffiliate_links.jsonを更新しました。"
+    )
+
+
+if __name__ == "__main__":
+    main()import csv
+import json
+from datetime import date, datetime
+from pathlib import Path
+from typing import Any
+
+
+DATA_DIR = (
+    Path(__file__).resolve().parents[1]
+    / "data"
+)
+
+PROGRAMS_FILE = (
+    DATA_DIR
+    / "affiliate_programs.csv"
+)
+
+REGISTRY_FILE = (
+    DATA_DIR
+    / "affiliate_links.json"
+)
+
+ALLOWED_STATUSES = {
+    "none",
+    "pending",
+    "active",
+    "paused",
+    "rejected",
+}
+
+ALLOWED_REWARD_TYPES = {
+    "none",
+    "fixed",
+    "percent",
+}
+
+
+def parse_float(
+    value: str,
+    default: float = 0.0,
+) -> float:
+    """CSV内の数値を安全にfloatへ変換する。"""
+
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def parse_int(
+    value: str,
+    default: int = 0,
+) -> int:
+    """CSV内の数値を安全にintへ変換する。"""
+
+    try:
+        return int(float(value))
+    except (TypeError, ValueError):
+        return default
+
+
+def parse_date_score(
+    value: str,
+) -> float:
+    """
+    最終確認日から鮮度スコアを計算する。
+
+    30日以内：100
+    90日以内：70
+    180日以内：40
+    それ以上：10
+    """
+
+    try:
+        verified_date = datetime.strptime(
+            value,
+            "%Y-%m-%d",
+        ).date()
+    except (TypeError, ValueError):
+        return 0.0
+
+    elapsed_days = (
+        date.today() - verified_date
+    ).days
+
+    if elapsed_days <= 30:
+        return 100.0
+
+    if elapsed_days <= 90:
+        return 70.0
+
+    if elapsed_days <= 180:
+        return 40.0
+
+    return 10.0
+
+
+def load_affiliate_programs() -> list[dict[str, Any]]:
+    """ASP案件CSVを読み込み、内容を検証する。"""
+
+    if not PROGRAMS_FILE.exists():
+        raise FileNotFoundError(
+            "affiliate_programs.csvが見つかりません："
+            f"{PROGRAMS_FILE}"
+        )
+
+    programs: list[dict[str, Any]] = []
+
+    with PROGRAMS_FILE.open(
+        "r",
+        encoding="utf-8-sig",
+        newline="",
+    ) as file:
+        reader = csv.DictReader(file)
+
+        required_columns = {
+            "tool_name",
+            "network",
+            "program_name",
+            "status",
+            "official_url",
+            "affiliate_url",
+            "reward_type",
+            "reward_value",
+            "currency",
+            "conversion_action",
+            "cookie_days",
+            "approval_score",
+            "article_match_score",
+            "last_verified",
+            "notes",
+        }
+
+        actual_columns = set(
+            reader.fieldnames or []
+        )
+
+        missing_columns = (
+            required_columns
+            - actual_columns
+        )
+
+        if missing_columns:
+            raise ValueError(
+                "affiliate_programs.csvに"
+                "必要な列がありません："
+                + ", ".join(
+                    sorted(missing_columns)
+                )
+            )
+
+        for row_number, row in enumerate(
+            reader,
+            start=2,
+        ):
+            tool_name = (
+                row["tool_name"].strip()
+            )
+
+            if not tool_name:
+                raise ValueError(
+                    f"{row_number}行目の"
+                    "tool_nameが未入力です。"
+                )
+
+            status = row["status"].strip()
+
+            if status not in ALLOWED_STATUSES:
+                raise ValueError(
+                    f"{row_number}行目のstatusが"
+                    f"不正です：{status}"
+                )
+
+            reward_type = (
+                row["reward_type"].strip()
+            )
+
+            if (
+                reward_type
+                not in ALLOWED_REWARD_TYPES
+            ):
+                raise ValueError(
+                    f"{row_number}行目の"
+                    "reward_typeが不正です："
+                    f"{reward_type}"
+                )
+
+            official_url = (
+                row["official_url"].strip()
+            )
+
+            affiliate_url = (
+                row["affiliate_url"].strip()
+            )
+
+            if (
+                not official_url.startswith(
+                    "http"
+                )
+            ):
+                raise ValueError(
+                    f"{row_number}行目の"
+                    "official_urlが不正です。"
+                )
+
+            if (
+                status == "active"
+                and not affiliate_url.startswith(
+                    "http"
+                )
+            ):
+                raise ValueError(
+                    f"{row_number}行目はactiveですが、"
+                    "affiliate_urlが未入力です。"
+                )
+
+            programs.append(
+                {
+                    "tool_name": tool_name,
+                    "network": (
+                        row["network"].strip()
+                    ),
+                    "program_name": (
+                        row[
+                            "program_name"
+                        ].strip()
+                    ),
+                    "status": status,
+                    "official_url": (
+                        official_url
+                    ),
+                    "affiliate_url": (
+                        affiliate_url
+                    ),
+                    "reward_type": (
+                        reward_type
+                    ),
+                    "reward_value": parse_float(
+                        row["reward_value"]
+                    ),
+                    "currency": (
+                        row["currency"].strip()
+                    ),
+                    "conversion_action": (
+                        row[
+                            "conversion_action"
+                        ].strip()
+                    ),
+                    "cookie_days": parse_int(
+                        row["cookie_days"]
+                    ),
+                    "approval_score": parse_float(
+                        row["approval_score"]
+                    ),
+                    "article_match_score": parse_float(
+                        row[
+                            "article_match_score"
+                        ]
+                    ),
+                    "last_verified": (
+                        row[
+                            "last_verified"
+                        ].strip()
+                    ),
+                    "notes": (
+                        row["notes"].strip()
+                    ),
+                }
+            )
+
+    return programs
+
+
+def calculate_program_score(
+    program: dict[str, Any],
+) -> float:
+    """案件の紹介優先度を0～100点で算出する。"""
+
+    if program["status"] != "active":
+        return 0.0
+
+    reward_value = float(
+        program["reward_value"]
+    )
+
+    reward_type = program[
+        "reward_type"
+    ]
+
+    if reward_type == "fixed":
+        reward_score = min(
+            100.0,
+            reward_value / 20.0,
+        )
+    elif reward_type == "percent":
+        reward_score = min(
+            100.0,
+            reward_value * 4.0,
+        )
+    else:
+        reward_score = 0.0
+
+    approval_score = min(
+        100.0,
+        max(
+            0.0,
+            float(
+                program[
+                    "approval_score"
+                ]
+            ),
+        ),
+    )
+
+    article_match_score = min(
+        100.0,
+        max(
+            0.0,
+            float(
+                program[
+                    "article_match_score"
+                ]
+            ),
+        ),
+    )
+
+    cookie_score = min(
+        100.0,
+        float(
+            program["cookie_days"]
+        ) * 3.0,
+    )
+
+    freshness_score = parse_date_score(
+        program["last_verified"]
+    )
+
+    total_score = (
+        reward_score * 0.30
+        + approval_score * 0.25
+        + article_match_score * 0.30
+        + cookie_score * 0.05
+        + freshness_score * 0.10
+    )
+
+    return round(total_score, 2)
+
+
+def select_best_programs() -> dict[str, dict[str, Any]]:
+    """
+    サービスごとに最も評価の高い
+    承認済み案件を選択する。
+    """
+
+    programs = load_affiliate_programs()
+
+    grouped: dict[
+        str,
+        list[dict[str, Any]]
+    ] = {}
+
+    for program in programs:
+        grouped.setdefault(
+            program["tool_name"],
+            [],
+        ).append(program)
+
+    selected: dict[str, dict[str, Any]] = {}
+
+    for tool_name, candidates in grouped.items():
+        active_candidates = [
+            {
+                **candidate,
+                "program_score":
+                    calculate_program_score(
+                        candidate
+                    ),
+            }
+            for candidate in candidates
+            if candidate["status"] == "active"
+            and candidate["affiliate_url"]
+        ]
+
+        if active_candidates:
+            best_program = max(
+                active_candidates,
+                key=lambda item: (
+                    item["program_score"],
+                    item["reward_value"],
+                ),
+            )
+
+            selected[tool_name] = (
+                best_program
+            )
+            continue
+
+        official_candidate = candidates[0]
+
+        selected[tool_name] = {
+            **official_candidate,
+            "status": "none",
+            "affiliate_url": "",
+            "program_score": 0.0,
+        }
+
+    return selected
+
+
+def create_cta_label(
+    tool_name: str,
+    selected_program: dict[str, Any],
+) -> str:
+    """CTAの文言を作る。"""
+
+    action = selected_program.get(
+        "conversion_action",
+        "",
+    )
+
+    if (
+        selected_program["status"]
+        == "active"
+        and action
+        and action != "なし"
+    ):
+        return (
+            f"{tool_name}の"
+            f"{action}を確認する"
+        )
+
+    return (
+        f"{tool_name}を"
+        "公式サイトで確認する"
+    )
+
+
+def sync_affiliate_registry() -> dict[str, dict[str, Any]]:
+    """
+    最適案件を選択して、
+    affiliate_links.jsonを安全に更新する。
+
+    既存サービスは保持し、
+    今回取得したサービスだけ最新情報で上書きする。
+    """
+
+    selected_programs = (
+        select_best_programs()
+    )
+
+    # ----------------------------------------------------
+    # 既存Registryを読み込み
+    # ----------------------------------------------------
+
+    registry: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    if REGISTRY_FILE.exists():
+        try:
+            existing_data = json.loads(
+                REGISTRY_FILE.read_text(
+                    encoding="utf-8",
+                )
+            )
+
+            if isinstance(
+                existing_data,
+                dict,
+            ):
+                registry = {
+                    str(key): value
+                    for key, value
+                    in existing_data.items()
+                    if isinstance(
+                        value,
+                        dict,
+                    )
+                }
+
+        except json.JSONDecodeError:
+            # 壊れている場合のみ
+            # 新規Registryとして再構築する
+            registry = {}
+
+    # ----------------------------------------------------
+    # 今回取得したサービスだけ更新
+    # ----------------------------------------------------
+
+    for tool_name, program in (
+        selected_programs.items()
+    ):
+        existing_item = (
+            registry.get(
+                tool_name,
+                {},
+            )
+        )
+
+        existing_aliases = (
+            existing_item.get(
+                "aliases",
+                [],
+            )
+            if isinstance(
+                existing_item,
+                dict,
+            )
+            else []
+        )
+
+        if not isinstance(
+            existing_aliases,
+            list,
+        ):
+            existing_aliases = []
+
+        aliases = [
+            str(alias).strip()
+            for alias
+            in existing_aliases
+            if str(alias).strip()
+        ]
+
+        if tool_name not in aliases:
+            aliases.insert(
+                0,
+                tool_name,
+            )
+
+        registry[tool_name] = {
+            "official_url": (
+                program["official_url"]
+            ),
+            "affiliate_url": (
+                program["affiliate_url"]
+                if program["status"]
+                == "active"
+                else ""
+            ),
+            "cta_label": create_cta_label(
+                tool_name,
+                program,
+            ),
+            "aliases": aliases,
+            "affiliate_status": (
+                program["status"]
+            ),
+            "network": (
+                program["network"]
+            ),
+            "program_name": (
+                program["program_name"]
+            ),
+            "reward_type": (
+                program["reward_type"]
+            ),
+            "reward_value": (
+                program["reward_value"]
+            ),
+            "currency": (
+                program["currency"]
+            ),
+            "conversion_action": (
+                program[
+                    "conversion_action"
+                ]
+            ),
+            "cookie_days": (
+                program["cookie_days"]
+            ),
+            "program_score": (
+                program["program_score"]
+            ),
+            "last_verified": (
+                program["last_verified"]
+            ),
+        }
+
+    REGISTRY_FILE.write_text(
+        json.dumps(
+            registry,
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    return registry
+
+
+def print_affiliate_selection() -> None:
+    """選択された案件をコンソールへ表示する。"""
+
+    registry = sync_affiliate_registry()
+
+    print(
+        "\n===== Affiliate Manager ====="
+    )
+
+    for tool_name, item in registry.items():
+        if (
+            item["affiliate_status"]
+            == "active"
+        ):
+            print(
+                f"- {tool_name}: "
+                f"{item['network']} / "
+                f"{item['program_name']} / "
+                f"{item['program_score']}点"
+            )
+        else:
+            print(
+                f"- {tool_name}: "
+                "広告案件なし "
+                "→ 公式URLを使用"
+            )import json
+from pathlib import Path
+from typing import Any
+
+
+AFFILIATE_LINKS_FILE = (
+    Path(__file__).resolve().parents[1]
+    / "data"
+    / "affiliate_links.json"
+)
+
+
+def load_affiliate_registry() -> dict[str, dict[str, Any]]:
+    """公式・アフィリエイトリンク台帳を読み込む。"""
+
+    if not AFFILIATE_LINKS_FILE.exists():
+        raise FileNotFoundError(
+            "affiliate_links.jsonが見つかりません："
+            f"{AFFILIATE_LINKS_FILE}"
+        )
+
+    try:
+        data = json.loads(
+            AFFILIATE_LINKS_FILE.read_text(
+                encoding="utf-8",
+            )
+        )
+    except json.JSONDecodeError as error:
+        raise ValueError(
+            "affiliate_links.jsonのJSON形式が不正です。"
+        ) from error
+
+    if not isinstance(data, dict):
+        raise ValueError(
+            "affiliate_links.jsonの最上位は"
+            "オブジェクトにしてください。"
+        )
+
+    validated: dict[str, dict[str, Any]] = {}
+
+    for tool_name, item in data.items():
+        if (
+            not isinstance(tool_name, str)
+            or not tool_name.strip()
+            or not isinstance(item, dict)
+        ):
+            raise ValueError(
+                "リンク台帳に不正なデータがあります。"
+            )
+
+        official_url = item.get("official_url")
+        affiliate_url = item.get(
+            "affiliate_url",
+            "",
+        )
+        cta_label = item.get("cta_label")
+        aliases = item.get("aliases", [])
+
+        affiliate_status = item.get(
+            "affiliate_status",
+            "none",
+        )
+        network = item.get(
+            "network",
+            "",
+        )
+        program_name = item.get(
+            "program_name",
+            "",
+        )
+
+        if (
+            not isinstance(official_url, str)
+            or not official_url.startswith("http")
+        ):
+            raise ValueError(
+                f"{tool_name}のofficial_urlが不正です。"
+            )
+
+        if (
+            not isinstance(affiliate_url, str)
+            or (
+                affiliate_url
+                and not affiliate_url.startswith("http")
+            )
+        ):
+            raise ValueError(
+                f"{tool_name}のaffiliate_urlが不正です。"
+            )
+
+        if (
+            not isinstance(cta_label, str)
+            or not cta_label.strip()
+        ):
+            raise ValueError(
+                f"{tool_name}のcta_labelが未入力です。"
+            )
+
+        if not isinstance(aliases, list):
+            raise ValueError(
+                f"{tool_name}のaliasesは"
+                "配列にしてください。"
+            )
+
+        if not all(
+            isinstance(alias, str)
+            and alias.strip()
+            for alias in aliases
+        ):
+            raise ValueError(
+                f"{tool_name}のaliasesに"
+                "不正な値があります。"
+            )
+
+        if not isinstance(
+            affiliate_status,
+            str,
+        ):
+            raise ValueError(
+                f"{tool_name}のaffiliate_statusが不正です。"
+            )
+
+        if affiliate_status not in {
+            "none",
+            "pending",
+            "active",
+            "paused",
+            "rejected",
+        }:
+            raise ValueError(
+                f"{tool_name}のaffiliate_statusが"
+                "許可されていません："
+                f"{affiliate_status}"
+            )
+
+        if not isinstance(network, str):
+            raise ValueError(
+                f"{tool_name}のnetworkが不正です。"
+            )
+
+        if not isinstance(program_name, str):
+            raise ValueError(
+                f"{tool_name}のprogram_nameが不正です。"
+            )
+
+        if (
+            affiliate_status == "active"
+            and not affiliate_url
+        ):
+            raise ValueError(
+                f"{tool_name}はactiveですが、"
+                "affiliate_urlが未入力です。"
+            )
+
+        validated[tool_name.strip()] = {
+            "official_url": official_url.strip(),
+            "affiliate_url": affiliate_url.strip(),
+            "cta_label": cta_label.strip(),
+            "aliases": [
+                alias.strip()
+                for alias in aliases
+            ],
+            "affiliate_status": (
+                affiliate_status.strip()
+            ),
+            "network": network.strip(),
+            "program_name": (
+                program_name.strip()
+            ),
+        }
+
+    return validated
+
+
+def get_affiliate_tool_names() -> list[str]:
+    """Writerが選択できる登録済みツール名を返す。"""
+
+    return list(
+        load_affiliate_registry().keys()
+    )
+
+
+def build_affiliate_section(
+    recommended_tools: list[str],
+    cta_plan: dict[str, Any] | None = None,
+) -> str:
+    """おすすめツールからMDX形式のCTA欄を作る。"""
+
+    if not recommended_tools:
+        return ""
+
+    registry = load_affiliate_registry()
+
+    selected_tools = list(
+        dict.fromkeys(
+            tool_name.strip()
+            for tool_name in recommended_tools
+            if isinstance(tool_name, str)
+            and tool_name.strip()
+        )
+    )
+
+    primary_service = None
+    primary_cta_label = None
+    cta_placement = "before_faq"
+
+    if isinstance(
+        cta_plan,
+        dict,
+    ):
+        raw_primary_service = (
+            cta_plan.get(
+                "primary_service"
+            )
+        )
+
+        raw_cta_label = (
+            cta_plan.get(
+                "cta_label"
+            )
+        )
+
+        raw_placement = cta_plan.get(
+            "placement"
+        )
+
+        if (
+            isinstance(
+                raw_primary_service,
+                str,
+            )
+            and raw_primary_service.strip()
+        ):
+            primary_service = (
+                raw_primary_service.strip()
+            )
+
+        if (
+            isinstance(
+                raw_cta_label,
+                str,
+            )
+            and raw_cta_label.strip()
+        ):
+            primary_cta_label = (
+                raw_cta_label.strip()
+            )
+
+        if raw_placement in {
+            "after_comparison",
+            "before_faq",
+        }:
+            cta_placement = raw_placement
+
+    lines = [
+        "",
+        "## 公式情報を確認する",
+        "",
+    ]
+
+    valid_tool_count = 0
+
+    for tool_name in selected_tools:
+        item = registry.get(tool_name)
+
+        if item is None:
+            continue
+
+        affiliate_url = str(
+            item.get(
+                "affiliate_url",
+                "",
+            )
+        ).strip()
+
+        official_url = str(
+            item.get(
+                "official_url",
+                "",
+            )
+        ).strip()
+
+        affiliate_status = str(
+            item.get(
+                "affiliate_status",
+                "none",
+            )
+        ).strip()
+
+        affiliate_network = str(
+            item.get(
+                "network",
+                "",
+            )
+        ).strip()
+
+        use_affiliate_link = (
+            affiliate_status == "active"
+            and bool(affiliate_url)
+        )
+
+        destination_url = (
+            affiliate_url
+            if use_affiliate_link
+            else official_url
+        )
+
+        link_type = (
+            "affiliate"
+            if use_affiliate_link
+            else "official"
+        )
+
+        network = (
+            affiliate_network
+            if use_affiliate_link
+            and affiliate_network
+            else "none"
+        )
+
+        # cta_planで指定されたサービスをPrimaryにする。
+        # 指定がない場合は最初の有効サービスをPrimaryにする。
+        if primary_service is not None:
+            cta_type = (
+                "primary"
+                if tool_name
+                == primary_service
+                else "secondary"
+            )
+        else:
+            cta_type = (
+                "primary"
+                if valid_tool_count == 0
+                else "secondary"
+            )
+
+        display_label = item[
+            "cta_label"
+        ]
+
+        if (
+            cta_type == "primary"
+            and primary_cta_label
+        ):
+            display_label = (
+                primary_cta_label
+            )
+
+        link_markup = (
+            "<AffiliateLink"
+            f' href="{destination_url}"'
+            f' service="{tool_name}"'
+            f' linkType="{link_type}"'
+            f' network="{network}"'
+            f' ctaType="{cta_type}"'
+            f' ctaPlacement="{cta_placement}"'
+            ">"
+            f"{display_label}"
+            "</AffiliateLink>"
+        )
+
+        lines.extend(
+            [
+                link_markup,
+                "",
+            ]
+        )
+
+        valid_tool_count += 1
+
+    if valid_tool_count == 0:
+        return ""
+
+    return "\n".join(lines){
+  "Canva": {
+    "official_url": "https://www.canva.com/",
+    "affiliate_url": "",
+    "cta_label": "Canvaを公式サイトで確認する",
+    "aliases": [
+      "Canva"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
+  },
+  "Gamma": {
+    "official_url": "https://gamma.app/",
+    "affiliate_url": "",
+    "cta_label": "Gammaを公式サイトで確認する",
+    "aliases": [
+      "Gamma"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
+  },
+  "ChatGPT": {
+    "official_url": "https://chatgpt.com/",
+    "affiliate_url": "",
+    "cta_label": "ChatGPTを公式サイトで確認する",
+    "aliases": [
+      "ChatGPT"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
+  },
+  "Claude": {
+    "official_url": "https://claude.ai/",
+    "affiliate_url": "",
+    "cta_label": "Claudeを公式サイトで確認する",
+    "aliases": [
+      "Claude"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
+  },
+  "Gemini": {
+    "official_url": "https://gemini.google.com/",
+    "affiliate_url": "",
+    "cta_label": "Geminiを公式サイトで確認する",
+    "aliases": [
+      "Gemini"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
+  },
+  "Cursor": {
+    "official_url": "https://www.cursor.com/",
+    "affiliate_url": "",
+    "cta_label": "Cursorを公式サイトで確認する",
+    "aliases": [
+      "Cursor"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": "2026-08-05"
+  },
+  "ChatPDF": {
+    "official_url": "https://www.chatpdf.com/",
+    "affiliate_url": "",
+    "cta_label": "ChatPDFを公式サイトで確認する",
+    "aliases": [
+      "ChatPDF"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": ""
+  },
+  "DeepL": {
+    "official_url": "https://www.deepl.com/",
+    "affiliate_url": "",
+    "cta_label": "DeepLを公式サイトで確認する",
+    "aliases": [
+      "DeepL",
+      "DeepL Pro"
+    ],
+    "affiliate_status": "none",
+    "network": "",
+    "program_name": "公式リンク",
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "なし",
+    "cookie_days": 0,
+    "program_score": 0.0,
+    "last_verified": ""
+  }
+}

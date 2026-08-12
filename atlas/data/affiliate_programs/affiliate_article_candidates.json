@@ -1,0 +1,23 @@
+{
+  "candidates": [
+    {
+      "program_name": "DMM 生成AI CAMP",
+      "network": "A8.net",
+      "source_service": "ChatGPT",
+      "offer_category": "生成AIスクール",
+      "reward_value": 7519.0,
+      "currency": "JPY",
+      "conversion_action": "新規入会申込",
+      "new_article_fit_score": 90,
+      "article_priority": 87,
+      "keyword_candidates": [
+        "DMM 生成AI CAMP 評判",
+        "DMM 生成AI CAMP 料金",
+        "DMM 生成AI CAMP 口コミ",
+        "生成AIスクール おすすめ",
+        "生成AIスクール 比較"
+      ],
+      "recommended_action": "EVALUATE_KEYWORDS"
+    }
+  ]
+}

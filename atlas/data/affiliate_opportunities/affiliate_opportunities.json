@@ -141,13 +141,6 @@
       "position": 74.2
     }
   },
-  "ai-search-recommendations": {
-    "title": "初心者向けAI検索おすすめ8選｜用途別の選び方と安全な使い方ガイド",
-    "priority": 35,
-    "services": [],
-    "program_candidates": [],
-    "search_console": null
-  },
   "ai-video-generator-tools-comparison-pricing-usage": {
     "title": "AI動画生成ツールおすすめ比較｜料金・生成時間・画質・商用利用のチェックポイントと選び方",
     "priority": 65,
@@ -295,6 +288,22 @@
       "ctr": 0.0,
       "position": 10.0
     }
+  },
+  "claude-usage-limit-reset": {
+    "title": "Claudeの利用制限はいつリセット？表示の見方と今すぐ使うための対処法",
+    "priority": 30,
+    "services": [
+      "Claude"
+    ],
+    "program_candidates": [
+      {
+        "service": "Claude",
+        "affiliate_status": "none",
+        "network": "",
+        "program_name": "公式リンク"
+      }
+    ],
+    "search_console": null
   },
   "cursor-pricing-plans-comparison": {
     "title": "Cursorの料金プランを徹底比較：無料／Pro／Businessの違いと最適な選び方",

@@ -1,0 +1,14 @@
+{
+  "verification_cooldown_days": 30,
+  "verifications": [
+    {
+      "service": "ChatGPT",
+      "network": "A8.net",
+      "result": "not_found",
+      "verified_at": "2026-08-12",
+      "notes": "A8.net管理画面でChatGPTを検索。ChatGPT公式サービス自体の成果報酬案件は確認できず。DMM生成AI CAMP等のChatGPT関連スクール案件は存在するが、ChatGPTサービス案件ではないため除外。",
+      "program_name": "",
+      "program_url": ""
+    }
+  ]
+}

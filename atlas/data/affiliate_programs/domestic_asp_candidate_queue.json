@@ -1,0 +1,258 @@
+{
+  "max_candidates": 5,
+  "candidates": [
+    {
+      "service": "ChatGPT",
+      "priority": 86,
+      "action": "CHECK_DOMESTIC_ASP",
+      "current_action": "NO_REVENUE",
+      "recommended_networks": [
+        "もしもアフィリエイト",
+        "バリューコマース"
+      ],
+      "search_keywords": [
+        "ChatGPT",
+        "ChatGPT アフィリエイト",
+        "ChatGPT A8",
+        "ChatGPT もしも",
+        "ChatGPT バリューコマース"
+      ],
+      "existing_articles": [
+        {
+          "slug": "chatgpt-claude-pricing-feature-limits-comparison",
+          "title": "ChatGPTとClaudeの料金・機能・利用制限を徹底比較：用途別の最適解と選び方",
+          "match_score": 81
+        },
+        {
+          "slug": "chatgpt-pricing-plans-comparison",
+          "title": "ChatGPTの料金プランを徹底比較｜Free・Plus・Business（旧Team）・Enterpriseの違いと選び方",
+          "match_score": 73
+        },
+        {
+          "slug": "ai-email-writing-tools-comparison",
+          "title": "2026年版 初心者向けAIメール作成ツール比較｜Gmail/Outlook対応・日本語品質・機能・料金の選び方",
+          "match_score": 61
+        },
+        {
+          "slug": "ai-image-generators-comparison",
+          "title": "AI画像生成ツールおすすめ比較｜料金・画質・日本語対応・商用利用で選ぶ",
+          "match_score": 61
+        },
+        {
+          "slug": "ai-meeting-minutes-tools-comparison",
+          "title": "AI議事録ツールおすすめ比較：料金・精度・要約・対応言語で失敗しない選び方",
+          "match_score": 53
+        },
+        {
+          "slug": "ai-writing-tools-comparison-japanese-quality-pricing-ux",
+          "title": "AI文章作成ツールおすすめ比較｜日本語品質・料金・用途・使いやすさで後悔しない選び方",
+          "match_score": 53
+        },
+        {
+          "slug": "best-ai-translation-tools",
+          "title": "AI翻訳のおすすめと選び方｜英日・日英の業務で失敗しない最短ルート",
+          "match_score": 53
+        }
+      ],
+      "direct_program_found": true,
+      "direct_program_name": "ChatGPT Promotional Subscriptions / Free Trial Invites",
+      "direct_network": "",
+      "direct_commission": "No cash payout. Eligible users may share referral links/codes that grant invitees a free, limited‑duration trial of a paid ChatGPT subscription; campaign details vary.",
+      "reason": "直接案件が弱いため、国内ASP経由の案件有無を確認する価値があります。",
+      "verification_status": {
+        "もしもアフィリエイト": "unverified",
+        "バリューコマース": "unverified"
+      }
+    },
+    {
+      "service": "Claude",
+      "priority": 81,
+      "action": "CHECK_DOMESTIC_ASP",
+      "current_action": "REVIEW",
+      "recommended_networks": [
+        "A8.net",
+        "もしもアフィリエイト",
+        "バリューコマース"
+      ],
+      "search_keywords": [
+        "Claude",
+        "Claude アフィリエイト",
+        "Claude A8",
+        "Claude もしも",
+        "Claude バリューコマース"
+      ],
+      "existing_articles": [
+        {
+          "slug": "chatgpt-claude-pricing-feature-limits-comparison",
+          "title": "ChatGPTとClaudeの料金・機能・利用制限を徹底比較：用途別の最適解と選び方",
+          "match_score": 81
+        },
+        {
+          "slug": "claude-pricing-plans-comparison-pro-max",
+          "title": "Claudeの無料版・Pro・Maxを徹底比較｜料金・上限リセット・機能差でわかるPro/Maxの違い",
+          "match_score": 81
+        },
+        {
+          "slug": "ai-codegen-tools-comparison",
+          "title": "AIコード生成ツールおすすめ比較：料金・対応IDE・コード品質・使いやすさで選ぶ",
+          "match_score": 61
+        },
+        {
+          "slug": "ai-writing-tools-comparison-japanese-quality-pricing-ux",
+          "title": "AI文章作成ツールおすすめ比較｜日本語品質・料金・用途・使いやすさで後悔しない選び方",
+          "match_score": 53
+        }
+      ],
+      "direct_program_found": true,
+      "direct_program_name": "Claude Partner Network",
+      "direct_network": "",
+      "direct_commission": "",
+      "reason": "直接案件が弱いため、国内ASP経由の案件有無を確認する価値があります。",
+      "verification_status": {
+        "A8.net": "unverified",
+        "もしもアフィリエイト": "unverified",
+        "バリューコマース": "unverified"
+      }
+    },
+    {
+      "service": "DeepL",
+      "priority": 80,
+      "action": "CHECK_DOMESTIC_ASP",
+      "current_action": "REVIEW",
+      "recommended_networks": [
+        "A8.net",
+        "もしもアフィリエイト",
+        "バリューコマース"
+      ],
+      "search_keywords": [
+        "DeepL",
+        "DeepL アフィリエイト",
+        "DeepL A8",
+        "DeepL もしも",
+        "DeepL バリューコマース"
+      ],
+      "existing_articles": [
+        {
+          "slug": "deepl-pricing-plans-guide",
+          "title": "DeepLの料金プラン徹底解説：無料・Pro・Teams・APIの違いと最適プランの選び方",
+          "match_score": 73
+        },
+        {
+          "slug": "best-ai-translation-tools",
+          "title": "AI翻訳のおすすめと選び方｜英日・日英の業務で失敗しない最短ルート",
+          "match_score": 53
+        }
+      ],
+      "direct_program_found": true,
+      "direct_program_name": "DeepL Partner Program",
+      "direct_network": "",
+      "direct_commission": "",
+      "reason": "直接案件が弱いため、国内ASP経由の案件有無を確認する価値があります。",
+      "verification_status": {
+        "A8.net": "unverified",
+        "もしもアフィリエイト": "unverified",
+        "バリューコマース": "unverified"
+      }
+    },
+    {
+      "service": "Cursor",
+      "priority": 40,
+      "action": "CHECK_DOMESTIC_ASP",
+      "current_action": "NO_PROGRAM",
+      "recommended_networks": [
+        "A8.net",
+        "もしもアフィリエイト",
+        "バリューコマース"
+      ],
+      "search_keywords": [
+        "Cursor",
+        "Cursor アフィリエイト",
+        "Cursor A8",
+        "Cursor もしも",
+        "Cursor バリューコマース"
+      ],
+      "existing_articles": [
+        {
+          "slug": "cursor-pricing-plans-comparison",
+          "title": "Cursorの料金プランを徹底比較：無料／Pro／Businessの違いと最適な選び方",
+          "match_score": 55
+        },
+        {
+          "slug": "ai-codegen-tools-comparison",
+          "title": "AIコード生成ツールおすすめ比較：料金・対応IDE・コード品質・使いやすさで選ぶ",
+          "match_score": 43
+        }
+      ],
+      "direct_program_found": false,
+      "direct_program_name": "",
+      "direct_network": "",
+      "direct_commission": "",
+      "reason": "直接案件が弱いため、国内ASP経由の案件有無を確認する価値があります。",
+      "verification_status": {
+        "A8.net": "unverified",
+        "もしもアフィリエイト": "unverified",
+        "バリューコマース": "unverified"
+      }
+    },
+    {
+      "service": "Gemini",
+      "priority": 40,
+      "action": "CHECK_DOMESTIC_ASP",
+      "current_action": "NO_PROGRAM",
+      "recommended_networks": [
+        "A8.net",
+        "もしもアフィリエイト",
+        "バリューコマース"
+      ],
+      "search_keywords": [
+        "Gemini",
+        "Gemini アフィリエイト",
+        "Gemini A8",
+        "Gemini もしも",
+        "Gemini バリューコマース"
+      ],
+      "existing_articles": [
+        {
+          "slug": "gemini-pricing-plan-comparison",
+          "title": "Geminiの料金プラン比較：無料版・Google AI Pro・Google AI Ultraの違いとおすすめの選び方",
+          "match_score": 55
+        },
+        {
+          "slug": "ai-email-writing-tools-comparison",
+          "title": "2026年版 初心者向けAIメール作成ツール比較｜Gmail/Outlook対応・日本語品質・機能・料金の選び方",
+          "match_score": 43
+        },
+        {
+          "slug": "ai-presentation-tools-comparison",
+          "title": "AIプレゼン資料作成ツールおすすめ比較｜2026年最新・料金と機能で選ぶ（PowerPoint/Googleスライド/Canva対応）",
+          "match_score": 38
+        },
+        {
+          "slug": "ai-meeting-minutes-tools-comparison",
+          "title": "AI議事録ツールおすすめ比較：料金・精度・要約・対応言語で失敗しない選び方",
+          "match_score": 35
+        },
+        {
+          "slug": "ai-video-generator-tools-comparison-pricing-usage",
+          "title": "AI動画生成ツールおすすめ比較｜料金・生成時間・画質・商用利用のチェックポイントと選び方",
+          "match_score": 35
+        },
+        {
+          "slug": "ai-writing-tools-comparison-japanese-quality-pricing-ux",
+          "title": "AI文章作成ツールおすすめ比較｜日本語品質・料金・用途・使いやすさで後悔しない選び方",
+          "match_score": 35
+        }
+      ],
+      "direct_program_found": false,
+      "direct_program_name": "",
+      "direct_network": "",
+      "direct_commission": "",
+      "reason": "直接案件が弱いため、国内ASP経由の案件有無を確認する価値があります。",
+      "verification_status": {
+        "A8.net": "unverified",
+        "もしもアフィリエイト": "unverified",
+        "バリューコマース": "unverified"
+      }
+    }
+  ]
+}

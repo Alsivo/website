@@ -1,0 +1,1187 @@
+import json
+from datetime import date
+from pathlib import Path
+from typing import Any
+
+from agents.affiliate_program_researcher import (
+    research_affiliate_program,
+)
+
+from engines.affiliate_registry import (
+    load_affiliate_registry,
+)
+
+BASE_DIR = Path(__file__).resolve().parent
+
+QUEUE_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+    / "program_discovery_queue.json"
+)
+
+RESULT_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+    / "program_research_results.json"
+)
+
+
+def load_discovery_queue(
+) -> list[dict[str, Any]]:
+    """案件探索Queueを読み込む。"""
+
+    if not QUEUE_FILE.exists():
+        raise FileNotFoundError(
+            "program_discovery_queue.jsonが"
+            "見つかりません："
+            f"{QUEUE_FILE}"
+        )
+
+    data = json.loads(
+        QUEUE_FILE.read_text(
+            encoding="utf-8",
+        )
+    )
+
+    programs = data.get(
+        "programs",
+        [],
+    )
+
+    if not isinstance(
+        programs,
+        list,
+    ):
+        raise ValueError(
+            "programsは配列にしてください。"
+        )
+
+    return programs
+
+
+def research_programs(
+    queue: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Queue内サービスを順番に調査する。"""
+
+    registry = load_affiliate_registry()
+
+    results: list[
+        dict[str, Any]
+    ] = []
+
+    for item in queue:
+        service = str(
+            item.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        registry_item = registry.get(
+            service,
+            {},
+        )
+
+        official_url = str(
+            registry_item.get(
+                "official_url",
+                "",
+            )
+        ).strip()
+
+        source_articles = item.get(
+            "source_articles",
+            [],
+        )
+
+        context = (
+            "Alsivo上の記事："
+            + ", ".join(
+                str(slug)
+                for slug in source_articles
+            )
+        )
+
+        research = (
+            research_affiliate_program(
+                service=service,
+                official_url=official_url,
+                context=context,
+            )
+        )
+
+        research[
+            "priority"
+        ] = item.get(
+            "priority",
+            0,
+        )
+
+        research[
+            "source_articles"
+        ] = item.get(
+            "source_articles",
+            [],
+        )
+
+        research[
+            "verified_at"
+        ] = date.today().isoformat()
+
+        results.append(
+            research
+        )
+
+    return results
+
+
+def save_results(
+    results: list[dict[str, Any]],
+) -> Path:
+    """案件調査結果を既存結果へ追加・更新して保存する。"""
+
+    RESULT_FILE.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    existing_programs: list[
+        dict[str, Any]
+    ] = []
+
+    if RESULT_FILE.exists():
+        try:
+            existing_data = json.loads(
+                RESULT_FILE.read_text(
+                    encoding="utf-8",
+                )
+            )
+        except json.JSONDecodeError as error:
+            raise ValueError(
+                "program_research_results.jsonの"
+                "JSON形式が不正です。"
+            ) from error
+
+        programs = existing_data.get(
+            "programs",
+            [],
+        )
+
+        if isinstance(
+            programs,
+            list,
+        ):
+            existing_programs = [
+                item
+                for item in programs
+                if isinstance(
+                    item,
+                    dict,
+                )
+            ]
+
+    program_map: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    # 既存結果を先に登録
+    for item in existing_programs:
+        service = str(
+            item.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        program_map[
+            service
+        ] = item
+
+    # 今回の調査結果で追加・上書き
+    for item in results:
+        service = str(
+            item.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        program_map[
+            service
+        ] = item
+
+    merged_programs = list(
+        program_map.values()
+    )
+
+    merged_programs.sort(
+        key=lambda item: int(
+            item.get(
+                "priority",
+                0,
+            )
+            or 0
+        ),
+        reverse=True,
+    )
+
+    data = {
+        "programs":
+            merged_programs,
+    }
+
+    RESULT_FILE.write_text(
+        json.dumps(
+            data,
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    return RESULT_FILE
+
+
+def print_results(
+    results: list[dict[str, Any]],
+) -> None:
+    """案件調査結果を表示する。"""
+
+    print(
+        "\n===== Affiliate Program Research =====\n"
+    )
+
+    for item in results:
+        print(
+            f"{item['service']} "
+            f"({item['priority']}点)"
+        )
+
+        print(
+            "  program_found: "
+            f"{item['program_found']}"
+        )
+
+        print(
+            "  type: "
+            f"{item['program_type']}"
+        )
+
+        print(
+            "  network: "
+            + (
+                item["network"]
+                if item["network"]
+                else "不明"
+            )
+        )
+
+        print(
+            "  commission: "
+            + (
+                item["commission"]
+                if item["commission"]
+                else "不明"
+            )
+        )
+
+        print(
+            "  URL: "
+            + (
+                item["program_url"]
+                if item["program_url"]
+                else "なし"
+            )
+        )
+
+        print(
+            f"  notes: "
+            f"{item['research_notes']}"
+        )
+
+        print()
+
+
+def main() -> None:
+    queue = (
+        load_discovery_queue()
+    )
+
+    results = research_programs(
+        queue
+    )
+
+    filepath = save_results(
+        results
+    )
+
+    print_results(
+        results
+    )
+
+    print(
+        f"保存先：{filepath}"
+    )
+
+
+if __name__ == "__main__":
+    main()
+===== affiliate_program_discovery.py =====
+import json
+from pathlib import Path
+from typing import Any
+from datetime import date, datetime
+
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+
+PROGRAM_RESULTS_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+    / "program_research_results.json"
+)
+
+PROGRAM_RESEARCH_COOLDOWN_DAYS = 30
+
+DECISIONS_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_opportunities"
+    / "affiliate_opportunity_decisions.json"
+)
+
+OUTPUT_DIR = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+)
+
+OUTPUT_FILE = (
+    OUTPUT_DIR
+    / "program_discovery_queue.json"
+)
+
+
+def load_opportunity_decisions() -> list[dict[str, Any]]:
+    """Phase 33のAI判断結果を読み込む。"""
+
+    if not DECISIONS_FILE.exists():
+        raise FileNotFoundError(
+            "affiliate_opportunity_decisions.jsonが"
+            "見つかりません："
+            f"{DECISIONS_FILE}"
+        )
+
+    try:
+        data = json.loads(
+            DECISIONS_FILE.read_text(
+                encoding="utf-8",
+            )
+        )
+    except json.JSONDecodeError as error:
+        raise ValueError(
+            "affiliate_opportunity_decisions.jsonの"
+            "JSON形式が不正です。"
+        ) from error
+
+    decisions = data.get(
+        "decisions",
+        [],
+    )
+
+    if not isinstance(
+        decisions,
+        list,
+    ):
+        raise ValueError(
+            "decisionsは配列にしてください。"
+        )
+
+    return decisions
+
+def load_recent_program_research(
+) -> dict[str, dict[str, Any]]:
+    """過去のAffiliate Program調査結果をサービス別に読む。"""
+
+    if not PROGRAM_RESULTS_FILE.exists():
+        return {}
+
+    try:
+        data = json.loads(
+            PROGRAM_RESULTS_FILE.read_text(
+                encoding="utf-8",
+            )
+        )
+    except json.JSONDecodeError:
+        return {}
+
+    programs = data.get(
+        "programs",
+        [],
+    )
+
+    if not isinstance(
+        programs,
+        list,
+    ):
+        return {}
+
+    result: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    for item in programs:
+        if not isinstance(
+            item,
+            dict,
+        ):
+            continue
+
+        service = str(
+            item.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        result[
+            service
+        ] = item
+
+    return result
+
+def program_research_is_recent(
+    item: dict[str, Any],
+) -> bool:
+    """Affiliate Program調査がクールダウン期間内か判定する。"""
+
+    verified_at_text = str(
+        item.get(
+            "verified_at",
+            "",
+        )
+    ).strip()
+
+    if not verified_at_text:
+        return False
+
+    try:
+        verified_at = (
+            datetime.fromisoformat(
+                verified_at_text
+            ).date()
+        )
+    except ValueError:
+        return False
+
+    elapsed_days = (
+        date.today()
+        - verified_at
+    ).days
+
+    return (
+        0
+        <= elapsed_days
+        < PROGRAM_RESEARCH_COOLDOWN_DAYS
+    )
+
+def build_program_discovery_queue(
+    decisions: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """案件探索対象サービスを作成する。"""
+
+    researched_programs = (
+        load_recent_program_research()
+    )
+
+    service_map: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    for decision in decisions:
+        if (
+            decision.get("action")
+            != "find_program"
+        ):
+            continue
+
+        service = decision.get(
+            "service"
+        )
+
+        if (
+            not isinstance(
+                service,
+                str,
+            )
+            or not service.strip()
+        ):
+            continue
+
+        service = service.strip()
+
+        previous_research = (
+            researched_programs.get(
+                service
+            )
+        )
+
+        if (
+            previous_research
+            is not None
+            and program_research_is_recent(
+                previous_research
+            )
+        ):
+            continue
+
+        priority = int(
+            decision.get(
+                "priority",
+                0,
+            )
+        )
+
+        slug = str(
+            decision.get(
+                "slug",
+                "",
+            )
+        ).strip()
+
+        if service not in service_map:
+            service_map[service] = {
+                "service": service,
+                "priority": priority,
+                "source_articles": [],
+                "status": "pending_research",
+            }
+
+        service_map[service][
+            "priority"
+        ] = max(
+            service_map[service][
+                "priority"
+            ],
+            priority,
+        )
+
+        if slug:
+            service_map[service][
+                "source_articles"
+            ].append(
+                slug
+            )
+
+    queue = list(
+        service_map.values()
+    )
+
+    queue.sort(
+        key=lambda item: item[
+            "priority"
+        ],
+        reverse=True,
+    )
+
+    return queue
+
+def enrich_discovery_queue(
+    queue: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """案件調査で確認するフィールドを追加する。"""
+
+    result = []
+
+    for item in queue:
+        result.append(
+            {
+                **item,
+                "program_found": None,
+                "program_type": None,
+                "program_name": "",
+                "network": "",
+                "program_url": "",
+                "commission": "",
+                "cookie_duration": "",
+                "target_country": "",
+                "application_required": None,
+                "research_notes": "",
+                "verified_at": None,
+            }
+        )
+
+    return result
+
+def save_discovery_queue(
+    queue: list[dict[str, Any]],
+) -> Path:
+    """案件探索Queueを保存する。"""
+
+    OUTPUT_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    data = {
+        "programs": queue,
+    }
+
+    OUTPUT_FILE.write_text(
+        json.dumps(
+            data,
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
+    return OUTPUT_FILE
+
+def print_discovery_queue(
+    queue: list[dict[str, Any]],
+) -> None:
+    """案件探索対象を表示する。"""
+
+    print(
+        "\n===== Affiliate Program Discovery =====\n"
+    )
+
+    if not queue:
+        print(
+            "現在、案件探索対象はありません。"
+        )
+        return
+
+    for index, item in enumerate(
+        queue,
+        start=1,
+    ):
+        print(
+            f"{index}. "
+            f"{item['service']} "
+            f"({item['priority']}点)"
+        )
+
+        print(
+            "   status: "
+            f"{item['status']}"
+        )
+
+        print(
+            "   対象記事: "
+            + ", ".join(
+                item[
+                    "source_articles"
+                ]
+            )
+        )
+
+        print()
+
+def main() -> None:
+    decisions = (
+        load_opportunity_decisions()
+    )
+
+    queue = (
+        build_program_discovery_queue(
+            decisions
+        )
+    )
+
+    queue = (
+        enrich_discovery_queue(
+            queue
+        )
+    )
+
+    filepath = (
+        save_discovery_queue(
+            queue
+        )
+    )
+
+    print_discovery_queue(
+        queue
+    )
+
+    print(
+        f"保存先：{filepath}"
+    )
+
+
+if __name__ == "__main__":
+    main()
+===== affiliate_program_merger.py =====
+import json
+from pathlib import Path
+from typing import Any
+
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+
+BASE_RESULTS_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+    / "program_research_results.json"
+)
+
+MONETIZATION_RESULTS_FILE = (
+    BASE_DIR
+    / "data"
+    / "monetization"
+    / "monetization_research_results.json"
+)
+
+OUTPUT_FILE = (
+    BASE_DIR
+    / "data"
+    / "affiliate_programs"
+    / "program_research_results.json"
+)
+
+
+def load_programs(
+    filepath: Path,
+) -> list[dict[str, Any]]:
+    """案件調査結果JSONを読み込む。"""
+
+    if not filepath.exists():
+        return []
+
+    data = json.loads(
+        filepath.read_text(
+            encoding="utf-8",
+        )
+    )
+
+    programs = data.get(
+        "programs",
+        [],
+    )
+
+    if not isinstance(
+        programs,
+        list,
+    ):
+        raise ValueError(
+            f"{filepath.name}のprogramsは"
+            "配列にしてください。"
+        )
+
+    return [
+        item
+        for item in programs
+        if isinstance(item, dict)
+    ]
+
+
+def normalize_service_name(
+    service: str,
+) -> str:
+    """サービス名の表記揺れをRegistry名へ寄せる。"""
+
+    service = service.strip()
+
+    if service.startswith(
+        "Gemini"
+    ):
+        return "Gemini"
+
+    return service
+
+
+def merge_program_results(
+    base_programs: list[dict[str, Any]],
+    additional_programs: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """新しい調査結果を既存結果へマージする。"""
+
+    program_map: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    for item in base_programs:
+        service = normalize_service_name(
+            str(
+                item.get(
+                    "service",
+                    "",
+                )
+            )
+        )
+
+        if not service:
+            continue
+
+        copied_item = dict(item)
+        copied_item["service"] = service
+
+        program_map[service] = (
+            copied_item
+        )
+
+    # 追加調査結果を優先して上書き
+    for item in additional_programs:
+        service = normalize_service_name(
+            str(
+                item.get(
+                    "service",
+                    "",
+                )
+            )
+        )
+
+        if not service:
+            continue
+
+        copied_item = dict(item)
+        copied_item["service"] = service
+
+        program_map[service] = (
+            copied_item
+        )
+
+    result = list(
+        program_map.values()
+    )
+
+    result.sort(
+        key=lambda item: int(
+            item.get(
+                "priority",
+                0,
+            )
+            or 0
+        ),
+        reverse=True,
+    )
+
+    return result
+
+
+def save_program_results(
+    programs: list[dict[str, Any]],
+) -> Path:
+    """マージ済み案件情報を保存する。"""
+
+    OUTPUT_FILE.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    OUTPUT_FILE.write_text(
+        json.dumps(
+            {
+                "programs": programs,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
+    return OUTPUT_FILE
+
+
+def main() -> None:
+    base_programs = load_programs(
+        BASE_RESULTS_FILE
+    )
+
+    additional_programs = load_programs(
+        MONETIZATION_RESULTS_FILE
+    )
+
+    merged = merge_program_results(
+        base_programs,
+        additional_programs,
+    )
+
+    filepath = save_program_results(
+        merged
+    )
+
+    print(
+        "\n===== Affiliate Program Merge =====\n"
+    )
+
+    for item in merged:
+        print(
+            f"- {item.get('service', '')}: "
+            f"program_found="
+            f"{item.get('program_found')}"
+        )
+
+    print(
+        f"\n保存先：{filepath}"
+    )
+
+
+if __name__ == "__main__":
+    main()
+===== monetization_research.py =====
+import json
+from datetime import date
+from pathlib import Path
+from typing import Any
+
+from agents.affiliate_program_researcher import (
+    research_affiliate_program,
+)
+from engines.affiliate_registry import (
+    load_affiliate_registry,
+)
+
+
+BASE_DIR = Path(__file__).resolve().parent
+
+QUEUE_FILE = (
+    BASE_DIR
+    / "data"
+    / "monetization"
+    / "monetization_research_queue.json"
+)
+
+OUTPUT_FILE = (
+    BASE_DIR
+    / "data"
+    / "monetization"
+    / "monetization_research_results.json"
+)
+
+
+def load_queue(
+) -> list[dict[str, Any]]:
+    """再調査Queueを読み込む。"""
+
+    if not QUEUE_FILE.exists():
+        raise FileNotFoundError(
+            "monetization_research_queue.jsonが"
+            "見つかりません："
+            f"{QUEUE_FILE}"
+        )
+
+    data = json.loads(
+        QUEUE_FILE.read_text(
+            encoding="utf-8",
+        )
+    )
+
+    programs = data.get(
+        "programs",
+        [],
+    )
+
+    if not isinstance(
+        programs,
+        list,
+    ):
+        raise ValueError(
+            "programsは配列にしてください。"
+        )
+
+    return programs
+
+
+def research_queue(
+    queue: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """再調査Queue内サービスをWeb調査する。"""
+
+    registry = (
+        load_affiliate_registry()
+    )
+
+    results: list[
+        dict[str, Any]
+    ] = []
+
+    for item in queue:
+        service = str(
+            item.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        registry_item = registry.get(
+            service,
+            {},
+        )
+
+        official_url = str(
+            registry_item.get(
+                "official_url",
+                "",
+            )
+        ).strip()
+
+        source_titles = item.get(
+            "source_titles",
+            [],
+        )
+
+        context = (
+            "Alsivo上の関連記事："
+            + " / ".join(
+                str(title)
+                for title in source_titles
+            )
+        )
+
+        research = (
+            research_affiliate_program(
+                service=service,
+                official_url=official_url,
+                context=context,
+            )
+        )
+
+        research["priority"] = (
+            item.get(
+                "priority",
+                0,
+            )
+        )
+
+        research[
+            "source_articles"
+        ] = item.get(
+            "source_articles",
+            [],
+        )
+
+        research[
+            "verified_at"
+        ] = date.today().isoformat()
+
+        results.append(
+            research
+        )
+
+    return results
+
+
+def save_results(
+    results: list[dict[str, Any]],
+) -> Path:
+    """追加案件調査結果を保存する。"""
+
+    OUTPUT_FILE.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    OUTPUT_FILE.write_text(
+        json.dumps(
+            {
+                "programs": results,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
+    return OUTPUT_FILE
+
+
+def print_results(
+    results: list[dict[str, Any]],
+) -> None:
+    """追加調査結果を表示する。"""
+
+    print(
+        "\n===== Monetization Research Results =====\n"
+    )
+
+    if not results:
+        print(
+            "調査対象はありません。"
+        )
+        return
+
+    for item in results:
+        print(
+            f"{item['service']} "
+            f"({item['priority']}点)"
+        )
+
+        print(
+            "  program_found: "
+            f"{item['program_found']}"
+        )
+
+        print(
+            "  program_type: "
+            f"{item['program_type']}"
+        )
+
+        print(
+            "  commission: "
+            + (
+                item["commission"]
+                or "不明"
+            )
+        )
+
+        print(
+            "  URL: "
+            + (
+                item["program_url"]
+                or "なし"
+            )
+        )
+
+        print()
+
+
+def main() -> None:
+    queue = load_queue()
+
+    results = research_queue(
+        queue
+    )
+
+    filepath = save_results(
+        results
+    )
+
+    print_results(
+        results
+    )
+
+    print(
+        f"保存先：{filepath}"
+    )
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,20 @@
+{
+  "opportunities": [
+    {
+      "source_service": "ChatGPT",
+      "network": "A8.net",
+      "program_name": "DMM 生成AI CAMP",
+      "program_url": "",
+      "reward_value": 7519.0,
+      "currency": "JPY",
+      "conversion_action": "新規入会申込",
+      "offer_category": "生成AIスクール",
+      "direct_match": false,
+      "existing_article_fit_score": 30,
+      "new_article_fit_score": 90,
+      "recommended_action": "CREATE_ARTICLE",
+      "notes": "A8.netでChatGPT検索時に発見。ChatGPT本体案件ではなく生成AIスクールの関連案件。無料セミナー予約2257円、新規入会申込7519円。",
+      "registered_at": "2026-08-12"
+    }
+  ]
+}

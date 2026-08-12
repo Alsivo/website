@@ -2,108 +2,108 @@
   "decisions": [
     {
       "slug": "ai-codegen-tools-comparison",
-      "service": "Cursor",
-      "priority": 78,
-      "action": "find_program",
-      "reason": "料金・機能軸の複数サービス比較で商用意図が強く、SCで初動の表示・順位（7位）が良好。外部で案件有無を調査する価値が高い。"
+      "service": "Claude",
+      "priority": 65,
+      "action": "wait",
+      "reason": "比較記事で商用意図は強いが、Search Consoleは表示1・クリック0でデータ不足。順位は良好なため推移を観察しつつ、まずは単一サービス記事側の案件探索を優先。"
     },
     {
       "slug": "ai-email-writing-tools-comparison",
       "service": "ChatGPT",
       "priority": 65,
       "action": "wait",
-      "reason": "商用意図は強いが表示1・クリック0の初動段階。短期の推移を観察しつつ軽微な改善後に案件探索を検討。"
+      "reason": "商用意図は強いが、Search Consoleは表示1・クリック0で初動段階。露出推移を見極めてから案件探索に着手。"
     },
     {
       "slug": "ai-image-generators-comparison",
       "service": "Canva",
-      "priority": 80,
-      "action": "find_program",
-      "reason": "料金・商用利用などBOFU要素が強く、SCで順位6位の初動あり。案件有無の外部調査を優先する価値が高い。"
+      "priority": 65,
+      "action": "wait",
+      "reason": "比較記事でBOFU寄りだが、Search Consoleは表示1・クリック0の初動。順位は良好のため様子見し、単一記事の案件探索を先行。"
     },
     {
       "slug": "ai-meeting-minutes-tools-comparison",
       "service": "ChatGPT",
-      "priority": 58,
+      "priority": 60,
       "action": "improve_content",
-      "reason": "SCデータがなく複数サービス比較。まず検索需要の検証とコンテンツ強化を優先。"
+      "reason": "複数サービス比較かつSearch Consoleデータが未取得のため、案件探索よりコンテンツ改善を優先。"
     },
     {
       "slug": "ai-presentation-tools-comparison",
       "service": "Canva",
-      "priority": 57,
+      "priority": 60,
       "action": "improve_content",
-      "reason": "順位74位・表示5と流入が弱い。案件探索よりも構成・キーワード最適化などの改善を優先。"
-    },
-    {
-      "slug": "ai-search-recommendations",
-      "service": null,
-      "priority": 35,
-      "action": "no_opportunity",
-      "reason": "ガイド性が高く対象サービスが明確でないため、現時点での収益化優先度は低い。"
+      "reason": "Search Consoleで順位74.2と低く流入見込みが薄い。まずは構成・内部対策等の改善が先。"
     },
     {
       "slug": "ai-video-generator-tools-comparison-pricing-usage",
       "service": "Canva",
-      "priority": 58,
+      "priority": 60,
       "action": "improve_content",
-      "reason": "SCデータなしの複数サービス比較。まず網羅性・事例充実などで流入獲得を優先。"
+      "reason": "複数サービス比較でSearch Consoleデータが未取得。先に記事品質とキーワード適合の改善を優先。"
     },
     {
       "slug": "ai-writing-tools-comparison-japanese-quality-pricing-ux",
-      "service": "ChatGPT",
-      "priority": 58,
+      "service": "Canva",
+      "priority": 60,
       "action": "improve_content",
-      "reason": "SCデータなしの複数サービス比較。KWの明確化と比較軸の強化を先行。"
+      "reason": "複数サービス比較かつSearch Consoleデータなし。案件探索より流入獲得のための改善を優先。"
     },
     {
       "slug": "best-ai-translation-tools",
-      "service": "DeepL",
-      "priority": 58,
+      "service": "ChatGPT",
+      "priority": 60,
       "action": "improve_content",
-      "reason": "SCデータなしの複数サービス比較。検索需要の検証と比較観点の強化を優先。"
+      "reason": "複数サービス比較でSearch Consoleデータ未取得。まずは検索需要に合わせた改善で露出拡大を図る。"
     },
     {
       "slug": "chatgpt-claude-pricing-feature-limits-comparison",
       "service": "ChatGPT",
-      "priority": 66,
+      "priority": 65,
       "action": "wait",
-      "reason": "料金比較で商用意図は強いが、表示1・順位10位とデータが極小。もう少し推移を見てから案件検討。"
+      "reason": "二者比較で商用意図は強いが、Search Consoleは表示1・クリック0で初動段階。単一プラン記事の案件探索を先行しつつ様子見。"
     },
     {
       "slug": "chatgpt-pricing-plans-comparison",
       "service": "ChatGPT",
-      "priority": 75,
+      "priority": 85,
       "action": "find_program",
-      "reason": "単一サービスの料金・プラン比較でBOFU意図が明確。SCなしでも案件有無の外部調査を優先する価値が高い。"
+      "reason": "単一サービスの料金・プラン比較でBOFU意図が明確。台帳未登録（affiliate_status: none）のため外部調査の優先度が高い。"
     },
     {
       "slug": "claude-pricing-plans-comparison-pro-max",
       "service": "Claude",
-      "priority": 80,
+      "priority": 85,
       "action": "find_program",
-      "reason": "単一サービスの料金比較でBOFU意図が明確かつ初動の表示あり（順位10位）。外部調査を優先。"
+      "reason": "単一サービスの料金・プラン比較で導入意図が高い。Search Consoleで初動の露出あり、台帳未登録のため案件有無の外部調査優先。"
+    },
+    {
+      "slug": "claude-usage-limit-reset",
+      "service": null,
+      "priority": 25,
+      "action": "no_opportunity",
+      "reason": "トラブル解決系の情報記事で契約意図が低く、現時点での収益化優先度は低い。"
     },
     {
       "slug": "cursor-pricing-plans-comparison",
       "service": "Cursor",
-      "priority": 72,
+      "priority": 80,
       "action": "find_program",
-      "reason": "単一サービスの料金・プラン比較で商用意図が非常に強い。SCなしでも案件調査の優先度が高い。"
+      "reason": "単一サービスの料金・プラン比較でBOFU意図が明確。台帳未登録のため案件有無の外部調査価値が高い。"
     },
     {
       "slug": "deepl-pricing-plans-guide",
       "service": "DeepL",
-      "priority": 72,
+      "priority": 80,
       "action": "find_program",
-      "reason": "単一サービスの料金・プラン解説でBOFU意図が明確。SCなしでも案件調査を優先。"
+      "reason": "単一サービスの料金・プラン解説で導入意図が高い。台帳未登録のため外部調査を優先。"
     },
     {
       "slug": "gemini-pricing-plan-comparison",
       "service": "Gemini",
-      "priority": 72,
+      "priority": 80,
       "action": "find_program",
-      "reason": "単一サービスの料金比較でBOFU意図が明確。SCなしでも案件調査の価値が高い。"
+      "reason": "単一サービスの料金・プラン比較でBOFU意図が明確。台帳未登録のため案件有無の外部調査を実施すべき。"
     }
   ]
 }

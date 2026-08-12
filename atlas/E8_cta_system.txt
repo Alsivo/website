@@ -1,0 +1,1025 @@
+===== affiliate_registry.py =====
+import json
+from pathlib import Path
+from typing import Any
+
+
+AFFILIATE_LINKS_FILE = (
+    Path(__file__).resolve().parents[1]
+    / "data"
+    / "affiliate_links.json"
+)
+
+
+def load_affiliate_registry() -> dict[str, dict[str, Any]]:
+    """公式・アフィリエイトリンク台帳を読み込む。"""
+
+    if not AFFILIATE_LINKS_FILE.exists():
+        raise FileNotFoundError(
+            "affiliate_links.jsonが見つかりません："
+            f"{AFFILIATE_LINKS_FILE}"
+        )
+
+    try:
+        data = json.loads(
+            AFFILIATE_LINKS_FILE.read_text(
+                encoding="utf-8",
+            )
+        )
+    except json.JSONDecodeError as error:
+        raise ValueError(
+            "affiliate_links.jsonのJSON形式が不正です。"
+        ) from error
+
+    if not isinstance(data, dict):
+        raise ValueError(
+            "affiliate_links.jsonの最上位は"
+            "オブジェクトにしてください。"
+        )
+
+    validated: dict[str, dict[str, Any]] = {}
+
+    for tool_name, item in data.items():
+        if (
+            not isinstance(tool_name, str)
+            or not tool_name.strip()
+            or not isinstance(item, dict)
+        ):
+            raise ValueError(
+                "リンク台帳に不正なデータがあります。"
+            )
+
+        official_url = item.get("official_url")
+        affiliate_url = item.get(
+            "affiliate_url",
+            "",
+        )
+        cta_label = item.get("cta_label")
+        aliases = item.get("aliases", [])
+
+        affiliate_status = item.get(
+            "affiliate_status",
+            "none",
+        )
+        network = item.get(
+            "network",
+            "",
+        )
+        program_name = item.get(
+            "program_name",
+            "",
+        )
+
+        if (
+            not isinstance(official_url, str)
+            or not official_url.startswith("http")
+        ):
+            raise ValueError(
+                f"{tool_name}のofficial_urlが不正です。"
+            )
+
+        if (
+            not isinstance(affiliate_url, str)
+            or (
+                affiliate_url
+                and not affiliate_url.startswith("http")
+            )
+        ):
+            raise ValueError(
+                f"{tool_name}のaffiliate_urlが不正です。"
+            )
+
+        if (
+            not isinstance(cta_label, str)
+            or not cta_label.strip()
+        ):
+            raise ValueError(
+                f"{tool_name}のcta_labelが未入力です。"
+            )
+
+        if not isinstance(aliases, list):
+            raise ValueError(
+                f"{tool_name}のaliasesは"
+                "配列にしてください。"
+            )
+
+        if not all(
+            isinstance(alias, str)
+            and alias.strip()
+            for alias in aliases
+        ):
+            raise ValueError(
+                f"{tool_name}のaliasesに"
+                "不正な値があります。"
+            )
+
+        if not isinstance(
+            affiliate_status,
+            str,
+        ):
+            raise ValueError(
+                f"{tool_name}のaffiliate_statusが不正です。"
+            )
+
+        if affiliate_status not in {
+            "none",
+            "pending",
+            "active",
+            "paused",
+            "rejected",
+        }:
+            raise ValueError(
+                f"{tool_name}のaffiliate_statusが"
+                "許可されていません："
+                f"{affiliate_status}"
+            )
+
+        if not isinstance(network, str):
+            raise ValueError(
+                f"{tool_name}のnetworkが不正です。"
+            )
+
+        if not isinstance(program_name, str):
+            raise ValueError(
+                f"{tool_name}のprogram_nameが不正です。"
+            )
+
+        if (
+            affiliate_status == "active"
+            and not affiliate_url
+        ):
+            raise ValueError(
+                f"{tool_name}はactiveですが、"
+                "affiliate_urlが未入力です。"
+            )
+
+        validated[tool_name.strip()] = {
+            "official_url": official_url.strip(),
+            "affiliate_url": affiliate_url.strip(),
+            "cta_label": cta_label.strip(),
+            "aliases": [
+                alias.strip()
+                for alias in aliases
+            ],
+            "affiliate_status": (
+                affiliate_status.strip()
+            ),
+            "network": network.strip(),
+            "program_name": (
+                program_name.strip()
+            ),
+        }
+
+    return validated
+
+
+def get_affiliate_tool_names() -> list[str]:
+    """Writerが選択できる登録済みツール名を返す。"""
+
+    return list(
+        load_affiliate_registry().keys()
+    )
+
+
+def build_affiliate_section(
+    recommended_tools: list[str],
+    cta_plan: dict[str, Any] | None = None,
+) -> str:
+    """おすすめツールからMDX形式のCTA欄を作る。"""
+
+    if not recommended_tools:
+        return ""
+
+    registry = load_affiliate_registry()
+
+    selected_tools = list(
+        dict.fromkeys(
+            tool_name.strip()
+            for tool_name in recommended_tools
+            if isinstance(tool_name, str)
+            and tool_name.strip()
+        )
+    )
+
+    primary_service = None
+    primary_cta_label = None
+    cta_placement = "before_faq"
+
+    if isinstance(
+        cta_plan,
+        dict,
+    ):
+        raw_primary_service = (
+            cta_plan.get(
+                "primary_service"
+            )
+        )
+
+        raw_cta_label = (
+            cta_plan.get(
+                "cta_label"
+            )
+        )
+
+        raw_placement = cta_plan.get(
+            "placement"
+        )
+
+        if (
+            isinstance(
+                raw_primary_service,
+                str,
+            )
+            and raw_primary_service.strip()
+        ):
+            primary_service = (
+                raw_primary_service.strip()
+            )
+
+        if (
+            isinstance(
+                raw_cta_label,
+                str,
+            )
+            and raw_cta_label.strip()
+        ):
+            primary_cta_label = (
+                raw_cta_label.strip()
+            )
+
+        if raw_placement in {
+            "after_comparison",
+            "before_faq",
+        }:
+            cta_placement = raw_placement
+
+    lines = [
+        "",
+        "## 公式情報を確認する",
+        "",
+    ]
+
+    valid_tool_count = 0
+
+    for tool_name in selected_tools:
+        item = registry.get(tool_name)
+
+        if item is None:
+            continue
+
+        affiliate_url = str(
+            item.get(
+                "affiliate_url",
+                "",
+            )
+        ).strip()
+
+        official_url = str(
+            item.get(
+                "official_url",
+                "",
+            )
+        ).strip()
+
+        affiliate_status = str(
+            item.get(
+                "affiliate_status",
+                "none",
+            )
+        ).strip()
+
+        affiliate_network = str(
+            item.get(
+                "network",
+                "",
+            )
+        ).strip()
+
+        use_affiliate_link = (
+            affiliate_status == "active"
+            and bool(affiliate_url)
+        )
+
+        destination_url = (
+            affiliate_url
+            if use_affiliate_link
+            else official_url
+        )
+
+        link_type = (
+            "affiliate"
+            if use_affiliate_link
+            else "official"
+        )
+
+        network = (
+            affiliate_network
+            if use_affiliate_link
+            and affiliate_network
+            else "none"
+        )
+
+        # cta_planで指定されたサービスをPrimaryにする。
+        # 指定がない場合は最初の有効サービスをPrimaryにする。
+        if primary_service is not None:
+            cta_type = (
+                "primary"
+                if tool_name
+                == primary_service
+                else "secondary"
+            )
+        else:
+            cta_type = (
+                "primary"
+                if valid_tool_count == 0
+                else "secondary"
+            )
+
+        display_label = item[
+            "cta_label"
+        ]
+
+        if (
+            cta_type == "primary"
+            and primary_cta_label
+        ):
+            display_label = (
+                primary_cta_label
+            )
+
+        link_markup = (
+            "<AffiliateLink"
+            f' href="{destination_url}"'
+            f' service="{tool_name}"'
+            f' linkType="{link_type}"'
+            f' network="{network}"'
+            f' ctaType="{cta_type}"'
+            f' ctaPlacement="{cta_placement}"'
+            ">"
+            f"{display_label}"
+            "</AffiliateLink>"
+        )
+
+        lines.extend(
+            [
+                link_markup,
+                "",
+            ]
+        )
+
+        valid_tool_count += 1
+
+    if valid_tool_count == 0:
+        return ""
+
+    return "\n".join(lines)
+===== cta_migrator.py =====
+import argparse
+import re
+from pathlib import Path
+
+from engines.affiliate_registry import (
+    load_affiliate_registry,
+)
+
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+
+BLOG_DIR = (
+    BASE_DIR.parent
+    / "content"
+    / "blog"
+)
+
+
+CTA_HEADING = (
+    "## 紹介したサービスを確認する"
+)
+
+NEXT_SECTION_PATTERN = re.compile(
+    r"^##\s+",
+    re.MULTILINE,
+)
+
+MARKDOWN_LINK_PATTERN = re.compile(
+    r"^\[(?P<label>.+?)\]"
+    r"\((?P<url>https?://.+?)\)$"
+)
+
+AFFILIATE_LINK_PATTERN = re.compile(
+    r'^<AffiliateLink\s+'
+    r'href="(?P<url>[^"]+)"\s+'
+    r'service="(?P<service>[^"]+)"'
+    r'(?P<attrs>[^>]*)>'
+    r'(?P<label>.*?)'
+    r'</AffiliateLink>$'
+)
+
+
+def extract_cta_section(
+    text: str,
+) -> tuple[
+    int,
+    int,
+    str,
+] | None:
+    """
+    CTA見出しから次のH2直前までを取得する。
+    """
+
+    start = text.find(
+        CTA_HEADING
+    )
+
+    if start == -1:
+        return None
+
+    search_start = (
+        start
+        + len(CTA_HEADING)
+    )
+
+    match = NEXT_SECTION_PATTERN.search(
+        text,
+        search_start,
+    )
+
+    end = (
+        match.start()
+        if match
+        else len(text)
+    )
+
+    section = text[
+        start:end
+    ]
+
+    return (
+        start,
+        end,
+        section,
+    )
+
+
+def parse_cta_items(
+    section: str,
+) -> list[
+    dict[str, str]
+]:
+    """
+    CTAセクション内の
+    サービス名とリンクを抽出する。
+    """
+
+    lines = section.splitlines()
+
+    items: list[
+        dict[str, str]
+    ] = []
+
+    current_service = ""
+
+    for raw_line in lines:
+        line = raw_line.strip()
+
+        if line.startswith("### "):
+            current_service = (
+                line[4:].strip()
+            )
+            continue
+
+        if not current_service:
+            continue
+
+        affiliate_match = (
+            AFFILIATE_LINK_PATTERN.match(
+                line
+            )
+        )
+
+        if affiliate_match:
+            attrs = (
+                affiliate_match.group(
+                    "attrs"
+                )
+            )
+
+            cta_type_match = re.search(
+                r'ctaType="([^"]+)"',
+                attrs,
+            )
+
+            placement_match = re.search(
+                r'ctaPlacement="([^"]+)"',
+                attrs,
+            )
+
+            items.append(
+                {
+                    "service":
+                        affiliate_match.group(
+                            "service"
+                        ),
+                    "url":
+                        affiliate_match.group(
+                            "url"
+                        ),
+                    "label":
+                        affiliate_match.group(
+                            "label"
+                        ),
+                    "cta_type":
+                        (
+                            cta_type_match.group(1)
+                            if cta_type_match
+                            else ""
+                        ),
+                    "placement":
+                        (
+                            placement_match.group(1)
+                            if placement_match
+                            else ""
+                        ),
+                }
+            )
+
+            current_service = ""
+            continue
+
+        markdown_match = (
+            MARKDOWN_LINK_PATTERN.match(
+                line
+            )
+        )
+
+        if markdown_match:
+            items.append(
+                {
+                    "service":
+                        current_service,
+                    "url":
+                        markdown_match.group(
+                            "url"
+                        ),
+                    "label":
+                        markdown_match.group(
+                            "label"
+                        ),
+                    "cta_type": "",
+                    "placement": "",
+                }
+            )
+
+            current_service = ""
+            continue
+
+        if (
+            line
+            and not line.startswith("#")
+            and "公式サイト" in line
+        ):
+            items.append(
+                {
+                    "service":
+                        current_service,
+                    "url": "",
+                    "label": line,
+                    "cta_type": "",
+                    "placement": "",
+                }
+            )
+
+            current_service = ""
+
+    return items
+
+
+def resolve_service_name(
+    raw_service: str,
+    registry: dict[
+        str,
+        dict,
+    ],
+) -> str | None:
+    """
+    registryの正式サービス名へ解決する。
+    """
+
+    if raw_service in registry:
+        return raw_service
+
+    normalized = (
+        raw_service
+        .replace(
+            "（GmailのAI）",
+            "",
+        )
+        .strip()
+    )
+
+    if normalized in registry:
+        return normalized
+
+    for service_name, item in (
+        registry.items()
+    ):
+        aliases = item.get(
+            "aliases",
+            [],
+        )
+
+        if normalized in aliases:
+            return service_name
+
+    return None
+
+
+def build_new_section(
+    items: list[
+        dict[str, str]
+    ],
+    registry: dict[
+        str,
+        dict,
+    ],
+) -> tuple[
+    str | None,
+    list[str],
+]:
+    """
+    既存CTAを新AffiliateLink形式へ変換する。
+    """
+
+    converted: list[str] = []
+
+    errors: list[str] = []
+
+    valid_index = 0
+
+    for item in items:
+        service_name = (
+            resolve_service_name(
+                item["service"],
+                registry,
+            )
+        )
+
+        if service_name is None:
+            errors.append(
+                "サービス名を解決できません: "
+                + item["service"]
+            )
+            continue
+
+        registry_item = registry[
+            service_name
+        ]
+
+        affiliate_status = str(
+            registry_item.get(
+                "affiliate_status",
+                "none",
+            )
+        )
+
+        affiliate_url = str(
+            registry_item.get(
+                "affiliate_url",
+                "",
+            )
+        ).strip()
+
+        official_url = str(
+            registry_item.get(
+                "official_url",
+                "",
+            )
+        ).strip()
+
+        network = str(
+            registry_item.get(
+                "network",
+                "",
+            )
+        ).strip()
+
+        use_affiliate = (
+            affiliate_status
+            == "active"
+            and bool(
+                affiliate_url
+            )
+        )
+
+        existing_url = (
+            item["url"].strip()
+            if item["url"].strip().startswith(
+                "http"
+            )
+            else ""
+        )
+
+        destination_url = (
+            affiliate_url
+            if use_affiliate
+            else (
+                existing_url
+                if existing_url
+                else official_url
+            )
+        )
+
+        link_type = (
+            "affiliate"
+            if use_affiliate
+            else "official"
+        )
+
+        network_value = (
+            network
+            if use_affiliate
+            and network
+            else "none"
+        )
+
+        cta_type = (
+            item["cta_type"]
+            if item["cta_type"]
+            else (
+                "primary"
+                if valid_index == 0
+                else "secondary"
+            )
+        )
+
+        placement = (
+            item["placement"]
+            if item["placement"]
+            else "before_faq"
+        )
+
+        label = (
+            item["label"].strip()
+            if item["label"].strip()
+            else registry_item[
+                "cta_label"
+            ]
+        )
+
+        markup = (
+            "<AffiliateLink"
+            f' href="{destination_url}"'
+            f' service="{service_name}"'
+            f' linkType="{link_type}"'
+            f' network="{network_value}"'
+            f' ctaType="{cta_type}"'
+            f' ctaPlacement="{placement}"'
+            ">"
+            f"{label}"
+            "</AffiliateLink>"
+        )
+
+        converted.append(
+            markup
+        )
+
+        valid_index += 1
+
+    if errors:
+        return (
+            None,
+            errors,
+        )
+
+    lines = [
+        "## 公式情報を確認する",
+        "",
+    ]
+
+    for markup in converted:
+        lines.append(
+            markup
+        )
+        lines.append("")
+
+    return (
+        "\n".join(
+            lines
+        ).rstrip(),
+        [],
+    )
+
+
+def scan_file(
+    filepath: Path,
+    registry: dict[
+        str,
+        dict,
+    ],
+) -> dict | None:
+    """
+    1記事分のCTA変換候補を返す。
+    """
+
+    text = filepath.read_text(
+        encoding="utf-8",
+    )
+
+    extracted = (
+        extract_cta_section(
+            text
+        )
+    )
+
+    if extracted is None:
+        return None
+
+    start, end, section = (
+        extracted
+    )
+
+    items = parse_cta_items(
+        section
+    )
+
+    if not items:
+        return {
+            "file": filepath,
+            "before": section,
+            "after": None,
+            "errors": [
+                "CTA項目を抽出できません"
+            ],
+        }
+
+    new_section, errors = (
+        build_new_section(
+            items,
+            registry,
+        )
+    )
+
+    return {
+        "file": filepath,
+        "before": section,
+        "after": new_section,
+        "errors": errors,
+        "start": start,
+        "end": end,
+    }
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description=(
+            "既存記事のCTAを"
+            "AffiliateLink形式へ移行します。"
+        )
+    )
+
+    parser.add_argument(
+        "--apply",
+        action="store_true",
+        help="実ファイルへ変更を適用します。",
+    )
+
+    args = parser.parse_args()
+
+    apply_changes = args.apply
+
+    registry = (
+        load_affiliate_registry()
+    )
+
+    print(
+        "\n===== CTA Migrator =====\n"
+    )
+
+    if apply_changes:
+        print("モード：APPLY")
+        print(
+            "実ファイルを変更します。\n"
+        )
+    else:
+        print("モード：DRY RUN")
+        print(
+            "実ファイルは変更しません。\n"
+        )
+
+    files = sorted(
+        BLOG_DIR.glob(
+            "*.mdx"
+        )
+    )
+
+    total_files = 0
+    error_files = 0
+
+    for filepath in files:
+        result = scan_file(
+            filepath,
+            registry,
+        )
+
+        if result is None:
+            continue
+
+        total_files += 1
+
+        print(
+            "--------------------------------"
+        )
+
+        print(
+            f"FILE: {filepath.name}"
+        )
+
+        if result["errors"]:
+            error_files += 1
+
+            print(
+                "\nERROR:"
+            )
+
+            for error in (
+                result["errors"]
+            ):
+                print(
+                    "- "
+                    + error
+                )
+
+            continue
+
+        print(
+            "\nBEFORE:"
+        )
+
+        print(
+            result["before"].strip()
+        )
+
+        print(
+            "\nAFTER:"
+        )
+
+        print(
+            result["after"]
+        )
+        if apply_changes:
+            original_text = (
+                filepath.read_text(
+                    encoding="utf-8",
+                )
+            )
+
+            updated_text = (
+                original_text[
+                    :result["start"]
+                ]
+                + result["after"]
+                + original_text[
+                    result["end"]:
+                ]
+            )
+
+            filepath.write_text(
+                updated_text,
+                encoding="utf-8",
+            )
+
+            print(
+                "\nAPPLIED: "
+                + filepath.name
+            )
+
+    print(
+        "\n================================"
+    )
+
+    print(
+        f"対象記事数：{total_files}"
+    )
+
+    print(
+        f"エラー記事数：{error_files}"
+    )
+
+    if apply_changes:
+        print(
+            "変更を実ファイルへ"
+            "適用しました。"
+        )
+    else:
+        print(
+            "※ DRY RUNのため"
+            "実ファイルは変更していません。"
+        )
+
+    print(
+        "================================\n"
+    )
+
+
+if __name__ == "__main__":
+    main()

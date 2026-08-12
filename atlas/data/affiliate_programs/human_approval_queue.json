@@ -34,8 +34,46 @@
           "match_score": 65
         }
       ],
-      "approval_status": "approved_for_application",
-      "human_notes": "Canva公式情報とImpactでAffiliate Programの存在を確認。申請対象とする。"
+      "approval_status": "applied",
+      "human_notes": "Canva Affiliate Program application submitted. Canva confirmed receipt and stated that review may take 7-10 business days. Impact Marketplace media partner application was declined separately. Canva Affiliate Program currently requires approved Canvassador status."
+    },
+    {
+      "service": "Gamma",
+      "priority": 48,
+      "program_name": "Gamma Affiliate Program",
+      "program_type": "affiliate",
+      "network": "PartnerStack",
+      "program_url": "https://market.partnerstack.com/artificial-intelligence/gammaapp",
+      "commission": "25% for the customer's first year",
+      "cookie_duration": "60 days",
+      "target_country": "Global",
+      "application_required": true,
+      "verified_at": "2026-08-12",
+      "source_articles": [
+        {
+          "slug": "ai-presentation-tools-comparison",
+          "title": "AIプレゼン資料作成ツールおすすめ比較｜2026年最新・料金と機能で選ぶ（PowerPoint/Googleスライド/Canva対応）",
+          "match_score": 48
+        }
+      ],
+      "approval_status": "applied",
+      "human_notes": "Gamma Affiliate Program application submitted via PartnerStack on 2026-08-12. Application received and under review."
+    },
+    {
+      "service": "DMM 生成AI CAMP",
+      "priority": 0,
+      "program_name": "DMM 生成AI CAMP",
+      "program_type": "affiliate",
+      "network": "A8.net",
+      "program_url": "",
+      "commission": "新規入会申込: 7519 JPY",
+      "cookie_duration": "",
+      "target_country": "Japan",
+      "application_required": true,
+      "verified_at": "2026-08-12",
+      "source_articles": [],
+      "approval_status": "applied",
+      "human_notes": "A8.net partnership application submitted on 2026-08-12. Application is currently under review."
     }
   ]
 }
