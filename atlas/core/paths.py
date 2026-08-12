@@ -13,6 +13,8 @@ DOCS_DIR = ATLAS_DIR / "docs"
 
 BLOG_CONTENT_DIR = PROJECT_ROOT / "content" / "blog"
 
+SOCIAL_DIR = DATA_DIR / "social"
+SOCIAL_QUEUE_FILE = SOCIAL_DIR / "social_queue.json"
 
 def create_required_directories() -> None:
     """
@@ -29,6 +31,7 @@ def create_required_directories() -> None:
         ARTICLES_DIR,
         DOCS_DIR,
         BLOG_CONTENT_DIR,
+        SOCIAL_DIR,
     ]
 
     for directory in directories:
