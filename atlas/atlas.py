@@ -265,6 +265,60 @@ def run_python_script(
     return result
 
 
+def run_python_module(
+    module_name: str,
+    log_file: Path,
+    arguments: list[str] | None = None,
+) -> subprocess.CompletedProcess[str]:
+    """Pythonモジュールを -m 形式で実行する。"""
+
+    command = [
+        sys.executable,
+        "-m",
+        module_name,
+    ]
+
+    if arguments:
+        command.extend(arguments)
+
+    log(
+        "実行："
+        + " ".join(command),
+        log_file,
+    )
+
+    env = dict(os.environ)
+
+    env["PYTHONIOENCODING"] = "utf-8"
+    env["PYTHONUTF8"] = "1"
+
+    result = subprocess.run(
+        command,
+        cwd=BASE_DIR,
+        text=True,
+        capture_output=True,
+        encoding="utf-8",
+        errors="replace",
+        env=env,
+    )
+
+    if result.stdout:
+        for line in result.stdout.splitlines():
+            log(
+                f"  {line}",
+                log_file,
+            )
+
+    if result.stderr:
+        for line in result.stderr.splitlines():
+            log(
+                f"  [stderr] {line}",
+                log_file,
+            )
+
+    return result
+
+
 def sync_affiliate_manager(
     log_file: Path,
 ) -> None:
@@ -472,8 +526,8 @@ def update_revenue_summary(
         log_file,
     )
 
-    result = run_python_script(
-        "engines/revenue_tracker.py",
+    result = run_python_module(
+        "engines.revenue_tracker",
         log_file,
     )
 
@@ -494,6 +548,154 @@ def update_revenue_summary(
 
     raise RuntimeError(
         "Revenue Summaryの"
+        "更新に失敗しました。"
+    )
+
+
+def update_revenue_feedback(
+    log_file: Path,
+) -> None:
+    """Revenue Feedbackを更新する。"""
+
+    log(
+        "Revenue Feedbackを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.revenue_feedback",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Revenue Feedback更新成功。",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "Revenue Feedbackの"
+        "更新に失敗しました。"
+    )
+
+
+def update_revenue_action_queue(
+    log_file: Path,
+) -> None:
+    """Revenue Action Queueを更新する。"""
+
+    log(
+        "Revenue Action Queueを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.revenue_action_queue",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Revenue Action Queue更新成功。",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "Revenue Action Queueの"
+        "更新に失敗しました。"
+    )
+
+
+def update_domestic_asp_candidate_queue(
+    log_file: Path,
+) -> None:
+    """国内ASP候補キューを更新する。"""
+
+    log(
+        "Domestic ASP Candidate Queueを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.domestic_asp_candidate_queue",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Domestic ASP Candidate Queue更新成功。",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "Domestic ASP Candidate Queueの"
+        "更新に失敗しました。"
+    )
+
+
+def update_atlas_health(
+    log_file: Path,
+) -> None:
+    """Atlas Health Statusを更新する。"""
+
+    log(
+        "Atlas Healthを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.atlas_health",
+        log_file,
+    )
+
+    # atlas_health.py は
+    # healthy=0 / error=1 / warning=2 を返す。
+    # 1や2でもHealth JSON生成自体は成功している。
+    if result.returncode in {
+        0,
+        1,
+        2,
+    }:
+        log(
+            "Atlas Health更新成功。"
+            f" status_code={result.returncode}",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "Atlas Healthの更新処理自体に"
+        "失敗しました。"
+    )
+
+
+def update_atlas_dashboard(
+    log_file: Path,
+) -> None:
+    """Atlas Dashboardを更新する。"""
+
+    log(
+        "Atlas Dashboardを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.atlas_dashboard",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Atlas Dashboard更新成功。",
+            log_file,
+        )
+        return
+
+    raise RuntimeError(
+        "Atlas Dashboardの"
         "更新に失敗しました。"
     )
 
@@ -1024,6 +1226,18 @@ def main() -> None:
             log_file
         )
 
+        update_revenue_feedback(
+            log_file
+        )
+
+        update_revenue_action_queue(
+            log_file
+        )
+
+        update_domestic_asp_candidate_queue(
+            log_file
+        )
+
         update_portfolio_plan(
             log_file
         )
@@ -1434,6 +1648,18 @@ def main() -> None:
             message="Atlas自動運転完了",
         )
 
+        # 最終状態を表示する前に
+        # 実行中Lockを解除する
+        release_lock()
+
+        update_atlas_health(
+            log_file
+        )
+
+        update_atlas_dashboard(
+            log_file
+        )
+
         log(
             "Atlas自動運転が完了しました。",
             log_file,
@@ -1445,6 +1671,25 @@ def main() -> None:
             action=action,
             message=str(error),
         )
+
+        release_lock()
+
+        try:
+            update_atlas_health(
+                log_file
+            )
+
+            update_atlas_dashboard(
+                log_file
+            )
+
+        except Exception as status_error:
+            log(
+                "失敗後のHealth/Dashboard更新にも"
+                "失敗しました："
+                f"{status_error}",
+                log_file,
+            )
 
         log(
             "Atlas自動運転に失敗しました："
