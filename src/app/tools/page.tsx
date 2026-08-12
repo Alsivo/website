@@ -6,7 +6,7 @@ export default function ToolsPage() {
       <h1>AI Tools</h1>
 
       <p>
-        AlsivoオリジナルのAIツールを公開予定です。
+        ALSIVOオリジナルのAIツールを公開予定です。
       </p>
 
       <br />

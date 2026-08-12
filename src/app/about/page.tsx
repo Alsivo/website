@@ -3,11 +3,11 @@ export default function AboutPage() {
     <main className="section">
       <p className="section-kicker">ABOUT</p>
 
-      <h1>Alsivoについて</h1>
+      <h1>ALSIVOについて</h1>
 
       <div className="mission-copy">
         <p>
-          Alsivoは、
+          ALSIVOは、
           AIをもっと身近にすることを目的としたブランドです。
         </p>
 

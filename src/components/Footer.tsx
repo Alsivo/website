@@ -17,7 +17,7 @@ export default function Footer() {
             height={36}
           />
 
-          <span>Alsivo</span>
+          <span>ALSIVO</span>
         </Link>
 
         <p>
@@ -35,7 +35,7 @@ export default function Footer() {
         </Link>
 
         <Link href="/about">
-          Alsivoについて
+          ALSIVOについて
         </Link>
 
         <Link href="/privacy">
@@ -48,7 +48,7 @@ export default function Footer() {
       </nav>
 
       <small>
-        © 2026 Alsivo. All rights reserved.
+        © 2026 ALSIVO. All rights reserved.
       </small>
     </footer>
   );

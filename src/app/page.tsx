@@ -73,7 +73,7 @@ export default function Home() {
               className="media-text-link"
               href="/about"
             >
-              Alsivoについて
+              ALSIVOについて
             </Link>
           </div>
         </div>
@@ -251,7 +251,7 @@ export default function Home() {
 
         <div className="home-about-copy">
           <p>
-            Alsivoは、AIツールや生成AIに関する情報を、
+            ALSIVOは、AIツールや生成AIに関する情報を、
             分かりやすく実践的に届けるメディアです。
           </p>
 
@@ -266,7 +266,7 @@ export default function Home() {
             className="media-text-link"
             href="/about"
           >
-            Alsivoについて詳しく見る →
+            ALSIVOについて詳しく見る →
           </Link>
         </div>
       </section>

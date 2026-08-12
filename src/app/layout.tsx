@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Alsivo",
+  title: "ALSIVO",
   description:
     "AIツール、生成AI、仕事効率化に関する実践的な情報を発信するAIメディア。",
 

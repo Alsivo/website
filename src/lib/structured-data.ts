@@ -3,7 +3,7 @@ import type {
 } from "@/types/blog";
 
 const SITE_URL = "https://www.alsivo.com";
-const SITE_NAME = "Alsivo";
+const SITE_NAME = "ALSIVO";
 
 export function serializeJsonLd(
   value: unknown,

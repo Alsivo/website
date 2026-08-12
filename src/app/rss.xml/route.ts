@@ -52,7 +52,7 @@ export async function GET() {
     <title>${escapeXml(SITE_NAME)}</title>
     <link>${escapeXml(SITE_URL)}</link>
     <description>${escapeXml(
-      "AIツール、生成AI、仕事効率化に関する実践情報を発信するAlsivoのRSSフィードです。",
+      "AIツール、生成AI、仕事効率化に関する実践情報を発信するALSIVOのRSSフィードです。",
     )}</description>
     <language>ja</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>

@@ -7,7 +7,7 @@ export default function Header() {
       <Link
         className="brand"
         href="/"
-        aria-label="Alsivo トップページ"
+        aria-label="ALSIVO トップページ"
       >
         <Image
           className="brand-mark"
@@ -18,7 +18,7 @@ export default function Header() {
           priority
         />
 
-        <span>Alsivo</span>
+        <span>ALSIVO</span>
       </Link>
 
       <nav

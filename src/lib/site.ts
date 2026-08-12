@@ -1,4 +1,4 @@
-export const SITE_NAME = "Alsivo";
+export const SITE_NAME = "ALSIVO";
 export const SITE_URL = "https://www.alsivo.com";
 
 export const SITE_DESCRIPTION =
