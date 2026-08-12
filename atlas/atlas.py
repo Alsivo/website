@@ -1,3 +1,4 @@
+import argparse
 import os
 import json
 import subprocess
@@ -1177,7 +1178,9 @@ def save_latest_run(
     )
 
 
-def main() -> None:
+def main(
+    dry_run: bool = False,
+) -> None:
     ensure_directories()
 
     remove_old_logs()
@@ -1490,6 +1493,28 @@ def main() -> None:
             log_file,
         )
 
+        if dry_run:
+            log(
+                "DRY RUNのため、"
+                "記事生成・リライト・"
+                "GitHub Pushは実行しません。",
+                log_file,
+            )
+
+            action = "wait"
+
+            decision[
+                "action"
+            ] = "wait"
+
+            decision[
+                "reason"
+            ] = (
+                "Phase F DRY RUN。"
+                "AI編集長判断までは実行し、"
+                "コンテンツ変更は停止しました。"
+            )
+
         if action == "new_article":
             new_article_path = (
                 run_new_article(
@@ -1704,4 +1729,25 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        description=(
+            "Atlas自動運転を実行します。"
+        )
+    )
+
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help=(
+            "データ更新・AI編集長判断までは"
+            "実行しますが、"
+            "記事生成・リライト・"
+            "GitHub Pushは行いません。"
+        ),
+    )
+
+    args = parser.parse_args()
+
+    main(
+        dry_run=args.dry_run,
+    )
