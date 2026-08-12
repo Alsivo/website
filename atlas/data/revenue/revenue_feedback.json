@@ -1,0 +1,91 @@
+{
+  "overview": {
+    "total_clicks": 11,
+    "total_conversions": 0,
+    "total_revenue": 0.0,
+    "epc": 0.0
+  },
+  "service_actions": [
+    {
+      "service": "ChatGPT",
+      "action": "MONETIZE",
+      "priority": 90,
+      "clicks": 8,
+      "conversions": 0,
+      "revenue": 0.0,
+      "epc": 0.0,
+      "affiliate_status": "none",
+      "network": "",
+      "reason": "クリック需要がありますが、収益化可能なAffiliate案件が有効化されていません。",
+      "next": "国内ASPまたは直接案件を優先して確認する"
+    },
+    {
+      "service": "Cursor",
+      "action": "MONETIZE",
+      "priority": 90,
+      "clicks": 2,
+      "conversions": 0,
+      "revenue": 0.0,
+      "epc": 0.0,
+      "affiliate_status": "none",
+      "network": "",
+      "reason": "クリック需要がありますが、収益化可能なAffiliate案件が有効化されていません。",
+      "next": "国内ASPまたは直接案件を優先して確認する"
+    },
+    {
+      "service": "Gemini",
+      "action": "MONETIZE",
+      "priority": 90,
+      "clicks": 1,
+      "conversions": 0,
+      "revenue": 0.0,
+      "epc": 0.0,
+      "affiliate_status": "none",
+      "network": "",
+      "reason": "クリック需要がありますが、収益化可能なAffiliate案件が有効化されていません。",
+      "next": "国内ASPまたは直接案件を優先して確認する"
+    }
+  ],
+  "article_actions": [
+    {
+      "article_slug": "chatgpt-pricing-plans-comparison",
+      "action": "WATCH",
+      "priority": 40,
+      "clicks": 7,
+      "conversions": 0,
+      "revenue": 0.0,
+      "epc": 0.0,
+      "reason": "クリックは発生していますが、判断にはまだデータが少ない状態です。"
+    },
+    {
+      "article_slug": "cursor-pricing-plans-comparison",
+      "action": "WATCH",
+      "priority": 40,
+      "clicks": 2,
+      "conversions": 0,
+      "revenue": 0.0,
+      "epc": 0.0,
+      "reason": "クリックは発生していますが、判断にはまだデータが少ない状態です。"
+    },
+    {
+      "article_slug": "best-ai-translation-tools",
+      "action": "WATCH",
+      "priority": 40,
+      "clicks": 1,
+      "conversions": 0,
+      "revenue": 0.0,
+      "epc": 0.0,
+      "reason": "クリックは発生していますが、判断にはまだデータが少ない状態です。"
+    },
+    {
+      "article_slug": "ai-email-writing-tools-comparison",
+      "action": "WATCH",
+      "priority": 40,
+      "clicks": 1,
+      "conversions": 0,
+      "revenue": 0.0,
+      "epc": 0.0,
+      "reason": "クリックは発生していますが、判断にはまだデータが少ない状態です。"
+    }
+  ]
+}

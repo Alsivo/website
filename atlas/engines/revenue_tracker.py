@@ -181,6 +181,47 @@ def summarize_clicks_by_article(
 
     return result
 
+def summarize_clicks_by_field(
+    clicks: list[dict[str, Any]],
+    field_name: str,
+) -> dict[str, dict[str, Any]]:
+    """Affiliate Clickを任意の項目別に集計する。"""
+
+    result: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    for item in clicks:
+        key = str(
+            item.get(
+                field_name,
+                "",
+            )
+        ).strip()
+
+        if not key:
+            key = "unknown"
+
+        count = int(
+            item.get(
+                "clicks",
+                0,
+            )
+            or 0
+        )
+
+        if key not in result:
+            result[key] = {
+                "clicks": 0,
+            }
+
+        result[
+            key
+        ]["clicks"] += count
+
+    return result
+
 def summarize_by_service(
     conversions: list[dict[str, Any]],
 ) -> dict[str, dict[str, Any]]:
@@ -232,6 +273,7 @@ def summarize_by_service(
                 "conversions": 0,
                 "revenue": 0.0,
                 "conversion_rate": 0.0,
+                "epc": 0.0,
             }
 
         result[
@@ -262,6 +304,18 @@ def summarize_by_service(
                 "conversion_rate"
             ] = (
                 conversions_count
+                / clicks
+            )
+
+            item[
+                "epc"
+            ] = (
+                float(
+                    item.get(
+                        "revenue",
+                        0.0,
+                    )
+                )
                 / clicks
             )
 
@@ -318,6 +372,7 @@ def summarize_by_article(
                 "conversions": 0,
                 "revenue": 0.0,
                 "conversion_rate": 0.0,
+                "epc": 0.0,
             }
 
         result[
@@ -348,6 +403,18 @@ def summarize_by_article(
                 "conversion_rate"
             ] = (
                 conversions_count
+                / clicks
+            )
+
+            item[
+                "epc"
+            ] = (
+                float(
+                    item.get(
+                        "revenue",
+                        0.0,
+                    )
+                )
                 / clicks
             )
 
@@ -399,6 +466,13 @@ def build_revenue_summary(
         else 0.0
     )
 
+    overall_epc = (
+        total_revenue
+        / total_clicks
+        if total_clicks > 0
+        else 0.0
+    )
+
     by_service = (
         summarize_by_service(
             conversions
@@ -423,6 +497,34 @@ def build_revenue_summary(
         )
     )
 
+    by_cta_placement = (
+        summarize_clicks_by_field(
+            clicks,
+            "cta_placement",
+        )
+    )
+
+    by_cta_type = (
+        summarize_clicks_by_field(
+            clicks,
+            "cta_type",
+        )
+    )
+
+    by_link_type = (
+        summarize_clicks_by_field(
+            clicks,
+            "link_type",
+        )
+    )
+
+    by_network = (
+        summarize_clicks_by_field(
+            clicks,
+            "network",
+        )
+    )
+
     # GA4由来のクリック数をサービス別集計へ反映する
     for service, click_count in (
         service_clicks.items()
@@ -433,6 +535,7 @@ def build_revenue_summary(
                 "conversions": 0,
                 "revenue": 0.0,
                 "conversion_rate": 0.0,
+                "epc": 0.0,
             }
 
         by_service[
@@ -458,6 +561,25 @@ def build_revenue_summary(
             else 0.0
         )
 
+        revenue = float(
+            by_service[
+                service
+            ].get(
+                "revenue",
+                0.0,
+            )
+            or 0.0
+        )
+
+        by_service[
+            service
+        ]["epc"] = (
+            revenue
+            / click_count
+            if click_count > 0
+            else 0.0
+        )
+
     # GA4由来のクリック数を記事別集計へ反映する
     for slug, click_count in (
         article_clicks.items()
@@ -468,6 +590,7 @@ def build_revenue_summary(
                 "conversions": 0,
                 "revenue": 0.0,
                 "conversion_rate": 0.0,
+                "epc": 0.0,
             }
 
         by_article[
@@ -493,6 +616,25 @@ def build_revenue_summary(
             else 0.0
         )
 
+        revenue = float(
+            by_article[
+                slug
+            ].get(
+                "revenue",
+                0.0,
+            )
+            or 0.0
+        )
+
+        by_article[
+            slug
+        ]["epc"] = (
+            revenue
+            / click_count
+            if click_count > 0
+            else 0.0
+        )
+
     return {
         "total_clicks": total_clicks,
         "total_conversions": (
@@ -504,11 +646,26 @@ def build_revenue_summary(
         "conversion_rate": (
             overall_conversion_rate
         ),
+        "epc": (
+            overall_epc
+        ),
         "by_service": (
             by_service
         ),
         "by_article": (
             by_article
+        ),
+        "by_cta_placement": (
+            by_cta_placement
+        ),
+        "by_cta_type": (
+            by_cta_type
+        ),
+        "by_link_type": (
+            by_link_type
+        ),
+        "by_network": (
+            by_network
         ),
     }
 
@@ -562,6 +719,13 @@ def print_revenue_summary(
         "成約率："
         f"{data['conversion_rate']:.2%}"
     )
+
+    print(
+        "EPC："
+        f"{data['epc']:.2f} JPY/click"
+    )
+
+    print()
 
     print()
 

@@ -26,6 +26,13 @@ OUTPUT_FILE = (
     / "domestic_asp_candidate_queue.json"
 )
 
+REVENUE_ACTION_QUEUE_FILE = (
+    BASE_DIR
+    / "data"
+    / "revenue"
+    / "revenue_action_queue.json"
+)
+
 MAX_CANDIDATES = 5
 
 DOMESTIC_ASPS = [
@@ -72,6 +79,51 @@ def load_json(
         )
 
     return data
+
+
+def build_revenue_action_map(
+    data: dict[str, Any],
+) -> dict[str, dict[str, Any]]:
+    """Revenue Action Queueをサービス別Mapへ変換する。"""
+
+    actions = data.get(
+        "actions",
+        [],
+    )
+
+    if not isinstance(
+        actions,
+        list,
+    ):
+        return {}
+
+    result: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    for item in actions:
+        if not isinstance(
+            item,
+            dict,
+        ):
+            continue
+
+        service = str(
+            item.get(
+                "service",
+                "",
+            )
+        ).strip()
+
+        if not service:
+            continue
+
+        result[
+            service.lower()
+        ] = item
+
+    return result
 
 
 def build_verification_map(
@@ -220,6 +272,7 @@ def get_search_keywords(
 def calculate_priority(
     action_item: dict[str, Any],
     program: dict[str, Any],
+    revenue_action: dict[str, Any] | None = None,
 ) -> int:
 
     base_priority = int(
@@ -274,6 +327,43 @@ def calculate_priority(
     ):
         if existing_articles:
             priority += 10
+
+    if isinstance(
+        revenue_action,
+        dict,
+    ):
+        revenue_clicks = int(
+            revenue_action.get(
+                "clicks",
+                0,
+            )
+            or 0
+        )
+
+        revenue_destination = str(
+            revenue_action.get(
+                "destination",
+                "",
+            )
+        ).strip()
+
+        if (
+            revenue_destination
+            == "monetization"
+        ):
+            priority += 10
+
+        if revenue_clicks >= 10:
+            priority += 20
+
+        elif revenue_clicks >= 5:
+            priority += 15
+
+        elif revenue_clicks >= 2:
+            priority += 10
+
+        elif revenue_clicks >= 1:
+            priority += 5
 
     return min(
         priority,
@@ -357,6 +447,16 @@ def decide_candidate_action(
 
 
 def build_queue() -> list[dict[str, Any]]:
+    revenue_action_data = load_json(
+        REVENUE_ACTION_QUEUE_FILE
+    )
+
+    revenue_action_map = (
+        build_revenue_action_map(
+            revenue_action_data
+        )
+    )
+
     verification_data = load_json(
         VERIFICATION_HISTORY_FILE
     )
@@ -415,6 +515,13 @@ def build_queue() -> list[dict[str, Any]]:
         program = program_map.get(
             service,
             {},
+        )
+
+        revenue_action = (
+            revenue_action_map.get(
+                service.lower(),
+                {},
+            )
         )
 
         candidate_action, reason = (
@@ -501,6 +608,7 @@ def build_queue() -> list[dict[str, Any]]:
             calculate_priority(
                 item,
                 program,
+                revenue_action,
             )
         )
 
@@ -555,6 +663,48 @@ def build_queue() -> list[dict[str, Any]]:
                     )
                 ),
                 "reason": reason,
+                "revenue_signal": {
+                    "source_action": str(
+                        revenue_action.get(
+                            "source_action",
+                            "",
+                        )
+                    ),
+                    "destination": str(
+                        revenue_action.get(
+                            "destination",
+                            "",
+                        )
+                    ),
+                    "clicks": int(
+                        revenue_action.get(
+                            "clicks",
+                            0,
+                        )
+                        or 0
+                    ),
+                    "conversions": int(
+                        revenue_action.get(
+                            "conversions",
+                            0,
+                        )
+                        or 0
+                    ),
+                    "revenue": float(
+                        revenue_action.get(
+                            "revenue",
+                            0.0,
+                        )
+                        or 0.0
+                    ),
+                    "epc": float(
+                        revenue_action.get(
+                            "epc",
+                            0.0,
+                        )
+                        or 0.0
+                    ),
+                },
                 "verification_status": {
                     network: (
                         verification_map.get(

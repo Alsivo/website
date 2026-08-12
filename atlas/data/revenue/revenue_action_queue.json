@@ -1,0 +1,51 @@
+{
+  "summary": {
+    "total": 3,
+    "monetization": 3,
+    "content": 0,
+    "cta": 0,
+    "wait": 0,
+    "monitor": 0
+  },
+  "actions": [
+    {
+      "service": "ChatGPT",
+      "source_action": "MONETIZE",
+      "destination": "monetization",
+      "next_engine": "domestic_asp_candidate_queue",
+      "priority": 90,
+      "clicks": 8,
+      "conversions": 0,
+      "revenue": 0.0,
+      "epc": 0.0,
+      "reason": "クリック需要がありますが、収益化可能なAffiliate案件が有効化されていません。",
+      "next": "国内ASPまたは直接案件を優先して確認する"
+    },
+    {
+      "service": "Cursor",
+      "source_action": "MONETIZE",
+      "destination": "monetization",
+      "next_engine": "domestic_asp_candidate_queue",
+      "priority": 90,
+      "clicks": 2,
+      "conversions": 0,
+      "revenue": 0.0,
+      "epc": 0.0,
+      "reason": "クリック需要がありますが、収益化可能なAffiliate案件が有効化されていません。",
+      "next": "国内ASPまたは直接案件を優先して確認する"
+    },
+    {
+      "service": "Gemini",
+      "source_action": "MONETIZE",
+      "destination": "monetization",
+      "next_engine": "domestic_asp_candidate_queue",
+      "priority": 90,
+      "clicks": 1,
+      "conversions": 0,
+      "revenue": 0.0,
+      "epc": 0.0,
+      "reason": "クリック需要がありますが、収益化可能なAffiliate案件が有効化されていません。",
+      "next": "国内ASPまたは直接案件を優先して確認する"
+    }
+  ]
+}

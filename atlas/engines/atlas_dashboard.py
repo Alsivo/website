@@ -41,6 +41,20 @@ REVENUE_SUMMARY_FILE = (
     / "revenue_summary.json"
 )
 
+REVENUE_FEEDBACK_FILE = (
+    BASE_DIR
+    / "data"
+    / "revenue"
+    / "revenue_feedback.json"
+)
+
+REVENUE_ACTION_QUEUE_FILE = (
+    BASE_DIR
+    / "data"
+    / "revenue"
+    / "revenue_action_queue.json"
+)
+
 PORTFOLIO_PLAN_FILE = (
     BASE_DIR
     / "data"
@@ -271,10 +285,18 @@ def build_seo_section(
 
 def build_revenue_section(
 ) -> dict[str, Any]:
-    """Revenue Summaryをまとめる。"""
+    """Revenue SummaryとAction Queueをまとめる。"""
 
     data = load_json(
         REVENUE_SUMMARY_FILE
+    )
+
+    feedback = load_json(
+        REVENUE_FEEDBACK_FILE
+    )
+
+    action_queue = load_json(
+        REVENUE_ACTION_QUEUE_FILE
     )
 
     by_article = data.get(
@@ -321,16 +343,172 @@ def build_revenue_section(
                     )
                     or 0
                 ),
+                "epc": float(
+                    item.get(
+                        "epc",
+                        0,
+                    )
+                    or 0
+                ),
             }
         )
 
     top_articles.sort(
         key=lambda item: (
             item["revenue"],
+            item["epc"],
             item["clicks"],
         ),
         reverse=True,
     )
+
+    queue_summary = action_queue.get(
+        "summary",
+        {},
+    )
+
+    if not isinstance(
+        queue_summary,
+        dict,
+    ):
+        queue_summary = {}
+
+    actions = action_queue.get(
+        "actions",
+        [],
+    )
+
+    if not isinstance(
+        actions,
+        list,
+    ):
+        actions = []
+
+    top_revenue_action = None
+
+    if actions:
+        first_action = actions[0]
+
+        if isinstance(
+            first_action,
+            dict,
+        ):
+            top_revenue_action = {
+                "service": str(
+                    first_action.get(
+                        "service",
+                        "",
+                    )
+                ),
+                "source_action": str(
+                    first_action.get(
+                        "source_action",
+                        "",
+                    )
+                ),
+                "destination": str(
+                    first_action.get(
+                        "destination",
+                        "",
+                    )
+                ),
+                "next_engine": str(
+                    first_action.get(
+                        "next_engine",
+                        "",
+                    )
+                ),
+                "priority": int(
+                    first_action.get(
+                        "priority",
+                        0,
+                    )
+                    or 0
+                ),
+                "clicks": int(
+                    first_action.get(
+                        "clicks",
+                        0,
+                    )
+                    or 0
+                ),
+                "conversions": int(
+                    first_action.get(
+                        "conversions",
+                        0,
+                    )
+                    or 0
+                ),
+                "revenue": float(
+                    first_action.get(
+                        "revenue",
+                        0.0,
+                    )
+                    or 0.0
+                ),
+                "epc": float(
+                    first_action.get(
+                        "epc",
+                        0.0,
+                    )
+                    or 0.0
+                ),
+                "reason": str(
+                    first_action.get(
+                        "reason",
+                        "",
+                    )
+                ),
+                "next": str(
+                    first_action.get(
+                        "next",
+                        "",
+                    )
+                ),
+            }
+
+    service_actions = feedback.get(
+        "service_actions",
+        [],
+    )
+
+    if not isinstance(
+        service_actions,
+        list,
+    ):
+        service_actions = []
+
+    feedback_action_counts: dict[
+        str,
+        int,
+    ] = {}
+
+    for item in service_actions:
+        if not isinstance(
+            item,
+            dict,
+        ):
+            continue
+
+        action = str(
+            item.get(
+                "action",
+                "",
+            )
+        ).strip()
+
+        if not action:
+            continue
+
+        feedback_action_counts[
+            action
+        ] = (
+            feedback_action_counts.get(
+                action,
+                0,
+            )
+            + 1
+        )
 
     return {
         "affiliate_clicks":
@@ -365,10 +543,102 @@ def build_revenue_section(
                 )
                 or 0
             ),
+        "epc":
+            float(
+                data.get(
+                    "epc",
+                    0,
+                )
+                or 0
+            ),
         "tracked_articles":
             len(by_article),
         "top_articles":
             top_articles[:5],
+        "action_counts": {
+            "monetize":
+                feedback_action_counts.get(
+                    "MONETIZE",
+                    0,
+                ),
+            "wait_approval":
+                feedback_action_counts.get(
+                    "WAIT_APPROVAL",
+                    0,
+                ),
+            "improve_cta":
+                feedback_action_counts.get(
+                    "IMPROVE_CTA",
+                    0,
+                ),
+            "expand_content":
+                feedback_action_counts.get(
+                    "EXPAND_CONTENT",
+                    0,
+                ),
+            "keep":
+                feedback_action_counts.get(
+                    "KEEP",
+                    0,
+                ),
+            "wait_data":
+                feedback_action_counts.get(
+                    "WAIT_DATA",
+                    0,
+                ),
+        },
+        "queue_summary": {
+            "total":
+                int(
+                    queue_summary.get(
+                        "total",
+                        0,
+                    )
+                    or 0
+                ),
+            "monetization":
+                int(
+                    queue_summary.get(
+                        "monetization",
+                        0,
+                    )
+                    or 0
+                ),
+            "content":
+                int(
+                    queue_summary.get(
+                        "content",
+                        0,
+                    )
+                    or 0
+                ),
+            "cta":
+                int(
+                    queue_summary.get(
+                        "cta",
+                        0,
+                    )
+                    or 0
+                ),
+            "wait":
+                int(
+                    queue_summary.get(
+                        "wait",
+                        0,
+                    )
+                    or 0
+                ),
+            "monitor":
+                int(
+                    queue_summary.get(
+                        "monitor",
+                        0,
+                    )
+                    or 0
+                ),
+        },
+        "top_revenue_action":
+            top_revenue_action,
     }
 
 
@@ -718,23 +988,105 @@ def print_dashboard(
     print()
 
     print(
-        "REVENUE"
+        "\nREVENUE"
     )
 
     print(
         "Affiliate Clicks："
-        f"{revenue.get('affiliate_clicks')}"
+        f"{revenue.get('affiliate_clicks', 0)}"
     )
 
     print(
         "Conversions："
-        f"{revenue.get('conversions')}"
+        f"{revenue.get('conversions', 0)}"
     )
 
     print(
         "Revenue："
-        f"{revenue.get('revenue')}"
+        f"{revenue.get('revenue', 0.0)}"
     )
+
+    print(
+        "CVR："
+        f"{float(revenue.get('conversion_rate', 0.0)):.2%}"
+    )
+
+    print(
+        "EPC："
+        f"{float(revenue.get('epc', 0.0)):.2f} JPY/click"
+    )
+
+    action_counts = revenue.get(
+        "action_counts",
+        {},
+    )
+
+    if not isinstance(
+        action_counts,
+        dict,
+    ):
+        action_counts = {}
+
+    print(
+        "\nREVENUE ACTIONS"
+    )
+
+    print(
+        "MONETIZE："
+        f"{action_counts.get('monetize', 0)}"
+    )
+
+    print(
+        "WAIT APPROVAL："
+        f"{action_counts.get('wait_approval', 0)}"
+    )
+
+    print(
+        "IMPROVE CTA："
+        f"{action_counts.get('improve_cta', 0)}"
+    )
+
+    print(
+        "EXPAND CONTENT："
+        f"{action_counts.get('expand_content', 0)}"
+    )
+
+    top_action = revenue.get(
+        "top_revenue_action"
+    )
+
+    if isinstance(
+        top_action,
+        dict,
+    ):
+        print(
+            "\nTOP REVENUE ACTION"
+        )
+
+        print(
+            "Service："
+            f"{top_action.get('service', '')}"
+        )
+
+        print(
+            "Action："
+            f"{top_action.get('source_action', '')}"
+        )
+
+        print(
+            "Priority："
+            f"{top_action.get('priority', 0)}"
+        )
+
+        print(
+            "Clicks："
+            f"{top_action.get('clicks', 0)}"
+        )
+
+        print(
+            "Next："
+            f"{top_action.get('next', '')}"
+        )
 
     print()
 
