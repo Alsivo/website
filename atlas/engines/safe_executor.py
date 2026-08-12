@@ -38,6 +38,10 @@ OUTPUT_FILE = (
     / "execution_plan.json"
 )
 
+EXECUTION_RESULT_FILE = (
+    OUTPUT_DIR
+    / "execution_result.json"
+)
 
 ALLOWED_AUTO_ACTIONS = {
     "TITLE_ONLY",
@@ -260,6 +264,35 @@ def save_execution_plan(
     return OUTPUT_FILE
 
 
+def save_execution_result(
+    result: dict[str, Any],
+) -> Path:
+    """Safe Executorの実行結果を保存する。"""
+
+    OUTPUT_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    payload = {
+        "saved_at":
+            datetime.now().isoformat(),
+        **result,
+    }
+
+    EXECUTION_RESULT_FILE.write_text(
+        json.dumps(
+            payload,
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    return EXECUTION_RESULT_FILE
+
+
 def execute_plan(
     plan: dict[str, Any],
     dry_run: bool = True,
@@ -277,6 +310,8 @@ def execute_plan(
                 "skip",
             "executed":
                 False,
+            "dry_run":
+                dry_run,
             "action":
                 str(
                     plan.get(
@@ -311,6 +346,8 @@ def execute_plan(
                 "skip",
             "executed":
                 False,
+            "dry_run":
+                dry_run,
             "action":
                 str(
                     plan.get(
@@ -374,6 +411,8 @@ def execute_plan(
                 "skip",
             "executed":
                 False,
+            "dry_run":
+                dry_run,
             "action":
                 action,
             "target":
@@ -394,6 +433,8 @@ def execute_plan(
                 "skip",
             "executed":
                 False,
+            "dry_run":
+                dry_run,
             "action":
                 action,
             "target":
@@ -413,6 +454,8 @@ def execute_plan(
                 "skip",
             "executed":
                 False,
+            "dry_run":
+                dry_run,
             "action":
                 action,
             "target":
@@ -446,12 +489,12 @@ def execute_plan(
                         False,
                     )
                 ),
+            "dry_run":
+                dry_run,
             "action":
                 action,
             "target":
                 target,
-            "dry_run":
-                dry_run,
             "result":
                 result,
         }
@@ -487,12 +530,12 @@ def execute_plan(
                         False,
                     )
                 ),
+            "dry_run":
+                dry_run,
             "action":
                 action,
             "target":
                 target,
-            "dry_run":
-                dry_run,
             "result":
                 result,
         }
@@ -525,12 +568,12 @@ def execute_plan(
                     "failed",
                 "executed":
                     False,
+                "dry_run":
+                    dry_run,
                 "action":
                     action,
                 "target":
                     target,
-                "dry_run":
-                    dry_run,
                 "returncode":
                     completed.returncode,
                 "reason":
@@ -539,7 +582,6 @@ def execute_plan(
                         "異常終了しました。"
                     ),
             }
-
         return {
             "status":
                 (
@@ -549,12 +591,12 @@ def execute_plan(
                 ),
             "executed":
                 not dry_run,
+            "dry_run":
+                dry_run,
             "action":
                 action,
             "target":
                 target,
-            "dry_run":
-                dry_run,
             "returncode":
                 completed.returncode,
             "reason":
@@ -570,6 +612,8 @@ def execute_plan(
             "skip",
         "executed":
             False,
+        "dry_run":
+            dry_run,
         "action":
             action,
         "target":
@@ -634,7 +678,7 @@ def print_execution_plan(
 
 
 def main() -> None:
-    """Safe Execution Planを生成する。"""
+    """Safe Execution Planを生成して実行する。"""
 
     decision = load_json(
         OPTIMIZATION_DECISION_FILE
@@ -655,7 +699,6 @@ def main() -> None:
     print(
         f"保存先：{filepath}"
     )
-    import sys
 
     apply_mode = (
         "--apply"
@@ -666,6 +709,12 @@ def main() -> None:
         execute_plan(
             plan,
             dry_run=not apply_mode,
+        )
+    )
+
+    execution_result_path = (
+        save_execution_result(
+            execution_result
         )
     )
 
@@ -697,6 +746,12 @@ def main() -> None:
         print(
             "Mode：APPLY"
         )
+
+    print(
+        "実行結果保存先："
+        f"{execution_result_path}"
+    )
+
 
 if __name__ == "__main__":
     main()

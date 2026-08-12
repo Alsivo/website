@@ -1,7 +1,9 @@
+import csv
 import json
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -11,6 +13,20 @@ DAILY_REPORT_FILE = (
     / "data"
     / "daily_report"
     / "daily_report.json"
+)
+
+PAGE_PERFORMANCE_FILE = (
+    BASE_DIR
+    / "data"
+    / "search_console"
+    / "page_performance.csv"
+)
+
+PAGE_QUERY_PERFORMANCE_FILE = (
+    BASE_DIR
+    / "data"
+    / "search_console"
+    / "page_query_performance.csv"
 )
 
 OUTPUT_DIR = (
@@ -44,7 +60,10 @@ def load_json(
                 encoding="utf-8",
             )
         )
-    except json.JSONDecodeError:
+    except (
+        json.JSONDecodeError,
+        OSError,
+    ):
         return {}
 
     if not isinstance(
@@ -56,10 +75,365 @@ def load_json(
     return data
 
 
+def safe_float(
+    value: Any,
+    default: float = 0.0,
+) -> float:
+    """値を安全にfloatへ変換する。"""
+
+    try:
+        return float(
+            value
+        )
+    except (
+        TypeError,
+        ValueError,
+    ):
+        return default
+
+
+def url_to_slug(
+    url: str,
+) -> str:
+    """
+    Search ConsoleのURLから記事slugを取得する。
+
+    /blog/<slug> のURLだけを記事として扱う。
+    www有無は無視される。
+    """
+
+    try:
+        parsed = urlparse(
+            url.strip()
+        )
+    except ValueError:
+        return ""
+
+    path = parsed.path.strip("/")
+
+    if not path.startswith(
+        "blog/"
+    ):
+        return ""
+
+    slug = path[
+        len("blog/"):
+    ].strip("/")
+
+    if not slug:
+        return ""
+
+    if "/" in slug:
+        return ""
+
+    return slug
+
+
+def load_csv_rows(
+    filepath: Path,
+) -> list[dict[str, str]]:
+    """CSVファイルを安全に読み込む。"""
+
+    if not filepath.exists():
+        return []
+
+    try:
+        with filepath.open(
+            "r",
+            encoding="utf-8-sig",
+            newline="",
+        ) as file:
+            reader = csv.DictReader(
+                file
+            )
+
+            return [
+                dict(row)
+                for row in reader
+            ]
+
+    except OSError:
+        return []
+
+
+def load_article_seo(
+) -> dict[str, dict[str, Any]]:
+    """
+    page_performance.csvから記事別SEOデータを作る。
+
+    同じslugが複数URLで存在する場合は統合する。
+    """
+
+    rows = load_csv_rows(
+        PAGE_PERFORMANCE_FILE
+    )
+
+    aggregated: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    for row in rows:
+
+        page = str(
+            row.get(
+                "page",
+                "",
+            )
+        ).strip()
+
+        slug = url_to_slug(
+            page
+        )
+
+        if not slug:
+            continue
+
+        clicks = safe_float(
+            row.get(
+                "clicks",
+                0,
+            )
+        )
+
+        impressions = safe_float(
+            row.get(
+                "impressions",
+                0,
+            )
+        )
+
+        position = safe_float(
+            row.get(
+                "position",
+                0,
+            )
+        )
+
+        if slug not in aggregated:
+            aggregated[slug] = {
+                "clicks": 0.0,
+                "impressions": 0.0,
+                "position_weighted_sum": 0.0,
+                "position_weight": 0.0,
+                "urls": [],
+            }
+
+        item = aggregated[
+            slug
+        ]
+
+        item["clicks"] += clicks
+        item["impressions"] += impressions
+
+        if impressions > 0:
+            item[
+                "position_weighted_sum"
+            ] += (
+                position
+                * impressions
+            )
+
+            item[
+                "position_weight"
+            ] += impressions
+
+        urls = item.get(
+            "urls",
+            [],
+        )
+
+        if (
+            isinstance(
+                urls,
+                list,
+            )
+            and page
+            and page not in urls
+        ):
+            urls.append(
+                page
+            )
+
+    result: dict[
+        str,
+        dict[str, Any],
+    ] = {}
+
+    for slug, item in aggregated.items():
+
+        clicks = safe_float(
+            item.get(
+                "clicks",
+                0,
+            )
+        )
+
+        impressions = safe_float(
+            item.get(
+                "impressions",
+                0,
+            )
+        )
+
+        position_weighted_sum = (
+            safe_float(
+                item.get(
+                    "position_weighted_sum",
+                    0,
+                )
+            )
+        )
+
+        position_weight = (
+            safe_float(
+                item.get(
+                    "position_weight",
+                    0,
+                )
+            )
+        )
+
+        ctr = (
+            clicks / impressions
+            if impressions > 0
+            else 0.0
+        )
+
+        average_position = (
+            position_weighted_sum
+            / position_weight
+            if position_weight > 0
+            else 0.0
+        )
+
+        result[slug] = {
+            "clicks":
+                clicks,
+            "impressions":
+                impressions,
+            "ctr":
+                ctr,
+            "average_position":
+                average_position,
+            "urls":
+                item.get(
+                    "urls",
+                    [],
+                ),
+        }
+
+    return result
+
+
+def load_article_queries(
+) -> dict[str, list[dict[str, Any]]]:
+    """
+    page_query_performance.csvから
+    記事別の検索クエリを取得する。
+    """
+
+    rows = load_csv_rows(
+        PAGE_QUERY_PERFORMANCE_FILE
+    )
+
+    result: dict[
+        str,
+        list[dict[str, Any]],
+    ] = {}
+
+    for row in rows:
+
+        page = str(
+            row.get(
+                "page",
+                "",
+            )
+        ).strip()
+
+        slug = url_to_slug(
+            page
+        )
+
+        if not slug:
+            continue
+
+        query = str(
+            row.get(
+                "query",
+                "",
+            )
+        ).strip()
+
+        if not query:
+            continue
+
+        item = {
+            "query":
+                query,
+            "clicks":
+                safe_float(
+                    row.get(
+                        "clicks",
+                        0,
+                    )
+                ),
+            "impressions":
+                safe_float(
+                    row.get(
+                        "impressions",
+                        0,
+                    )
+                ),
+            "ctr":
+                safe_float(
+                    row.get(
+                        "ctr",
+                        0,
+                    )
+                ),
+            "position":
+                safe_float(
+                    row.get(
+                        "position",
+                        0,
+                    )
+                ),
+        }
+
+        result.setdefault(
+            slug,
+            [],
+        ).append(
+            item
+        )
+
+    for slug in result:
+
+        result[slug].sort(
+            key=lambda item: (
+                -safe_float(
+                    item.get(
+                        "impressions",
+                        0,
+                    )
+                ),
+                safe_float(
+                    item.get(
+                        "position",
+                        999,
+                    )
+                ),
+            )
+        )
+
+    return result
+
+
 def build_history_entry(
     report: dict[str, Any],
 ) -> dict[str, Any]:
-    """Daily Reportから履歴用の軽量データを作る。"""
+    """Daily Reportから履歴データを作る。"""
 
     generated_at = str(
         report.get(
@@ -72,10 +446,16 @@ def build_history_entry(
         date = (
             datetime.fromisoformat(
                 generated_at
-            ).date().isoformat()
+            )
+            .date()
+            .isoformat()
         )
     except ValueError:
-        date = datetime.now().date().isoformat()
+        date = (
+            datetime.now()
+            .date()
+            .isoformat()
+        )
 
     system = report.get(
         "system",
@@ -132,9 +512,11 @@ def build_history_entry(
     ):
         portfolio = {}
 
-    investment_counts = portfolio.get(
-        "investment_counts",
-        {},
+    investment_counts = (
+        portfolio.get(
+            "investment_counts",
+            {},
+        )
     )
 
     if not isinstance(
@@ -165,125 +547,167 @@ def build_history_entry(
     ):
         top_action = {}
 
+    article_seo = (
+        load_article_seo()
+    )
+
+    article_queries = (
+        load_article_queries()
+    )
+
+    for (
+        slug,
+        metrics,
+    ) in article_seo.items():
+
+        metrics[
+            "top_queries"
+        ] = article_queries.get(
+            slug,
+            [],
+        )[:10]
+
     return {
-        "date": date,
-        "generated_at": generated_at,
+        "date":
+            date,
+        "generated_at":
+            generated_at,
+
         "system": {
-            "status": str(
-                system.get(
-                    "status",
-                    "",
-                )
-            ),
-            "health": str(
-                system.get(
-                    "health",
-                    "",
-                )
-            ),
+            "status":
+                str(
+                    system.get(
+                        "status",
+                        "",
+                    )
+                ),
+            "health":
+                str(
+                    system.get(
+                        "health",
+                        "",
+                    )
+                ),
         },
+
         "seo": {
-            "clicks": float(
-                seo.get(
-                    "clicks",
-                    0,
-                )
-                or 0
-            ),
-            "impressions": float(
-                seo.get(
-                    "impressions",
-                    0,
-                )
-                or 0
-            ),
-            "ctr": float(
-                seo.get(
-                    "ctr",
-                    0,
-                )
-                or 0
-            ),
-            "average_position": float(
-                seo.get(
-                    "average_position",
-                    0,
-                )
-                or 0
-            ),
-            "ready_actions": int(
-                seo.get(
-                    "ready_actions",
-                    0,
-                )
-                or 0
-            ),
+            "clicks":
+                safe_float(
+                    seo.get(
+                        "clicks",
+                        0,
+                    )
+                ),
+            "impressions":
+                safe_float(
+                    seo.get(
+                        "impressions",
+                        0,
+                    )
+                ),
+            "ctr":
+                safe_float(
+                    seo.get(
+                        "ctr",
+                        0,
+                    )
+                ),
+            "average_position":
+                safe_float(
+                    seo.get(
+                        "average_position",
+                        0,
+                    )
+                ),
+            "ready_actions":
+                int(
+                    seo.get(
+                        "ready_actions",
+                        0,
+                    )
+                    or 0
+                ),
         },
+
+        "article_seo":
+            article_seo,
+
         "revenue": {
-            "clicks": int(
-                revenue.get(
-                    "clicks",
-                    0,
-                )
-                or 0
-            ),
-            "conversions": int(
-                revenue.get(
-                    "conversions",
-                    0,
-                )
-                or 0
-            ),
-            "revenue": float(
-                revenue.get(
-                    "revenue",
-                    0,
-                )
-                or 0
-            ),
-            "conversion_rate": float(
-                revenue.get(
-                    "conversion_rate",
-                    0,
-                )
-                or 0
-            ),
-            "epc": float(
-                revenue.get(
-                    "epc",
-                    0,
-                )
-                or 0
-            ),
+            "clicks":
+                int(
+                    revenue.get(
+                        "clicks",
+                        0,
+                    )
+                    or 0
+                ),
+            "conversions":
+                int(
+                    revenue.get(
+                        "conversions",
+                        0,
+                    )
+                    or 0
+                ),
+            "revenue":
+                safe_float(
+                    revenue.get(
+                        "revenue",
+                        0,
+                    )
+                ),
+            "conversion_rate":
+                safe_float(
+                    revenue.get(
+                        "conversion_rate",
+                        0,
+                    )
+                ),
+            "epc":
+                safe_float(
+                    revenue.get(
+                        "epc",
+                        0,
+                    )
+                ),
         },
+
         "editorial": {
-            "action": str(
-                editorial.get(
-                    "action",
-                    "",
-                )
-            ),
-            "priority_score": int(
-                editorial.get(
-                    "priority_score",
-                    0,
-                )
-                or 0
-            ),
+            "action":
+                str(
+                    editorial.get(
+                        "action",
+                        "",
+                    )
+                ),
+            "priority_score":
+                int(
+                    editorial.get(
+                        "priority_score",
+                        0,
+                    )
+                    or 0
+                ),
         },
+
         "portfolio": {
-            "executable_count": int(
-                portfolio.get(
-                    "executable_count",
-                    0,
-                )
-                or 0
-            ),
+            "executable_count":
+                int(
+                    portfolio.get(
+                        "executable_count",
+                        0,
+                    )
+                    or 0
+                ),
             "investment_counts":
                 investment_counts,
         },
-        "top_queries": top_queries[:5],
-        "top_revenue_action": top_action,
+
+        "top_queries":
+            top_queries[:5],
+
+        "top_revenue_action":
+            top_action,
     }
 
 
@@ -313,13 +737,15 @@ def load_history(
         entries = []
 
     return {
-        "updated_at": str(
-            history.get(
-                "updated_at",
-                "",
-            )
-        ),
-        "entries": entries,
+        "updated_at":
+            str(
+                history.get(
+                    "updated_at",
+                    "",
+                )
+            ),
+        "entries":
+            entries,
     }
 
 
@@ -330,8 +756,8 @@ def update_history(
     """
     履歴を更新する。
 
-    同じ日付のデータがすでに存在する場合は、
-    その日の最新データで置き換える。
+    同じ日付が存在する場合は
+    最新データで置き換える。
     """
 
     entries = history.get(
@@ -350,7 +776,6 @@ def update_history(
     ]
 
     updated_entries = []
-
     replaced = False
 
     for old_entry in entries:
@@ -462,6 +887,17 @@ def print_summary(
         [],
     )
 
+    article_seo = entry.get(
+        "article_seo",
+        {},
+    )
+
+    if not isinstance(
+        article_seo,
+        dict,
+    ):
+        article_seo = {}
+
     print(
         "\n===== Atlas Performance History =====\n"
     )
@@ -484,6 +920,11 @@ def print_summary(
     print(
         "SEO Clicks："
         f"{entry['seo']['clicks']:.0f}"
+    )
+
+    print(
+        "Tracked Articles："
+        f"{len(article_seo)}"
     )
 
     print(

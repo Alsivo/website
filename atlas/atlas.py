@@ -779,11 +779,6 @@ def update_performance_trend(
         )
         return
 
-    raise RuntimeError(
-        "Performance Trendの"
-        "更新に失敗しました。"
-    )
-
 
 def update_optimization_decision(
     log_file: Path,
@@ -855,6 +850,68 @@ def update_safe_executor(
     return False
 
 
+def update_optimization_history(
+    log_file: Path,
+) -> bool:
+    """Optimization Historyを更新する。"""
+
+    log(
+        "Optimization Historyを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.optimization_history",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Optimization History更新成功。",
+            log_file,
+        )
+        return True
+
+    log(
+        "Optimization Historyの"
+        "更新に失敗しました。",
+        log_file,
+    )
+
+    return False
+
+
+def update_optimization_outcome(
+    log_file: Path,
+) -> bool:
+    """Optimization Outcomeを更新する。"""
+
+    log(
+        "Optimization Outcomeを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.optimization_outcome",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Optimization Outcome更新成功。",
+            log_file,
+        )
+        return True
+
+    log(
+        "Optimization Outcomeの"
+        "更新に失敗しました。",
+        log_file,
+    )
+
+    return False
+
+
 def update_atlas_alert(
     log_file: Path,
 ) -> None:
@@ -909,6 +966,7 @@ def update_portfolio_plan(
         "Portfolio Planの"
         "更新に失敗しました。"
     )
+
 
 def load_top_expansion_candidate(
 ) -> dict[str, Any] | None:
@@ -1884,14 +1942,54 @@ def main(
             log_file
         )
 
-        update_optimization_decision(
-            log_file
+        optimization_decision_success = (
+            update_optimization_decision(
+                log_file
+            )
         )
 
-        update_safe_executor(
-            log_file,
-            apply_mode=False,
-        )
+        if optimization_decision_success:
+            safe_executor_success = (
+                update_safe_executor(
+                    log_file,
+                    apply_mode=False,
+                )
+            )
+
+            if safe_executor_success:
+                optimization_history_success = (
+                    update_optimization_history(
+                        log_file
+                    )
+                )
+
+                if optimization_history_success:
+                    update_optimization_outcome(
+                        log_file
+                    )
+                else:
+                    log(
+                        "Optimization History更新失敗のため、"
+                        "Optimization Outcome更新を"
+                        "スキップします。",
+                        log_file,
+                    )
+
+            else:
+                log(
+                    "Safe Executor更新失敗のため、"
+                    "Optimization History / Outcome更新を"
+                    "スキップします。",
+                    log_file,
+                )
+
+        else:
+            log(
+                "Optimization Decision更新失敗のため、"
+                "Safe Executor / Optimization History / "
+                "Outcome更新をスキップします。",
+                log_file,
+            )
 
         update_atlas_alert(
             log_file
@@ -1944,14 +2042,54 @@ def main(
                 log_file
             )
 
-            update_optimization_decision(
-                log_file
+            optimization_decision_success = (
+                update_optimization_decision(
+                    log_file
+                )
             )
 
-            update_safe_executor(
-                log_file,
-                apply_mode=False,
-            )
+            if optimization_decision_success:
+                safe_executor_success = (
+                    update_safe_executor(
+                        log_file,
+                        apply_mode=False,
+                    )
+                )
+
+                if safe_executor_success:
+                    optimization_history_success = (
+                        update_optimization_history(
+                            log_file
+                        )
+                    )
+
+                    if optimization_history_success:
+                        update_optimization_outcome(
+                            log_file
+                        )
+                    else:
+                        log(
+                            "Optimization History更新失敗のため、"
+                            "Optimization Outcome更新を"
+                            "スキップします。",
+                            log_file,
+                        )
+
+                else:
+                    log(
+                        "Safe Executor更新失敗のため、"
+                        "Optimization History / Outcome更新を"
+                        "スキップします。",
+                        log_file,
+                    )
+
+            else:
+                log(
+                    "Optimization Decision更新失敗のため、"
+                    "Safe Executor / Optimization History / "
+                    "Outcome更新をスキップします。",
+                    log_file,
+                )
 
             update_atlas_alert(
                 log_file
