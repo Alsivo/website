@@ -62,15 +62,12 @@ main {
 }
 
 .brand-mark {
-  display: grid;
+  display: block;
   width: 34px;
   height: 34px;
-  place-items: center;
+  flex-shrink: 0;
   border-radius: 10px;
-  background: var(--foreground);
-  color: white;
-  font-size: 17px;
-  font-weight: 700;
+  object-fit: cover;
 }
 
 .navigation {

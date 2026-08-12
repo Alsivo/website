@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -8,12 +9,13 @@ export default function Footer() {
           className="brand footer-brand"
           href="/"
         >
-          <span
+          <Image
             className="brand-mark"
-            aria-hidden="true"
-          >
-            A
-          </span>
+            src="/images/alsivo_icon.jpg"
+            alt=""
+            width={36}
+            height={36}
+          />
 
           <span>Alsivo</span>
         </Link>
