@@ -785,6 +785,36 @@ def update_performance_trend(
     )
 
 
+def update_optimization_decision(
+    log_file: Path,
+) -> bool:
+    """Optimization Decisionを更新する。"""
+
+    log(
+        "Optimization Decisionを更新します。",
+        log_file,
+    )
+
+    success = run_python_module(
+        "engines.optimization_decision",
+        log_file,
+    )
+
+    if success:
+        log(
+            "Optimization Decision更新成功。",
+            log_file,
+        )
+    else:
+        log(
+            "Optimization Decisionの"
+            "更新に失敗しました。",
+            log_file,
+        )
+
+    return success
+
+
 def update_atlas_alert(
     log_file: Path,
 ) -> None:
@@ -1814,6 +1844,10 @@ def main(
             log_file
         )
 
+        update_optimization_decision(
+            log_file
+        )
+
         update_atlas_alert(
             log_file
         )
@@ -1862,6 +1896,10 @@ def main(
             )
 
             update_performance_trend(
+                log_file
+            )
+
+            update_optimization_decision(
                 log_file
             )
 
