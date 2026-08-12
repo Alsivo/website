@@ -1,0 +1,45 @@
+{
+  "updated_at": "2026-08-12T23:49:05.341282",
+  "total": 2,
+  "pending": 0,
+  "approved": 1,
+  "rejected": 1,
+  "queue": [
+    {
+      "approval_id": "86e280a87b16",
+      "created_at": "2026-08-12T23:40:32.788012",
+      "status": "rejected",
+      "action": "MONETIZE",
+      "source": "revenue",
+      "target_type": "service",
+      "target": "ChatGPT",
+      "priority": 93,
+      "execution_mode": "human_action",
+      "execution_allowed": false,
+      "reason": "クリック需要がありますが、収益化可能なAffiliate案件が有効化されていません。",
+      "recommended_action": "国内ASPまたは直接案件を優先して確認する",
+      "approved_at": "",
+      "rejected_at": "2026-08-12T23:45:38.852554",
+      "decision_note": "duplicate created before G7 duplicate fix",
+      "decision_fingerprint": "b6b29b4be0cc0408"
+    },
+    {
+      "approval_id": "5d9cb1b636ac",
+      "created_at": "2026-08-12T23:18:03.759992",
+      "status": "approved",
+      "action": "MONETIZE",
+      "source": "revenue",
+      "target_type": "service",
+      "target": "ChatGPT",
+      "priority": 93,
+      "execution_mode": "human_action",
+      "execution_allowed": false,
+      "reason": "クリック需要がありますが、収益化可能なAffiliate案件が有効化されていません。",
+      "recommended_action": "国内ASPまたは直接案件を優先して確認する",
+      "approved_at": "2026-08-12T23:21:09.554835",
+      "rejected_at": "",
+      "decision_note": "G7 approval test",
+      "decision_fingerprint": "b6b29b4be0cc0408"
+    }
+  ]
+}

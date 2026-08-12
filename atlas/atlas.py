@@ -912,6 +912,130 @@ def update_optimization_outcome(
     return False
 
 
+def update_human_approval_queue(
+    log_file: Path,
+) -> bool:
+    """Human Approval Queueを更新する。"""
+
+    log(
+        "Human Approval Queueを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.human_approval_queue",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Human Approval Queue更新成功。",
+            log_file,
+        )
+        return True
+
+    log(
+        "Human Approval Queueの"
+        "更新に失敗しました。",
+        log_file,
+    )
+
+    return False
+
+
+def update_approved_action_router(
+    log_file: Path,
+) -> bool:
+    """Approved Action Routerを更新する。"""
+
+    log(
+        "Approved Action Routerを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.approved_action_router",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Approved Action Router更新成功。",
+            log_file,
+        )
+        return True
+
+    log(
+        "Approved Action Routerの"
+        "更新に失敗しました。",
+        log_file,
+    )
+
+    return False
+
+
+def update_approval_safety_guard(
+    log_file: Path,
+) -> bool:
+    """Approval Safety Guardを更新する。"""
+
+    log(
+        "Approval Safety Guardを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.approval_safety_guard",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Approval Safety Guard更新成功。",
+            log_file,
+        )
+        return True
+
+    log(
+        "Approval Safety Guardの"
+        "更新に失敗しました。",
+        log_file,
+    )
+
+    return False
+
+
+def update_notification_engine(
+    log_file: Path,
+) -> bool:
+    """Notification Engineを更新する。"""
+
+    log(
+        "Notification Engineを更新します。",
+        log_file,
+    )
+
+    result = run_python_module(
+        "engines.notification_engine",
+        log_file,
+    )
+
+    if result.returncode == 0:
+        log(
+            "Notification Engine更新成功。",
+            log_file,
+        )
+        return True
+
+    log(
+        "Notification Engineの"
+        "更新に失敗しました。",
+        log_file,
+    )
+
+    return False
+
+
 def update_atlas_alert(
     log_file: Path,
 ) -> None:
@@ -1949,6 +2073,19 @@ def main(
         )
 
         if optimization_decision_success:
+            approval_queue_success = (
+                update_human_approval_queue(
+                    log_file
+                )
+            )
+
+            if not approval_queue_success:
+                log(
+                    "Human Approval Queue更新失敗。"
+                    "承認系処理は安全側で継続します。",
+                    log_file,
+                )
+
             safe_executor_success = (
                 update_safe_executor(
                     log_file,
@@ -1983,15 +2120,40 @@ def main(
                     log_file,
                 )
 
+            router_success = (
+                update_approved_action_router(
+                    log_file
+                )
+            )
+
+            if router_success:
+                update_approval_safety_guard(
+                    log_file
+                )
+            else:
+                log(
+                    "Approved Action Router更新失敗のため、"
+                    "Approval Safety Guard更新を"
+                    "スキップします。",
+                    log_file,
+                )
+
         else:
             log(
                 "Optimization Decision更新失敗のため、"
-                "Safe Executor / Optimization History / "
-                "Outcome更新をスキップします。",
+                "Safe Executor / Human Approval / "
+                "Optimization History / Outcome / "
+                "Approved Action Router / "
+                "Approval Safety Guard更新を"
+                "スキップします。",
                 log_file,
             )
 
         update_atlas_alert(
+            log_file
+        )
+
+        update_notification_engine(
             log_file
         )
 
@@ -2049,6 +2211,19 @@ def main(
             )
 
             if optimization_decision_success:
+                approval_queue_success = (
+                    update_human_approval_queue(
+                        log_file
+                    )
+                )
+
+                if not approval_queue_success:
+                    log(
+                        "Human Approval Queue更新失敗。"
+                        "承認系処理は安全側で継続します。",
+                        log_file,
+                    )
+
                 safe_executor_success = (
                     update_safe_executor(
                         log_file,
@@ -2083,15 +2258,40 @@ def main(
                         log_file,
                     )
 
+                router_success = (
+                    update_approved_action_router(
+                        log_file
+                    )
+                )
+
+                if router_success:
+                    update_approval_safety_guard(
+                        log_file
+                    )
+                else:
+                    log(
+                        "Approved Action Router更新失敗のため、"
+                        "Approval Safety Guard更新を"
+                        "スキップします。",
+                        log_file,
+                    )
+
             else:
                 log(
                     "Optimization Decision更新失敗のため、"
-                    "Safe Executor / Optimization History / "
-                    "Outcome更新をスキップします。",
+                    "Safe Executor / Human Approval / "
+                    "Optimization History / Outcome / "
+                    "Approved Action Router / "
+                    "Approval Safety Guard更新を"
+                    "スキップします。",
                     log_file,
                 )
 
             update_atlas_alert(
+                log_file
+            )
+
+            update_notification_engine(
                 log_file
             )
 

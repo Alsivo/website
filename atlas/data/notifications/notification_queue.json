@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-08-12T23:49:07.073060",
+  "total": 2,
+  "requires_attention": true,
+  "counts": {
+    "CRITICAL": 0,
+    "WARNING": 0,
+    "ACTION": 2,
+    "INFO": 0
+  },
+  "notifications": [
+    {
+      "notification_id": "route:5d9cb1b636ac:ready",
+      "created_at": "2026-08-12T23:49:07.073060",
+      "source": "approved_action_router",
+      "level": "ACTION",
+      "priority": 93,
+      "title": "承認済み収益化Actionがあります：ChatGPT",
+      "target": "ChatGPT",
+      "message": "収益化Actionは外部ASP確認など人間作業を含むため、自動実行せず収益化ワークフローへ送ります。",
+      "next_action": "収益化ワークフローを人間が確認してください。",
+      "approval_id": "5d9cb1b636ac",
+      "action": "MONETIZE",
+      "destination": "human_monetization",
+      "next_engine": "domestic_asp_candidate_queue",
+      "status": "ready"
+    },
+    {
+      "notification_id": "alert:1:ACTION::ChatGPTの収益化対応があります",
+      "created_at": "2026-08-12T23:49:07.073060",
+      "source": "atlas_alert",
+      "level": "ACTION",
+      "priority": 60,
+      "title": "ChatGPTの収益化対応があります",
+      "target": "",
+      "message": "クリック需要がありますが、収益化可能なAffiliate案件が有効化されていません。",
+      "next_action": "",
+      "status": "active"
+    }
+  ]
+}

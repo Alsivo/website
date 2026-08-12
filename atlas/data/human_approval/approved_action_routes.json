@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-08-12T23:49:06.808065",
+  "total": 1,
+  "ready": 1,
+  "blocked": 0,
+  "routes": [
+    {
+      "routed_at": "2026-08-12T23:49:06.808065",
+      "approval_id": "5d9cb1b636ac",
+      "approval_status": "approved",
+      "action": "MONETIZE",
+      "source": "revenue",
+      "target_type": "service",
+      "target": "ChatGPT",
+      "priority": 93,
+      "decision_note": "G7 approval test",
+      "approved_at": "2026-08-12T23:21:09.554835",
+      "route_status": "ready",
+      "destination": "human_monetization",
+      "next_engine": "domestic_asp_candidate_queue",
+      "reason": "収益化Actionは外部ASP確認など人間作業を含むため、自動実行せず収益化ワークフローへ送ります。"
+    }
+  ]
+}

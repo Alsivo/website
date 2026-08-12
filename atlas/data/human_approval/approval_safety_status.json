@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-08-12T23:49:06.872533",
+  "total": 1,
+  "safe": 1,
+  "executable": 0,
+  "blocked": 0,
+  "results": [
+    {
+      "checked_at": "2026-08-12T23:49:06.872533",
+      "approval_id": "5d9cb1b636ac",
+      "action": "MONETIZE",
+      "target": "ChatGPT",
+      "destination": "human_monetization",
+      "route_status": "ready",
+      "safe": true,
+      "execution_allowed": false,
+      "reason": "approved状態を確認しましたが、人間作業用Routeのため自動実行は許可しません。"
+    }
+  ]
+}
