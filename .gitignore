@@ -86,3 +86,5 @@ atlas/data/daily_report/
 atlas/data/alerts/
 atlas/data/performance_history/
 atlas/data/optimization/
+atlas/data/safe_execution/
+atlas/data/title_optimization/
