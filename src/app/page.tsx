@@ -48,14 +48,16 @@ export default function Home() {
 
           <h1>
             <span>AIを</span>
-            <br className="mobile-title-break" />
+            <br />
             <span>もっとわかりやすく。</span>
+            <br />
+            <span>もっと実践的に。</span>
           </h1>
 
           <p className="media-hero-description">
-            ChatGPTやClaudeなどのAIツールを、
-            料金・機能・使い方まで分かりやすく比較。
-            仕事でAIを使うための実践的な情報を届けます。
+            AIツールや生成AIに関する情報を、分かりやすく実践的に。
+            <br />
+            「結局どれを選べばいいのか」「仕事でどう使えばいいのか」を整理して届けます。
           </p>
 
           <div className="media-hero-actions">
