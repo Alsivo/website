@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { BlogPostSummary } from "../types/blog";
+import ArticleTitle from "./ArticleTitle";
 
 type BlogExplorerProps = {
   articles: BlogPostSummary[];
@@ -198,7 +199,12 @@ export default function BlogExplorer({
                     <span>{article.readingTime}</span>
                   </div>
 
-                  <h2>{article.title}</h2>
+                  <h2>
+                    <ArticleTitle
+                      title={article.title}
+                      lines={article.cardTitleLines}
+                    />
+                  </h2>
 
                   <p>{article.description}</p>
 

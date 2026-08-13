@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getAllBlogPosts } from "../lib/blog";
-
+import ArticleTitle from "../components/ArticleTitle";
 
 const categoryLinks = [
   {
@@ -132,7 +132,12 @@ export default function Home() {
                   </div>
 
                   <div className="home-featured-body">
-                    <h3>{article.title}</h3>
+                    <h3>
+                      <ArticleTitle
+                        title={article.title}
+                        lines={article.cardTitleLines}
+                      />
+                    </h3>
 
                     <p>
                       {article.description}

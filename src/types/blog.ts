@@ -5,6 +5,8 @@ export type BlogFaqItem = {
 
 export type BlogPostFrontmatter = {
   title: string;
+  titleLines?: string[];
+  cardTitleLines?: string[];
   description: string;
   date: string;
   updated?: string;

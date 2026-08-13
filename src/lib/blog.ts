@@ -88,6 +88,39 @@ function validateFaq(
   });
 }
 
+
+function validateOptionalStringArray(
+  value: unknown,
+  fieldName: string,
+  fileName: string,
+): string[] | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+
+  if (!Array.isArray(value)) {
+    throw new Error(
+      `${fileName}: frontmatterの「${fieldName}」は配列にしてください。`,
+    );
+  }
+
+  const lines = value.map((item, index) => {
+    if (
+      typeof item !== "string" ||
+      item.trim() === ""
+    ) {
+      throw new Error(
+        `${fileName}: frontmatterの「${fieldName}」の${index + 1}件目が不正です。`,
+      );
+    }
+
+    return item.trim();
+  });
+
+  return lines;
+}
+
+
 function validateFrontmatter(
   data: Partial<BlogPostFrontmatter>,
   fileName: string,
@@ -102,7 +135,10 @@ function validateFrontmatter(
   ] as const;
 
   for (const field of requiredStringFields) {
-    if (typeof data[field] !== "string" || data[field]?.trim() === "") {
+    if (
+      typeof data[field] !== "string" ||
+      data[field]?.trim() === ""
+    ) {
       throw new Error(
         `${fileName}: frontmatterの「${field}」が未入力です。`,
       );
@@ -110,11 +146,23 @@ function validateFrontmatter(
   }
 
   if (!Array.isArray(data.tags)) {
-    throw new Error(`${fileName}: frontmatterの「tags」は配列にしてください。`);
+    throw new Error(
+      `${fileName}: frontmatterの「tags」は配列にしてください。`,
+    );
   }
 
   return {
     title: data.title!,
+    titleLines: validateOptionalStringArray(
+      data.titleLines,
+      "titleLines",
+      fileName,
+    ),
+    cardTitleLines: validateOptionalStringArray(
+      data.cardTitleLines,
+      "cardTitleLines",
+      fileName,
+    ),
     description: data.description!,
     date: data.date!,
     updated:
@@ -136,6 +184,7 @@ function validateFrontmatter(
     published: data.published !== false,
   };
 }
+
 
 export function getAllBlogPosts(): BlogPostSummary[] {
   const posts = getMdxFileNames()

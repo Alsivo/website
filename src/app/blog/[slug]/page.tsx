@@ -22,6 +22,7 @@ import {
   SITE_URL,
 } from "../../../lib/site";
 import AffiliateLink from "../../../components/AffiliateLink";
+import ArticleTitle from "../../../components/ArticleTitle";
 
 type BlogPostPageProps = {
   params: Promise<{
@@ -178,7 +179,12 @@ export default async function BlogPostPage({
 
         <p className="article-category">{post.category}</p>
 
-        <h1>{post.title}</h1>
+        <h1>
+          <ArticleTitle
+            title={post.title}
+            lines={post.titleLines}
+          />
+        </h1>
 
         <p className="article-lead">{post.description}</p>
 
@@ -191,6 +197,16 @@ export default async function BlogPostPage({
           {post.tags.map((tag: string) => (
             <span key={tag}>{tag}</span>
           ))}
+        </div>
+
+        <div className="article-hero-image">
+          <Image
+            src={post.image}
+            alt={`${post.title}のアイキャッチ画像`}
+            fill
+            priority
+            sizes="(max-width: 800px) 100vw, 1200px"
+          />
         </div>
 
         <aside
@@ -314,7 +330,12 @@ export default async function BlogPostPage({
                         </time>
                       </div>
 
-                      <h3>{relatedPost.title}</h3>
+                      <h3>
+                        <ArticleTitle
+                          title={relatedPost.title}
+                          lines={relatedPost.cardTitleLines}
+                        />
+                      </h3>
 
                       <p>{relatedPost.description}</p>
 

@@ -1333,12 +1333,16 @@ main {
 .article-hero-image {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 16 / 9;
   margin: 52px 0 30px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 28px;
   background: #e9eae5;
+}
+
+.article-hero-image + .article-information-note {
+  margin-top: 24px;
 }
 
 .article-hero-image img {
@@ -1353,6 +1357,10 @@ main {
   .article-hero-image {
     margin: 38px 0 24px;
     border-radius: 18px;
+  }
+
+  .article-hero-image + .article-information-note {
+    margin-top: 18px;
   }
 }
 
