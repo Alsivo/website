@@ -1,15 +1,10 @@
-from agents.image_creator import (
-    generate_article_image,
-)
 from agents.planner import create_article_plan
 from agents.publisher import publish_article
 from agents.researcher import research_topic
 from agents.reviewer import review_article
 from agents.writer import generate_article, revise_article
 from config import MAX_REVISION_ATTEMPTS, MIN_REVIEW_SCORE
-from utils.git_publisher import publish_generated_files
 from engines.keyword_queue import (
-    STATE_FILE,
     KeywordItem,
     get_next_keyword_item,
     mark_keyword_processed,
@@ -210,16 +205,27 @@ def main() -> None:
                 "キーワードも未処理のまま残します。"
             )
 
+        # -------------------------------------------------
+        # Phase Cで生成されるBlog PNGのURLを
+        # MDXへ先に設定する。
+        #
+        # この時点では画像ファイル自体は生成しない。
+        # Atlas側で記事保存後にPhase Cを実行し、
+        # 実際のPNGを生成する。
+        # -------------------------------------------------
+
+        article_slug = str(
+            article["slug"]
+        ).strip()
+
+        article["image"] = (
+            f"/images/blog/{article_slug}.png"
+        )
+
         print(
-            "\n[Image Agent] "
-            "アイキャッチ画像を生成中..."
+            "\n[Image] "
+            "Phase C用のBlog画像URLを設定しました。"
         )
-
-        image_url, image_file_path = (
-            generate_article_image(article)
-        )
-
-        article["image"] = image_url
 
         print(
             f"画像URL：{article['image']}"
@@ -245,38 +251,15 @@ def main() -> None:
         print(f"保存先：{filepath}")
 
         print(
-            "\n[Git Publisher] "
-            "自動公開処理を確認中..."
+            "\n[Publisher] "
+            "記事生成処理が完了しました。"
         )
 
-        state_path = (
-            STATE_FILE
-            if keyword_item is not None
-            else None
+        print(
+            "[Publisher] "
+            "画像生成とGitHub Pushは"
+            "AtlasのPhase C以降で実行します。"
         )
-
-        pushed = publish_generated_files(
-            article_path=filepath,
-            image_path=image_file_path,
-            state_path=state_path,
-        )
-
-        if pushed:
-            print(
-                "\n===== 自動公開完了 ====="
-            )
-            print(
-                "GitHubへのPushが完了しました。"
-            )
-            print(
-                "Vercelの自動デプロイ開始を"
-                "確認してください。"
-            )
-        else:
-            raise RuntimeError(
-                "記事ファイルは生成されましたが、"
-                "GitHubへのPushが完了しませんでした。"
-            )
 
     except Exception as error:
         print(f"\n処理に失敗しました：{error}")

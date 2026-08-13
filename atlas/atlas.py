@@ -1590,6 +1590,7 @@ def save_latest_run(
 
 def main(
     dry_run: bool = False,
+    force_new_article: bool = False,
 ) -> None:
     ensure_directories()
 
@@ -1888,6 +1889,171 @@ def main(
                     decision[
                         "action"
                     ] = "wait"
+
+        # ----------------------------------------------------
+        # 新規記事強制テスト
+        #
+        # --force-new-article 指定時のみ、
+        # AI編集長の判断に関係なく
+        # 新規記事を1件生成する。
+        #
+        # 通常のTask Scheduler実行には影響しない。
+        # ----------------------------------------------------
+
+        if (
+            force_new_article
+            and not dry_run
+        ):
+            log(
+                "FORCE NEW ARTICLEモード："
+                "AI編集長判断を上書きして"
+                "新規記事を1件生成します。",
+                log_file,
+            )
+
+            expansion_candidate = (
+                load_top_expansion_candidate()
+            )
+
+            action = "new_article"
+
+            decision[
+                "action"
+            ] = "new_article"
+
+            # ---------------------------------------------
+            # Expansion候補がある場合は最優先候補を使う
+            # ---------------------------------------------
+
+            if expansion_candidate is not None:
+
+                target_keyword = str(
+                    expansion_candidate.get(
+                        "target_keyword",
+                        "",
+                    )
+                ).strip()
+
+                target_title = str(
+                    expansion_candidate.get(
+                        "suggested_title",
+                        "",
+                    )
+                ).strip()
+
+                expansion_topic = str(
+                    expansion_candidate.get(
+                        "topic",
+                        "",
+                    )
+                ).strip()
+
+                expansion_priority = int(
+                    expansion_candidate.get(
+                        "priority",
+                        0,
+                    )
+                    or 0
+                )
+
+                decision[
+                    "target_keyword"
+                ] = target_keyword
+
+                decision[
+                    "target_title"
+                ] = target_title
+
+                decision[
+                    "target_slug"
+                ] = ""
+
+                decision[
+                    "expansion_topic"
+                ] = expansion_topic
+
+                decision[
+                    "expansion_priority"
+                ] = expansion_priority
+
+                decision[
+                    "priority_score"
+                ] = expansion_priority
+
+                decision[
+                    "reason"
+                ] = (
+                    "Phase C本番テストのため"
+                    "新規記事を強制生成。 "
+                    + str(
+                        expansion_candidate.get(
+                            "reason",
+                            "",
+                        )
+                    ).strip()
+                )
+
+                log(
+                    "FORCE NEW ARTICLE候補："
+                    f"{target_keyword}",
+                    log_file,
+                )
+
+            # ---------------------------------------------
+            # Expansion候補がなければ
+            # main.pyのKeyword Queueに任せる
+            # ---------------------------------------------
+
+            else:
+
+                decision[
+                    "target_keyword"
+                ] = ""
+
+                decision[
+                    "target_title"
+                ] = ""
+
+                decision[
+                    "target_slug"
+                ] = ""
+
+                decision[
+                    "expansion_topic"
+                ] = ""
+
+                decision[
+                    "priority_score"
+                ] = 100
+
+                decision[
+                    "reason"
+                ] = (
+                    "Phase C本番テストのため"
+                    "Keyword Queueから"
+                    "新規記事を強制生成。"
+                )
+
+                log(
+                    "Expansion候補がないため、"
+                    "Keyword Queueを使用します。",
+                    log_file,
+                )
+
+            priority_score = int(
+                decision.get(
+                    "priority_score",
+                    100,
+                )
+                or 100
+            )
+
+            reason = str(
+                decision.get(
+                    "reason",
+                    "",
+                )
+            )
 
         log(
             "AI編集長判断："
@@ -2426,8 +2592,23 @@ if __name__ == "__main__":
         ),
     )
 
+    parser.add_argument(
+        "--force-new-article",
+        action="store_true",
+        help=(
+            "テスト用。"
+            "AI編集長の判断に関係なく"
+            "新規記事を1件生成し、"
+            "Phase Cを含む公開フローを"
+            "本番経路で実行します。"
+        ),
+    )
+
     args = parser.parse_args()
 
     main(
         dry_run=args.dry_run,
+        force_new_article=(
+            args.force_new_article
+        ),
     )

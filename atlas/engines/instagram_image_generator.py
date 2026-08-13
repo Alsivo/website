@@ -570,6 +570,179 @@ def validate_ai_title_lines(
     )
 
 
+def split_long_title_lines(
+    draw: ImageDraw.ImageDraw,
+    lines: list[str],
+    max_width: int,
+    max_lines: int,
+    check_font_size: int,
+) -> list[str]:
+    """
+    AIが決めた意味的な改行をできるだけ維持しつつ、
+    画像上で長すぎる行だけ追加分割する。
+
+    ・AI改行は原則維持
+    ・長すぎる行だけ分割
+    ・記号など自然な位置を優先
+    ・最大行数を超えない
+    """
+
+    if not lines:
+        return []
+
+    check_font = font(
+        check_font_size
+    )
+
+    result: list[str] = []
+
+    for line_index, line in enumerate(
+        lines
+    ):
+
+        remaining_original_lines = (
+            len(lines)
+            - line_index
+            - 1
+        )
+
+        available_slots = (
+            max_lines
+            - len(result)
+            - remaining_original_lines
+        )
+
+        # これ以上分割すると最大行数を超える場合は
+        # AIの行をそのまま使用する。
+        if available_slots <= 1:
+
+            result.append(
+                line
+            )
+
+            continue
+
+        # 十分収まっている行はAI改行をそのまま維持。
+        if (
+            text_width(
+                draw,
+                line,
+                check_font,
+            )
+            <= max_width
+        ):
+
+            result.append(
+                line
+            )
+
+            continue
+
+        rest = line
+
+        while rest:
+
+            # 残りがそのまま収まるなら終了。
+            if (
+                text_width(
+                    draw,
+                    rest,
+                    check_font,
+                )
+                <= max_width
+            ):
+
+                result.append(
+                    rest
+                )
+
+                break
+
+            remaining_original_lines = (
+                len(lines)
+                - line_index
+                - 1
+            )
+
+            slots_left = (
+                max_lines
+                - len(result)
+                - remaining_original_lines
+            )
+
+            # これ以上安全に分割できない。
+            if slots_left <= 1:
+
+                result.append(
+                    rest
+                )
+
+                break
+
+            break_index = find_break_index(
+                draw=draw,
+                text=rest,
+                text_font=check_font,
+                max_width=max_width,
+            )
+
+            if (
+                break_index <= 0
+                or break_index >= len(rest)
+            ):
+
+                result.append(
+                    rest
+                )
+
+                break
+
+            first = rest[
+                :break_index
+            ].strip()
+
+            second = rest[
+                break_index:
+            ].strip()
+
+            if (
+                not first
+                or not second
+            ):
+
+                result.append(
+                    rest
+                )
+
+                break
+
+            result.append(
+                first
+            )
+
+            rest = second
+
+    return result
+
+
+def fixed_prebroken_title(
+    lines: list[str],
+    font_size: int,
+) -> tuple[
+    ImageFont.FreeTypeFont,
+    list[str],
+]:
+    """
+    AIが決めた改行をそのまま使用し、
+    指定した固定フォントサイズを返す。
+    """
+
+    return (
+        font(font_size),
+        lines,
+    )
+
+
 def fit_prebroken_title(
     draw: ImageDraw.ImageDraw,
     lines: list[str],
@@ -692,6 +865,15 @@ def fallback_title_lines(
         fallback_lines,
     )
 
+# =========================================================
+# Image title settings
+# =========================================================
+
+BLOG_TITLE_FONT_SIZE = 64
+INSTAGRAM_TITLE_FONT_SIZE = 44
+
+BLOG_TITLE_LINE_GAP = 6
+INSTAGRAM_TITLE_LINE_GAP = 8
 
 def prepare_title(
     draw: ImageDraw.ImageDraw,
@@ -709,8 +891,12 @@ def prepare_title(
     """
     AI改行を最優先する。
 
-    AI改行がない、または不正な場合だけ
-    Pillow側の自動改行へフォールバックする。
+    ただしAIが作った1行が画像上で長すぎる場合は、
+    意味的な改行をできるだけ維持しながら
+    長い行だけ追加分割する。
+
+    最後にフォントサイズを調整して
+    全行を確実に画像内へ収める。
     """
 
     ai_lines = get_ai_title_lines(
@@ -728,20 +914,67 @@ def prepare_title(
         )
     ):
 
-        title_font = (
-            fit_prebroken_title(
+        # -------------------------------------------------
+        # AI改行をベースに、
+        # 長すぎる行だけ追加分割
+        #
+        # 最大フォントサイズより少し小さいサイズを
+        # 判定基準にすることで、
+        # 不必要な分割を避ける。
+        # -------------------------------------------------
+
+        check_font_size = max(
+            min_font_size,
+            max_font_size - 8,
+        )
+
+        adjusted_lines = (
+            split_long_title_lines(
                 draw=draw,
                 lines=ai_lines,
                 max_width=max_width,
-                max_font_size=max_font_size,
-                min_font_size=min_font_size,
+                max_lines=max_lines,
+                check_font_size=check_font_size,
             )
         )
 
-        return (
-            title_font,
-            ai_lines,
-        )
+        # タイトル文字列が壊れていないことを再確認。
+        if (
+            adjusted_lines
+            and len(adjusted_lines)
+            <= max_lines
+            and validate_ai_title_lines(
+                title,
+                adjusted_lines,
+            )
+        ):
+
+            title_font = (
+                fit_prebroken_title(
+                    draw=draw,
+                    lines=adjusted_lines,
+                    max_width=max_width,
+                    max_font_size=max_font_size,
+                    min_font_size=min_font_size,
+                )
+            )
+
+            # min_font_sizeでも幅を超えるような
+            # 異常ケースはfallbackへ回す。
+            if all(
+                text_width(
+                    draw,
+                    line,
+                    title_font,
+                )
+                <= max_width
+                for line in adjusted_lines
+            ):
+
+                return (
+                    title_font,
+                    adjusted_lines,
+                )
 
     return fallback_title_lines(
         draw=draw,
@@ -751,11 +984,6 @@ def prepare_title(
         max_font_size=max_font_size,
         min_font_size=min_font_size,
     )
-
-
-# =========================================================
-# Drawing helpers
-# =========================================================
 
 def interpolate_color(
     color_1: tuple[
@@ -1247,36 +1475,22 @@ def create_blog_image(
         - 120
     )
 
-    title_font, title_lines = (
-        prepare_title(
-            draw=draw,
-            article=article,
-            title=title,
-            ai_key="blog_title_lines",
-            max_width=title_max_width,
-            max_lines=3,
-            max_font_size=72,
-            min_font_size=48,
-        )
+    title_font, title_lines = prepare_title(
+        draw=draw,
+        article=article,
+        title=title,
+        ai_key="blog_title_lines",
+        max_width=title_max_width,
+        max_lines=3,
+        max_font_size=BLOG_TITLE_FONT_SIZE,
+        min_font_size=54,
     )
 
     current_y = title_y
 
-    line_gap = 18
+    line_gap = BLOG_TITLE_LINE_GAP
 
-    for line_index, line in enumerate(
-        title_lines
-    ):
-
-        line_fill = (
-            BLUE
-            if (
-                len(title_lines) > 1
-                and line_index
-                == len(title_lines) - 1
-            )
-            else BLACK
-        )
+    for line in title_lines:
 
         draw.text(
             (
@@ -1285,7 +1499,7 @@ def create_blog_image(
             ),
             line,
             font=title_font,
-            fill=line_fill,
+            fill=BLUE,
         )
 
         current_y += (
@@ -1302,13 +1516,13 @@ def create_blog_image(
     # =====================================================
 
     divider_y = max(
-        current_y + 36,
-        535,
+        current_y + 18,
+        520,
     )
 
     divider_y = min(
         divider_y,
-        610,
+        585,
     )
 
     draw.line(
@@ -1498,36 +1712,22 @@ def create_instagram_image(
     # AIが意味を理解して決めた改行を最優先
     # -----------------------------------------------------
 
-    title_font, title_lines = (
-        prepare_title(
-            draw=draw,
-            article=article,
-            title=title,
-            ai_key="instagram_title_lines",
-            max_width=title_max_width,
-            max_lines=5,
-            max_font_size=68,
-            min_font_size=44,
-        )
+    title_font, title_lines = prepare_title(
+        draw=draw,
+        article=article,
+        title=title,
+        ai_key="instagram_title_lines",
+        max_width=title_max_width,
+        max_lines=5,
+        max_font_size=INSTAGRAM_TITLE_FONT_SIZE,
+        min_font_size=38,
     )
 
     current_y = title_y
 
-    line_gap = 18
+    line_gap = INSTAGRAM_TITLE_LINE_GAP
 
-    for line_index, line in enumerate(
-        title_lines
-    ):
-
-        line_fill = (
-            BLUE
-            if (
-                len(title_lines) > 1
-                and line_index
-                == len(title_lines) - 1
-            )
-            else BLACK
-        )
+    for line in title_lines:
 
         draw.text(
             (
@@ -1536,7 +1736,7 @@ def create_instagram_image(
             ),
             line,
             font=title_font,
-            fill=line_fill,
+            fill=BLUE,
         )
 
         current_y += (
@@ -1549,13 +1749,13 @@ def create_instagram_image(
         )
 
     divider_y = max(
-        current_y + 35,
-        655,
+        current_y + 22,
+        620,
     )
 
     divider_y = min(
         divider_y,
-        790,
+        735,
     )
 
     draw.line(

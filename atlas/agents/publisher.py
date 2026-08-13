@@ -160,6 +160,218 @@ def escape_markdown_table_cell(
     )
 
 
+def normalize_comparison_table(
+    comparison_table: Any,
+) -> dict[str, Any] | None:
+    """
+    AIが生成したcomparison_tableを
+    Publisherへ渡す前に安全に補正する。
+
+    補正できる典型的なズレだけ修正し、
+    安全に修正できない場合は
+    比較表そのものを無効化する。
+
+    記事本文の公開は継続する。
+    """
+
+    if comparison_table is None:
+        return None
+
+    if not isinstance(
+        comparison_table,
+        dict,
+    ):
+        print(
+            "[Publisher] WARNING: "
+            "comparison_tableの形式が不正なため、"
+            "比較表をスキップします。"
+        )
+        return None
+
+    title = str(
+        comparison_table.get(
+            "title",
+            "",
+        )
+    ).strip()
+
+    columns = comparison_table.get(
+        "columns",
+        [],
+    )
+
+    rows = comparison_table.get(
+        "rows",
+        [],
+    )
+
+    if (
+        not title
+        or not isinstance(columns, list)
+        or not 2 <= len(columns) <= 8
+        or not isinstance(rows, list)
+        or not 2 <= len(rows) <= 12
+    ):
+        print(
+            "[Publisher] WARNING: "
+            "comparison_tableの基本構造が不正なため、"
+            "比較表をスキップします。"
+        )
+        return None
+
+    cleaned_columns = [
+        str(column).strip()
+        for column in columns
+    ]
+
+    if not all(
+        cleaned_columns
+    ):
+        print(
+            "[Publisher] WARNING: "
+            "comparison_tableのcolumnsに空欄があるため、"
+            "比較表をスキップします。"
+        )
+        return None
+
+    expected_count = len(
+        cleaned_columns
+    )
+
+    cleaned_rows: list[
+        dict[str, Any]
+    ] = []
+
+    for index, row in enumerate(
+        rows,
+        start=1,
+    ):
+
+        if not isinstance(
+            row,
+            dict,
+        ):
+            print(
+                "[Publisher] WARNING: "
+                f"比較表の{index}行目が不正なため、"
+                "比較表をスキップします。"
+            )
+            return None
+
+        label = str(
+            row.get(
+                "label",
+                "",
+            )
+        ).strip()
+
+        values = row.get(
+            "values",
+            [],
+        )
+
+        if (
+            not label
+            or not isinstance(
+                values,
+                list,
+            )
+        ):
+            print(
+                "[Publisher] WARNING: "
+                f"比較表の{index}行目の"
+                "labelまたはvaluesが不正なため、"
+                "比較表をスキップします。"
+            )
+            return None
+
+        cleaned_values = [
+            str(value).strip()
+            for value in values
+        ]
+
+        # -------------------------------------------------
+        # AIが
+        #
+        # label = "料金"
+        # values = ["料金", "無料", "有料", ...]
+        #
+        # のようにlabelをvalues先頭へ
+        # 重複して入れることがある。
+        #
+        # この典型パターンだけ安全に自動補正する。
+        # -------------------------------------------------
+
+        if (
+            len(cleaned_values)
+            == expected_count + 1
+            and cleaned_values[0]
+            == label
+        ):
+            print(
+                "[Publisher] "
+                f"比較表の{index}行目で"
+                "labelがvalues先頭へ重複していたため"
+                "自動補正しました。"
+            )
+
+            cleaned_values = (
+                cleaned_values[1:]
+            )
+
+        # -------------------------------------------------
+        # それ以外の列数不一致は、
+        # 値を勝手に削除・追加すると
+        # 表の意味が変わる危険がある。
+        #
+        # そのため比較表だけスキップする。
+        # -------------------------------------------------
+
+        if (
+            len(cleaned_values)
+            != expected_count
+        ):
+            print(
+                "[Publisher] WARNING: "
+                f"比較表の{index}行目で"
+                f"columns={expected_count}件に対して"
+                f"values={len(cleaned_values)}件でした。"
+            )
+
+            print(
+                "[Publisher] WARNING: "
+                "安全に自動補正できないため、"
+                "比較表のみスキップして"
+                "記事公開を継続します。"
+            )
+
+            return None
+
+        if not all(
+            cleaned_values
+        ):
+            print(
+                "[Publisher] WARNING: "
+                f"比較表の{index}行目に"
+                "空欄があるため、"
+                "比較表をスキップします。"
+            )
+            return None
+
+        cleaned_rows.append(
+            {
+                "label": label,
+                "values": cleaned_values,
+            }
+        )
+
+    return {
+        "title": title,
+        "columns": cleaned_columns,
+        "rows": cleaned_rows,
+    }
+
+
 def build_comparison_table(
     comparison_table: dict[str, Any] | None,
 ) -> str:
@@ -754,6 +966,9 @@ def validate_article(article: dict[str, Any]) -> None:
                     "空欄または不正な値があります。"
                 )
 
+
+
+
 def publish_article(
     article: dict[str, Any],
     research: dict[str, Any],
@@ -762,7 +977,21 @@ def publish_article(
 ) -> Path:
     """記事データをMDXファイルとして保存する。"""
 
-    validate_article(article)
+    # AIが生成した比較表を公開前に安全化する。
+    # 補正できない場合は比較表だけNoneにして、
+    # 記事そのものの公開は継続する。
+    article["comparison_table"] = (
+        normalize_comparison_table(
+            article.get(
+                "comparison_table"
+            )
+        )
+    )
+
+    # 補正後の記事データを正式に検証する。
+    validate_article(
+        article
+    )
 
     BLOG_DIR.mkdir(
         parents=True,
