@@ -1591,6 +1591,7 @@ def save_latest_run(
 def main(
     dry_run: bool = False,
     force_new_article: bool = False,
+    force_rewrite: str | None = None,
 ) -> None:
     ensure_directories()
 
@@ -1889,6 +1890,69 @@ def main(
                     decision[
                         "action"
                     ] = "wait"
+
+        # ----------------------------------------------------
+        # リライト強制テスト
+        #
+        # --force-rewrite <slug> 指定時のみ、
+        # AI編集長の判断に関係なく
+        # 指定記事をリライトする。
+        #
+        # 通常のTask Scheduler実行には影響しない。
+        # ----------------------------------------------------
+
+        if (
+            force_rewrite
+            and not dry_run
+        ):
+            target_path = (
+                BASE_DIR.parent
+                / "content"
+                / "blog"
+                / f"{force_rewrite}.mdx"
+            )
+
+            if not target_path.exists():
+                raise FileNotFoundError(
+                    "FORCE REWRITE対象の記事が"
+                    "見つかりません："
+                    f"{target_path}"
+                )
+
+            log(
+                "FORCE REWRITEモード："
+                "AI編集長判断を上書きして"
+                "指定記事をリライトします："
+                f"{force_rewrite}",
+                log_file,
+            )
+
+            action = "rewrite_article"
+
+            decision[
+                "action"
+            ] = "rewrite_article"
+
+            decision[
+                "target_slug"
+            ] = force_rewrite
+
+            decision[
+                "priority_score"
+            ] = 100
+
+            decision[
+                "reason"
+            ] = (
+                "Phase C本番テストのため"
+                "指定記事を強制リライト。"
+            )
+
+            priority_score = 100
+
+            reason = str(
+                decision["reason"]
+            )
 
         # ----------------------------------------------------
         # 新規記事強制テスト
@@ -2604,11 +2668,27 @@ if __name__ == "__main__":
         ),
     )
 
+    parser.add_argument(
+        "--force-rewrite",
+        type=str,
+        default=None,
+        metavar="SLUG",
+        help=(
+            "テスト用。"
+            "指定した既存記事を強制リライトし、"
+            "Phase Cを含む公開フローを"
+            "本番経路で実行します。"
+        ),
+    )
+
     args = parser.parse_args()
 
     main(
         dry_run=args.dry_run,
         force_new_article=(
             args.force_new_article
+        ),
+        force_rewrite=(
+            args.force_rewrite
         ),
     )

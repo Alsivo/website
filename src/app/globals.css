@@ -783,7 +783,7 @@ main {
 
 .article-page > h1 {
   margin: 20px 0 24px;
-  font-size: clamp(40px, 5vw, 64px);
+  font-size: clamp(27px, 3.3vw, 43px);
   font-weight: 600;
   letter-spacing: -0.055em;
   line-height: 1.18;
@@ -962,7 +962,7 @@ main {
   }
 
   .article-page > h1 {
-    font-size: 36px;
+    font-size: 24px;
     line-height: 1.22;
   }
 
