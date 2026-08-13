@@ -14,6 +14,16 @@ export function serializeJsonLd(
   );
 }
 
+export function createWebsiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    alternateName: "ALSIVO",
+    url: `${SITE_URL}/`,
+  };
+}
+
 export function createArticleJsonLd(
   post: BlogPost,
 ) {
