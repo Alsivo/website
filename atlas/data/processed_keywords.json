@@ -156,5 +156,20 @@
     "search_intent": "AI議事録ツールの料金・文字起こし精度・要約機能・対応言語を比較し、自分に合うサービスを選びたい",
     "output_path": "..\\content\\blog\\ai-meeting-minutes-tools-comparison.mdx",
     "processed_at": "2026-08-08T00:16:10"
+  },
+  {
+    "keyword": "DMM 生成AI CAMP 評判",
+    "target_length": 7000,
+    "related_keywords": [
+      "DMM 生成AI CAMP 口コミ",
+      "DMM 生成AI CAMP デメリット",
+      "DMM 生成AI CAMP 無料セミナー",
+      "DMM 生成AI CAMP 体験談",
+      "DMM 生成AI CAMP コース",
+      "DMM 生成AI CAMP 解約"
+    ],
+    "search_intent": "commercial",
+    "output_path": "..\\content\\blog\\dmm-genai-camp-reviews.mdx",
+    "processed_at": "2026-08-13T21:13:14"
   }
 ]
