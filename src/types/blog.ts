@@ -8,6 +8,7 @@ export type BlogPostFrontmatter = {
   description: string;
   date: string;
   updated?: string;
+  verified?: string;
   category: string;
   tags: string[];
   readingTime: string;

@@ -1,7 +1,8 @@
 ---
 title: "Claudeの無料版・Pro・Maxを徹底比較｜料金・上限リセット・機能差でわかるPro/Maxの違い"
-description: "Claudeの無料版・Pro・Max（Max 5x/20x）を最新の公式情報で比較。料金（Proは月$20／年$200、Maxは$100/$200）、利用制限とリセット（5時間ごと＋週次上限）、ProとMaxの違い（使用量倍率・優先/先行アクセス）、Usage credits、APIは別契約の注意点まで整理。用途別おすすめと乗り換え目安・節約術、チェックリスト付き。2026年8月9日確認時点[S1][S2][S6]"
+description: "Claudeの無料版・Pro・Max（Max 5x/20x）を最新の公式情報で比較。料金（Proは月$20／年$200、Maxは$100/$200）、利用制限とリセット（5時間ごと＋週次上限）、ProとMaxの違い（使用量倍率・優先/先行アクセス）、Usage credits、APIは別契約の注意点まで整理。用途別おすすめと乗り換え目安・節約術、チェックリスト付き。2026年8月9日確認時点"
 date: "2026-08-06"
+verified: "2026-08-09"
 updated: "2026-08-09"
 category: "AIツール"
 image: "/images/blog/claude-pricing-plans-comparison-pro-max.webp"
@@ -15,125 +16,156 @@ tags:
   - "自動化"
 published: true
 ---
-本記事は、Claudeの個人向け「無料版（Free）」「Claude Pro」「Claude Max（5x／20x）」を、料金・利用制限とリセット・機能差の観点からわかりやすく比較し、最短で最適プランを選べるように整理したガイドです。内容は2026年8月9日確認時点の公式情報に基づきます。購入直前には必ず公式表示をご確認ください。[[1]](https://claude.com/pricing?success=true)[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)[[6]](https://support.anthropic.com/en/articles/11049762-choosing-a-claude-ai-plan)
+本記事は、Claudeの個人向け「無料版（Free）」「Claude Pro」「Claude Max（5x／20x）」を、料金・利用制限とリセット・機能差の観点からわかりやすく比較し、最短で最適プランを選べるように整理したガイドです。内容は2026年8月9日確認時点の公式情報に基づきます。購入直前には必ず公式表示をご確認ください。
 
 ## 最短結論（用途別おすすめ）
-- **軽い調べ物・短時間タスクが中心：** 無料版（Free）で十分。[[1]](https://claude.com/pricing?success=true)
-- **毎日の執筆・要約・コーディングで上限に当たりやすい：** Claude Pro（月$20／年$200＝月換算$17）でストレス軽減。[[1]](https://claude.com/pricing?success=true)
-- **長時間・大量処理や混雑時の確実性が重要：** Claude Max（5x=$100／20x=$200）を検討。[[6]](https://support.anthropic.com/en/articles/11049762-choosing-a-claude-ai-plan)[[1]](https://claude.com/pricing?success=true)
 
-ヒント：価格・提供条件は変更されることがあります（チェックアウト時に地域税が加算される場合あり）。[[1]](https://claude.com/pricing?success=true)
+- **軽い調べ物・短時間タスクが中心：** 無料版（Free）で十分。
+- **毎日の執筆・要約・コーディングで上限に当たりやすい：** Claude Pro（月$20／年$200＝月換算$17）でストレス軽減。
+- **長時間・大量処理や混雑時の確実性が重要：** Claude Max（5x=$100／20x=$200）を検討。
+
+ヒント：価格・提供条件は変更されることがあります（チェックアウト時に地域税が加算される場合あり）。
 
 ## 本記事の対象と前提
-- **対象：** 個人向けのFree／Pro／Max（5x／20x）。Team／Enterprise／APIの従量課金は本稿の範囲外。[[1]](https://claude.com/pricing?success=true)
-- **日本からの利用：** サポート対象地域に含まれます（地域制限あり）。[[9]](https://support.claude.com/en/articles/8461763-where-can-i-access-claude?utm_source=openai)
-- 価格・機能の提供範囲は随時更新されます。購入直前に公式ページを必ず再確認してください。[[1]](https://claude.com/pricing?success=true)
+
+- **対象：** 個人向けのFree／Pro／Max（5x／20x）。Team／Enterprise／APIの従量課金は本稿の範囲外。
+- **日本からの利用：** サポート対象地域に含まれます（地域制限あり）。
+- 価格・機能の提供範囲は随時更新されます。購入直前に公式ページを必ず再確認してください。
 
 ## 料金と支払いの基本
-- **Free：** $0。[[1]](https://claude.com/pricing?success=true)
-- **Pro：** $20／月、または$200／年（前払い、月換算$17）。税は表示に含まれない場合あり。[[1]](https://claude.com/pricing?success=true)
-- **Max：** Max 5x＝$100／月、Max 20x＝$200／月。[[6]](https://support.anthropic.com/en/articles/11049762-choosing-a-claude-ai-plan)
-- 請求はサブスク（自動更新）。返金ポリシーや表示通貨・税はチェックアウト画面を参照。[[1]](https://claude.com/pricing?success=true)
 
-補足：APIの従量課金は別契約（ProにはAPIは含まれません）。[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
+- **Free：** $0。
+- **Pro：** $20／月、または$200／年（前払い、月換算$17）。税は表示に含まれない場合あり。
+- **Max：** Max 5x＝$100／月、Max 20x＝$200／月。
+- 請求はサブスク（自動更新）。返金ポリシーや表示通貨・税はチェックアウト画面を参照。
+
+補足：APIの従量課金は別契約（ProにはAPIは含まれません）。
 
 ## ProとMaxの違いを一発理解（「claude pro max 違い」対策）
-- **使用量（上限倍率）：** MaxはPro比で「5倍」または「20倍」を選べます（セッション基準）。[[1]](https://claude.com/pricing?success=true)[[6]](https://support.anthropic.com/en/articles/11049762-choosing-a-claude-ai-plan)
-- **混雑時：** Proは優先アクセスあり。Maxは優先アクセスに加え、新機能の先行アクセスが付与される場合があります（提供は変動）。[[1]](https://claude.com/pricing?success=true)
-- **料金：** Proは$20／月（年払い$200）。Maxは$100／月（5x）／$200／月（20x）。[[1]](https://claude.com/pricing?success=true)[[6]](https://support.anthropic.com/en/articles/11049762-choosing-a-claude-ai-plan)
-- どちらを選ぶ？
-  - 日常的に上限や待機で止まる→まずPro。[[1]](https://claude.com/pricing?success=true)[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
-  - 長時間連続作業・大量PDFや画像解析が頻繁→Maxで生産性と確実性を優先。[[1]](https://claude.com/pricing?success=true)
 
-注意：具体的なメッセージ本数やトークン数の固定値は公表されず、会話長・添付・モデル・機能で変動します。[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
+- **使用量（上限倍率）：** MaxはPro比で「5倍」または「20倍」を選べます（セッション基準）。
+- **混雑時：** Proは優先アクセスあり。Maxは優先アクセスに加え、新機能の先行アクセスが付与される場合があります（提供は変動）。
+- **料金：** Proは$20／月（年払い$200）。Maxは$100／月（5x）／$200／月（20x）。
+
+### どちらを選ぶ？
+
+- 日常的に上限や待機で止まる→まずPro。
+- 長時間連続作業・大量PDFや画像解析が頻繁→Maxで生産性と確実性を優先。
+
+注意：具体的なメッセージ本数やトークン数の固定値は公表されず、会話長・添付・モデル・機能で変動します。
 
 ## 利用制限とリセット完全ガイド（「claude 利用制限 リセット」対策）
-- **管理方式：** 固定回数ではなく“使用量”ベース。[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
-- **セッション上限：** 5時間ごとに自動リセット。[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
-- **週次上限：** 別途存在。各アカウントに固定された週次のリセット時刻があり、「設定＞使用状況」で確認可能。[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
-- 0時一斉リセット？：いいえ。5時間のローリング＋週次固定の二層管理です。[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
-- **使い切ったら：** しばらく待つか、Paidプランでは「Usage credits」を有効化すると従量課金で継続可能（標準APIレート準拠）。アプリ課金のユーザーもWebで有効化が必要。費用膨張に注意。[[3]](https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans?utm_source=openai)
 
-上限に早く到達しがちなケース：長いやり取り、大きなPDFや画像添付、深い推論、特定機能（Code／Research等）の多用。[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)[[8]](https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code?utm_source=openai)
+- **管理方式：** 固定回数ではなく“使用量”ベース。
+- **セッション上限：** 5時間ごとに自動リセット。
+- **週次上限：** 別途存在。各アカウントに固定された週次のリセット時刻があり、「設定＞使用状況」で確認可能。
+- 0時一斉リセット？：いいえ。5時間のローリング＋週次固定の二層管理です。
+- **使い切ったら：** しばらく待つか、Paidプランでは「Usage credits」を有効化すると従量課金で継続可能（標準APIレート準拠）。アプリ課金のユーザーもWebで有効化が必要。費用膨張に注意。
+
+上限に早く到達しがちなケース：長いやり取り、大きなPDFや画像添付、深い推論、特定機能（Code／Research等）の多用。
 
 ## 各プランの特徴と向いている人
-- Free（$0）[[1]](https://claude.com/pricing?success=true)
-  - 日常の軽作業向け。混雑時の優先なし。[[1]](https://claude.com/pricing?success=true)
-- Pro（$20／月、$200／年）[[1]](https://claude.com/pricing?success=true)
-  - Freeより大幅に使える使用量、混雑時の優先、Claudeの主な機能（Claude Code／Cowork／Design／Science、無制限のプロジェクト、Research、Microsoft 365連携など）へアクセス可能。機能の提供状況は変動（ベータ／研究プレビューを含む）。[[1]](https://claude.com/pricing?success=true)[[7]](https://support.claude.com/en/articles/14503520-available-beta-and-research-preview-features?utm_source=openai)[[10]](https://support.claude.com/en/articles/14604416-get-started-with-claude-design?utm_source=openai)
-- Max（$100／月＝5x、$200／月＝20x）[[6]](https://support.anthropic.com/en/articles/11049762-choosing-a-claude-ai-plan)
-  - Pro比5倍／20倍の使用量、混雑時のより強い優先、新機能の先行アクセス（提供は変動）。長時間の連続作業や大量処理に最適。[[1]](https://claude.com/pricing?success=true)
 
-注意：ベータ／研究プレビュー機能は提供条件・対象プラン・上限計上が変わる可能性があります。利用前に最新情報を確認してください。[[7]](https://support.claude.com/en/articles/14503520-available-beta-and-research-preview-features?utm_source=openai)[[10]](https://support.claude.com/en/articles/14604416-get-started-with-claude-design?utm_source=openai)
+### Free（$0）
+
+- 日常の軽作業向け。混雑時の優先なし。
+
+### Pro（$20／月、$200／年）
+
+- Freeより大幅に使える使用量、混雑時の優先、Claudeの主な機能（Claude Code／Cowork／Design／Science、無制限のプロジェクト、Research、Microsoft 365連携など）へアクセス可能。機能の提供状況は変動（ベータ／研究プレビューを含む）。
+
+### Max（$100／月＝5x、$200／月＝20x）
+
+- Pro比5倍／20倍の使用量、混雑時のより強い優先、新機能の先行アクセス（提供は変動）。長時間の連続作業や大量処理に最適。
+
+注意：ベータ／研究プレビュー機能は提供条件・対象プラン・上限計上が変わる可能性があります。利用前に最新情報を確認してください。
 
 ## 用途別おすすめシナリオ
-- **学習・就活：** まずFree。週に複数回上限到達するならPro。[[1]](https://claude.com/pricing?success=true)[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
-- **ライター／ブロガー：** 毎日中〜長文の執筆・要約があるならPro。大量生成や長時間セッションが続くならMax。[[1]](https://claude.com/pricing?success=true)
-- **エンジニア：** 継続的なコードレビューやドキュメント整備はPro。長大コードや連続実行が多いならMax。Claude Codeは使用量にカウントされ、機能ごとにレート制限が異なる場合があります。[[8]](https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code?utm_source=openai)
-- **リサーチ／翻訳：** 大量PDF・画像解析・長時間検討を安定させたいならMax。[[1]](https://claude.com/pricing?success=true)
+
+- **学習・就活：** まずFree。週に複数回上限到達するならPro。
+- **ライター／ブロガー：** 毎日中〜長文の執筆・要約があるならPro。大量生成や長時間セッションが続くならMax。
+- **エンジニア：** 継続的なコードレビューやドキュメント整備はPro。長大コードや連続実行が多いならMax。Claude Codeは使用量にカウントされ、機能ごとにレート制限が異なる場合があります。
+- **リサーチ／翻訳：** 大量PDF・画像解析・長時間検討を安定させたいならMax。
 
 ## 乗り換えの目安と節約術
-- **Free→Proの目安：** 週2回以上の上限到達や混雑時の待機が作業の律速になっている。[[1]](https://claude.com/pricing?success=true)[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
-- **Pro→Maxの目安：** 長時間連続利用・大量処理を日常的に実行、またはピーク帯中心で確実性が必要。[[1]](https://claude.com/pricing?success=true)
-- 節約術：
-  - オフピークに重い処理を回す（待機減で生産性を確保）。[[1]](https://claude.com/pricing?success=true)
-  - プロンプトを最適化して往復回数を減らす。
-  - 添付は要点抽出・圧縮で入力量を抑える。[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
-  - Usage creditsは必要時のみ有効化し、使用状況をこまめに確認。[[3]](https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans?utm_source=openai)
+
+- **Free→Proの目安：** 週2回以上の上限到達や混雑時の待機が作業の律速になっている。
+- **Pro→Maxの目安：** 長時間連続利用・大量処理を日常的に実行、またはピーク帯中心で確実性が必要。
+
+### 節約術
+
+- オフピークに重い処理を回す（待機減で生産性を確保）。
+- プロンプトを最適化して往復回数を減らす。
+- 添付は要点抽出・圧縮で入力量を抑える。
+- Usage creditsは必要時のみ有効化し、使用状況をこまめに確認。
 
 ## よくある落とし穴（購入前に確認）
-- **APIは別契約：** ProにAPIは含まれません（Console経由は従量課金）。[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
-- **地域・税の違い：** 価格は税抜表示が基本。最終支払額は地域・ストアにより異なります。[[1]](https://claude.com/pricing?success=true)
-- **ベータ機能の扱い：** Research／Cowork／Designなどは提供状況や上限計上が変わる可能性。DesignはPro/Max/Team/Enterpriseでベータ提供中で、使用は共有上限にカウント。[[7]](https://support.claude.com/en/articles/14503520-available-beta-and-research-preview-features?utm_source=openai)[[10]](https://support.claude.com/en/articles/14604416-get-started-with-claude-design?utm_source=openai)
-- **Claude Codeの制限：** モデル・機能ごとに上限や挙動が異なる場合あり。[[8]](https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code?utm_source=openai)
-- **Agent SDK：** 2026/06/15以降、Agent SDKとcli（claude -p）の利用はプラン上限にカウントされず、対象ユーザーは別枠の月次クレジットを請求可能（運用は更新され得ます）。[[4]](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan?utm_source=openai)
 
-参考（モデル既定の最近の動向）：2026/06/30の報道ではSonnet 5がFree/Proのデフォルトになったとされています（公式発表ではないため、運用は要確認）。[[5]](https://www.axios.com/2026/06/30/anthropic-sonnet-5-agents-mythos-fable?utm_source=openai)
+- **APIは別契約：** ProにAPIは含まれません（Console経由は従量課金）。
+- **地域・税の違い：** 価格は税抜表示が基本。最終支払額は地域・ストアにより異なります。
+- **ベータ機能の扱い：** Research／Cowork／Designなどは提供状況や上限計上が変わる可能性。DesignはPro/Max/Team/Enterpriseでベータ提供中で、使用は共有上限にカウント。
+- **Claude Codeの制限：** モデル・機能ごとに上限や挙動が異なる場合あり。
+- **Agent SDK：** 2026/06/15以降、Agent SDKとcli（claude -p）の利用はプラン上限にカウントされず、対象ユーザーは別枠の月次クレジットを請求可能（運用は更新され得ます）。
+
+参考（モデル既定の最近の動向）：2026/06/30の報道ではSonnet 5がFree/Proのデフォルトになったとされています（公式発表ではないため、運用は要確認）。
 
 ## 5分で決めるチェックリスト
+
 当てはまる項目が多いほど上位プラン向きです。
+
 - 1日の利用時間・メッセージ往復が多い
 - 昼休みや夜などピーク帯に使うことが多い
 - 大きなPDF・画像を頻繁に扱う
 - セッションが途切れないことが重要
 - 月額の投資対効果が明確
 
-目安：3つ以上→Pro、5つすべて→Max。[[1]](https://claude.com/pricing?success=true)[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
+目安：3つ以上→Pro、5つすべて→Max。
 
 ## 申し込み／切り替え／解約の流れ（概要）
-- **申し込み：** アカウント作成→プラン選択→支払い登録→利用開始。価格・請求周期・税はチェックアウト画面で最終確認。[[1]](https://claude.com/pricing?success=true)
-- **切り替え・解約：** アカウントのプラン管理画面から手続き。上限やUsage creditsの状態もあわせて確認。[[1]](https://claude.com/pricing?success=true)[[3]](https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans?utm_source=openai)
+
+- **申し込み：** アカウント作成→プラン選択→支払い登録→利用開始。価格・請求周期・税はチェックアウト画面で最終確認。
+- **切り替え・解約：** アカウントのプラン管理画面から手続き。上限やUsage creditsの状態もあわせて確認。
 
 ## まとめ
-- 週に数回・ライトユースならFree。[[1]](https://claude.com/pricing?success=true)
-- ほぼ毎日・中量利用ならPro（月$20／年$200）。[[1]](https://claude.com/pricing?success=true)
-- 毎日長時間・大量・確実性重視ならMax（5x=$100／20x=$200）。[[6]](https://support.anthropic.com/en/articles/11049762-choosing-a-claude-ai-plan)
 
-最新の料金・提供条件・機能の提供ステータスは変わり得るため、購入前に必ず公式ページを再確認してください。[[1]](https://claude.com/pricing?success=true)
+- 週に数回・ライトユースならFree。
+- ほぼ毎日・中量利用ならPro（月$20／年$200）。
+- 毎日長時間・大量・確実性重視ならMax（5x=$100／20x=$200）。
+
+最新の料金・提供条件・機能の提供ステータスは変わり得るため、購入前に必ず公式ページを再確認してください。
 
 ## 公式情報を確認する
 
-<AffiliateLink href="https://claude.ai/" service="Claude" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">Claudeを公式サイトで確認する</AffiliateLink>## よくある質問（FAQ）
+
+<AffiliateLink href="https://claude.ai/" service="Claude" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">Claudeを公式サイトで確認する</AffiliateLink>
+<AffiliateLink href="https://claude.ai/" service="Claude" linkType="official" network="none" ctaType="primary" ctaPlacement="after_toc">Claudeを公式サイトで確認する</AffiliateLink>
+
+## よくある質問（FAQ）
 
 ### リセットは何時？「利用制限」の仕組みは？（0時リセットですか）
-固定の0時一斉ではありません。セッション上限は5時間ごとに自動リセットし、さらに週次上限があり、各アカウントに固定された週次リセット時刻は「設定＞使用状況」で確認できます。[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
+
+固定の0時一斉ではありません。セッション上限は5時間ごとに自動リセットし、さらに週次上限があり、各アカウントに固定された週次リセット時刻は「設定＞使用状況」で確認できます。
 
 ### ProとMaxの一番の違いは？
-使用量の倍率（MaxはPro比5倍または20倍）と、混雑時の優先度・新機能の先行アクセス（変動あり）です。料金はPro=$20/月（年$200）、Maxは5x=$100/月、20x=$200/月です。[[1]](https://claude.com/pricing?success=true)[[6]](https://support.anthropic.com/en/articles/11049762-choosing-a-claude-ai-plan)
+
+使用量の倍率（MaxはPro比5倍または20倍）と、混雑時の優先度・新機能の先行アクセス（変動あり）です。料金はPro=$20/月（年$200）、Maxは5x=$100/月、20x=$200/月です。
 
 ### Max 5xと20xはいくら？年払いはある？
-Max 5xは$100/月、Max 20xは$200/月です。Proには年払い$200（＝月換算$17）があります。いずれも税抜の目安で、地域により税が加算されます。最終額は購入画面でご確認ください。[[1]](https://claude.com/pricing?success=true)[[6]](https://support.anthropic.com/en/articles/11049762-choosing-a-claude-ai-plan)
+
+Max 5xは$100/月、Max 20xは$200/月です。Proには年払い$200（＝月換算$17）があります。いずれも税抜の目安で、地域により税が加算されます。最終額は購入画面でご確認ください。
 
 ### Usage creditsとは？追加料金は？
-有料プランで上限到達後も利用を続けたい場合に有効化できる従量課金です（標準APIレート準拠）。アプリ課金の方もWebで有効化が必要です。重い処理を流すと費用が増えるため、使用状況を定期的に確認してください。[[3]](https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans?utm_source=openai)
+
+有料プランで上限到達後も利用を続けたい場合に有効化できる従量課金です（標準APIレート準拠）。アプリ課金の方もWebで有効化が必要です。重い処理を流すと費用が増えるため、使用状況を定期的に確認してください。
 
 ### ProにAPIは含まれますか？
-含まれません。APIはClaude Console経由で別途契約・従量課金となります。[[2]](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
+
+含まれません。APIはClaude Console経由で別途契約・従量課金となります。
 
 ## 参考情報
 
 1. [Plans & Pricing | Claude by Anthropic](https://claude.com/pricing?success=true)
-2. [Proプランとは何ですか？ | Anthropicヘルプセンター](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%A8%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
+2. [Proプランとは何ですか？ | Anthropicヘルプセンター](https://support.claude.com/ja/articles/8325606-pro%E3%83%97%E3%83%A9%E3%83%B3%E3%81%AF%E4%BD%95%E3%81%A7%E3%81%99%E3%81%8B)
 3. [Manage usage credits for paid Claude plans | Claude Help Center](https://support.claude.com/en/articles/12429409-manage-usage-credits-for-paid-claude-plans?utm_source=openai)
 4. [Use the Claude Agent SDK with your Claude plan | Claude Help Center](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan?utm_source=openai)
 5. [Anthropic debuts Sonnet 5 for everyday work](https://www.axios.com/2026/06/30/anthropic-sonnet-5-agents-mythos-fable?utm_source=openai)

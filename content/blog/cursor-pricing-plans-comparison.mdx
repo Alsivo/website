@@ -2,6 +2,7 @@
 title: "Cursorの料金プランを徹底比較：無料／Pro／Businessの違いと最適な選び方"
 description: "Cursorの無料・有料プラン（個人／チーム／エンタープライズ）の価格、上限、主要機能を一次情報に基づいて整理。超過課金の仕組み、費用感の考え方、節約のコツ、導入・支払い時の実務とセキュリティ確認ポイントまでを初心者向けに解説。"
 date: "2026-08-08"
+verified: "2026-08-08"
 category: "AIツール"
 image: "/images/blog/cursor-pricing-plans-comparison.webp"
 readingTime: "11 min read"
@@ -14,137 +15,158 @@ tags:
   - "Cursor"
 published: true
 ---
-導入
 
-Cursorは、AIを活用してコード作成・修正・レビューを支援する開発ツールです。この記事では、無料・個人（Pro/Pro+/Ultra）・チーム（Teams Standard/Premium）・Enterpriseの違いを、料金・上限・機能・支払い条件の観点から整理します。数値が未掲載の項目は「要確認」とし、購入前に公式の最新情報を必ず確認する前提で解説します。[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text)
+## 導入
+
+Cursorは、AIを活用してコード作成・修正・レビューを支援する開発ツールです。この記事では、無料・個人（Pro/Pro+/Ultra）・チーム（Teams Standard/Premium）・Enterpriseの違いを、料金・上限・機能・支払い条件の観点から整理します。数値が未掲載の項目は「要確認」とし、購入前に公式の最新情報を必ず確認する前提で解説します。
 
 ## まず結論：利用シーン別のおすすめ早見ガイド
-- **学習・軽い個人利用（まず試したい）：** Hobby（無料）。クレジットカード不要で、制限付きのAgentリクエストとComposerにアクセス可能。[[1]](https://cursor.com/ja/pricing)
-- **個人開発（日常的に使う）：** Pro（$20/mo 表示）から検討。Agentの上限はプラン差があり、超過は従量課金なので、使用頻度が高い場合はPro+（Proの3倍上限）やUltra（20倍上限）も比較。[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text)
-- **小規模チーム（共同開発・管理が必要）：** Teams Standard（$40/user/mo 表示）。集中管理の請求・チームマーケットプレイス・使用状況分析・チーム全体のプライバシーモード・SAML/OIDC SSOなどが利用可能。より高い上限が必要ならTeams Premium（上限5倍）を検討。[[1]](https://cursor.com/ja/pricing)
-- **セキュリティ・ガバナンス重視の組織：** Enterprise。監査ログやサービスアカウント、SCIMによるシート管理、請求書/PO対応など、運用・統制機能が拡充。[[1]](https://cursor.com/ja/pricing)
 
-※含まれる使用量（インクルード分）の具体数値やPro+/Ultra/Teams Premiumの月額はページ上で未掲載です。超過課金のレートや上限も含め、購入前に公式の料金・モデル情報を確認してください。[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text)
+- **学習・軽い個人利用（まず試したい）：** Hobby（無料）。クレジットカード不要で、制限付きのAgentリクエストとComposerにアクセス可能。
+- **個人開発（日常的に使う）：** Pro（$20/mo 表示）から検討。Agentの上限はプラン差があり、超過は従量課金なので、使用頻度が高い場合はPro+（Proの3倍上限）やUltra（20倍上限）も比較。
+- **小規模チーム（共同開発・管理が必要）：** Teams Standard（$40/user/mo 表示）。集中管理の請求・チームマーケットプレイス・使用状況分析・チーム全体のプライバシーモード・SAML/OIDC SSOなどが利用可能。より高い上限が必要ならTeams Premium（上限5倍）を検討。
+- **セキュリティ・ガバナンス重視の組織：** Enterprise。監査ログやサービスアカウント、SCIMによるシート管理、請求書/PO対応など、運用・統制機能が拡充。
+
+※含まれる使用量（インクルード分）の具体数値やPro+/Ultra/Teams Premiumの月額はページ上で未掲載です。超過課金のレートや上限も含め、購入前に公式の料金・モデル情報を確認してください。
 
 ## Cursorの料金プラン一覧と基本概念
-- **個人向け：** Hobby（無料）、Pro（$20/mo 表示）、Pro+、Ultra。[[1]](https://cursor.com/ja/pricing)
-- **チーム向け：** Teams（Standard／Premium）。Teamsの見出しに$40/user/moの表示。[[1]](https://cursor.com/ja/pricing)
-- **企業向け：** Enterprise（カスタム見積）。[[1]](https://cursor.com/ja/pricing)
-- すべてのプランに一定量のモデル使用量が含まれ、超過分はオンデマンドの従量課金（usage-based）。価格は税抜表示。セルフサービスは主要なクレジット/デビットカード対応。Enterpriseは請求書・電信送金の相談可。[[2]](https://cursor.com/pricing?trk=public_post-text)
-- **地域限定：** インド向け「Cursor Start」プラン（₹649/月、UPI対応）が公式ブログで案内。適用条件や内容は変動しうるため、最新の料金ページで比較を確認。[[3]](https://cursor.com/blog/cursor-start?utm_source=openai)
+
+- **個人向け：** Hobby（無料）、Pro（$20/mo 表示）、Pro+、Ultra。
+- **チーム向け：** Teams（Standard／Premium）。Teamsの見出しに$40/user/moの表示。
+- **企業向け：** Enterprise（カスタム見積）。
+- すべてのプランに一定量のモデル使用量が含まれ、超過分はオンデマンドの従量課金（usage-based）。価格は税抜表示。セルフサービスは主要なクレジット/デビットカード対応。Enterpriseは請求書・電信送金の相談可。
+- **地域限定：** インド向け「Cursor Start」プラン（₹649/月、UPI対応）が公式ブログで案内。適用条件や内容は変動しうるため、最新の料金ページで比較を確認。
 
 ## 料金の見方と上限の仕組み（超過課金の基本）
-- 各プランには「含まれる使用量（インクルード分）」があり、超過した分はオンデマンドの従量課金で後払い。価格は税抜。[[2]](https://cursor.com/pricing?trk=public_post-text)
-- 料金ページ単体では、インクルード分の具体数値やモデル別の単価表が明確に読み取れない箇所があります。購入前にモデル/Usageのドキュメントやアプリ内の課金画面で最新仕様を確認しましょう。[[2]](https://cursor.com/pricing?trk=public_post-text)
-- Bugbot（AIコードレビュー等）は従量課金。頻用する場合は費用が積み上がる可能性に注意。[[1]](https://cursor.com/ja/pricing)
-- 年額・月額のトグル表示はあるものの、割引率などの具体数値はページ上で未確認。年払いの返金条件も含め、公式の最新情報を要確認。[[1]](https://cursor.com/ja/pricing)
-- 再販・第三者経由の購入は不許可。非公式経路での購入は停止・終了の対象になり得るため、必ず公式から購入してください。[[2]](https://cursor.com/pricing?trk=public_post-text)
+
+- 各プランには「含まれる使用量（インクルード分）」があり、超過した分はオンデマンドの従量課金で後払い。価格は税抜。
+- 料金ページ単体では、インクルード分の具体数値やモデル別の単価表が明確に読み取れない箇所があります。購入前にモデル/Usageのドキュメントやアプリ内の課金画面で最新仕様を確認しましょう。
+- Bugbot（AIコードレビュー等）は従量課金。頻用する場合は費用が積み上がる可能性に注意。
+- 年額・月額のトグル表示はあるものの、割引率などの具体数値はページ上で未確認。年払いの返金条件も含め、公式の最新情報を要確認。
+- 再販・第三者経由の購入は不許可。非公式経路での購入は停止・終了の対象になり得るため、必ず公式から購入してください。
 
 ## Free（Hobby）：できること・制限・向いている人
-- **内容：** クレカ不要。制限付きのAgentリクエスト、Composerアクセス。[[1]](https://cursor.com/ja/pricing)
+
+- **内容：** クレカ不要。制限付きのAgentリクエスト、Composerアクセス。
 - **向き：** 学習者、まず体験してみたい個人。
 - **注意：** 上限や機能は限定的。必要に応じてPro系へ移行を検討。
 
 ## Pro/Pro+/Ultra：主な機能・費用感の考え方
-- **価格表示：** Proは$20/mo 表示。Pro+とUltraは料金ページで数値未掲載。[[1]](https://cursor.com/ja/pricing)
-- **共通機能（ページ明記分）：** Agentの利用（上限はプランで差）、Grok & Composerの十分な利用枠、フロンティアモデルへのアクセス、MCP・Skills・Hooks、Cloud Agents、Bugbot（従量課金）。[[1]](https://cursor.com/ja/pricing)
-- **上限の違い：** Pro+は「Proの3倍」、Ultraは「Proの20倍」のAgent上限。Ultraは新機能への優先アクセスも示唆。[[1]](https://cursor.com/ja/pricing)
-- **費用感の考え方：** インクルード分＋超過のusage-basedが合計請求。使用頻度が高いとPro+やUltraの方がトータルで安定する可能性も。具体単価や上限は要確認。[[2]](https://cursor.com/pricing?trk=public_post-text)
+
+- **価格表示：** Proは$20/mo 表示。Pro+とUltraは料金ページで数値未掲載。
+- **共通機能（ページ明記分）：** Agentの利用（上限はプランで差）、Grok & Composerの十分な利用枠、フロンティアモデルへのアクセス、MCP・Skills・Hooks、Cloud Agents、Bugbot（従量課金）。
+- **上限の違い：** Pro+は「Proの3倍」、Ultraは「Proの20倍」のAgent上限。Ultraは新機能への優先アクセスも示唆。
+- **費用感の考え方：** インクルード分＋超過のusage-basedが合計請求。使用頻度が高いとPro+やUltraの方がトータルで安定する可能性も。具体単価や上限は要確認。
 
 ## Teams（Standard／Premium）：シート課金・管理機能・セキュリティ
-- **価格表示：** Teamsの見出しに$40/user/mo。[[1]](https://cursor.com/ja/pricing)
-- **機能：** 集中管理の請求・管理、社内ルール/スキル/プラグインのチームマーケットプレイス、Bugbotによるエージェント型コードレビュー、共有チームコンテキストを用いたCloud Agentsと自動化、使用状況分析、チーム全体のプライバシーモード、SAML/OIDC SSO。[[1]](https://cursor.com/ja/pricing)
-- **上限：** PremiumはStandard比でAgent上限5倍。[[1]](https://cursor.com/ja/pricing)
-- **管理：** Admin Dashboardで組織の使用量・指標を可視化。[[2]](https://cursor.com/pricing?trk=public_post-text)
+
+- **価格表示：** Teamsの見出しに$40/user/mo。
+- **機能：** 集中管理の請求・管理、社内ルール/スキル/プラグインのチームマーケットプレイス、Bugbotによるエージェント型コードレビュー、共有チームコンテキストを用いたCloud Agentsと自動化、使用状況分析、チーム全体のプライバシーモード、SAML/OIDC SSO。
+- **上限：** PremiumはStandard比でAgent上限5倍。
+- **管理：** Admin Dashboardで組織の使用量・指標を可視化。
 
 ## Enterprise：拡張セキュリティ・データ保護・サポート
-- **機能：** 使用量プール、請求書/PO対応、SCIMシート管理、リポジトリ／モデル／MCPのアクセス制御、オートラン・ブラウザ・ネットワーク制御、監査ログ／サービスアカウント、AIコード追跡API、優先サポート等。[[1]](https://cursor.com/ja/pricing)
-- **支払い：** 請求書・電信送金の相談が可能。[[2]](https://cursor.com/pricing?trk=public_post-text)
+
+- **機能：** 使用量プール、請求書/PO対応、SCIMシート管理、リポジトリ／モデル／MCPのアクセス制御、オートラン・ブラウザ・ネットワーク制御、監査ログ／サービスアカウント、AIコード追跡API、優先サポート等。
+- **支払い：** 請求書・電信送金の相談が可能。
 
 ## チェックリストで簡易診断：あなたに合うプラン
-1. まず無料で体験したい → Hobby。[[1]](https://cursor.com/ja/pricing)
-2. 個人で日常利用。従量の超過が少ない見込み → Pro。[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text)
-3. 個人だが利用頻度が多い → Pro+（Proの3倍上限）かUltra（20倍上限）を比較。[[1]](https://cursor.com/ja/pricing)
-4. 複数人で共通ルール・請求・SSOが必要 → Teams Standard／Premium。[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text)
-5. 厳格な統制（監査ログ、SCIM、PO等）が要件 → Enterprise。[[1]](https://cursor.com/ja/pricing)
+
+1. まず無料で体験したい → Hobby。
+2. 個人で日常利用。従量の超過が少ない見込み → Pro。
+3. 個人だが利用頻度が多い → Pro+（Proの3倍上限）かUltra（20倍上限）を比較。
+4. 複数人で共通ルール・請求・SSOが必要 → Teams Standard／Premium。
+5. 厳格な統制（監査ログ、SCIM、PO等）が要件 → Enterprise。
 
 ## 使用シナリオ別の選び方
-- **学生/学習者：** Hobbyで学習→不足を感じたらProへ。[[1]](https://cursor.com/ja/pricing)
-- **フリーランス/個人開発：** 月の利用量が読みにくい場合はProから開始し、超過が常態化したらPro+やUltraを検討。[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text)
-- **スタートアップ/小規模チーム：** SSOや共通ルール運用、請求の集約が必要ならTeams。利用が多ければPremiumで上限強化。[[1]](https://cursor.com/ja/pricing)
-- **規制業種/セキュリティ要件が厳しい企業：** Enterpriseで監査・統制・支払い要件を満たす設計を検討。[[1]](https://cursor.com/ja/pricing)
+
+- **学生/学習者：** Hobbyで学習→不足を感じたらProへ。
+- **フリーランス/個人開発：** 月の利用量が読みにくい場合はProから開始し、超過が常態化したらPro+やUltraを検討。
+- **スタートアップ/小規模チーム：** SSOや共通ルール運用、請求の集約が必要ならTeams。利用が多ければPremiumで上限強化。
+- **規制業種/セキュリティ要件が厳しい企業：** Enterpriseで監査・統制・支払い要件を満たす設計を検討。
 
 ## 月額の目安と費用シミュレーション（考え方）
-- **基本式：** 月額固定（プラン料金）＋ 超過分の従量課金（使用量×単価）。[[2]](https://cursor.com/pricing?trk=public_post-text)
-- **例の考え方：** 平日20日×1日あたりのAgent/Composer利用回数×モデル別単価で概算。インクルード分と超過ライン、モデル単価は最新の公式情報を確認して置き換える。[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text)
-- **ポイント：** Bugbotの従量課金を多用すると変動が大きくなるため、レビュー方針や頻度の見直しでコストコントロール。[[1]](https://cursor.com/ja/pricing)
+
+- **基本式：** 月額固定（プラン料金）＋ 超過分の従量課金（使用量×単価）。
+- **例の考え方：** 平日20日×1日あたりのAgent/Composer利用回数×モデル別単価で概算。インクルード分と超過ライン、モデル単価は最新の公式情報を確認して置き換える。
+- **ポイント：** Bugbotの従量課金を多用すると変動が大きくなるため、レビュー方針や頻度の見直しでコストコントロール。
 
 ## 節約のコツ
-- 年額支払いの有無はトグルで確認。ただし割引率の明記は未確認。前払い・返金条件も含め公式情報で要確認。[[1]](https://cursor.com/ja/pricing)
-- **ピークの平準化：** 重い処理を集中させず、利用を平準化して超過を抑制。[[2]](https://cursor.com/pricing?trk=public_post-text)
-- **Bugbotの使いどころを明確化：** 自動レビューを常時回すより、重要PRに絞るなどで従量を抑える。[[1]](https://cursor.com/ja/pricing)
-- **チームのシート最適化：** 利用が少ないメンバーのシート見直し、運用ルール整備で無駄を減らす。[[1]](https://cursor.com/ja/pricing)
-- **非公式販売の回避：** 第三者経由は停止・終了リスク。必ず公式サイトから購入。[[2]](https://cursor.com/pricing?trk=public_post-text)
+
+- 年額支払いの有無はトグルで確認。ただし割引率の明記は未確認。前払い・返金条件も含め公式情報で要確認。
+- **ピークの平準化：** 重い処理を集中させず、利用を平準化して超過を抑制。
+- **Bugbotの使いどころを明確化：** 自動レビューを常時回すより、重要PRに絞るなどで従量を抑える。
+- **チームのシート最適化：** 利用が少ないメンバーのシート見直し、運用ルール整備で無駄を減らす。
+- **非公式販売の回避：** 第三者経由は停止・終了リスク。必ず公式サイトから購入。
 
 ## 他ツールの料金との位置づけ（簡易視点）
-- AI開発支援ツールは、固定料金＋使用量課金の組み合わせが増えています。比較時は「インクルード分の範囲」「超過単価」「チーム管理（SSO/監査ログ等）」を主軸に。Cursorはチーム運用・統制の項目が料金ページに整理されているため、組織導入の評価がしやすいのが特徴です。[[1]](https://cursor.com/ja/pricing)
+
+- AI開発支援ツールは、固定料金＋使用量課金の組み合わせが増えています。比較時は「インクルード分の範囲」「超過単価」「チーム管理（SSO/監査ログ等）」を主軸に。Cursorはチーム運用・統制の項目が料金ページに整理されているため、組織導入の評価がしやすいのが特徴です。
 
 ## 導入・支払い・解約の実務
-- **支払い方法：** セルフサービスは主要クレジット/デビットカード。Enterpriseは請求書・電信送金の相談可。価格は税抜表示。[[2]](https://cursor.com/pricing?trk=public_post-text)
-- **PO番号の運用：** 請求書にPO番号を記載したい場合は、次回請求期間終了の5営業日前までの手続きが必要（料金ポリシー）。[[4]](https://cursor.com/ja/terms/pricing?utm_source=openai)
-- **解約・返金：** 年額割引率や返金条件は料金ページで明確に確認できないため、最新の規約・ヘルプを要確認。[[1]](https://cursor.com/ja/pricing)[[4]](https://cursor.com/ja/terms/pricing?utm_source=openai)
+
+- **支払い方法：** セルフサービスは主要クレジット/デビットカード。Enterpriseは請求書・電信送金の相談可。価格は税抜表示。
+- **PO番号の運用：** 請求書にPO番号を記載したい場合は、次回請求期間終了の5営業日前までの手続きが必要（料金ポリシー）。
+- **解約・返金：** 年額割引率や返金条件は料金ページで明確に確認できないため、最新の規約・ヘルプを要確認。
 
 ## セキュリティとデータ取り扱いの確認ポイント
-- プライバシーモードを有効にすると、コードデータはCursorおよびモデル提供者の学習に使われません。[[2]](https://cursor.com/pricing?trk=public_post-text)
-- **チーム運用：** SAML/OIDC SSO、チーム全体のプライバシーモード、使用状況分析などで統制を強化可能。[[1]](https://cursor.com/ja/pricing)
-- **エンタープライズ：** 監査ログ、サービスアカウント、SCIM、アクセス制御（リポジトリ/モデル/MCP）、ネットワーク制御等の機能が明記。[[1]](https://cursor.com/ja/pricing)
+
+- プライバシーモードを有効にすると、コードデータはCursorおよびモデル提供者の学習に使われません。
+- **チーム運用：** SAML/OIDC SSO、チーム全体のプライバシーモード、使用状況分析などで統制を強化可能。
+- **エンタープライズ：** 監査ログ、サービスアカウント、SCIM、アクセス制御（リポジトリ/モデル/MCP）、ネットワーク制御等の機能が明記。
 
 ## 最新情報の確認方法
-- 価格・上限・機能の最新は、料金ページ（日本語/英語）とモデル情報を参照。未掲載の数値はアプリ内の課金画面やドキュメントで確認。[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text)
-- 地域限定プラン（例：Cursor Start）の提供条件・価格・決済手段は公式ブログと料金ページを併読して最新を確認。[[3]](https://cursor.com/blog/cursor-start?utm_source=openai)
-- 課金・請求実務（税抜表示、PO締切など）はPricing Policyで再確認。[[4]](https://cursor.com/ja/terms/pricing?utm_source=openai)
+
+- 価格・上限・機能の最新は、料金ページ（日本語/英語）とモデル情報を参照。未掲載の数値はアプリ内の課金画面やドキュメントで確認。
+- 地域限定プラン（例：Cursor Start）の提供条件・価格・決済手段は公式ブログと料金ページを併読して最新を確認。
+- 課金・請求実務（税抜表示、PO締切など）はPricing Policyで再確認。
 
 ## Cursorの主要プラン比較（価格・上限・管理機能の要点）
 
 | 比較項目 | Hobby (Free) | Pro | Pro+ | Ultra | Teams Standard | Teams Premium | Enterprise |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 月額料金（税抜） | 無料[[1]](https://cursor.com/ja/pricing) | $20/mo（表示）[[1]](https://cursor.com/ja/pricing) | 要確認（公式サイトで確認）[[1]](https://cursor.com/ja/pricing) | 要確認（公式サイトで確認）[[1]](https://cursor.com/ja/pricing) | $40/user/mo[[1]](https://cursor.com/ja/pricing) | 要確認（公式サイトで確認）[[1]](https://cursor.com/ja/pricing) | カスタム見積もり[[1]](https://cursor.com/ja/pricing) |
-| 含まれるモデル使用量と超過 | 一定量含む／超過は従量課金[[2]](https://cursor.com/pricing?trk=public_post-text) | 一定量含む／超過は従量課金[[2]](https://cursor.com/pricing?trk=public_post-text) | 一定量含む／超過は従量課金[[2]](https://cursor.com/pricing?trk=public_post-text) | 一定量含む／超過は従量課金[[2]](https://cursor.com/pricing?trk=public_post-text) | 一定量含む／超過は従量課金[[2]](https://cursor.com/pricing?trk=public_post-text) | 一定量含む／超過は従量課金[[2]](https://cursor.com/pricing?trk=public_post-text) | 一定量含む／超過は従量課金[[2]](https://cursor.com/pricing?trk=public_post-text) |
-| Agent上限 | 制限あり[[1]](https://cursor.com/ja/pricing) | 基準（数値は要確認）[[1]](https://cursor.com/ja/pricing) | Proの3倍[[1]](https://cursor.com/ja/pricing) | Proの20倍[[1]](https://cursor.com/ja/pricing) | 基準（数値は要確認）[[1]](https://cursor.com/ja/pricing) | Standardの5倍[[1]](https://cursor.com/ja/pricing) | 要確認（個別設定）[[1]](https://cursor.com/ja/pricing) |
-| SSO（シングルサインオン） | なし（記載なし）[[1]](https://cursor.com/ja/pricing) | なし（記載なし）[[1]](https://cursor.com/ja/pricing) | なし（記載なし）[[1]](https://cursor.com/ja/pricing) | なし（記載なし）[[1]](https://cursor.com/ja/pricing) | SAML/OIDC SSOあり[[1]](https://cursor.com/ja/pricing) | SAML/OIDC SSOあり[[1]](https://cursor.com/ja/pricing) | SSOあり（詳細は要相談）[[1]](https://cursor.com/ja/pricing) |
-| 管理・セキュリティ機能 | 個人向け（管理機能の記載なし）[[1]](https://cursor.com/ja/pricing) | 個人向け（管理機能の記載なし）[[1]](https://cursor.com/ja/pricing) | 個人向け（管理機能の記載なし）[[1]](https://cursor.com/ja/pricing) | 個人向け（管理機能の記載なし）[[1]](https://cursor.com/ja/pricing) | 集中管理・使用状況分析・チームマーケットプレイス等[[1]](https://cursor.com/ja/pricing) | Standardに同等＋上限拡張[[1]](https://cursor.com/ja/pricing) | 監査ログ・サービスアカウント・SCIM等[[1]](https://cursor.com/ja/pricing) |
-| Bugbotの課金 | 従量課金[[1]](https://cursor.com/ja/pricing) | 従量課金[[1]](https://cursor.com/ja/pricing) | 従量課金[[1]](https://cursor.com/ja/pricing) | 従量課金[[1]](https://cursor.com/ja/pricing) | 従量課金[[1]](https://cursor.com/ja/pricing) | 従量課金[[1]](https://cursor.com/ja/pricing) | 従量課金[[1]](https://cursor.com/ja/pricing) |
-| 支払い方法 | カード不要（無料）[[1]](https://cursor.com/ja/pricing) | クレカ/デビット（セルフ）[[2]](https://cursor.com/pricing?trk=public_post-text) | クレカ/デビット（セルフ）[[2]](https://cursor.com/pricing?trk=public_post-text) | クレカ/デビット（セルフ）[[2]](https://cursor.com/pricing?trk=public_post-text) | クレカ/デビット（セルフ）[[2]](https://cursor.com/pricing?trk=public_post-text) | クレカ/デビット（セルフ）[[2]](https://cursor.com/pricing?trk=public_post-text) | 請求書・電信送金に対応可[[2]](https://cursor.com/pricing?trk=public_post-text) |
-| プライバシーモード | 有効化時は学習不使用[[2]](https://cursor.com/pricing?trk=public_post-text) | 有効化時は学習不使用[[2]](https://cursor.com/pricing?trk=public_post-text) | 有効化時は学習不使用[[2]](https://cursor.com/pricing?trk=public_post-text) | 有効化時は学習不使用[[2]](https://cursor.com/pricing?trk=public_post-text) | 有効化時は学習不使用（チーム全体設定あり）[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text) | 有効化時は学習不使用（チーム全体設定あり）[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text) | 有効化時は学習不使用（詳細は要相談）[[2]](https://cursor.com/pricing?trk=public_post-text) |
+| 月額料金（税抜） | 無料 | $20/mo（表示） | 要確認（公式サイトで確認） | 要確認（公式サイトで確認） | $40/user/mo | 要確認（公式サイトで確認） | カスタム見積もり |
+| 含まれるモデル使用量と超過 | 一定量含む／超過は従量課金 | 一定量含む／超過は従量課金 | 一定量含む／超過は従量課金 | 一定量含む／超過は従量課金 | 一定量含む／超過は従量課金 | 一定量含む／超過は従量課金 | 一定量含む／超過は従量課金 |
+| Agent上限 | 制限あり | 基準（数値は要確認） | Proの3倍 | Proの20倍 | 基準（数値は要確認） | Standardの5倍 | 要確認（個別設定） |
+| SSO（シングルサインオン） | なし（記載なし） | なし（記載なし） | なし（記載なし） | なし（記載なし） | SAML/OIDC SSOあり | SAML/OIDC SSOあり | SSOあり（詳細は要相談） |
+| 管理・セキュリティ機能 | 個人向け（管理機能の記載なし） | 個人向け（管理機能の記載なし） | 個人向け（管理機能の記載なし） | 個人向け（管理機能の記載なし） | 集中管理・使用状況分析・チームマーケットプレイス等 | Standardに同等＋上限拡張 | 監査ログ・サービスアカウント・SCIM等 |
+| Bugbotの課金 | 従量課金 | 従量課金 | 従量課金 | 従量課金 | 従量課金 | 従量課金 | 従量課金 |
+| 支払い方法 | カード不要（無料） | クレカ/デビット（セルフ） | クレカ/デビット（セルフ） | クレカ/デビット（セルフ） | クレカ/デビット（セルフ） | クレカ/デビット（セルフ） | 請求書・電信送金に対応可 |
+| プライバシーモード | 有効化時は学習不使用 | 有効化時は学習不使用 | 有効化時は学習不使用 | 有効化時は学習不使用 | 有効化時は学習不使用（チーム全体設定あり） | 有効化時は学習不使用（チーム全体設定あり） | 有効化時は学習不使用（詳細は要相談） |
 
 ## 公式情報を確認する
 
-<AffiliateLink href="https://www.cursor.com/" service="Cursor" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">Cursorの最新料金・上限と各プランの比較を公式サイトで確認する</AffiliateLink>## まとめ：迷ったらこう選ぶ
-- まずはHobbyで体験。日常利用するならPro。利用量が多いならPro+/Ultraを検討。[[1]](https://cursor.com/ja/pricing)
-- チームでの統制・SSO・集中管理が必要ならTeams。厳格なセキュリティや運用要件があるならEnterprise。[[1]](https://cursor.com/ja/pricing)
-- 含まれる使用量の具体数値や超過単価は変動しうるため、購入前に必ず公式の最新情報で確認しましょう。[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text)
+
+<AffiliateLink href="https://www.cursor.com/" service="Cursor" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">Cursorの最新料金・上限と各プランの比較を公式サイトで確認する</AffiliateLink>
+<AffiliateLink href="https://www.cursor.com/" service="Cursor" linkType="official" network="none" ctaType="primary" ctaPlacement="after_toc">Cursorの最新料金・上限と各プランの比較を公式サイトで確認する</AffiliateLink>
+
+## まとめ：迷ったらこう選ぶ
+
+- まずはHobbyで体験。日常利用するならPro。利用量が多いならPro+/Ultraを検討。
+- チームでの統制・SSO・集中管理が必要ならTeams。厳格なセキュリティや運用要件があるならEnterprise。
+- 含まれる使用量の具体数値や超過単価は変動しうるため、購入前に必ず公式の最新情報で確認しましょう。
 
 ## よくある質問
 
 ### 無料（Hobby）では何ができますか？
 
-クレジットカード不要で始められ、制限付きのAgentリクエストとComposerにアクセスできます。学習や軽い個人利用の体験に向いています。[[1]](https://cursor.com/ja/pricing)
+クレジットカード不要で始められ、制限付きのAgentリクエストとComposerにアクセスできます。学習や軽い個人利用の体験に向いています。
 
 ### Pro・Pro+・Ultraの違いは何ですか？
 
-Proは$20/moの表示があります。Pro+はProの3倍、UltraはProの20倍のAgent上限が示され、Ultraは新機能への優先アクセスも記載されています。Pro+とUltraの具体的な月額や上限の数値は料金ページで未掲載のため、最新の公式情報で確認してください。[[1]](https://cursor.com/ja/pricing)
+Proは$20/moの表示があります。Pro+はProの3倍、UltraはProの20倍のAgent上限が示され、Ultraは新機能への優先アクセスも記載されています。Pro+とUltraの具体的な月額や上限の数値は料金ページで未掲載のため、最新の公式情報で確認してください。
 
 ### 超過課金はどのように発生しますか？
 
-各プランに一定量のモデル使用量（インクルード分）が含まれ、超過分はオンデマンドの従量課金（後払い）になります。価格は税抜表示です。購入前にモデル/Usageの最新仕様を確認しましょう。[[2]](https://cursor.com/pricing?trk=public_post-text)
+各プランに一定量のモデル使用量（インクルード分）が含まれ、超過分はオンデマンドの従量課金（後払い）になります。価格は税抜表示です。購入前にモデル/Usageの最新仕様を確認しましょう。
 
 ### チーム導入でのSSOや管理機能はありますか？
 
-Teamsには集中管理の請求・管理、チームマーケットプレイス、使用状況分析、チーム全体のプライバシーモード、SAML/OIDC SSOなどが明記されています。PremiumはStandard比でAgent上限5倍です。組織の使用量・指標はAdmin Dashboardで確認できます。[[1]](https://cursor.com/ja/pricing)[[2]](https://cursor.com/pricing?trk=public_post-text)
+Teamsには集中管理の請求・管理、チームマーケットプレイス、使用状況分析、チーム全体のプライバシーモード、SAML/OIDC SSOなどが明記されています。PremiumはStandard比でAgent上限5倍です。組織の使用量・指標はAdmin Dashboardで確認できます。
 
 ### 支払い方法やPOの扱い、税の表示はどうなっていますか？
 
-セルフサービスは主要クレジット/デビットカードに対応。Enterpriseは請求書・電信送金も相談可能。価格は税抜表示で、PO番号の記載を希望する場合は次回請求期間終了の5営業日前までに手続きが必要です。[[2]](https://cursor.com/pricing?trk=public_post-text)[[4]](https://cursor.com/ja/terms/pricing?utm_source=openai)
+セルフサービスは主要クレジット/デビットカードに対応。Enterpriseは請求書・電信送金も相談可能。価格は税抜表示で、PO番号の記載を希望する場合は次回請求期間終了の5営業日前までに手続きが必要です。
 
 ## 参考情報
 

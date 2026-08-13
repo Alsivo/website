@@ -247,16 +247,14 @@ def build_affiliate_section(
             )
 
         if raw_placement in {
+            "after_toc",
             "after_comparison",
             "before_faq",
         }:
             cta_placement = raw_placement
 
-    lines = [
-        "",
-        "## 公式情報を確認する",
-        "",
-    ]
+    after_toc_links: list[str] = []
+    footer_links: list[str] = []
 
     valid_tool_count = 0
 
@@ -346,29 +344,99 @@ def build_affiliate_section(
                 primary_cta_label
             )
 
-        link_markup = (
-            "<AffiliateLink"
-            f' href="{destination_url}"'
-            f' service="{tool_name}"'
-            f' linkType="{link_type}"'
-            f' network="{network}"'
-            f' ctaType="{cta_type}"'
-            f' ctaPlacement="{cta_placement}"'
-            ">"
-            f"{display_label}"
-            "</AffiliateLink>"
-        )
+        # ====================================================
+        # CTA markup builder
+        # ====================================================
 
-        lines.extend(
-            [
-                link_markup,
-                "",
-            ]
-        )
+        def build_link_markup(
+            placement: str,
+        ) -> str:
+            return (
+                "<AffiliateLink"
+                f' href="{destination_url}"'
+                f' service="{tool_name}"'
+                f' linkType="{link_type}"'
+                f' network="{network}"'
+                f' ctaType="{cta_type}"'
+                f' ctaPlacement="{placement}"'
+                ">"
+                f"{display_label}"
+                "</AffiliateLink>"
+            )
+
+        # ====================================================
+        # Primary CTA
+        # 必ず「目次直後」と「記事後半」の2か所に配置する
+        # ====================================================
+
+        if cta_type == "primary":
+            after_toc_links.append(
+                build_link_markup(
+                    "after_toc"
+                )
+            )
+
+            # 後半CTAの配置場所は
+            # cta_planの判断を利用する。
+            # after_toc指定の場合はbefore_faqへ配置する。
+            footer_placement = (
+                "before_faq"
+                if cta_placement == "after_toc"
+                else cta_placement
+            )
+
+            footer_links.append(
+                build_link_markup(
+                    footer_placement
+                )
+            )
+
+        # ====================================================
+        # Secondary CTA
+        # 記事後半だけに配置する
+        # ====================================================
+
+        else:
+            footer_placement = (
+                "before_faq"
+                if cta_placement == "after_toc"
+                else cta_placement
+            )
+
+            footer_links.append(
+                build_link_markup(
+                    footer_placement
+                )
+            )
 
         valid_tool_count += 1
 
     if valid_tool_count == 0:
         return ""
 
-    return "\n".join(lines)
+    sections: list[str] = []
+
+    # 目次直後表示用。
+    # page.tsxが抽出して本文から除去する。
+    if after_toc_links:
+        sections.append(
+            "\n\n".join(
+                after_toc_links
+            )
+        )
+
+    # 記事後半にはprimary + secondaryをまとめて表示する
+    if footer_links:
+        sections.append(
+            "## 公式情報を確認する"
+            + "\n\n"
+            + "\n\n".join(
+                footer_links
+            )
+        )
+
+    return (
+        "\n\n".join(
+            sections
+        ).strip()
+    )

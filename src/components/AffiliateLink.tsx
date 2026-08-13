@@ -16,7 +16,10 @@ type AffiliateLinkProps = {
   linkType?: "affiliate" | "official";
   network?: string;
   ctaType?: CtaType;
-  ctaPlacement?: "after_comparison" | "before_faq";
+  ctaPlacement?:
+    | "after_toc"
+    | "after_comparison"
+    | "before_faq";
   children: ReactNode;
 };
 

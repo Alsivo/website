@@ -853,6 +853,8 @@ main {
 .article-numbered-list {
   margin: 20px 0 10px;
   padding-left: 32px;
+  list-style-type: decimal;
+  list-style-position: outside;
 }
 
 .article-numbered-list > li {
@@ -866,6 +868,52 @@ main {
 .article-numbered-list > li::marker {
   color: var(--accent);
   font-weight: 800;
+}
+
+/* ==========================================================
+   Article references
+   ========================================================== */
+
+.article-anchor-heading[id="参考情報"] {
+  margin: 64px 0 14px;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--line);
+  border-left: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.article-anchor-heading[id="参考情報"] + .article-numbered-list {
+  margin: 0;
+  padding-left: 24px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.article-anchor-heading[id="参考情報"] + .article-numbered-list > li {
+  margin: 7px 0;
+  padding: 0 0 2px 2px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.article-anchor-heading[id="参考情報"] + .article-numbered-list > li::marker {
+  color: #969b96;
+  font-weight: 600;
+}
+
+.article-anchor-heading[id="参考情報"]
+  + .article-numbered-list
+  .article-link {
+  color: #555c68;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .article-quote {
@@ -973,6 +1021,33 @@ main {
   font-weight: 700;
 }
 
+.article-information-note {
+  margin: -42px 0 40px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 20px;
+  background: rgba(88, 101, 242, 0.04);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.article-information-note-title {
+  margin: 0 0 6px;
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.article-information-note p {
+  margin: 0;
+}
+
+.article-information-note strong {
+  color: var(--foreground);
+  font-weight: 700;
+}
+
 .article-card-tags {
   margin-top: 22px;
 }
@@ -1001,6 +1076,12 @@ main {
     margin-bottom: 52px;
   }
 
+  .article-information-note {
+    margin: -28px 0 36px;
+    padding: 16px;
+    font-size: 12px;
+  }
+
   .article-subheading {
     font-size: 21px;
   }
@@ -1019,6 +1100,26 @@ main {
     margin-top: 18px;
     padding-bottom: 6px;
     font-size: 16px;
+  }
+
+  .article-anchor-heading[id="参考情報"] {
+    margin: 48px 0 12px;
+    padding: 20px 0 0;
+    font-size: 19px;
+  }
+
+  .article-anchor-heading[id="参考情報"] + .article-numbered-list {
+    margin: 0;
+    padding-left: 22px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .article-anchor-heading[id="参考情報"] + .article-numbered-list > li {
+    margin: 6px 0;
+    padding: 0 0 2px 2px;
+    font-size: 13px;
+    line-height: 1.6;
   }
 }
 .blog-filter-panel {
@@ -2189,11 +2290,6 @@ main {
 
   .media-hero h1 span {
     white-space: nowrap;
-  }
-
-  .mobile-title-break,
-  .mobile-about-break {
-    display: block;
   }
 
   .mobile-title-break,

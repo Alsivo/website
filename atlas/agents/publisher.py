@@ -33,17 +33,16 @@ def escape_markdown_text(value: str) -> str:
         .strip()
     )
 
+
 def apply_source_citations(
     content: str,
     research: dict[str, Any],
     used_source_ids: list[str] | None = None,
 ) -> str:
     """
-    本文中の[S1]形式の引用をリンクへ変換し、
-    実際に本文で使われた出典だけを参考情報へ追加する。
-
-    used_source_idsは既存コードとの互換性のため受け取るが、
-    出典判定には使用しない。
+    本文中の[S1]形式の出典マーカーを削除し、
+    実際に使用された出典だけを記事末尾の
+    「参考情報」にまとめる。
     """
 
     sources = research.get("sources")
@@ -77,7 +76,6 @@ def apply_source_citations(
                 "url": url,
             }
 
-    # 本文とFAQで実際に使われた出典IDを抽出
     marker_ids = set(
         re.findall(
             r"\[(S\d+)\]",
@@ -85,12 +83,18 @@ def apply_source_citations(
         )
     )
 
+    if used_source_ids:
+        marker_ids.update(
+            source_id
+            for source_id in used_source_ids
+            if source_id
+        )
+
     if not marker_ids:
         raise ValueError(
             "本文またはFAQに出典IDがありません。"
         )
 
-    # S1、S2、S10のように数字順へ並べる
     ordered_source_ids = sorted(
         marker_ids,
         key=lambda source_id: int(
@@ -98,7 +102,6 @@ def apply_source_citations(
         ),
     )
 
-    # Researcherが取得していないIDが本文にないか確認
     unknown_ids = [
         source_id
         for source_id in ordered_source_ids
@@ -111,32 +114,22 @@ def apply_source_citations(
             + ", ".join(unknown_ids)
         )
 
-    # [S1]を[[1]](URL)へ変換
-    for index, source_id in enumerate(
-        ordered_source_ids,
-        start=1,
-    ):
-        source = source_map[source_id]
-
-        citation_link = (
-            f"[[{index}]]({source['url']})"
-        )
-
-        content = content.replace(
-            f"[{source_id}]",
-            citation_link,
-        )
+    # 公開本文では出典番号を表示しない
+    content = re.sub(
+        r"\s*\[S\d+\]",
+        "",
+        content,
+    )
 
     reference_lines = [
         "",
         "## 参考情報",
         "",
+        "この記事の作成・確認に使用した主な情報源です。",
+        "",
     ]
 
-    for index, source_id in enumerate(
-        ordered_source_ids,
-        start=1,
-    ):
+    for source_id in ordered_source_ids:
         source = source_map[source_id]
 
         title = escape_markdown_text(
@@ -144,12 +137,12 @@ def apply_source_citations(
         )
 
         reference_lines.append(
-            f"{index}. [{title}]({source['url']})"
+            f"- [{title}]({source['url']})"
         )
 
     return (
         content.rstrip()
-        + "\n"
+        + "\n\n"
         + "\n".join(reference_lines)
         + "\n"
     )
@@ -574,6 +567,7 @@ def validate_article(article: dict[str, Any]) -> None:
         )
 
     if placement not in {
+        "after_toc",
         "after_comparison",
         "before_faq",
     }:
@@ -922,12 +916,15 @@ def publish_article(
         else ""
     )
 
+    verified_date = date.today().isoformat()
+
     # reading_timeを作った後でfrontmatterを作る
     frontmatter_lines = [
         "---",
         f'title: "{title}"',
         f'description: "{description}"',
         f'date: "{published_date}"',
+        f'verified: "{verified_date}"',
     ]
 
     if updated_date:
@@ -964,6 +961,10 @@ def publish_article(
     cited_content = apply_source_citations(
         content=full_content,
         research=research,
+        used_source_ids=article.get(
+            "used_source_ids",
+            [],
+        ),
     )
 
     mdx = "\n".join(frontmatter_lines)

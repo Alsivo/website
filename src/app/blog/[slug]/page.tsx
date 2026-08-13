@@ -11,14 +11,17 @@ import { notFound } from "next/navigation";
 import { extractTableOfContents } from "../../../lib/headings";
 import MdxContent from "../../../components/MdxContent";
 import {
+  extractArticleCta,
   getAllBlogSlugs,
   getBlogPostBySlug,
   getRelatedBlogPosts,
+  removeArticleCta,
 } from "../../../lib/blog";
 import {
   SITE_NAME,
   SITE_URL,
 } from "../../../lib/site";
+import AffiliateLink from "../../../components/AffiliateLink";
 
 type BlogPostPageProps = {
   params: Promise<{
@@ -101,6 +104,17 @@ export default async function BlogPostPage({
     post.content,
   );
 
+  const afterTocCta = extractArticleCta(
+    post.content,
+    "after_toc",
+  );
+
+  const articleContent = removeArticleCta(
+    post.content,
+    "after_toc",
+    "primary",
+  );
+
   const relatedPosts = getRelatedBlogPosts(
     post.slug,
     post.category,
@@ -113,6 +127,19 @@ export default async function BlogPostPage({
     month: "long",
     day: "numeric",
   }).format(new Date(post.date));
+
+  const verifiedSourceDate =
+    post.verified
+    ?? post.updated
+    ?? post.date;
+
+  const verifiedDate = new Intl.DateTimeFormat("ja-JP", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(
+    new Date(verifiedSourceDate),
+  );
 
   return (
     <>
@@ -166,6 +193,23 @@ export default async function BlogPostPage({
           ))}
         </div>
 
+        <aside
+          className="article-information-note"
+          aria-label="記事情報について"
+        >
+          <p className="article-information-note-title">
+            情報について
+          </p>
+
+          <p>
+            この記事は
+            <strong>{verifiedDate}</strong>
+            時点の情報に基づいています。
+            料金・機能・利用条件などは変更されている可能性があります。
+            最新情報は各サービスの公式サイトをご確認ください。
+          </p>
+        </aside>
+
         {tableOfContents.length > 0 && (
           <nav
             className="article-toc"
@@ -194,8 +238,23 @@ export default async function BlogPostPage({
           </nav>
         )}
 
+        {afterTocCta && (
+          <div className="article-after-toc-cta">
+            <AffiliateLink
+              href={afterTocCta.href}
+              service={afterTocCta.service}
+              linkType={afterTocCta.linkType}
+              network={afterTocCta.network}
+              ctaType={afterTocCta.ctaType}
+              ctaPlacement="after_toc"
+            >
+              {afterTocCta.label}
+            </AffiliateLink>
+          </div>
+        )}
+
         <div className="article-content">
-          <MdxContent source={post.content} />
+          <MdxContent source={articleContent} />
         </div>
         {relatedPosts.length > 0 && (
           <section

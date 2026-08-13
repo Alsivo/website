@@ -117,7 +117,14 @@ function validateFrontmatter(
     title: data.title!,
     description: data.description!,
     date: data.date!,
-    updated: data.updated,
+    updated:
+      typeof data.updated === "string"
+        ? data.updated
+        : undefined,
+    verified:
+      typeof data.verified === "string"
+        ? data.verified
+        : undefined,
     category: data.category!,
     tags: data.tags,
     readingTime: data.readingTime!,
@@ -257,4 +264,140 @@ export function getRelatedBlogPosts(
         post !== undefined
         && post.slug !== currentSlug,
     );
+}
+
+export type ArticleCta = {
+  href: string;
+  service: string;
+  linkType: "affiliate" | "official";
+  network: string;
+  ctaType: "primary" | "comparison" | "secondary";
+  ctaPlacement:
+    | "after_toc"
+    | "after_comparison"
+    | "before_faq";
+  label: string;
+};
+
+export function extractArticleCta(
+  content: string,
+  placement: ArticleCta["ctaPlacement"],
+): ArticleCta | null {
+  const pattern =
+    /<AffiliateLink\s+([^>]+)>([\s\S]*?)<\/AffiliateLink>/g;
+
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(content)) !== null) {
+    const attributes = match[1];
+    const label = match[2].trim();
+
+    const getAttribute = (
+      name: string,
+    ): string | null => {
+      const attributeMatch =
+        attributes.match(
+          new RegExp(
+            `${name}="([^"]*)"`,
+          ),
+        );
+
+      return attributeMatch
+        ? attributeMatch[1]
+        : null;
+    };
+
+    const ctaPlacement =
+      getAttribute("ctaPlacement");
+
+    if (ctaPlacement !== placement) {
+      continue;
+    }
+
+    const href = getAttribute("href");
+    const service = getAttribute("service");
+
+    if (!href || !service) {
+      continue;
+    }
+
+    const linkType =
+      getAttribute("linkType")
+      === "affiliate"
+        ? "affiliate"
+        : "official";
+
+    const rawCtaType =
+      getAttribute("ctaType");
+
+    const ctaType:
+      ArticleCta["ctaType"] =
+        rawCtaType === "comparison"
+          ? "comparison"
+          : rawCtaType === "secondary"
+            ? "secondary"
+            : "primary";
+
+    return {
+      href,
+      service,
+      linkType,
+      network:
+        getAttribute("network")
+        ?? "none",
+      ctaType,
+      ctaPlacement: placement,
+      label,
+    };
+  }
+
+  return null;
+}
+
+export function removeArticleCta(
+  content: string,
+  placement: ArticleCta["ctaPlacement"],
+  ctaType?: ArticleCta["ctaType"],
+): string {
+  const pattern =
+    /<AffiliateLink\s+([^>]+)>[\s\S]*?<\/AffiliateLink>/g;
+
+  return content.replace(
+    pattern,
+    (fullMatch, attributes: string) => {
+      const getAttribute = (
+        name: string,
+      ): string | null => {
+        const match =
+          attributes.match(
+            new RegExp(
+              `${name}="([^"]*)"`,
+            ),
+          );
+
+        return match
+          ? match[1]
+          : null;
+      };
+
+      const itemPlacement =
+        getAttribute("ctaPlacement");
+
+      const itemCtaType =
+        getAttribute("ctaType");
+
+      if (itemPlacement !== placement) {
+        return fullMatch;
+      }
+
+      if (
+        ctaType
+        && itemCtaType !== ctaType
+      ) {
+        return fullMatch;
+      }
+
+      return "";
+    },
+  );
 }

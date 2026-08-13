@@ -1,11 +1,13 @@
 ---
 title: "ChatGPTの料金プランを徹底比較｜Free・Plus・Business（旧Team）・Enterpriseの違いと選び方"
-description: "ChatGPTの主要プラン（Free／Plus／Business［旧Team］／Enterprise／Edu）の位置づけ、料金と機能差、データ取り扱い、支払い方式を初心者向けに要点整理。PlusとAPIの違い、チーム導入時の注意、料金シミュレーション、導入前チェックリストまでを5分で把握できます。"
+description: "ChatGPTの主要プラン（Free／Plus／Business［旧Team］／Enterprise）の位置づけ、料金と機能差、データ取り扱い、支払い方式を初心者向けに要点整理。PlusとAPIの違い、チーム導入時の注意、料金シミュレーション、導入前チェックリストまでを5分で把握できます。"
 date: "2026-08-08"
+verified: "2026-08-13"
+updated: "2026-08-13"
 category: "AIツール"
 image: "/images/blog/chatgpt-pricing-plans-comparison.webp"
 readingTime: "10 min read"
-faq: [{"question": "PlusとAPIの違いは何ですか？両方必要ですか？", "answer": "PlusはChatGPT（アプリ）向けのサブスクリプション（月$20）で、APIの利用権やトークンは含まれません。APIを使う場合は別契約・別課金が必要です。"}, {"question": "Business（旧Team）の最低ユーザー数と価格は？", "answer": "2ユーザー以上から契約でき、年額契約は1ユーザーあたり月$20、月次請求は$25です（地域・通貨により表示が異なる場合あり）。"}, {"question": "クレジットとは何ですか？どのプランで使いますか？", "answer": "法人向け（Business/Enterprise/Edu）では、一部の高度機能がクレジットで追加利用できます。席ごとの上限超過時はワークスペース共有のクレジットから消費できます（購入は任意）。対象機能や消費レートは最新のヘルプ・レートカードで確認してください。"}, {"question": "価格は日本円でいくらになりますか？税はかかりますか？", "answer": "表示価格は地域・通貨・税（日本では消費税）により異なります。購入フロー上の最終表記を確認してください。"}, {"question": "Business/Enterpriseで入力したデータは学習に使われますか？", "answer": "Businessでは「業務データは学習に利用しない（デフォルト）」と明記されています。Enterpriseはデータ保持ポリシーやデータレジデンシーなど、より強化された管理・セキュリティ機能が案内されています。詳細は契約時に最新表記をご確認ください。"}]
+faq: [{"question": "PlusとAPIの違いは何ですか？両方必要ですか？", "answer": "PlusはChatGPT（アプリ）向けの個人サブスクリプション（月額20米ドル）で、OpenAI APIの利用権は含まれません。APIを使う場合は別組織・別契約・別課金です。"}, {"question": "Business（旧Team）は何席から利用できますか？料金の支払い頻度は？", "answer": "最低2席からのユーザー単位サブスクリプションです。標準シートは月25ドル/人（毎月）または月20ドル/人（年払い）の目安です。国・通貨で価格表示が異なるため、購入画面で最終確認してください。"}, {"question": "Business/Enterpriseで入力したデータは学習に使われますか？", "answer": "BusinessおよびEnterpriseのワークスペースデータはモデル学習に使用しない方針が明記されています（既定）。"}, {"question": "無料版やPlusの会話は学習に使われますか？オプトアウトできますか？", "answer": "個人向けサービス（Free/Plus等）の会話は、既定でモデル改善に使用され得ます。プライバシーポータル等から学習オプトアウトが可能です。"}, {"question": "チームで席を追加すると、いつ課金されますか？", "answer": "2026年8月19日以降、追加した有料席は追加時点で当該期間の残日数分が日割りで即時課金され、次サイクルから通常料金に合流します。"}]
 tags:
   - "ChatGPT"
   - "AIツール"
@@ -13,155 +15,179 @@ tags:
   - "生成AI"
 published: true
 ---
-導入
+## 導入
 
-「結局どのプランを選べばいいの？」に最短で答えるため、ChatGPTの料金・機能・データ方針・支払いの違いを、初心者にもわかりやすく整理しました。価格や仕様は変わりやすいため、申込直前に必ず公式の最新表記を確認してください（本文中に各出典IDを明記）。
-
-おすすめ早見表（最短の結論）
-
-- **まず個人で試したい：** Free（無料枠の範囲で開始。具体的な上限や機能は最新表記を要確認）
-- **個人で安定的に使いたい：** Plus（月額20米ドル）[[3]](https://help.openai.com/ar/articles/6950777-what-is-chatgpt-plus?utm_source=openai)
-- **2人以上のチームで管理・SSOや支出管理も必要：** Business（旧Team）年額契約で1ユーザーあたり月20米ドル、月次請求は25米ドル。2ユーザー以上から[[1]](https://openai.com/business/pricing/?LanguageId=1)
-- **全社導入・規制業界・SLAやデータレジデンシーが必要：** Enterprise（見積り制）[[1]](https://openai.com/business/pricing/?LanguageId=1)
-- **大学など教育機関：** Edu（対象や条件は個別確認）[[1]](https://openai.com/business/pricing/?LanguageId=1)
-
-注意：価格は地域・通貨・税（日本の消費税など）で表示が変わる場合があります。最終価格は購入フローの表記を確認してください[[5]](https://help.openai.com/en/articles/8792828-what-is-chatgpt-team/?utm_source=openai)。
+「結局どのプランを選べばいいの？」に最短で答えられるよう、ChatGPTの料金・機能・データ方針・支払いの違いを初心者向けに整理しました。価格や上限は国/通貨/販売チャネルや運用で変わりやすいため、申込直前に必ず公式の最新表記（チェックアウト画面）を確認してください。
 
 
-## 前提整理：ChatGPT（アプリ）とAPIの違いと課金
+## おすすめ早見表（最短の結論）
 
-- ChatGPTのサブスクリプション（Free/Plus/Go/Pro/Business/Enterprise/Edu）と、OpenAI APIの料金は別系統です。サブスク加入＝API利用可ではありません[[4]](https://help.openai.com/en/articles/8265053-what-is-chatgpt-enterprise)。
-- EnterpriseワークスペースとAPI組織は別管理です。社内導入時は、どちらを使うのか（アプリ／API）を切り分けて検討してください[[4]](https://help.openai.com/en/articles/8265053-what-is-chatgpt-enterprise)。
+- **まず個人で試したい：** Free（無料。上限や機能の提供は変動しやすい）
+- **個人で安定的に使いたい：** Plus（月額20米ドル・毎月請求。現地通貨・税は購入画面で確認）
+- **2人以上のチームで管理・SSOや支出管理も必要：** Business（最低2席から。標準シートは月25ドル/人［毎月］または月20ドル/人［年払い］の目安）
+- **全社導入・規制業界・SLAや高度な管理が必要：** Enterprise（見積り制。エンタープライズ機能/サポートを拡充）
+
+注意：最終的な表示額や税の扱いは購入フローの表記が基準です。
+
+
+## 前提整理：ChatGPT（アプリ）とAPIは別契約
+
+- **サブスクとAPIは別：** Free/Plus/Business/Enterpriseは「ChatGPT（アプリ）」の契約で、OpenAI APIの利用権は含まれません（APIは別組織・別課金）。
+- **請求・通貨の違い：** Web/App購入で管理窓口（OpenAI/Apple/Google）や通貨表記が異なります。多通貨・為替の影響もあるため、購入画面でご確認ください。
+- **データの学習利用方針（概要）：** 個人向け（Free/Plus等）はオプトアウト状況により学習に使われる場合があります。Business/Enterpriseのワークスペースデータは学習に使用しません。
 
 
 ## 料金プランの全体像（位置づけ）
 
-- **個人向け：** Free／Go／Plus／Pro（個人向けの具体価格が明示されているのはPlus＝月20米ドル。その他は地域・通貨に応じ最新表記を確認）[[3]](https://help.openai.com/ar/articles/6950777-what-is-chatgpt-plus?utm_source=openai)。
-- **法人向け：** Business／Enterprise／Edu。法人向けの比較・価格はOpenAIのBusiness Pricingページに集約されています[[1]](https://openai.com/business/pricing/?LanguageId=1)。
-- **名称変更：** Teamプランは2025年8月29日付で「Business」に改称されています。旧称「Team」の資料が残っている場合は現行名「Business」と読み替えてください[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)。
+- **個人向け：** Free／Plus（地域によっては上位プラン「Pro」が表示される場合あり。提供条件は更新途上のため、最新の料金/上限を購入画面で確認）
+- **法人向け：** Business（旧Team）／Enterprise。Teamは2025年8月29日にBusinessへ改称（名称のみの変更）。
 
 
-## プラン別の要点と価格レンジ
+## 最近の主な変更点（要チェック）
 
-- **Free：** 個人で始めやすい入り口。使える機能・上限は変更されやすいため、購入画面やヘルプの最新表記を確認してください（本記事では数値断定を避けます）。
-- **Plus：** 個人向け有料。価格は月額20米ドル（地域・通貨により表示が異なる場合あり）[[3]](https://help.openai.com/ar/articles/6950777-what-is-chatgpt-plus?utm_source=openai)。
-- **Business（旧Team）：** 2ユーザー以上から。年額契約は1ユーザーあたり月20米ドル、月次請求は25米ドル。中央管理、SSO/MFA、利用分析、支出管理など。業務データは学習に使われない（デフォルト）と明記[[1]](https://openai.com/business/pricing/?LanguageId=1)。一部の高度機能は「クレジット」で追加利用できる柔軟課金設計です[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)。
-- **Enterprise：** 見積り制。拡張コンテキスト、SSO/SCIM/ドメイン認証、ロールベース管理、データ保持ポリシー、データレジデンシー（10地域の表記）、24/7サポートやSLAなど、管理・セキュリティ機能が強化[[1]](https://openai.com/business/pricing/?LanguageId=1)。API組織とは別管理[[4]](https://help.openai.com/en/articles/8265053-what-is-chatgpt-enterprise)。
-- **Edu（教育機関向け）：** 大学等を対象とするメニューの案内あり。条件・提供内容は組織ごとに確認が必要です[[1]](https://openai.com/business/pricing/?LanguageId=1)。
+- **2026年2月13日：** ChatGPT上で複数の旧モデルの提供が終了（APIは継続）。利用可能モデルやレートは最新の案内を確認してください。
+
+
+## プラン別の要点
+
+### Free（無料）
+
+Freeの機能・上限・提供状況は地域・時期で変動します。
+
+- **主な機能：** ウェブ検索、データ分析、ファイル/画像アップロード、GPTsの利用、画像生成、Library 500MBなど（上限は変動）
+- **広告表示の可能性：** 一部地域で広告が表示される場合があります。
+- **データの学習利用：** 個人向けサービスの会話は学習に使われ得ます（プライバシーポータル等からオプトアウト可）。
+
+### Plus（個人向け有料）
+
+- **料金：** 月額20米ドル（毎月請求。現地通貨・税は購入画面で確認）
+- **主な特典：** 混雑時の優先利用、より高い上限、最新モデル（GPT‑5.5系）や各種ツール（画像生成、ファイル解析、音声、Deep Research［提供地域のみ］、カスタムGPTなど）へのアクセス。上限は状況で変動します。
+- **データの学習利用：** 個人向けの会話は学習に使われ得ます（オプトアウト可）。
+
+### Business（組織向け、旧Team）
+
+- **料金/最低席数：** 標準ChatGPTシートは月25ドル/人（毎月払い）または月20ドル/人（年払い）の目安。最低2席から。
+- **主な機能：** 共有ワークスペース、ユーザー/権限管理、請求一元化、利用状況の可視化、SSOなど。
+- **データの学習利用：** ワークスペースデータは学習に使用しません（既定）。
+- **柔軟課金：** 一部の高度機能は「ワークスペースクレジット」で消費（レート表を参照）。
+- **席追加の課金タイミング：** 2026年8月19日以降、追加した有料席は追加時点で残日数分が日割りで即時課金。次サイクルから通常料金に合流します。
+
+### Enterprise（大規模・カスタム）
+
+- **料金：** 見積り制（営業見積り）。
+- **主な機能：** エンタープライズ級のプライバシー/セキュリティ、SSO/SCIM、可観測性、SLA/サポートなど。
+- **データの学習利用：** ビジネス用途データは学習に使用しません（エンタープライズ方針）。
 
 
 ## 機能差の比較ポイント（初心者向け）
 
-- **使えるモデルや速度：** どのモデル・コンテキスト長が各プランで使えるかは更新が多く、最新のヘルプ・レートカードを確認してください[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)[[6]](https://help.openai.com/en/articles/11481834-chatgpt-rate-card//?utm_source=openai)。
-- **ツール（画像・音声・ファイル・コード実行・ブラウズ等）：** 対象や上限は改定されやすく、特に法人向けではクレジット消費の対象になる高度機能があります。導入前に必要機能が対象プランで使えるかを確認しましょう[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)[[6]](https://help.openai.com/en/articles/11481834-chatgpt-rate-card//?utm_source=openai)。
-- **メッセージ上限・使用量：** プランや時期により「無制限」相当の表現でも、濫用対策のガードレールや一時的制限が適用される可能性があります[[1]](https://openai.com/business/pricing/?LanguageId=1)。
-- **データの取り扱い：** Businessでは「業務データは学習に使わない（デフォルト）」と明記。Enterpriseはデータ保持ポリシーやデータレジデンシーが用意されています。自社のコンプライアンス要件に合わせて検討してください[[1]](https://openai.com/business/pricing/?LanguageId=1)。
-- **管理/セキュリティ：** Businessで中央管理・SSO/MFA・支出管理、EnterpriseでSSO/SCIM/ドメイン認証・ロールベース管理・監査系の拡充などが案内されています[[1]](https://openai.com/business/pricing/?LanguageId=1)。
-- **サポート/SLA：** SLAや24/7サポートはEnterpriseでの提供が明記されています[[1]](https://openai.com/business/pricing/?LanguageId=1)。
+- **使えるモデル/上限：** 提供モデルやメッセージ/ツールの上限は頻繁に更新・変動します。最新の案内・レート表を確認してください。
+- **ツールと追加課金：** 法人向けでは一部の高度機能が「クレジット」で消費される柔軟課金設計です。対象機能と消費レートは最新レート表を参照。
+- **データ取り扱い：** 個人（Free/Plus）は既定で学習に使われ得る（オプトアウト可）。Business/Enterpriseは学習に用いない方針です。
+- **管理/セキュリティ：** Businessでワークスペース管理・SSO等、EnterpriseでさらにSSO/SCIMやSLA等が提供。
+- **APIの扱い：** ChatGPTサブスクにAPI権限は含まれません（詳しくは「前提整理」を参照）。
 
 
 ## ユースケース別のおすすめ
 
-- **個人の学習/日常：** まずはFree→物足りなければPlus（月20米ドル）[[3]](https://help.openai.com/ar/articles/6950777-what-is-chatgpt-plus?utm_source=openai)。
-- **フリーランス/副業：** 商用利用や安定稼働を重視するならPlus。クライアントワークでセキュリティ要件が強い場合は、相手先のポリシーに合わせてBusiness/Enterpriseの利用環境を検討。
-- **小規模チームでの共同作業：** SSOや支出管理、分析が欲しい場合はBusiness（2人以上、年額$20/人/月または月次$25/人/月）[[1]](https://openai.com/business/pricing/?LanguageId=1)。一部高度機能はクレジット追加で拡張可能[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)。
-- **企業全体・規制業界での本格導入：** Enterprise。データ保持ポリシーやデータレジデンシー、SLA等が要件に合致しやすい見積り制プラン[[1]](https://openai.com/business/pricing/?LanguageId=1)。API連携を使う場合はAPI組織は別管理である点にも留意[[4]](https://help.openai.com/en/articles/8265053-what-is-chatgpt-enterprise)。
-- **学生/教育機関：** Eduの対象・条件は個別確認。学内要件（SSO、データ保持、地域レジデンシー等）を洗い出し、Business/Enterprise/Eduのいずれが適合するか比較検討を[[1]](https://openai.com/business/pricing/?LanguageId=1)。
+- **個人の学習/日常：** まずはFree→不足を感じたらPlus（月20米ドル）。
+- **フリーランス/副業：** 商用の安定性重視ならPlus。機微情報はオプトアウトや匿名化を検討。
+- **小規模チーム：** 席/請求管理やSSOが必要ならBusiness（2席以上）。途中追加席の即時日割り課金ルールも考慮して運用設計を。
+- **企業全体・規制業界：** 要件に応じてEnterpriseでSLAや保持/レジデンシー等を見積もりで確定。
 
 
-## 初心者向け 料金シミュレーション例（税・通貨差は別途）
+## 初心者向け 料金シミュレーションの考え方（概念）
 
-- **個人：** Plus 1人＝月20米ドル（最終価格は購入画面で通貨・税込み表示を確認）[[3]](https://help.openai.com/ar/articles/6950777-what-is-chatgpt-plus?utm_source=openai)[[5]](https://help.openai.com/en/articles/8792828-what-is-chatgpt-team/?utm_source=openai)
-- **チーム：** Business（旧Team）5人
-  - **年額契約：** 5人 × $20＝月換算$100（年間一括の条件・通貨は要確認）[[1]](https://openai.com/business/pricing/?LanguageId=1)[[5]](https://help.openai.com/en/articles/8792828-what-is-chatgpt-team/?utm_source=openai)
-  - **月次請求：** 5人 × $25＝月$125（税・通貨表示は要確認）[[1]](https://openai.com/business/pricing/?LanguageId=1)[[5]](https://help.openai.com/en/articles/8792828-what-is-chatgpt-team/?utm_source=openai)
-- **企業：** Enterprise＝要見積（クレジット/トークン課金の選択可の表記あり。詳細は営業と要確認）[[1]](https://openai.com/business/pricing/?LanguageId=1)
+- **個人：** Plus 1人＝月20米ドル（現地通貨・税込/税別は購入画面で確認）。
+- **チーム：** 「席数 ×（ユーザー単価）」を基礎に、年払い/月払いの違いと途中追加席の日割り課金を考慮（正確な単価はチェックアウトで確認）。
+- **企業：** Enterpriseは見積り制。必要なSLA/セキュリティ/保持要件を整理し、営業と条件を詰める。
 
 
 ## 申し込みと切り替えの流れ（概要）
 
-- **Free→Plus：** 個人アカウントからアップグレード。最終価格（通貨/税）は購入画面で確認[[5]](https://help.openai.com/en/articles/8792828-what-is-chatgpt-team/?utm_source=openai)。
-- **Plus→Business：** 組織ワークスペースを作成し、ユーザーを招待。TeamはBusinessへ改称済みのため、旧称の記載に注意[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)。
-- **Business→Enterprise：** 要見積り・営業対応。セキュリティ/データ保持/レジデンシー/SLA要件を提示し、契約に反映[[1]](https://openai.com/business/pricing/?LanguageId=1)。
-- **注意1：** 高度機能の一部はクレジット制。上限超過時はワークスペース共有のクレジット残高から消費されます（購入は任意）[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)。
-- **注意2：** サブスクリプションとAPIは別課金・別管理。EnterpriseワークスペースとAPI組織も別で、統合や設定変更は元に戻せない場合があります[[4]](https://help.openai.com/en/articles/8265053-what-is-chatgpt-enterprise)。
+1. **Free→Plus：** 個人アカウントでアップグレード。通貨/税など最終価格を購入画面で確認。
+2. **Plus→Business：** 組織ワークスペースを作成してメンバー招待。Team→Businessの改称により表記が混在する場合は読み替え。
+3. **席の増減：** Businessの追加席は即時日割り課金に変更済み。更新サイクルと合わせて管理。
+4. **Business→Enterprise：** 営業へ問い合わせ。SLAやデータ保持/レジデンシー等の要件を提示して見積り。
 
 
 ## よくある誤解と注意点
 
-- **PlusとAPIは別物：** Plus加入だけではAPIは使えません。APIは別契約・別課金です[[4]](https://help.openai.com/en/articles/8265053-what-is-chatgpt-enterprise)。
-- **「無制限」表現の読み方：** 利用保護のためガードレールや一時的制限が適用される可能性があります[[1]](https://openai.com/business/pricing/?LanguageId=1)。
-- **チームのデータ取り扱い：** Businessでは「業務データは学習に使わない（デフォルト）」と明記。社内ポリシーと合致するか確認を[[1]](https://openai.com/business/pricing/?LanguageId=1)。
-- **価格表示の差：** 国/通貨/税（日本の消費税など）で表示が変わることがあります。購入画面の最終表記を必ず確認[[5]](https://help.openai.com/en/articles/8792828-what-is-chatgpt-team/?utm_source=openai)。
-- **名称の混在：** 旧Team＝現Business。ドキュメントで混在していても実体は同一系統です[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)。
+- **PlusとAPIは別物：** サブスク加入だけではAPIは使えません（詳しくは「前提整理」を参照）。
+- **「無制限」表現の読み方：** メッセージ/ツールの上限は運用で変動します。必ず最新の案内を確認。
+- **チームのデータ取り扱い：** Businessは業務データを学習に用いない方針（既定）。
+- **価格表示の差：** 国/通貨/販売チャネルで表記や税の扱いが異なるため、購入フローの表記が基準。
+- **名称の混在：** 旧Team＝現Business。旧称の表記は読み替え。
 
 
-## 導入前チェックリスト（用途・人数・要件・支払・セキュリティ）
+## 導入前チェックリスト
 
-- **用途：** 個人利用か、2人以上のチームか、全社導入か
-- **必要機能：** SSO/MFA、利用分析、支出管理、データ保持/レジデンシー、SLA など（どのプランで提供されるか）[[1]](https://openai.com/business/pricing/?LanguageId=1)
-- **データ方針：** 業務データの学習可否、保持ポリシー、共有範囲（ワークスペース/権限設計）[[1]](https://openai.com/business/pricing/?LanguageId=1)
-- **コスト：** 席数×単価＋（必要なら）クレジットの追加費用。レートカードの最新更新も確認[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)[[6]](https://help.openai.com/en/articles/11481834-chatgpt-rate-card//?utm_source=openai)
-- **支払い：** 年額/月次、通貨/税の扱い、請求先や購買フローの要件[[1]](https://openai.com/business/pricing/?LanguageId=1)[[5]](https://help.openai.com/en/articles/8792828-what-is-chatgpt-team/?utm_source=openai)
+- **用途：** 個人利用か、2名以上のチームか、全社導入か
+- **必要機能：** SSO/SCIM、利用分析、支出管理、保持/レジデンシー、SLA など（どのプランで提供か）
+- **データ方針：** 学習可否、保持期間、共有範囲（ワークスペース/権限設計）
+- **コスト：** 席数×単価＋（必要なら）クレジットの追加費用。レート表の最新更新も確認。
+- **支払い：** 年払い/月払い、通貨/税、App購入の管理窓口の違い。
 
+## ChatGPTプラン比較（料金・管理・データ方針の要点）
 
-## 参考：公式の最新確認先
-
-- Business/Enterpriseの価格・機能比較（Business Pricingページ）[[1]](https://openai.com/business/pricing/?LanguageId=1)
-- 柔軟課金（クレジット）と対象機能の範囲[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)
-- Plusの価格（$20/月）[[3]](https://help.openai.com/ar/articles/6950777-what-is-chatgpt-plus?utm_source=openai)
-- EnterpriseのワークスペースとAPI組織の関係[Separation/管理][[4]](https://help.openai.com/en/articles/8265053-what-is-chatgpt-enterprise)
-- 価格の地域・通貨・税の注意点（ヘルプ）[[5]](https://help.openai.com/en/articles/8792828-what-is-chatgpt-team/?utm_source=openai)
-- レートカード（消費レートは更新されうるため最新表記を確認）[[6]](https://help.openai.com/en/articles/11481834-chatgpt-rate-card//?utm_source=openai)
-
+| 比較項目 | Free | Plus | Business（旧Team） | Enterprise |
+| --- | --- | --- | --- | --- |
+| 料金（月額の目安） | 無料 | 20米ドル/月（毎月・現地通貨/税は購入画面で確認） | 標準シート 月25ドル/人（毎月）または月20ドル/人（年払い） | 見積り制 |
+| 最低ユーザー数 | — | — | 2ユーザー以上 | 要相談（営業見積り） |
+| データの学習利用 | 既定で学習に使われ得る（オプトアウト可） | 既定で学習に使われ得る（オプトアウト可） | 学習に用いない（既定） | 学習に用いない（エンタープライズ方針） |
+| 管理・セキュリティ | 個別アカウント管理（管理機能は限定） | 個別アカウント管理（管理機能は限定） | 共有ワークスペース、席/請求管理、利用分析、SSOなど | 高度な管理（SSO/SCIM等）とSLA/サポート |
+| データ保持/レジデンシー | 要確認（公式サイトで確認） | 要確認（公式サイトで確認） | 公開情報での明記は限定的。必要に応じて営業/サポートへ確認 | 要件に応じて相談 |
+| 追加機能の課金・上限 | 上限は運用で変動 | 上限は運用で変動 | 一部高度機能はクレジット消費（レート表を参照） | 一部高度機能はクレジット等で拡張（レート表を参照） |
+| APIの扱い | ChatGPTサブスクにAPIは含まれない（別契約） | ChatGPTサブスクにAPIは含まれない（別契約） | ChatGPTサブスクにAPIは含まれない（別契約） | ChatGPTサブスクにAPIは含まれない（別契約） |
 
 ## まとめ
 
-- 個人はFree→Plusで十分なことが多く、チームはBusiness（旧Team）で管理・SSO・支出管理を確保、全社導入はEnterpriseでセキュリティ/データ保持/レジデンシー/SLAを見積りで固めるのが基本線です[[1]](https://openai.com/business/pricing/?LanguageId=1)[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)[[3]](https://help.openai.com/ar/articles/6950777-what-is-chatgpt-plus?utm_source=openai)[[4]](https://help.openai.com/en/articles/8265053-what-is-chatgpt-enterprise)。
-- 価格と機能は更新されやすく、特に法人向けの「クレジット」対象機能や消費レートは要チェックです[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)[[6]](https://help.openai.com/en/articles/11481834-chatgpt-rate-card//?utm_source=openai)。
-- 申込み前に、用途・人数・必要機能・データ方針・支払い条件を整理し、購入画面の通貨/税を含む最終価格を必ず確認しましょう[[5]](https://help.openai.com/en/articles/8792828-what-is-chatgpt-team/?utm_source=openai)。
+- 個人はFree→Plus（月20米ドル）が基本線。APIは別契約である点に注意（詳しくは「前提整理」を参照）。
+- チームはBusiness（2席以上）でワークスペース管理・SSO・支出管理を確保。追加席は日割り即時課金に変更済み。
+- 全社導入はEnterpriseでSLAや保持/レジデンシー等を見積りで確定。モデル/上限/料金は変動しやすいため、最新の公式表記を常に確認しましょう。
 
-## ChatGPTプラン比較（価格・管理機能・データ方針の要点）
-
-| 比較項目 | Free | Plus | Business（旧Team） | Enterprise | Edu |
-| --- | --- | --- | --- | --- | --- |
-| 料金（月額・USD） | 公式サイトで確認 | $20/月[[3]](https://help.openai.com/ar/articles/6950777-what-is-chatgpt-plus?utm_source=openai) | 年額$20/人/月 または 月次$25/人/月（2人以上）[[1]](https://openai.com/business/pricing/?LanguageId=1) | 要見積[[1]](https://openai.com/business/pricing/?LanguageId=1) | 条件により異なる（要確認）[[1]](https://openai.com/business/pricing/?LanguageId=1) |
-| 最低ユーザー数 | 要確認 | 要確認 | 2ユーザー以上[[1]](https://openai.com/business/pricing/?LanguageId=1) | 要確認 | 要確認 |
-| 管理機能（SSO/MFA等） | 要確認 | 要確認 | 中央管理、SSO/MFAあり[[1]](https://openai.com/business/pricing/?LanguageId=1) | SSO/SCIM/ドメイン認証 等[[1]](https://openai.com/business/pricing/?LanguageId=1) | 要確認 |
-| データの学習利用 | 要確認 | 要確認 | 業務データは学習に利用しない（デフォルト）[[1]](https://openai.com/business/pricing/?LanguageId=1) | 強化されたデータ保護（詳細は要確認）[[1]](https://openai.com/business/pricing/?LanguageId=1) | 要確認 |
-| データレジデンシー | 要確認 | 要確認 | 記載なし/要確認 | 対応地域の記載あり（10地域）[[1]](https://openai.com/business/pricing/?LanguageId=1) | 要確認 |
-| サポート/SLA | 要確認 | 要確認 | 要確認 | SLA/24時間サポートの記載あり[[1]](https://openai.com/business/pricing/?LanguageId=1) | 要確認 |
-| 課金方式（追加機能） | なし/該当なし | サブスク（APIは別課金）[[3]](https://help.openai.com/ar/articles/6950777-what-is-chatgpt-plus?utm_source=openai)[[4]](https://help.openai.com/en/articles/8265053-what-is-chatgpt-enterprise) | サブスク＋クレジット追加利用可[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans) | カスタム（クレジット/トークン課金を選択可）[[1]](https://openai.com/business/pricing/?LanguageId=1) | 要確認 |
+<AffiliateLink href="https://chatgpt.com/" service="ChatGPT" linkType="official" network="none" ctaType="primary" ctaPlacement="after_toc">公式の料金・機能・データ方針を確認する（最新のチェックアウト表示）</AffiliateLink>
 
 ## 公式情報を確認する
 
-<AffiliateLink href="https://chatgpt.com/" service="ChatGPT" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">ChatGPTを公式サイトで確認する</AffiliateLink>## よくある質問
+<AffiliateLink href="https://chatgpt.com/" service="ChatGPT" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">公式の料金・機能・データ方針を確認する（最新のチェックアウト表示）</AffiliateLink>
+
+## よくある質問
 
 ### PlusとAPIの違いは何ですか？両方必要ですか？
 
-PlusはChatGPT（アプリ）向けのサブスクリプション（月$20）で、APIの利用権やトークンは含まれません。APIを使う場合は別契約・別課金が必要です[[3]](https://help.openai.com/ar/articles/6950777-what-is-chatgpt-plus?utm_source=openai)[[4]](https://help.openai.com/en/articles/8265053-what-is-chatgpt-enterprise)。
+PlusはChatGPT（アプリ）向けの個人サブスクリプション（月額20米ドル）で、OpenAI APIの利用権は含まれません。APIを使う場合は別組織・別契約・別課金です。
 
-### Business（旧Team）の最低ユーザー数と価格は？
+### Business（旧Team）は何席から利用できますか？料金の支払い頻度は？
 
-2ユーザー以上から契約でき、年額契約は1ユーザーあたり月$20、月次請求は$25です（地域・通貨により表示が異なる場合あり）[[1]](https://openai.com/business/pricing/?LanguageId=1)。
-
-### クレジットとは何ですか？どのプランで使いますか？
-
-法人向け（Business/Enterprise/Edu）では、一部の高度機能がクレジットで追加利用できます。席ごとの上限超過時はワークスペース共有のクレジットから消費できます（購入は任意）。対象機能や消費レートは最新のヘルプ・レートカードで確認してください[[2]](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)[[6]](https://help.openai.com/en/articles/11481834-chatgpt-rate-card//?utm_source=openai)。
-
-### 価格は日本円でいくらになりますか？税はかかりますか？
-
-表示価格は地域・通貨・税（日本では消費税）により異なります。購入フロー上の最終表記を確認してください[[5]](https://help.openai.com/en/articles/8792828-what-is-chatgpt-team/?utm_source=openai)。
+最低2席からのユーザー単位サブスクリプションです。標準シートは月25ドル/人（毎月）または月20ドル/人（年払い）の目安です。国・通貨で価格表示が異なるため、購入画面で最終確認してください。
 
 ### Business/Enterpriseで入力したデータは学習に使われますか？
 
-Businessでは「業務データは学習に利用しない（デフォルト）」と明記されています。Enterpriseはデータ保持ポリシーやデータレジデンシーなど、より強化された管理・セキュリティ機能が案内されています。詳細は契約時に最新表記をご確認ください[[1]](https://openai.com/business/pricing/?LanguageId=1)。
+BusinessおよびEnterpriseのワークスペースデータはモデル学習に使用しない方針が明記されています（既定）。
+
+### 無料版やPlusの会話は学習に使われますか？オプトアウトできますか？
+
+個人向けサービス（Free/Plus等）の会話は、既定でモデル改善に使用され得ます。プライバシーポータル等から学習オプトアウトが可能です。
+
+### チームで席を追加すると、いつ課金されますか？
+
+2026年8月19日以降、追加した有料席は追加時点で当該期間の残日数分が日割りで即時課金され、次サイクルから通常料金に合流します。
+
 
 ## 参考情報
 
-1. [Business Pricing | OpenAI](https://openai.com/business/pricing/?LanguageId=1)
-2. [Flexible pricing for the Enterprise, Edu, and Business plans | OpenAI Help Center](https://help.openai.com/en/articles/11487671-flexible-pricing-for-the-enterprise-edu-and-team-plans)
-3. [ما هي خطة ChatGPT Plus؟ | OpenAI Help Center](https://help.openai.com/ar/articles/6950777-what-is-chatgpt-plus?utm_source=openai)
-4. [What is ChatGPT Enterprise? | OpenAI Help Center](https://help.openai.com/en/articles/8265053-what-is-chatgpt-enterprise)
-5. [What is ChatGPT Business? | OpenAI Help Center](https://help.openai.com/en/articles/8792828-what-is-chatgpt-team/?utm_source=openai)
-6. [ChatGPT Rate Card (Business, Enterprise/Edu) | OpenAI Help Center](https://help.openai.com/en/articles/11481834-chatgpt-rate-card//?utm_source=openai)
+この記事の作成・確認に使用した主な情報源です。
+
+- [ChatGPT Business 名称変更 FAQ | OpenAI Help Center](https://help.openai.com/ja-jp/articles/12111915-chatgpt-business-rename-faq?utm_source=openai)
+- [ChatGPT Plus とは？ | OpenAI Help Center](https://help.openai.com/ja-jp/articles/6950777?utm_source=openai)
+- [ChatGPT Pricing | OpenAI](https://openai.com/chatgpt/pricing?utm_source=openai)
+- [ChatGPT Business とは？ | OpenAI Help Center](https://help.openai.com/ja-jp/articles/8792828-what-is-chatgpt-team)
+- [ChatGPT Enterprise とは何ですか？ | OpenAI Help Center](https://help.openai.com/ja-jp/articles/8265053?utm_source=openai)
+- [ChatGPT 無料版に関するよくある質問 | OpenAI Help Center](https://help.openai.com/ja-jp/articles/9275245-chatgpt-%E7%84%A1%E6%96%99%E7%89%88%E3%81%AB%E9%96%A2%E3%81%99%E3%82%8B%E3%82%88%E3%81%8F%E3%81%82%E3%82%8B%E8%B3%AA%E5%95%8F?utm_source=openai)
+- [ChatGPT ウェブ版およびプラットフォームでの請求設定の管理 | OpenAI Help Center](https://help.openai.com/ja-jp/articles/9039756-chatgpt-%E3%82%A6%E3%82%A7%E3%83%96%E7%89%88%E3%81%8A%E3%82%88%E3%81%B3%E3%83%97%E3%83%A9%E3%83%83%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E3%81%A7%E3%81%AE%E8%AB%8B%E6%B1%82%E8%A8%AD%E5%AE%9A%E3%81%AE%E7%AE%A1%E7%90%86?utm_source=openai)
+- [ChatGPT の GPT | OpenAI Help Center](https://help.openai.com/ja-jp/articles/8554407-chatgpt-%E3%81%AE-gpt?utm_source=openai)
+- [ChatGPT Business：一般FAQ | OpenAI Help Center](https://help.openai.com/ja-jp/articles/8542115?utm_source=openai)
+- [ChatGPT レート表（Business、Enterprise/Edu） | OpenAI Help Center](https://help.openai.com/ja-jp/articles/11481834-chatgpt-%E3%83%AC%E3%83%BC%E3%83%88%E8%A1%A8businessenterpriseedu?utm_source=openai)
+- [ChatGPT Business とは？ | OpenAI Help Center](https://help.openai.com/ja-jp/articles/8792828-chatgpt-business-%E3%81%A8%E3%81%AF?utm_source=openai)
+- [複数通貨での請求 | OpenAI Help Center](https://help.openai.com/ja-jp/articles/10421635-multicurrency-billing?utm_source=openai)

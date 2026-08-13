@@ -2,6 +2,7 @@
 title: "AIプレゼン資料作成ツールおすすめ比較｜2026年最新・料金と機能で選ぶ（PowerPoint/Googleスライド/Canva対応）"
 description: "AIプレゼン資料作成ツールを横断比較（PowerPoint+Copilot、Googleスライド+Gemini、Canva、Beautiful.ai、Gamma）。料金と購入前提、PPTXエクスポート、共同編集、日本語対応の要点を一次情報で整理。提案資料・社内資料など用途別の選び方、失敗しないチェックリスト、すぐ使えるプロンプト例付き。"
 date: "2026-08-04"
+verified: "2026-08-08"
 updated: "2026-08-08"
 category: "AIツール"
 image: "/images/blog/ai-presentation-tools-comparison.webp"
@@ -15,114 +16,139 @@ tags:
   - "PowerPoint"
 published: true
 ---
-まず結論：最短で候補を絞る（プレゼン 資料作成 ツールの定番）
-- 既存のPowerPoint資産を最大活用したい → Microsoft PowerPoint + Copilot（プレゼンの下書き作成・要約・調整など。利用はCopilotのプラン/要件に依存）[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[8]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements?utm_source=openai)[[10]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-licensing?utm_source=openai)[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)
-- Googleスライド中心で共同編集を重視 → Google Slides + Gemini for Google Workspace（Workspaceに生成AIを追加するアドオン契約の考え方）[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)
-- デザインを短時間で整えたい → Canva（プレゼン作成とAI機能。プランはFree/Pro/Teams/Enterpriseの公式表記）[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)
-- レイアウト最適化とブランド整合を重視 → Beautiful.ai（自動レイアウト等。PPTXエクスポート対応）[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)
-- 無料から軽く試したい／社外配布は後で検討 → Gamma（Freeと有料プラン。エクスポートや透かし等はプラン差があるためPricing要確認）[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)
 
-注：価格・機能・提供条件は地域/契約/時期で変動します。最終判断は必ず公式Pricingや管理コンソールでご確認ください[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
+## まず結論：最短で候補を絞る（プレゼン 資料作成 ツールの定番）
 
+- 既存のPowerPoint資産を最大活用したい → Microsoft PowerPoint + Copilot（プレゼンの下書き作成・要約・調整など。利用はCopilotのプラン/要件に依存）
+- Googleスライド中心で共同編集を重視 → Google Slides + Gemini for Google Workspace（Workspaceに生成AIを追加するアドオン契約の考え方）
+- デザインを短時間で整えたい → Canva（プレゼン作成とAI機能。プランはFree/Pro/Teams/Enterpriseの公式表記）
+- レイアウト最適化とブランド整合を重視 → Beautiful.ai（自動レイアウト等。PPTXエクスポート対応）
+- 無料から軽く試したい／社外配布は後で検討 → Gamma（Freeと有料プラン。エクスポートや透かし等はプラン差があるためPricing要確認）
+
+注：価格・機能・提供条件は地域/契約/時期で変動します。最終判断は必ず公式Pricingや管理コンソールでご確認ください。
 
 ## 本稿の狙い（検索意図への即答）
+
 - 「プレゼン 資料作成 ツール」「資料作成 AI」「プレゼンテーション AI」「提案資料 AI」で探している方に、主要ツールの違い・料金の見方・PPTXエクスポート可否の勘所を一次情報で要約します。
 
-
 ## AIプレゼン資料作成ツールとは（できること・限界）
-- できること（例）
-  - **PowerPoint + Copilot：** プロンプトから下書きを作る、スライド内容を要約・調整する等の支援[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。機能の一部は提供形態に変更が入る可能性があるため最新情報を参照[[2]](https://www.windowscentral.com/microsoft/microsoft-office/microsoft-365-is-paywalling-most-of-copilot-in-office-apps-whats-changing?utm_source=openai)。
-  - **Google Slides + Gemini：** Workspaceアプリでの生成支援。課金・請求はGeminiアドオンの仕組みに従う[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)。
-  - **Canva：** プレゼン作成とAI機能をプラン別に提供（Free/Pro/Teams/Enterprise）[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)。
-  - **Beautiful.ai：** 自動レイアウト等に対応。PPTXエクスポートが可能[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)。
-  - **Gamma：** Free/有料のプラン構成。エクスポートやロゴ表示などはプラン差があるため事前に確認[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
-- 注意点（限界）
-  - 完全自動で「そのまま使える完成品」になるとは限らず、最終調整は前提です（PowerPointの編集・要約支援などを併用）[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。
-  - CopilotやGeminiは、テナント/言語/地域/契約により利用可否や機能境界が異なることがあります。最新の提供条件・ライセンス記述を必ず確認してください[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[10]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-licensing?utm_source=openai)[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)。
-  - Microsoft 365のCopilotは段階的な提供形態の変更（有料化シフト等）が報じられており、時期により無償/有償の境界が変わる可能性があります[[2]](https://www.windowscentral.com/microsoft/microsoft-office/microsoft-365-is-paywalling-most-of-copilot-in-office-apps-whats-changing?utm_source=openai)。
 
-意見・ベストプラクティス（参考）：
+### できること（例）
+
+- **PowerPoint + Copilot：** プロンプトから下書きを作る、スライド内容を要約・調整する等の支援。機能の一部は提供形態に変更が入る可能性があるため最新情報を参照。
+- **Google Slides + Gemini：** Workspaceアプリでの生成支援。課金・請求はGeminiアドオンの仕組みに従う。
+- **Canva：** プレゼン作成とAI機能をプラン別に提供（Free/Pro/Teams/Enterprise）。
+- **Beautiful.ai：** 自動レイアウト等に対応。PPTXエクスポートが可能。
+- **Gamma：** Free/有料のプラン構成。エクスポートやロゴ表示などはプラン差があるため事前に確認。
+
+### 注意点（限界）
+
+- 完全自動で「そのまま使える完成品」になるとは限らず、最終調整は前提です（PowerPointの編集・要約支援などを併用）。
+- CopilotやGeminiは、テナント/言語/地域/契約により利用可否や機能境界が異なることがあります。最新の提供条件・ライセンス記述を必ず確認してください。
+- Microsoft 365のCopilotは段階的な提供形態の変更（有料化シフト等）が報じられており、時期により無償/有償の境界が変わる可能性があります。
+
+### 意見・ベストプラクティス（参考）：
+
 - 「オンブランド運用しやすい」「SNSにも映える」等の評価は、テンプレやブランドキット運用の巧拙に左右される実務的所感です。最終判断は自社デザイン規程と出力例での検証を推奨します（事実情報は上記出典を参照）。
 
-
 ## 失敗しない選び方（5つの基準）
-1) 料金・契約の読み解き方
-- Copilotは個人向け/法人向けの別やアドオン前提などがあるため、ライセンスと要件を先に確認[[8]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements?utm_source=openai)[[10]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-licensing?utm_source=openai)。
-- GeminiはWorkspace本体の契約と「Geminiアドオン」の課金を分けて理解。請求形態・日割・年間の扱いはヘルプが詳しい[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)。
-- Canva/Beautiful.ai/Gammaは公式Pricingで最終金額・通貨・税区分・席課金の有無を確認[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
 
-2) 日本語対応と編集しやすさ
-- PowerPointはCopilotの編集/要約支援を活用し、機械生成文を下地に人手で整えると破綻が少ない[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。
+### 1) 料金・契約の読み解き方
 
-3) 既存ワークフローとの整合（PPTX/共同編集など）
-- PowerPoint中心ならCopilotで完結[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。Googleスライド中心ならGeminiで共同編集の流れを崩しにくい[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)。社外共有が多い場合はPPTXエクスポート可否や透かしの有無を事前確認（例：Beautiful.aiはPPTXエクスポート対応）[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)。Gammaはプランによるエクスポート仕様差に注意[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
+- Copilotは個人向け/法人向けの別やアドオン前提などがあるため、ライセンスと要件を先に確認。
+- GeminiはWorkspace本体の契約と「Geminiアドオン」の課金を分けて理解。請求形態・日割・年間の扱いはヘルプが詳しい。
+- Canva/Beautiful.ai/Gammaは公式Pricingで最終金額・通貨・税区分・席課金の有無を確認。
 
-4) チーム運用（アクセス権管理・席課金）
-- WorkspaceやMicrosoft 365のポリシー/権限設計をそのまま活かせるか、席課金や管理機能の有無をPricing/要件ページで確認[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)[[8]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements?utm_source=openai)[[10]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-licensing?utm_source=openai)。
+### 2) 日本語対応と編集しやすさ
 
-5) 情報の鮮度と将来の変更余地
-- Copilot/Geminiは提供形態が変わる可能性があるため、導入後のアップデート追随コストも見込む[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[2]](https://www.windowscentral.com/microsoft/microsoft-office/microsoft-365-is-paywalling-most-of-copilot-in-office-apps-whats-changing?utm_source=openai)[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)。
+- PowerPointはCopilotの編集/要約支援を活用し、機械生成文を下地に人手で整えると破綻が少ない。
 
+### 3) 既存ワークフローとの整合（PPTX/共同編集など）
+
+- PowerPoint中心ならCopilotで完結。Googleスライド中心ならGeminiで共同編集の流れを崩しにくい。社外共有が多い場合はPPTXエクスポート可否や透かしの有無を事前確認（例：Beautiful.aiはPPTXエクスポート対応）。Gammaはプランによるエクスポート仕様差に注意。
+
+### 4) チーム運用（アクセス権管理・席課金）
+
+- WorkspaceやMicrosoft 365のポリシー/権限設計をそのまま活かせるか、席課金や管理機能の有無をPricing/要件ページで確認。
+
+### 5) 情報の鮮度と将来の変更余地
+
+- Copilot/Geminiは提供形態が変わる可能性があるため、導入後のアップデート追随コストも見込む。
 
 ## 料金と購入前提（まずここを確認）
-- Microsoft PowerPoint + Copilot：
-  - 法人はMicrosoft 365の対象サブスクに対するCopilotアドオンが前提。最小要件・展開条件はLearnに集約[[8]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements?utm_source=openai)。
-  - ライセンス体系の最新情報はMicrosoft Learnのライセンスページを参照（機能/権利の境界含む）[[10]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-licensing?utm_source=openai)。
-- Google Slides + Gemini for Google Workspace：
-  - Workspace本体（Business/Enterprise等）とGeminiアドオンは別枠での課金/請求。支払い方式（フレキシブル/年間）や運用細則はヘルプで確認[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)。
-- Canva：
-  - 公式のプラン表記は「Free/Pro/Teams/Enterprise」。最終価格はPricingページ/決済画面で確認[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)。
-- Beautiful.ai：
-  - プランはPro/Team/Enterprise。PPTXエクスポート可。無料トライアルや細かな条件の有無は最新のPricingページで要確認[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)。
-- Gamma：
-  - Free/有料プラン構成。エクスポート（PPTX/PDF/Googleスライド等）の利用可否・透かし/ロゴの扱い・AIクレジットはプラン差あり。目的に応じてPricingの該当記述を確認[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
 
+### Microsoft PowerPoint + Copilot：
+
+- 法人はMicrosoft 365の対象サブスクに対するCopilotアドオンが前提。最小要件・展開条件はLearnに集約。
+- ライセンス体系の最新情報はMicrosoft Learnのライセンスページを参照（機能/権利の境界含む）。
+
+### Google Slides + Gemini for Google Workspace：
+
+- Workspace本体（Business/Enterprise等）とGeminiアドオンは別枠での課金/請求。支払い方式（フレキシブル/年間）や運用細則はヘルプで確認。
+
+### Canva：
+
+- 公式のプラン表記は「Free/Pro/Teams/Enterprise」。最終価格はPricingページ/決済画面で確認。
+
+### Beautiful.ai：
+
+- プランはPro/Team/Enterprise。PPTXエクスポート可。無料トライアルや細かな条件の有無は最新のPricingページで要確認。
+
+### Gamma：
+
+- Free/有料プラン構成。エクスポート（PPTX/PDF/Googleスライド等）の利用可否・透かし/ロゴの扱い・AIクレジットはプラン差あり。目的に応じてPricingの該当記述を確認。
 
 ## 用途別おすすめ（悩み別の第一候補）
-- とにかく“PowerPoint”で早く仕上げたい → PowerPoint + Copilot（下書き/要約/調整支援）[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)
-- 共同編集と社内運用を最優先 → Google Slides + Gemini（アドオン課金の仕組みでスライド生成を追加）[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)
-- 見栄えと一体型制作を重視 → Canva（プレゼン作成とAI機能を同一基盤で）[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)
-- レイアウト最適化とPPTX配布の両立 → Beautiful.ai（自動レイアウト、PPTXエクスポート）[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)
-- まず無料で手触りを確認 → Gamma Free（本格配布時は有料プランのエクスポート仕様も要確認）[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)
 
+- とにかく“PowerPoint”で早く仕上げたい → PowerPoint + Copilot（下書き/要約/調整支援）
+- 共同編集と社内運用を最優先 → Google Slides + Gemini（アドオン課金の仕組みでスライド生成を追加）
+- 見栄えと一体型制作を重視 → Canva（プレゼン作成とAI機能を同一基盤で）
+- レイアウト最適化とPPTX配布の両立 → Beautiful.ai（自動レイアウト、PPTXエクスポート）
+- まず無料で手触りを確認 → Gamma Free（本格配布時は有料プランのエクスポート仕様も要確認）
 
 ## 個別レビュー（主要5ツール）
+
 ### Microsoft PowerPoint + Copilot
-- **主な機能：** スライドの下書き作成・要約・調整など（PowerPoint内で動作）[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。Ignite 2024でPowerPointの新機能も発表済み（翻訳機能など）[[9]](https://blogs.windows.com/japan/2025/03/06/whats-new-in-microsoft-365-copilot-in-powerpoint-at-ignite-2024/?utm_source=openai)。
-- **提供条件：** 組織導入は最小要件・展開条件がある（アドオンの適格性など）[[8]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements?utm_source=openai)。ライセンス最新情報はLearnのハブで確認[[10]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-licensing?utm_source=openai)。
-- **注意点：** アプリのCopilot機能は提供形態の変更（有料化シフト等）が報じられているため、契約前に最新告知を必ず確認[[2]](https://www.windowscentral.com/microsoft/microsoft-office/microsoft-365-is-paywalling-most-of-copilot-in-office-apps-whats-changing?utm_source=openai)。オンライン接続前提のFAQも参照[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。
+
+- **主な機能：** スライドの下書き作成・要約・調整など（PowerPoint内で動作）。Ignite 2024でPowerPointの新機能も発表済み（翻訳機能など）。
+- **提供条件：** 組織導入は最小要件・展開条件がある（アドオンの適格性など）。ライセンス最新情報はLearnのハブで確認。
+- **注意点：** アプリのCopilot機能は提供形態の変更（有料化シフト等）が報じられているため、契約前に最新告知を必ず確認。オンライン接続前提のFAQも参照。
 
 ### Google Slides + Gemini for Google Workspace
-- **主な特徴：** WorkspaceにGeminiアドオンを追加し、Docs/Slides等で生成支援を活用[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)。
-- **購入・請求：** フレキシブル/年間などの支払い方式、課金の細則は公式ヘルプ/価格ページで確認[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)。
+
+- **主な特徴：** WorkspaceにGeminiアドオンを追加し、Docs/Slides等で生成支援を活用。
+- **購入・請求：** フレキシブル/年間などの支払い方式、課金の細則は公式ヘルプ/価格ページで確認。
 
 ### Canva（プレゼン作成 + AI機能）
-- **主な特徴：** プレゼン作成やAI機能をプラン別に提供。公式のプラン表記はFree/Pro/Teams/Enterprise[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)。
-- **料金：** 通貨・税区分・席課金の有無はPricingページの最新表示を参照[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)。
+
+- **主な特徴：** プレゼン作成やAI機能をプラン別に提供。公式のプラン表記はFree/Pro/Teams/Enterprise。
+- **料金：** 通貨・税区分・席課金の有無はPricingページの最新表示を参照。
 
 ### Beautiful.ai
-- **主な特徴：** 自動レイアウト等で見栄えを整えやすい設計。PPTXエクスポートに対応[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)。
-- **料金/プラン：** Pro/Team/Enterpriseを公式に提示。無料トライアルや特定期間の条件は最新のPricingページで要確認（固定表現は避ける）[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)。
+
+- **主な特徴：** 自動レイアウト等で見栄えを整えやすい設計。PPTXエクスポートに対応。
+- **料金/プラン：** Pro/Team/Enterpriseを公式に提示。無料トライアルや特定期間の条件は最新のPricingページで要確認（固定表現は避ける）。
 
 ### Gamma
-- **主な特徴：** Freeと有料プランを用意。エクスポートやロゴ表示、AIクレジット量はプラン差あり[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
-- **使いどころ：** 素早く構成案を試す段階で有用。配布形式（PPTX/PDF/Googleスライド等）はプラン仕様を確認し、必要に応じて有料プランを検討[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
 
+- **主な特徴：** Freeと有料プランを用意。エクスポートやロゴ表示、AIクレジット量はプラン差あり。
+- **使いどころ：** 素早く構成案を試す段階で有用。配布形式（PPTX/PDF/Googleスライド等）はプラン仕様を確認し、必要に応じて有料プランを検討。
 
 ## はじめての作り方ステップ（実務フロー）
+
 1) 目的と受け手の明確化：誰に何を決めてもらうかを1行で定義。
 2) 素材の集約：要件・ドラフト・議事録など、根拠と一次情報をまとめる。
 3) 下書き生成：
-   - PowerPoint + Copilotで下書き/要約を作る[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。
-   - Google Slides + Geminiを使う場合は、アドオンの課金/利用条件を満たしているかを先に確認[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)。
-   - Gammaで構成案を試し、必要に応じてエクスポート仕様を確認[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
+   - PowerPoint + Copilotで下書き/要約を作る。
+   - Google Slides + Geminiを使う場合は、アドオンの課金/利用条件を満たしているかを先に確認。
+   - Gammaで構成案を試し、必要に応じてエクスポート仕様を確認。
 4) スライド分割：1スライド1メッセージ。見出しは短く要点先出し。
 5) 図版・ビジュアル：重要関係のみを図示。冗長テキストは話者ノートへ退避。
-6) 要約と整文：AIの要約/調整支援で短文化→人手でトーン最終調整[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。
-7) 互換と配布：PPTX/PDF/Googleスライドなど、相手の閲覧環境に合う形式を選択（ツール別のエクスポート仕様はPricing/FAQで確認）[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
-
+6) 要約と整文：AIの要約/調整支援で短文化→人手でトーン最終調整。
+7) 互換と配布：PPTX/PDF/Googleスライドなど、相手の閲覧環境に合う形式を選択（ツール別のエクスポート仕様はPricing/FAQで確認）。
 
 ## すぐ使えるプロンプト例（提案資料/社内資料/教育）
+
 - 営業提案（B2B、初回）
   「あなたはB2B営業の提案ストラテジスト。受け手は製造業の情報システム部長。目的は“30分で関心を獲得し次回技術検討に進む”。制約：全15枚以内、専門用語は注釈。トーンは信頼重視のフォーマル。課題→解決策→導入手順→費用感→事例→次アクション、の順で各スライド見出しと箇条書きを作成。」
 - 社内報告（四半期）
@@ -130,50 +156,54 @@ published: true
 - 授業スライド（高校・情報）
   「あなたは高校の情報科教員。受け手は高校2年生。目的は“基本概念を理解させる”。制約：章ごとに例え話1つ、演習2問、全15枚。トーンは親しみやすく。」
 
-
 ## よくある失敗と対策
-- 日本語の不自然さ → AIの要約/調整機能で短文化し、最後は人手で読みやすさを整える[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。
-- スライドが冗長 → 1スライド1メッセージ。見出しを先に設計してから本文を詰める（AI要約で助走→人手仕上げ）[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。
-- 互換や配布で手戻り → 事前にPPTXエクスポート可否・ロゴ有無・出力制限をPricing/FAQで確認（例：Beautiful.aiはPPTXエクスポート対応、Gammaはプラン差に注意）[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
-- 機能境界の読み違い → Copilot/Geminiは提供形態・ライセンスが変動するため、導入前に最新のLearn/ヘルプ/価格ページを再確認[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[2]](https://www.windowscentral.com/microsoft/microsoft-office/microsoft-365-is-paywalling-most-of-copilot-in-office-apps-whats-changing?utm_source=openai)[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[10]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-licensing?utm_source=openai)。
 
+- 日本語の不自然さ → AIの要約/調整機能で短文化し、最後は人手で読みやすさを整える。
+- スライドが冗長 → 1スライド1メッセージ。見出しを先に設計してから本文を詰める（AI要約で助走→人手仕上げ）。
+- 互換や配布で手戻り → 事前にPPTXエクスポート可否・ロゴ有無・出力制限をPricing/FAQで確認（例：Beautiful.aiはPPTXエクスポート対応、Gammaはプラン差に注意）。
+- 機能境界の読み違い → Copilot/Geminiは提供形態・ライセンスが変動するため、導入前に最新のLearn/ヘルプ/価格ページを再確認。
 
 ## 導入チェックリスト（個人/チーム）
-- ライセンス要件の適合（Copilotの最小要件/ライセンス範囲）[[8]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements?utm_source=openai)[[10]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-licensing?utm_source=openai)
-- 課金/請求の把握（Geminiの支払い方式・課金細則、Workspace本体との関係）[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)
-- 価格と通貨・税区分（Canva/Beautiful.ai/GammaのPricing最終表示）[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)
-- エクスポート仕様（PPTX/PDF/Googleスライド、透かしやロゴの扱い）[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)
-- 提供形態の最新状況（Copilotの有料化シフト等の動向）[[2]](https://www.windowscentral.com/microsoft/microsoft-office/microsoft-365-is-paywalling-most-of-copilot-in-office-apps-whats-changing?utm_source=openai)
 
+- ライセンス要件の適合（Copilotの最小要件/ライセンス範囲）
+- 課金/請求の把握（Geminiの支払い方式・課金細則、Workspace本体との関係）
+- 価格と通貨・税区分（Canva/Beautiful.ai/GammaのPricing最終表示）
+- エクスポート仕様（PPTX/PDF/Googleスライド、透かしやロゴの扱い）
+- 提供形態の最新状況（Copilotの有料化シフト等の動向）
 
 ## まとめ：2〜3候補で同一題材を即テスト
+
 - 現行ワークフローに合わせて「PowerPoint+Copilot」「Slides+Gemini」「Canva/Beautiful.ai/Gamma」から2〜3種を選定。まったく同じブリーフで下書き→調整→エクスポート→配布までを1サイクル比較。
-- 互換/配布要件（PPTX/PDF/Googleスライド）と料金・ライセンスの前提（アドオン/席課金/通貨）を最初に確認すれば、導入後の手戻りを大幅に抑えられます[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)[[8]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements?utm_source=openai)[[10]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-licensing?utm_source=openai)。
-- PowerPointはCopilotの編集/要約で“仕上げやすい”環境を作りやすい一方、提供形態の変更動向に留意して最新情報を常に確認してください[[1]](https://learn.microsoft.com/ja-jp/office365/servicedescriptions/office-365-platform-service-description/microsoft-365-copilot?utm_source=openai)[[2]](https://www.windowscentral.com/microsoft/microsoft-office/microsoft-365-is-paywalling-most-of-copilot-in-office-apps-whats-changing?utm_source=openai)[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。
+- 互換/配布要件（PPTX/PDF/Googleスライド）と料金・ライセンスの前提（アドオン/席課金/通貨）を最初に確認すれば、導入後の手戻りを大幅に抑えられます。
+- PowerPointはCopilotの編集/要約で“仕上げやすい”環境を作りやすい一方、提供形態の変更動向に留意して最新情報を常に確認してください。
 
 ## 公式情報を確認する
 
+
 <AffiliateLink href="https://www.canva.com/" service="Canva" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">Canvaを公式サイトで確認する</AffiliateLink>
+<AffiliateLink href="https://www.canva.com/" service="Canva" linkType="official" network="none" ctaType="primary" ctaPlacement="after_toc">Canvaを公式サイトで確認する</AffiliateLink>
 
 <AffiliateLink href="https://gamma.app/" service="Gamma" linkType="official" network="none" ctaType="secondary" ctaPlacement="before_faq">Gammaを公式サイトで確認する</AffiliateLink>
 
-<AffiliateLink href="https://gemini.google.com/" service="Gemini" linkType="official" network="none" ctaType="secondary" ctaPlacement="before_faq">Geminiを公式サイトで確認する</AffiliateLink>## よくある質問
+<AffiliateLink href="https://gemini.google.com/" service="Gemini" linkType="official" network="none" ctaType="secondary" ctaPlacement="before_faq">Geminiを公式サイトで確認する</AffiliateLink>
+
+## よくある質問
 
 ### PowerPointのCopilotはオフラインでも使えますか？
 
-いいえ。PowerPointのCopilotはオンライン接続が必要です（FAQで明記）[[11]](https://support.microsoft.com/ja-jp/powerpoint/frequently-asked-questions-about-copilot-in-powerpoint?utm_source=openai)。オフライン会場での発表は、事前に資料を完成させてローカル保存しておきましょう。
+いいえ。PowerPointのCopilotはオンライン接続が必要です（FAQで明記）。オフライン会場での発表は、事前に資料を完成させてローカル保存しておきましょう。
 
 ### AIで作ったスライドをPowerPoint（.pptx）で配布できますか？
 
-可能なツールがあります。たとえばBeautiful.aiはPPTXエクスポートに対応しています[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)。Gammaはエクスポート可否や透かし等がプランにより異なるため、目的に合うプランをPricingで確認してください[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
+可能なツールがあります。たとえばBeautiful.aiはPPTXエクスポートに対応しています。Gammaはエクスポート可否や透かし等がプランにより異なるため、目的に合うプランをPricingで確認してください。
 
 ### 無料でまず試せるサービスはありますか？
 
-GammaにFreeプランがあります[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。そのほかの無料トライアルや期間条件は変動しうるため、各サービスのPricingページで最新情報を確認してください（例：Beautiful.ai/Canva/Workspace）[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)。
+GammaにFreeプランがあります。そのほかの無料トライアルや期間条件は変動しうるため、各サービスのPricingページで最新情報を確認してください（例：Beautiful.ai/Canva/Workspace）。
 
 ### 購入前に必ず確認すべきことは？
 
-Copilotは対象サブスク＋アドオンなどの前提や最小要件を満たす必要があります[[8]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-minimum-requirements?utm_source=openai)[[10]](https://learn.microsoft.com/ja-jp/microsoft-365/copilot/microsoft-365-copilot-licensing?utm_source=openai)。GeminiはWorkspace本体とアドオンの課金関係・請求方式を理解しておくこと[[3]](https://knowledge.workspace.google.com/admin/generative-ai/workspace-with-gemini/how-google-workspace-with-gemini-billing-works?hl=ja)[[4]](https://workspace.google.co.jp/pricing?hl=ja&utm_source=openai)。Canva/Beautiful.ai/GammaはPricingの最終表示（通貨・税区分・席課金・エクスポート仕様）を確認しましょう[[5]](https://www.canva.com/ja_jp/pricing/?msockid=19124ef1e47f647523795836e5b96585&utm_source=openai)[[6]](https://www.beautiful.ai/pricing?preview=true&utm_source=openai)[[7]](https://gamma.app/pricing?gspk=YXJldW1uYXJhcGFyazU2MTM&gsxid=bEbY6emGHm04ra&ps_partner_key=YXJldW1uYXJhcGFyazU2MTM&ps_xid=bEbY6emGHm04ra&pscd=try.gamma.app&utm_source=openai)。
+Copilotは対象サブスク＋アドオンなどの前提や最小要件を満たす必要があります。GeminiはWorkspace本体とアドオンの課金関係・請求方式を理解しておくこと。Canva/Beautiful.ai/GammaはPricingの最終表示（通貨・税区分・席課金・エクスポート仕様）を確認しましょう。
 
 ## 参考情報
 

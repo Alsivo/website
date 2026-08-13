@@ -2,6 +2,7 @@
 title: "Geminiの料金プラン比較：無料版・Google AI Pro・Google AI Ultraの違いとおすすめの選び方"
 description: "Geminiの無料版・Google AI Pro・Google AI Ultra（5x/20x）の違いを、料金・機能・利用上限の3軸でやさしく整理。旧称（Gemini Advanced）やWorkspaceアドオンとの関係、日本での提供条件、上限の考え方、用途別の選び方、切り替え・解約の実務までを1本で確認できます。"
 date: "2026-08-07"
+verified: "2026-08-07"
 category: "AIツール"
 image: "/images/blog/gemini-pricing-plan-comparison.webp"
 readingTime: "9 min read"
@@ -14,149 +15,212 @@ tags:
   - "AI基礎"
 published: true
 ---
-はじめに（3分で要点）
-- 無料版は“標準の使用量上限”。有料版は上限が段階的に増える仕組み（Plus=無料の2倍、Pro=4倍、Ultra=Pro比で5倍/20倍）です。固定回数ではなく「計算量ベース」で消費されます[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)[[3]](https://support.google.com/gemini/answer/16275805?hl=zh-Hant&utm_source=openai)。
-- 個人向けの主な階層は「Google AI Plus / Google AI Pro / Google AI Ultra」。無料版も継続提供されています[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)[[6]](https://support.google.com/gemini/answer/16275805?hl=en&utm_source=openai)。
-- 旧「Gemini Advanced」はGoogle AI Proに統合。名称の混乱はここで解消しましょう[[4]](https://blog.google/intl/ja-jp/company-news/technology/gemini-app-updates-io-2025/?utm_source=openai)。
+
+## はじめに（3分で要点）
+
+- 無料版は“標準の使用量上限”。有料版は上限が段階的に増える仕組み（Plus=無料の2倍、Pro=4倍、Ultra=Pro比で5倍/20倍）です。固定回数ではなく「計算量ベース」で消費されます。
+- 個人向けの主な階層は「Google AI Plus / Google AI Pro / Google AI Ultra」。無料版も継続提供されています。
+- 旧「Gemini Advanced」はGoogle AI Proに統合。名称の混乱はここで解消しましょう。
 
 ## まず整理：Geminiの呼び名と提供チャネル
-- 個人向け（消費者向け）
-  - **無料版（Gemini Free）：** 標準の使用量上限[[6]](https://support.google.com/gemini/answer/16275805?hl=en&utm_source=openai)
-  - **Google AI Plus：** 無料の2倍の上限[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)
-  - **Google AI Pro：** 無料の4倍の上限[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)
-  - **Google AI Ultra：** Pro比で5x/20xの上限拡張（2種類）[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)
-- 旧称・別名
-  - 「Gemini Advanced」はProに統合（旧称）[[4]](https://blog.google/intl/ja-jp/company-news/technology/gemini-app-updates-io-2025/?utm_source=openai)
-  - 「Ultra」は“プラン名”。かつてのモデル名「Gemini Ultra」とは別概念です[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)
-- 企業向け（Google Workspace）
-  - 「Gemini for Google Workspace」のアドオン（Business/Enterpriseなど）は別料金。価格は時期や契約条件で変わるため、最新のWorkspace料金ページで確認してください[[12]](https://workspace.google.com/blog/ja/product-announcements/gemini-for-google-workspace?hl=ja&utm_source=openai)。
-- 開発者向け（参考）
-  - AI Studioの上限は、AI Pro/Ultra加入で拡大される特典があります（APIの従量課金とは別枠）[[5]](https://blog.google/innovation-and-ai/technology/developers-tools/google-one-ai-studio/?utm_source=openai)。
 
-注意点
-- 一部機能は国・言語・年齢要件あり（例：18歳以上）。表示や提供範囲は国によって異なります[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
+### 個人向け（消費者向け）
+
+- **無料版（Gemini Free）：** 標準の使用量上限
+- **Google AI Plus：** 無料の2倍の上限
+- **Google AI Pro：** 無料の4倍の上限
+- **Google AI Ultra：** Pro比で5x/20xの上限拡張（2種類）
+
+### 旧称・別名
+
+- 「Gemini Advanced」はProに統合（旧称）
+- 「Ultra」は“プラン名”。かつてのモデル名「Gemini Ultra」とは別概念です
+
+### 企業向け（Google Workspace）
+
+- 「Gemini for Google Workspace」のアドオン（Business/Enterpriseなど）は別料金。価格は時期や契約条件で変わるため、最新のWorkspace料金ページで確認してください。
+
+### 開発者向け（参考）
+
+- AI Studioの上限は、AI Pro/Ultra加入で拡大される特典があります（APIの従量課金とは別枠）。
+
+### 注意点
+
+- 一部機能は国・言語・年齢要件あり（例：18歳以上）。表示や提供範囲は国によって異なります。
 
 ## プラン一覧の早見整理（テキスト版）
-- 無料版（Gemini Free）
-  - **料金：** 無料
-  - **使用量上限：** 標準（固定回数ではなく計算量ベース）[[6]](https://support.google.com/gemini/answer/16275805?hl=en&utm_source=openai)
-  - **用途の目安：** 学習・調べ物・軽い作業の試用
-- Google AI Plus
-  - **料金：** 米国$7.99/月（国・通貨で異なる）[[2]](https://blog.google/products-and-platforms/products/google-one/google-ai-plus-availability/?utm_source=openai)
-  - **使用量上限：** 無料の2倍[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)
-  - **用途の目安：** 無料の枠がやや不足する個人ユーザー
-- Google AI Pro（旧Gemini Advanced相当）
-  - **料金：** 米国$19.99/月。日本では過去の公式発表で月額2,900円と案内（最終金額は購入画面で要確認）[[7]](https://one.google.com/about/plans?hl=ja)[[4]](https://blog.google/intl/ja-jp/company-news/technology/gemini-app-updates-io-2025/?utm_source=openai)
-  - **使用量上限：** 無料の4倍[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)
-  - **用途の目安：** 日常～業務での常用、ドキュメント連携やノート作成をしっかり使いたい
-- Google AI Ultra（Ultra 5x / Ultra 20x）
-  - **料金：** 米国で$100/月の新Ultraが追加、最上位は$200/月に改定（いずれも米国価格）[[9]](https://blog.google/products-and-platforms/products/google-one/google-ai-subscriptions/?email_hash=0d7a7050906b225db2718485ca0f3472&utm_source=openai)
-  - **日本円の参考報道：** 新Ultra約14,500円、最上位約32,000円（最終はアプリ内表示を要確認）[[10]](https://pc.watch.impress.co.jp/docs/news/2110129.html?utm_source=openai)
-  - **使用量上限：** Pro比で5倍（Ultra 5x）/20倍（Ultra 20x）[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)
-  - **用途の目安：** 長時間・大規模な生成や先行機能を大量に使うクリエイター/パワーユーザー
+
+### 無料版（Gemini Free）
+
+- **料金：** 無料
+- **使用量上限：** 標準（固定回数ではなく計算量ベース）
+- **用途の目安：** 学習・調べ物・軽い作業の試用
+
+### Google AI Plus
+
+- **料金：** 米国$7.99/月（国・通貨で異なる）
+- **使用量上限：** 無料の2倍
+- **用途の目安：** 無料の枠がやや不足する個人ユーザー
+
+### Google AI Pro（旧Gemini Advanced相当）
+
+- **料金：** 米国$19.99/月。日本では過去の公式発表で月額2,900円と案内（最終金額は購入画面で要確認）
+- **使用量上限：** 無料の4倍
+- **用途の目安：** 日常～業務での常用、ドキュメント連携やノート作成をしっかり使いたい
+
+### Google AI Ultra（Ultra 5x / Ultra 20x）
+
+- **料金：** 米国で$100/月の新Ultraが追加、最上位は$200/月に改定（いずれも米国価格）
+- **日本円の参考報道：** 新Ultra約14,500円、最上位約32,000円（最終はアプリ内表示を要確認）
+- **使用量上限：** Pro比で5倍（Ultra 5x）/20倍（Ultra 20x）
+- **用途の目安：** 長時間・大規模な生成や先行機能を大量に使うクリエイター/パワーユーザー
 
 ## 料金の違い（個人向け中心）
-- 料金の基本
-  - **Plus：** 米国$7.99/月（国・通貨で変動）[[2]](https://blog.google/products-and-platforms/products/google-one/google-ai-plus-availability/?utm_source=openai)
-  - **Pro：** 米国$19.99/月。日本は発表当時に月額2,900円と案内（最新は購入画面で確認）[[7]](https://one.google.com/about/plans?hl=ja)[[4]](https://blog.google/intl/ja-jp/company-news/technology/gemini-app-updates-io-2025/?utm_source=openai)
-  - **Ultra：** 米国で$100/月の新プラン追加、最上位は$200/月へ改定（米国価格）[[9]](https://blog.google/products-and-platforms/products/google-one/google-ai-subscriptions/?email_hash=0d7a7050906b225db2718485ca0f3472&utm_source=openai)
-- コスパ感の目安
-  - **無料→Plus：** 低コストで上限を2倍に。まず“足りない分だけ補う”選択肢[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
-  - **Plus→Pro：** 日常～業務での常用に十分な4倍枠と機能面の拡張[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
-  - **Pro→Ultra：** 上限をさらに大幅拡張（5x/20x）。大量生成や長対話が前提なら検討[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
-- 注意点（価格・支払い）
-  - 表示通貨・税込/税別はアカウントや国で変わります。最終的な金額はGoogle One（ウェブ/アプリ）の購入画面を必ず確認してください[[7]](https://one.google.com/about/plans?hl=ja)。
+
+### 料金の基本
+
+- **Plus：** 米国$7.99/月（国・通貨で変動）
+- **Pro：** 米国$19.99/月。日本は発表当時に月額2,900円と案内（最新は購入画面で確認）
+- **Ultra：** 米国で$100/月の新プラン追加、最上位は$200/月へ改定（米国価格）
+
+### コスパ感の目安
+
+- **無料→Plus：** 低コストで上限を2倍に。まず“足りない分だけ補う”選択肢。
+- **Plus→Pro：** 日常～業務での常用に十分な4倍枠と機能面の拡張。
+- **Pro→Ultra：** 上限をさらに大幅拡張（5x/20x）。大量生成や長対話が前提なら検討。
+
+### 注意点（価格・支払い）
+
+- 表示通貨・税込/税別はアカウントや国で変わります。最終的な金額はGoogle One（ウェブ/アプリ）の購入画面を必ず確認してください。
 
 ## 使えるモデル・機能の違い（例）
-- モデル/機能アクセスの層別
-  - Plus/Pro/Ultraは、Geminiアプリの上限拡張に加えて、Deep Researchなどの上位機能や、より高機能なモデル（例：Pro世代モデル）へのアクセス拡大が示されています。提供範囲は国・言語によって異なります[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
-- Googleアプリ連携の範囲
-  - Proでは、Gmail/Docs/（地域により）VidsなどでのGemini機能の拡張利用が案内されていますが、機能の提供地域は段階的です[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。たとえばGmailの一部Gemini機能は現時点で米国の個人Gmailユーザー限定の案内があります（順次展開）[[11]](https://support.google.com/mail/answer/16831098?hl=ja&utm_source=openai)。
-- 具体例
-  - **ノート作成や資料下ごしらえ：** NotebookLMの拡張的な活用がPro以降でしやすくなります（提供範囲は国・言語に依存）[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
-  - **クリエイティブ生成：** UltraではDeep Thinkやクリエイティブ系機能/先行アクセスへの案内があり、映像系（例：Veo系）へのアクセス拡張も示唆されています（地域/言語制限あり）[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
 
-注意点
-- 「Ultra」はプラン名。モデル名（たとえば“かつてのGemini Ultra”）とは別です。プランとモデルを混同しないようにしましょう[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
-- 国/言語/年齢の提供条件により、日本で即時に使えない機能があります[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
+### モデル/機能アクセスの層別
+
+- Plus/Pro/Ultraは、Geminiアプリの上限拡張に加えて、Deep Researchなどの上位機能や、より高機能なモデル（例：Pro世代モデル）へのアクセス拡大が示されています。提供範囲は国・言語によって異なります。
+
+### Googleアプリ連携の範囲
+
+- Proでは、Gmail/Docs/（地域により）VidsなどでのGemini機能の拡張利用が案内されていますが、機能の提供地域は段階的です。たとえばGmailの一部Gemini機能は現時点で米国の個人Gmailユーザー限定の案内があります（順次展開）。
+
+### 具体例
+
+- **ノート作成や資料下ごしらえ：** NotebookLMの拡張的な活用がPro以降でしやすくなります（提供範囲は国・言語に依存）。
+- **クリエイティブ生成：** UltraではDeep Thinkやクリエイティブ系機能/先行アクセスへの案内があり、映像系（例：Veo系）へのアクセス拡張も示唆されています（地域/言語制限あり）。
+
+### 注意点
+
+- 「Ultra」はプラン名。モデル名（たとえば“かつてのGemini Ultra”）とは別です。プランとモデルを混同しないようにしましょう。
+- 国/言語/年齢の提供条件により、日本で即時に使えない機能があります。
 
 ## 利用上限・パフォーマンスの違い
-- 仕組みの基本
-  - 2026年5月17日以降、使用量は「計算量ベース」。プロンプトの複雑さや入力ファイルの大きさで消費が増減します。具体的な固定回数は公開されていません[[3]](https://support.google.com/gemini/answer/16275805?hl=zh-Hant&utm_source=openai)[[6]](https://support.google.com/gemini/answer/16275805?hl=en&utm_source=openai)。
-  - **上限は相対倍率で拡張：** Plus=無料の2倍、Pro=4倍、Ultra=Pro比で5倍/20倍[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
-- 実務上の見え方
-  - 長文のやり取り、長時間の対話、大きなファイル解析、画像/動画生成などは消費が速くなります。枠が足りなければ上位プランが現実的です[[3]](https://support.google.com/gemini/answer/16275805?hl=zh-Hant&utm_source=openai)。
-- 上限リフレッシュ
-  - 期間やメーター表示は告知のうえ変更される可能性があります。固定の数値・周期に依存しない運用を心がけましょう[[3]](https://support.google.com/gemini/answer/16275805?hl=zh-Hant&utm_source=openai)。
+
+### 仕組みの基本
+
+- 2026年5月17日以降、使用量は「計算量ベース」。プロンプトの複雑さや入力ファイルの大きさで消費が増減します。具体的な固定回数は公開されていません。
+- **上限は相対倍率で拡張：** Plus=無料の2倍、Pro=4倍、Ultra=Pro比で5倍/20倍。
+
+### 実務上の見え方
+
+- 長文のやり取り、長時間の対話、大きなファイル解析、画像/動画生成などは消費が速くなります。枠が足りなければ上位プランが現実的です。
+
+### 上限リフレッシュ
+
+- 期間やメーター表示は告知のうえ変更される可能性があります。固定の数値・周期に依存しない運用を心がけましょう。
 
 ## セキュリティ・プライバシー・商用利用の観点
-- **個人向けプラン：** 利用データや一部機能の提供範囲は国・言語・年齢要件に依存します。業務データを扱う場合は、取り扱い方針や共有設定を事前に確認してください[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
-- **企業向け（Workspace）：** ガバナンスや管理機能を前提とするなら、「Gemini for Google Workspace」のアドオン（Business/Enterpriseなど）を検討しましょう。価格・提供条件は時期により更新されるため、最新情報の確認が必要です[[12]](https://workspace.google.com/blog/ja/product-announcements/gemini-for-google-workspace?hl=ja&utm_source=openai)。
+
+- **個人向けプラン：** 利用データや一部機能の提供範囲は国・言語・年齢要件に依存します。業務データを扱う場合は、取り扱い方針や共有設定を事前に確認してください。
+- **企業向け（Workspace）：** ガバナンスや管理機能を前提とするなら、「Gemini for Google Workspace」のアドオン（Business/Enterpriseなど）を検討しましょう。価格・提供条件は時期により更新されるため、最新情報の確認が必要です。
 
 ## 用途別のおすすめ
-- 学習・調べ物・日常補助
-  - 無料版→まずは使い勝手と“上限の減り方”を確認[[6]](https://support.google.com/gemini/answer/16275805?hl=en&utm_source=openai)。
-  - 1日のうちに枠不足を感じる頻度が増えたらPlus、常用するならProへ[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
-- 画像・資料作成が多いクリエイター
-  - 画像/映像の生成や長い対話を継続するならPro以上。制作量が多く先行機能も使いたい場合はUltra（5x/20x）を検討[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
-- コーディング補助・データ分析
-  - 長文コンテキスト処理やファイル解析が多いほど消費が増えます。まずProで様子見→頻繁に上限到達ならUltraへ[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)[[3]](https://support.google.com/gemini/answer/16275805?hl=zh-Hant&utm_source=openai)。
-- 仕事の共同作業・社内展開
-  - 個人Proでも個人利用なら十分。ただし監査/管理要件があるならWorkspaceアドオン（Business/Enterprise）を基準線に検討[[12]](https://workspace.google.com/blog/ja/product-announcements/gemini-for-google-workspace?hl=ja&utm_source=openai)。
-- 低予算で最大効果を狙うには
-  - プロンプトを簡潔化し、ファイルは必要部分に絞る。まずPlus/Proで最適化を試し、なお不足ならUltraへ[[3]](https://support.google.com/gemini/answer/16275805?hl=zh-Hant&utm_source=openai)。
+
+### 学習・調べ物・日常補助
+
+- 無料版→まずは使い勝手と“上限の減り方”を確認。
+- 1日のうちに枠不足を感じる頻度が増えたらPlus、常用するならProへ。
+
+### 画像・資料作成が多いクリエイター
+
+- 画像/映像の生成や長い対話を継続するならPro以上。制作量が多く先行機能も使いたい場合はUltra（5x/20x）を検討。
+
+### コーディング補助・データ分析
+
+- 長文コンテキスト処理やファイル解析が多いほど消費が増えます。まずProで様子見→頻繁に上限到達ならUltraへ。
+
+### 仕事の共同作業・社内展開
+
+- 個人Proでも個人利用なら十分。ただし監査/管理要件があるならWorkspaceアドオン（Business/Enterprise）を基準線に検討。
+
+### 低予算で最大効果を狙うには
+
+- プロンプトを簡潔化し、ファイルは必要部分に絞る。まずPlus/Proで最適化を試し、なお不足ならUltraへ。
 
 ## 迷わない選び方フローチャート（テキスト版）
+
 1) 月の予算を最優先？ → はい：無料/Plusから。いいえ：次へ。
 2) 1日に何度も上限に当たる？ → はい：Pro以上。いいえ：無料/Plusで十分。
 3) 画像・映像・長時間対話を大量に使う？ → はい：Ultra 5x/20x。いいえ：Pro。
-4) Gmail/Docs連携を日常的に使う？ → はい：Pro以上（提供地域の要件に注意）[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)[[11]](https://support.google.com/mail/answer/16831098?hl=ja&utm_source=openai)。
-5) ガバナンス/監査が必須？ → はい：Workspaceアドオンを検討[[12]](https://workspace.google.com/blog/ja/product-announcements/gemini-for-google-workspace?hl=ja&utm_source=openai)。いいえ：個人プランでOK。
+4) Gmail/Docs連携を日常的に使う？ → はい：Pro以上（提供地域の要件に注意）。
+5) ガバナンス/監査が必須？ → はい：Workspaceアドオンを検討。いいえ：個人プランでOK。
 
 ## 申し込み・切り替え・解約の実務
-- アップ/ダウングレード
-  - 無料→Plus→Pro→Ultraと段階的に上げられます。逆方向も可能です（請求周期と特典の扱いは購入画面で要確認）[[7]](https://one.google.com/about/plans?hl=ja)。
-- 上限到達時の対処
-  - 時間経過でリフレッシュされますが、周期や仕様は変更されることがあります。プロンプト簡素化や入力削減、上位プラン検討で対処しましょう[[3]](https://support.google.com/gemini/answer/16275805?hl=zh-Hant&utm_source=openai)。
-- 日本でのAIクレジット購入
-  - 一部地域では追加購入できる案内がありますが、日本は対象外です（現時点）[[8]](https://support.google.com/googleone/answer/16476811?hl=ja-JP&utm_source=openai)。
+
+### アップ/ダウングレード
+
+- 無料→Plus→Pro→Ultraと段階的に上げられます。逆方向も可能です（請求周期と特典の扱いは購入画面で要確認）。
+
+### 上限到達時の対処
+
+- 時間経過でリフレッシュされますが、周期や仕様は変更されることがあります。プロンプト簡素化や入力削減、上位プラン検討で対処しましょう。
+
+### 日本でのAIクレジット購入
+
+- 一部地域では追加購入できる案内がありますが、日本は対象外です（現時点）。
 
 ## 最新情報の確認先（公式）
-- **Google AIプラン（機能・可用性・特典）：** Google OneのAIプラン紹介[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)
-- **使用量上限ポリシー：** Geminiアプリのヘルプ（計算量ベース/仕様更新）[[3]](https://support.google.com/gemini/answer/16275805?hl=zh-Hant&utm_source=openai)[[6]](https://support.google.com/gemini/answer/16275805?hl=en&utm_source=openai)
-- **価格/構成の改定速報：** Google公式ブログのサブスクリプション更新（Ultra $100新設/$200改定など）[[9]](https://blog.google/products-and-platforms/products/google-one/google-ai-subscriptions/?email_hash=0d7a7050906b225db2718485ca0f3472&utm_source=openai)
-- **料金・通貨の最終表示：** Google Oneのプラン一覧（購入直前の画面で確認）[[7]](https://one.google.com/about/plans?hl=ja)
 
-注意点（価格・特典のゆらぎ）
-- Plusのストレージ容量表記（200GB/400GB）に揺れが見られます。購入直前に通貨・容量・税込/税別を必ず確認してください[[2]](https://blog.google/products-and-platforms/products/google-one/google-ai-plus-availability/?utm_source=openai)。
+- **Google AIプラン（機能・可用性・特典）：** Google OneのAIプラン紹介
+- **使用量上限ポリシー：** Geminiアプリのヘルプ（計算量ベース/仕様更新）
+- **価格/構成の改定速報：** Google公式ブログのサブスクリプション更新（Ultra $100新設/$200改定など）
+- **料金・通貨の最終表示：** Google Oneのプラン一覧（購入直前の画面で確認）
+
+### 注意点（価格・特典のゆらぎ）
+
+- Plusのストレージ容量表記（200GB/400GB）に揺れが見られます。購入直前に通貨・容量・税込/税別を必ず確認してください。
 
 ## まとめ
-- 要点は「上限の倍率」と「機能へのアクセス」。無料→Plus→Pro→Ultraの順で、計算量ベースの上限が段階的に増え、使える機能も広がります[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)[[3]](https://support.google.com/gemini/answer/16275805?hl=zh-Hant&utm_source=openai)。
-- まずは無料で上限の減り方を体感→足りなければPlus/Pro→大量生成や先行機能が必要ならUltra。国・言語・年齢の提供条件と、料金の最終表示は必ず購入画面で確認しましょう[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)[[7]](https://one.google.com/about/plans?hl=ja)。
+
+- 要点は「上限の倍率」と「機能へのアクセス」。無料→Plus→Pro→Ultraの順で、計算量ベースの上限が段階的に増え、使える機能も広がります。
+- まずは無料で上限の減り方を体感→足りなければPlus/Pro→大量生成や先行機能が必要ならUltra。国・言語・年齢の提供条件と、料金の最終表示は必ず購入画面で確認しましょう。
 
 ## 公式情報を確認する
 
-<AffiliateLink href="https://gemini.google.com/" service="Gemini" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">Geminiを公式サイトで確認する</AffiliateLink>## よくある質問
+
+<AffiliateLink href="https://gemini.google.com/" service="Gemini" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">Geminiを公式サイトで確認する</AffiliateLink>
+<AffiliateLink href="https://gemini.google.com/" service="Gemini" linkType="official" network="none" ctaType="primary" ctaPlacement="after_toc">Geminiを公式サイトで確認する</AffiliateLink>
+
+## よくある質問
 
 ### Google AI ProとGoogle AI Ultraの違いは何ですか？
 
-主な違いは使用量上限です。Proは無料の4倍、UltraはPro比で5倍（Ultra 5x）または20倍（Ultra 20x）の上限拡張です。Ultraは先行/上位機能へのアクセス案内もあります（提供は国・言語に依存）[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)。
+主な違いは使用量上限です。Proは無料の4倍、UltraはPro比で5倍（Ultra 5x）または20倍（Ultra 20x）の上限拡張です。Ultraは先行/上位機能へのアクセス案内もあります（提供は国・言語に依存）。
 
 ### 日本での料金はいくらですか？
 
-米国価格はPlus $7.99、Pro $19.99、Ultraは$100（新プラン）と$200（最上位）です。日本ではProが過去の公式発表で月額2,900円と案内されていますが、最終金額はGoogle Oneの購入画面でご確認ください。Ultraの日本円は主要メディアで月額約14,500円と約32,000円が報道されています（公式最終表示を優先）[[2]](https://blog.google/products-and-platforms/products/google-one/google-ai-plus-availability/?utm_source=openai)[[7]](https://one.google.com/about/plans?hl=ja)[[4]](https://blog.google/intl/ja-jp/company-news/technology/gemini-app-updates-io-2025/?utm_source=openai)[[9]](https://blog.google/products-and-platforms/products/google-one/google-ai-subscriptions/?email_hash=0d7a7050906b225db2718485ca0f3472&utm_source=openai)[[10]](https://pc.watch.impress.co.jp/docs/news/2110129.html?utm_source=openai)。
+米国価格はPlus $7.99、Pro $19.99、Ultraは$100（新プラン）と$200（最上位）です。日本ではProが過去の公式発表で月額2,900円と案内されていますが、最終金額はGoogle Oneの購入画面でご確認ください。Ultraの日本円は主要メディアで月額約14,500円と約32,000円が報道されています（公式最終表示を優先）。
 
 ### GmailやGoogleドキュメントでGeminiを使えますか？
 
-Pro以降での拡張利用が案内されていますが、提供範囲は国・言語で段階的です。Gmailの一部Gemini機能は現時点で米国の個人Gmailユーザー限定の案内があります[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)[[11]](https://support.google.com/mail/answer/16831098?hl=ja&utm_source=openai)。
+Pro以降での拡張利用が案内されていますが、提供範囲は国・言語で段階的です。Gmailの一部Gemini機能は現時点で米国の個人Gmailユーザー限定の案内があります。
 
 ### 上限にすぐ達してしまいます。改善策は？
 
-プロンプトを簡潔にし、不要な添付や長大な入力を避けて“計算量”を抑えてください。それでも不足する場合はPlus/Pro/Ultraへの切り替えをご検討ください（上限は計算量ベース、倍率はPlus×2/Pro×4/Ultra 5x/20x）[[1]](https://one.google.com/intl/ja_jp/about/google-ai-plans/)[[3]](https://support.google.com/gemini/answer/16275805?hl=zh-Hant&utm_source=openai)。
+プロンプトを簡潔にし、不要な添付や長大な入力を避けて“計算量”を抑えてください。それでも不足する場合はPlus/Pro/Ultraへの切り替えをご検討ください（上限は計算量ベース、倍率はPlus×2/Pro×4/Ultra 5x/20x）。
 
 ### 日本でAIクレジットを追加購入できますか？
 
-現時点では日本は対象外です。長時間の生成や大規模タスクが多い場合は上位プランの検討が必要です[[8]](https://support.google.com/googleone/answer/16476811?hl=ja-JP&utm_source=openai)。
+現時点では日本は対象外です。長時間の生成や大規模タスクが多い場合は上位プランの検討が必要です。
 
 ## 参考情報
 

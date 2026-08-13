@@ -2,6 +2,7 @@
 title: "AI議事録ツールおすすめ比較：料金・精度・要約・対応言語で失敗しない選び方"
 description: "AI議事録ツールを「文字起こし精度・要約機能・対応言語・連携・セキュリティ・料金」の観点で整理。国内・海外・プラットフォーム内蔵型の違い、主要ツールの比較ポイント、用途別の候補、コスト試算の考え方、導入手順まで初心者向けに解説します。"
 date: "2026-08-08"
+verified: "2026-08-08"
 category: "AIツール"
 image: "/images/blog/ai-meeting-minutes-tools-comparison.webp"
 readingTime: "10 min read"
@@ -14,18 +15,20 @@ tags:
   - "自動化"
 published: true
 ---
-AI議事録ツールは、会議の録音から文字起こし・要約・アクション抽出・検索共有までを自動化し、面倒な議事録作成の手間を大きく減らします。専用SaaSとしてZoom/Teams/Google Meetへ“ボット参加”するタイプや、ZoomやGoogle Workspaceに内蔵された要約機能を使うタイプがあります。[[6]](https://fireflies.ai/pricing?slug=storage&utm_source=openai)[[2]](https://zoom.us/pricing/aic?onlycontent=1&utm_source=openai)[[9]](https://www.ntt.com/content/dam/nttcom/hq/jp/about-us/disclosure/tariff/pdf/wn/c249_20240827.pdf)
+AI議事録ツールは、会議の録音から文字起こし・要約・アクション抽出・検索共有までを自動化し、面倒な議事録作成の手間を大きく減らします。専用SaaSとしてZoom/Teams/Google Meetへ“ボット参加”するタイプや、ZoomやGoogle Workspaceに内蔵された要約機能を使うタイプがあります。
 
 ## 先に結論：用途別おすすめ早見（候補例）
-- **日本語精度と専門用語を重視：** AmiVoice系（分野特化エンジンや会議向けProVoXTの提供。APIは無音区間の非課金など従量課金の考え方を明示）[[3]](https://acp.amivoice.com/amivoice_api/price/?utm_source=openai)[[12]](https://voxt-one.advanced-media.co.jp/service/provoxt/?utm_source=openai)
-- **多言語会議（英日含む）：** AI GIJIROKU（多言語対応を公式資料で明記）[[10]](https://www2.jpx.co.jp/disc/260A0/140120250214576658.pdf?utm_source=openai)
-- **営業・CSでの活用（CRM/コーチング連携）：** Avoma（AI Meeting Assistantに加えCRM連携やコーチング機能、14日間トライアル）[[8]](https://www.avoma.com/pricing?utm_source=openai)
-- **低予算から試す：** Fathomの無料プラン、Otter.aiの無料/有料プラン（USD表記）[[7]](https://www.fathom.ai/pricing?utm_source=openai)[[4]](https://otter.ai/pricing?msockid=3cc3de1ff61b68153ea6c8b9f76c6933&utm_source=openai)
-- **既存スイートにまとめたい（導入容易）：** Zoom AI CompanionやGoogle WorkspaceのGemini（AI Meetings and Messaging等は日本円の月額/IDが公表）[[2]](https://zoom.us/pricing/aic?onlycontent=1&utm_source=openai)[[9]](https://www.ntt.com/content/dam/nttcom/hq/jp/about-us/disclosure/tariff/pdf/wn/c249_20240827.pdf)
 
-注意：上記は「候補例」です。実際の精度やコストは録音環境・会議の種類・必要機能・プラン条件で変わります。各公式の最新情報で最終確認してください。[[11]](https://helpdesk.sembly.ai/hc/en-us/articles/43666331002001-Updates-to-Sembly-Plans-Effective-March-1-2026?utm_source=openai)
+- **日本語精度と専門用語を重視：** AmiVoice系（分野特化エンジンや会議向けProVoXTの提供。APIは無音区間の非課金など従量課金の考え方を明示）
+- **多言語会議（英日含む）：** AI GIJIROKU（多言語対応を公式資料で明記）
+- **営業・CSでの活用（CRM/コーチング連携）：** Avoma（AI Meeting Assistantに加えCRM連携やコーチング機能、14日間トライアル）
+- **低予算から試す：** Fathomの無料プラン、Otter.aiの無料/有料プラン（USD表記）
+- **既存スイートにまとめたい（導入容易）：** Zoom AI CompanionやGoogle WorkspaceのGemini（AI Meetings and Messaging等は日本円の月額/IDが公表）
+
+注意：上記は「候補例」です。実際の精度やコストは録音環境・会議の種類・必要機能・プラン条件で変わります。各公式の最新情報で最終確認してください。
 
 ## まずは要件を整理（5つの質問）
+
 - 会議の種類は？（社内定例／顧客商談／ウェビナー／面談）
 - 主な使用言語と話者数は？（日本語のみ／英日／多言語）
 - 連携先は？（Zoom／Teams／Google Meet、Slack／Notion、Salesforceなど）
@@ -33,97 +36,122 @@ AI議事録ツールは、会議の録音から文字起こし・要約・アク
 - 予算と課金形態は？（席課金か従量か、無料枠の有無や上限の扱い）
 
 ## 比較の評価基準（初心者向けチェックリスト）
-- **文字起こし精度（日本語・英語・多言語）：** 録音環境で大きく変動。分野特化エンジンの有無やカスタム辞書の仕組みを確認（AmiVoiceなどの分野特化エンジンは検討価値あり）[[3]](https://acp.amivoice.com/amivoice_api/price/?utm_source=openai)
+
+- **文字起こし精度（日本語・英語・多言語）：** 録音環境で大きく変動。分野特化エンジンの有無やカスタム辞書の仕組みを確認（AmiVoiceなどの分野特化エンジンは検討価値あり）
 - **要約機能：** 議事録テンプレ、要点抽出、ToDo/決定事項、プロンプト指定の柔軟さ
-- **会議対応：** リアルタイム参加／録音アップロード、話者分離、タイムスタンプ、録音同意のワークフロー（ボット参加型は参加者に表示される点を理解）[[6]](https://fireflies.ai/pricing?slug=storage&utm_source=openai)
+- **会議対応：** リアルタイム参加／録音アップロード、話者分離、タイムスタンプ、録音同意のワークフロー（ボット参加型は参加者に表示される点を理解）
 - **連携・自動化：** Zoom/Teams/Meetとの連携形態（ボット／内蔵）、カレンダー自動参加、Slack/Notion、CRMやAPI
 - **管理・セキュリティ：** ユーザー/権限、データ保持/削除、暗号化、アクセスログ、DPA（ベンダーのデータ利用方針は各社のプライバシー/セキュリティ文書で要確認）
-- **料金：** 席課金/分課金/ハイブリッド、月間分数やAIクレジットの上限、超過時の扱い（停止/追加課金）。NottaはAIクレジットの考え方を提示[[1]](https://www.notta.ai/pricing?utm_source=openai)
+- **料金：** 席課金/分課金/ハイブリッド、月間分数やAIクレジットの上限、超過時の扱い（停止/追加課金）。NottaはAIクレジットの考え方を提示
 
 ## ツールのタイプと特徴（国内特化／多言語グローバル／内蔵型）
-- **国内特化：** 日本語ASRや専門領域に強い傾向。例）AmiVoice（API従量課金や会議向けProVoXTでの要約訴求）[[3]](https://acp.amivoice.com/amivoice_api/price/?utm_source=openai)[[12]](https://voxt-one.advanced-media.co.jp/service/provoxt/?utm_source=openai)、AI GIJIROKU（多言語対応やAI要約を資料で記載）[[10]](https://www2.jpx.co.jp/disc/260A0/140120250214576658.pdf?utm_source=openai)
-- **多言語グローバルSaaS：** 英語高精度や豊富な連携、ボット参加で主要プラットフォームを横断。例）Otter.ai、Sembly AI、Fireflies.ai、Fathom、Avoma（各社に無料/有料プラン）[[4]](https://otter.ai/pricing?msockid=3cc3de1ff61b68153ea6c8b9f76c6933&utm_source=openai)[[5]](https://www.sembly.ai/pricing/?trk=public_post_comment-text&utm_source=openai)[[6]](https://fireflies.ai/pricing?slug=storage&utm_source=openai)[[7]](https://www.fathom.ai/pricing?utm_source=openai)[[8]](https://www.avoma.com/pricing?utm_source=openai)
-- **会議プラットフォーム内蔵型：** Zoom AI CompanionやGoogle WorkspaceのGemini。提供形態や対象エディションは変動しやすいため都度確認を。なお、主要プラットフォーム（例：Microsoft Teams）でも会議要約機能が提供される場合があるため、内蔵機能の可用性は自社環境で最新情報を必ず確認してください。[[2]](https://zoom.us/pricing/aic?onlycontent=1&utm_source=openai)[[9]](https://www.ntt.com/content/dam/nttcom/hq/jp/about-us/disclosure/tariff/pdf/wn/c249_20240827.pdf)
+
+### 国内特化
+
+日本語ASRや専門領域に強い傾向。例）AmiVoice（API従量課金や会議向けProVoXTでの要約訴求）、AI GIJIROKU（多言語対応やAI要約を資料で記載）
+
+### 多言語グローバルSaaS
+
+英語高精度や豊富な連携、ボット参加で主要プラットフォームを横断。例）Otter.ai、Sembly AI、Fireflies.ai、Fathom、Avoma（各社に無料/有料プラン）
+
+### 会議プラットフォーム内蔵型
+
+Zoom AI CompanionやGoogle WorkspaceのGemini。提供形態や対象エディションは変動しやすいため都度確認を。なお、主要プラットフォーム（例：Microsoft Teams）でも会議要約機能が提供される場合があるため、内蔵機能の可用性は自社環境で最新情報を必ず確認してください。
 
 ## 人気・主要ツールの比較ポイント（強みと留意点）
-- **Notta：** 料金ページで上限やAIクレジットの考え方を明示。日本語の運用もしやすい印象。[[1]](https://www.notta.ai/pricing?utm_source=openai)
-- **Otter.ai：** Free/Pro/Business/Enterpriseの層別。要約・チャット等を案内、価格はUSD表記。[[4]](https://otter.ai/pricing?msockid=3cc3de1ff61b68153ea6c8b9f76c6933&utm_source=openai)
-- **Sembly AI：** Pricingページと、2026年3月1日のプラン更新を公式ヘルプで告知。契約前に上限とルールを必ず確認。[[5]](https://www.sembly.ai/pricing/?trk=public_post_comment-text&utm_source=openai)[[11]](https://helpdesk.sembly.ai/hc/en-us/articles/43666331002001-Updates-to-Sembly-Plans-Effective-March-1-2026?utm_source=openai)
-- **Fireflies.ai：** 専用の招待ボットが会議に参加して録音・要約する方式。相手にもボット参加が表示される点に留意。[[6]](https://fireflies.ai/pricing?slug=storage&utm_source=openai)
-- **Fathom：** 無料の個人向けプランと、チーム向け有料プランを案内。低コスト試用に有用。[[7]](https://www.fathom.ai/pricing?utm_source=openai)
-- **Avoma：** AI Meeting Assistantに加えてCRM連携やコーチング機能。14日間の全機能トライアルあり。[[8]](https://www.avoma.com/pricing?utm_source=openai)
-- **Zoom AI Companion：** 同梱/スタンドアロン/Basicでの試用枠など提供形態が併存・変遷。最新条件は価格ページで都度確認。[[2]](https://zoom.us/pricing/aic?onlycontent=1&utm_source=openai)
-- **Google Workspace（Gemini）：** 日本向けにGemini Enterprise/Business、AI Meetings and Messaging等の月額（IDあたり）を公的文書で明記。適用には対象のWorkspaceエディション契約が前提。[[9]](https://www.ntt.com/content/dam/nttcom/hq/jp/about-us/disclosure/tariff/pdf/wn/c249_20240827.pdf)
-- **AmiVoice：** APIは無音区間を課金対象外とする従量課金の思想を明示。会議向け「ProVoXT」ではChatGPT連携のワンクリック要約を案内（料金は要問い合わせの場合あり）。[[3]](https://acp.amivoice.com/amivoice_api/price/?utm_source=openai)[[12]](https://voxt-one.advanced-media.co.jp/service/provoxt/?utm_source=openai)
-- **AI GIJIROKU（オルツ）：** 多言語対応やAI要約、人力文字起こし連携（資料上で「99％以上の精度」に言及。ただし人力連携時の記載であり自動認識を保証するものではない）[[10]](https://www2.jpx.co.jp/disc/260A0/140120250214576658.pdf?utm_source=openai)
+
+- **Notta：** 料金ページで上限やAIクレジットの考え方を明示。日本語の運用もしやすい印象。
+- **Otter.ai：** Free/Pro/Business/Enterpriseの層別。要約・チャット等を案内、価格はUSD表記。
+- **Sembly AI：** Pricingページと、2026年3月1日のプラン更新を公式ヘルプで告知。契約前に上限とルールを必ず確認。
+- **Fireflies.ai：** 専用の招待ボットが会議に参加して録音・要約する方式。相手にもボット参加が表示される点に留意。
+- **Fathom：** 無料の個人向けプランと、チーム向け有料プランを案内。低コスト試用に有用。
+- **Avoma：** AI Meeting Assistantに加えてCRM連携やコーチング機能。14日間の全機能トライアルあり。
+- **Zoom AI Companion：** 同梱/スタンドアロン/Basicでの試用枠など提供形態が併存・変遷。最新条件は価格ページで都度確認。
+- **Google Workspace（Gemini）：** 日本向けにGemini Enterprise/Business、AI Meetings and Messaging等の月額（IDあたり）を公的文書で明記。適用には対象のWorkspaceエディション契約が前提。
+- **AmiVoice：** APIは無音区間を課金対象外とする従量課金の思想を明示。会議向け「ProVoXT」ではChatGPT連携のワンクリック要約を案内（料金は要問い合わせの場合あり）。
+- **AI GIJIROKU（オルツ）：** 多言語対応やAI要約、人力文字起こし連携（資料上で「99％以上の精度」に言及。ただし人力連携時の記載であり自動認識を保証するものではない）
 
 ## 料金比較の見方とコスト試算のコツ
-- 課金タイプの把握
-  - **席課金：** ユーザー数×月額（例：OtterやAvomaなどは階層プランを提示）[[4]](https://otter.ai/pricing?msockid=3cc3de1ff61b68153ea6c8b9f76c6933&utm_source=openai)[[8]](https://www.avoma.com/pricing?utm_source=openai)
-  - **従量課金：** 分/時間ベース。AmiVoice APIは無音区間を課金対象外とする等の思想を明示[[3]](https://acp.amivoice.com/amivoice_api/price/?utm_source=openai)
-  - **ハイブリッド：** 席課金＋月間分数上限やAIクレジット（NottaはAIクレジットに言及）[[1]](https://www.notta.ai/pricing?utm_source=openai)
-- **上限・超過の扱い：** SaaSごとに「録音/文字起こし分数」「AIクレジット」「要約実行回数」などの上限が異なり、変更も起こりうる（Semblyのプラン更新事例）[[11]](https://helpdesk.sembly.ai/hc/en-us/articles/43666331002001-Updates-to-Sembly-Plans-Effective-March-1-2026?utm_source=openai)
+
+### 課金タイプの把握
+
+- **席課金：** ユーザー数×月額（例：OtterやAvomaなどは階層プランを提示）
+- **従量課金：** 分/時間ベース。AmiVoice APIは無音区間を課金対象外とする等の思想を明示
+- **ハイブリッド：** 席課金＋月間分数上限やAIクレジット（NottaはAIクレジットに言及）
+
+- **上限・超過の扱い：** SaaSごとに「録音/文字起こし分数」「AIクレジット」「要約実行回数」などの上限が異なり、変更も起こりうる（Semblyのプラン更新事例）
 - **隠れコストの観点：** 長時間会議の超過、保存容量、翻訳/要約の追加クレジット、通貨（USD/JPY）や年払い割引の有無
-- 小規模チームの試算例（概念）
-  - **例：** 月8会議×60分×5人＝総計2,400分の処理需要
-  - **席課金型：** 5席×月額A円＝月額合計
-  - **従量課金型：** 2,400分×分単価B円＝月額合計
-  - **ハイブリッド：** 席課金（5席×C円）＋超過分（max(0, 2,400−プラン上限)×D円）
-  - 実際の単価・上限は各社の最新Pricingを要確認。
+
+### 小規模チームの試算例（概念）
+
+- **例：** 月8会議×60分×5人＝総計2,400分の処理需要
+- **席課金型：** 5席×月額A円＝月額合計
+- **従量課金型：** 2,400分×分単価B円＝月額合計
+- **ハイブリッド：** 席課金（5席×C円）＋超過分（max(0, 2,400−プラン上限)×D円）
+- 実際の単価・上限は各社の最新Pricingを要確認。
 
 ## 実運用で差が出る機能の深掘り
-- **話者分離と固有名詞：** 人名/社名/製品名の誤認は意思決定に影響。分野特化エンジン（AmiVoice等）やカスタム語彙の有無を確認[[3]](https://acp.amivoice.com/amivoice_api/price/?utm_source=openai)
+
+- **話者分離と固有名詞：** 人名/社名/製品名の誤認は意思決定に影響。分野特化エンジン（AmiVoice等）やカスタム語彙の有無を確認
 - **要約テンプレ：** 決定事項・ToDo・ネクストアクションを自動抽出。テンプレ編集やプロンプト指定の柔軟性が運用効率を左右
 - **ノート配信・承認フロー：** 自動でSlack/メール配信、上長承認後に共有などの運用を想定
-- **多言語：** リアルタイム/後処理の翻訳や要約対応、対応言語数（例：AI GIJIROKUは資料で多言語対応を明記）[[10]](https://www2.jpx.co.jp/disc/260A0/140120250214576658.pdf?utm_source=openai)
+- **多言語：** リアルタイム/後処理の翻訳や要約対応、対応言語数（例：AI GIJIROKUは資料で多言語対応を明記）
 - **検索・ナレッジ化：** 横断検索、タグ付け、過去会議の再利用性
-- **録音方法の使い分け：** リアルタイム参加（招待ボット）か、録音ファイルの後アップロードか。ボット参加は相手側表示と同意取得の運用を整える[[6]](https://fireflies.ai/pricing?slug=storage&utm_source=openai)
+- **録音方法の使い分け：** リアルタイム参加（招待ボット）か、録音ファイルの後アップロードか。ボット参加は相手側表示と同意取得の運用を整える
 
 ## ユースケース別の選び方
-- **日本語精度最優先（法務/医療/製造など）：** AmiVoice系や国内ベンダーを第一候補に。PoCで自社語彙の誤認傾向を確認[[3]](https://acp.amivoice.com/amivoice_api/price/?utm_source=openai)[[12]](https://voxt-one.advanced-media.co.jp/service/provoxt/?utm_source=openai)
-- **英日/多言語会議：** AI GIJIROKUや多言語SaaSを試し、翻訳/要約の品質とワークフローの現実性を評価[[10]](https://www2.jpx.co.jp/disc/260A0/140120250214576658.pdf?utm_source=openai)
-- **営業/CS（CRM連携・アクション抽出）：** Avomaなど営業特化機能まで含むSaaSを比較[[8]](https://www.avoma.com/pricing?utm_source=openai)
-- **ウェビナー/研修の長時間収録：** 従量課金（無音非課金等）や分数上限の多いプランを重視[[3]](https://acp.amivoice.com/amivoice_api/price/?utm_source=openai)
-- **低予算の個人/小チーム：** Fathomの無料、OtterのFree/Proで実運用を試し、上限や機能差を把握[[7]](https://www.fathom.ai/pricing?utm_source=openai)[[4]](https://otter.ai/pricing?msockid=3cc3de1ff61b68153ea6c8b9f76c6933&utm_source=openai)
-- **既存スイート優先：** まずZoom AI CompanionやGoogle WorkspaceのGeminiを評価。対象エディションや提供形態は最新の公式情報で確認[[2]](https://zoom.us/pricing/aic?onlycontent=1&utm_source=openai)[[9]](https://www.ntt.com/content/dam/nttcom/hq/jp/about-us/disclosure/tariff/pdf/wn/c249_20240827.pdf)
+
+- **日本語精度最優先（法務/医療/製造など）：** AmiVoice系や国内ベンダーを第一候補に。PoCで自社語彙の誤認傾向を確認
+- **英日/多言語会議：** AI GIJIROKUや多言語SaaSを試し、翻訳/要約の品質とワークフローの現実性を評価
+- **営業/CS（CRM連携・アクション抽出）：** Avomaなど営業特化機能まで含むSaaSを比較
+- **ウェビナー/研修の長時間収録：** 従量課金（無音非課金等）や分数上限の多いプランを重視
+- **低予算の個人/小チーム：** Fathomの無料、OtterのFree/Proで実運用を試し、上限や機能差を把握
+- **既存スイート優先：** まずZoom AI CompanionやGoogle WorkspaceのGeminiを評価。対象エディションや提供形態は最新の公式情報で確認
 
 ## 導入手順（最短で失敗を避ける）
+
 1) 要件定義：会議の種類・言語・連携先・セキュリティ・予算を明文化
 2) 候補の一次選定：国内特化／多言語SaaS／内蔵型から2～3種に絞る
-3) 無料/トライアルでPoC：Fathomの無料、OtterのFree/Pro、Avomaの14日間トライアル等で同じ音声を比較[[7]](https://www.fathom.ai/pricing?utm_source=openai)[[4]](https://otter.ai/pricing?msockid=3cc3de1ff61b68153ea6c8b9f76c6933&utm_source=openai)[[8]](https://www.avoma.com/pricing?utm_source=openai)
-4) 同意とガバナンス整備：ボット表示・録音同意のフロー、誤参加防止の運用（招待ボット方式の注意点を理解）[[6]](https://fireflies.ai/pricing?slug=storage&utm_source=openai)
+3) 無料/トライアルでPoC：Fathomの無料、OtterのFree/Pro、Avomaの14日間トライアル等で同じ音声を比較
+4) 同意とガバナンス整備：ボット表示・録音同意のフロー、誤参加防止の運用（招待ボット方式の注意点を理解）
 5) データ管理の確認：保持期間、保存場所、アクセス権、モデル学習利用の可否などの方針を各社のプライバシー/セキュリティ文書やDPAで確認
-6) 本番展開：テンプレ/辞書/連携先を標準化し、上限・超過の監視を運用に組み込む（SaaSはプラン更新があり得るため定期レビュー）[[11]](https://helpdesk.sembly.ai/hc/en-us/articles/43666331002001-Updates-to-Sembly-Plans-Effective-March-1-2026?utm_source=openai)
+6) 本番展開：テンプレ/辞書/連携先を標準化し、上限・超過の監視を運用に組み込む（SaaSはプラン更新があり得るため定期レビュー）
 
 ## 注意点（必読）
+
 - 参加者の録音同意を必ず取得。社外会議では事前アナウンスと議事録共有の運用を徹底
-- 精度の数値比較は環境依存。ベンダー資料の高精度表現は条件付きの場合がある（例：人力校正時の数値など）。自動認識の保証とは限らない[[10]](https://www2.jpx.co.jp/disc/260A0/140120250214576658.pdf?utm_source=openai)
-- 料金・提供形態は変動。導入直前に各社Pricing/ヘルプを再確認（Semblyのプラン更新、Zoom AIの提供形態の変遷など）[[11]](https://helpdesk.sembly.ai/hc/en-us/articles/43666331002001-Updates-to-Sembly-Plans-Effective-March-1-2026?utm_source=openai)[[2]](https://zoom.us/pricing/aic?onlycontent=1&utm_source=openai)
+- 精度の数値比較は環境依存。ベンダー資料の高精度表現は条件付きの場合がある（例：人力校正時の数値など）。自動認識の保証とは限らない
+- 料金・提供形態は変動。導入直前に各社Pricing/ヘルプを再確認（Semblyのプラン更新、Zoom AIの提供形態の変遷など）
 
 ## まとめ
+
 - まず「会議の種類・言語・連携・セキュリティ・予算」を定義し、内蔵型→国内特化→多言語SaaSの順で適合度を見ていくのがおすすめです。
 - PoCでは同一音源で比較し、要約テンプレと検索性、上限/コストの実効値をチェック。
 - 導入後は同意・データ管理・上限監視の運用を仕組み化し、プラン変更や新機能に合わせて年に数回は見直しましょう。
 
 ## 公式情報を確認する
 
-<AffiliateLink href="https://gemini.google.com/" service="Gemini" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">Geminiを公式サイトで確認する</AffiliateLink>## よくある質問
+
+<AffiliateLink href="https://gemini.google.com/" service="Gemini" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">Geminiを公式サイトで確認する</AffiliateLink>
+<AffiliateLink href="https://gemini.google.com/" service="Gemini" linkType="official" network="none" ctaType="primary" ctaPlacement="after_toc">Geminiを公式サイトで確認する</AffiliateLink>
+
+## よくある質問
 
 ### 無料プランだけで社内展開できますか？
 
-小規模・限定用途なら可能な場合がありますが、分数上限やエクスポート制限、機能制限があるのが一般的です。例として、Fathomは無料の個人向けプラン、Otter.aiはFree/Pro/Business/Enterpriseの層別（USD表記）を案内しています。まず無料/トライアルで実運用を試し、上限に達するかを確認しましょう。[[7]](https://www.fathom.ai/pricing?utm_source=openai)[[4]](https://otter.ai/pricing?msockid=3cc3de1ff61b68153ea6c8b9f76c6933&utm_source=openai)
+小規模・限定用途なら可能な場合がありますが、分数上限やエクスポート制限、機能制限があるのが一般的です。例として、Fathomは無料の個人向けプラン、Otter.aiはFree/Pro/Business/Enterpriseの層別（USD表記）を案内しています。まず無料/トライアルで実運用を試し、上限に達するかを確認しましょう。
 
 ### ZoomのAI要約（AI Companion）と専用SaaSはどちらが良い？
 
-導入の容易さや統合を重視するならZoom AI Companionのような内蔵型が有力です。一方、CRM連携や高度なワークフロー、横断検索などを重視する場合は専用SaaSを比較しましょう。Zoom AI Companionは提供形態が変遷しているため、最新の条件を価格ページで確認してください。[[2]](https://zoom.us/pricing/aic?onlycontent=1&utm_source=openai)
+導入の容易さや統合を重視するならZoom AI Companionのような内蔵型が有力です。一方、CRM連携や高度なワークフロー、横断検索などを重視する場合は専用SaaSを比較しましょう。Zoom AI Companionは提供形態が変遷しているため、最新の条件を価格ページで確認してください。
 
 ### 日本語や専門用語の精度を上げるには？
 
-録音環境（マイク・反響・同時発話）改善が第一歩です。加えて、分野特化エンジンやカスタム語彙の仕組みがあるツールを選ぶと改善が見込めます。AmiVoiceは分野特化エンジンを展開しており、会議向けのサービスも案内しています。[[3]](https://acp.amivoice.com/amivoice_api/price/?utm_source=openai)[[12]](https://voxt-one.advanced-media.co.jp/service/provoxt/?utm_source=openai)
+録音環境（マイク・反響・同時発話）改善が第一歩です。加えて、分野特化エンジンやカスタム語彙の仕組みがあるツールを選ぶと改善が見込めます。AmiVoiceは分野特化エンジンを展開しており、会議向けのサービスも案内しています。
 
 ### 席課金と従量課金、どちらが得ですか？
 
-会議の総分数と利用者数で変わります。席課金は使い放題に見えて月間上限やAIクレジットがある場合があります（NottaはAIクレジットに言及）。従量課金は使った分だけですが、単価と無音の扱いが重要で、AmiVoice APIは無音区間を課金対象外と明示しています。各社の上限や単価は変更されることがあるため、最新プランを都度確認してください。[[1]](https://www.notta.ai/pricing?utm_source=openai)[[3]](https://acp.amivoice.com/amivoice_api/price/?utm_source=openai)[[11]](https://helpdesk.sembly.ai/hc/en-us/articles/43666331002001-Updates-to-Sembly-Plans-Effective-March-1-2026?utm_source=openai)
+会議の総分数と利用者数で変わります。席課金は使い放題に見えて月間上限やAIクレジットがある場合があります（NottaはAIクレジットに言及）。従量課金は使った分だけですが、単価と無音の扱いが重要で、AmiVoice APIは無音区間を課金対象外と明示しています。各社の上限や単価は変更されることがあるため、最新プランを都度確認してください。
 
 ### データはベンダーの学習に使われますか？オプトアウトできますか？
 

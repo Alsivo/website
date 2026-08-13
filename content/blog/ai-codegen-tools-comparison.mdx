@@ -2,6 +2,7 @@
 title: "AIコード生成ツールおすすめ比較：料金・対応IDE・コード品質・使いやすさで選ぶ"
 description: "主要AIコード生成ツール（GitHub Copilot、Amazon Q Developer、Cursor、Claude Code ほか）の料金・対応IDE・使い勝手・プライバシー観点を整理。用途別の選び方、2週間トライアル計画、評価チェックリストまで一気に分かる入門〜選定ガイド。"
 date: "2026-08-06"
+verified: "2026-08-06"
 category: "AIツール"
 image: "/images/blog/ai-codegen-tools-comparison.webp"
 readingTime: "11 min read"
@@ -17,120 +18,164 @@ published: true
 この記事では、主要なAIコード生成ツールを「料金・対応IDE・コード品質・使いやすさ・プライバシー」の5軸で公平に比較する考え方を示し、短期間で失敗しない検証方法とチェックリストまで提供します。結論から言うと、既存IDEを活かすならGitHub Copilot、AWS中心ならAmazon Q Developer、エージェント編集に踏み込むならCursor、会話中心の深掘りならClaude Codeを起点に検討すると進めやすいです（価格や無料枠は頻繁に更新されるため、必ず公式の最新情報を確認してください）。
 
 ## AIコード生成ツールとは（できること/できないこと）
-- できることの例
-  - IDE内のコード補完、コード生成・変換、ライブラリアップグレード支援
-  - チャットによる仕様確認・手順提案、テストコードのたたき台生成、リファクタの素案提示
-  - （製品によっては）エージェント的に複数ファイル横断編集、PRレビューの下書き作成
-- 苦手なこと・注意
-  - 生成物はあくまでドラフト。正確性・安全性はプロジェクトやプロンプトで大きく変わるため、動作確認とレビューは必須
-  - ライセンスやセキュリティ提案は「参考情報」。最終判断は開発チームの規約・法務基準に従う
+
+### できることの例
+
+- IDE内のコード補完、コード生成・変換、ライブラリアップグレード支援
+- チャットによる仕様確認・手順提案、テストコードのたたき台生成、リファクタの素案提示
+- （製品によっては）エージェント的に複数ファイル横断編集、PRレビューの下書き作成
+
+### 苦手なこと・注意
+
+- 生成物はあくまでドラフト。正確性・安全性はプロジェクトやプロンプトで大きく変わるため、動作確認とレビューは必須
+- ライセンスやセキュリティ提案は「参考情報」。最終判断は開発チームの規約・法務基準に従う
 
 ## 失敗しない選び方の5軸
+
 ### 1) 料金とライセンス
-- 席課金に加え、従量（クレジット/トークン/行数）を組み合わせる製品に注意。GitHub Copilotは2026年6月1日以降AI Credits制に移行し、各プランに月次クレジットが含まれ、上限超過は追加課金。コード補完は有料プランではクレジット非消費だが、チャット/エージェント/CLI等は消費対象です[[1]](https://github.com/features/copilot/plans)[[5]](https://github.blog/changelog/2026-06-01-updates-to-github-copilot-billing-and-plans/?utm_source=openai)[[11]](https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing?ref=runtimewire&utm_source=openai)。
-- 無料枠の実効性を必ず試す。Copilot Freeは「補完2000回・チャット50回」などの上限が明記されています[[1]](https://github.com/features/copilot/plans)。
-- Amazon Q DeveloperはFree/Pro等の層があり、特定機能（例：コード変換）に行数ベースの月次プールが設定されています[[2]](https://aws.amazon.com/jp/q/developer/pricing/?loc=7&p=qdev&z=subnav&utm_source=openai)。
+
+- 席課金に加え、従量（クレジット/トークン/行数）を組み合わせる製品に注意。GitHub Copilotは2026年6月1日以降AI Credits制に移行し、各プランに月次クレジットが含まれ、上限超過は追加課金。コード補完は有料プランではクレジット非消費だが、チャット/エージェント/CLI等は消費対象です。
+- 無料枠の実効性を必ず試す。Copilot Freeは「補完2000回・チャット50回」などの上限が明記されています。
+- Amazon Q DeveloperはFree/Pro等の層があり、特定機能（例：コード変換）に行数ベースの月次プールが設定されています。
 
 ### 2) 対応IDE/エコシステム
+
 - 既存IDEで使えるか、専用エディタに移行するかでチームの運用コストが大きく変わります。
-  - CopilotはVS Code、Visual Studio、JetBrains、Vim/Neovim、Azure Data Studio等に対応。チャットはVS Code/JetBrains/Visual Studioで提供されています[[1]](https://github.com/features/copilot/plans)。
-  - Amazon Q DeveloperはVS CodeとJetBrains（AWS Toolkit経由）で利用可能です[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)。
-  - Cursorは専用のAIコードエディタとして提供されます[[3]](https://cursor.com/terms/pricing/2026-03-25?utm_source=openai)。
-  - Claude CodeはClaudeサブスクリプションの枠内で提供されます（利用はClaudeの同一プールを消費）。IDE拡張の対応状況は公式の最新情報を確認してください[[4]](https://claude.com/pricing?utm_source=openai)。
+  - CopilotはVS Code、Visual Studio、JetBrains、Vim/Neovim、Azure Data Studio等に対応。チャットはVS Code/JetBrains/Visual Studioで提供されています。
+  - Amazon Q DeveloperはVS CodeとJetBrains（AWS Toolkit経由）で利用可能です。
+  - Cursorは専用のAIコードエディタとして提供されます。
+  - Claude CodeはClaudeサブスクリプションの枠内で提供されます（利用はClaudeの同一プールを消費）。IDE拡張の対応状況は公式の最新情報を確認してください。
 
 ### 3) コード品質と安全性
+
 - 「どれが常に高品質か」は断定できません。言語/フレームワーク/プロジェクト規模/テスト有無/モデル選択で結果が変わります。各ツールで、テスト生成の素案、リファクタ提案、脆弱性の示唆、説明の明瞭さを自分のコードベースで比べてください。
 
 ### 4) 使いやすさ（導入/学習コスト含む）
-- 初期設定、ショートカット、差分適用のUI、既存リポジトリ理解のしやすさ、日本語/英語での説明の通りやすさを比較。Amazon Q Developerは会話言語が「現在は英語」と明記されているため、日本語前提の運用は要検証です[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)。
+
+- 初期設定、ショートカット、差分適用のUI、既存リポジトリ理解のしやすさ、日本語/英語での説明の通りやすさを比較。Amazon Q Developerは会話言語が「現在は英語」と明記されているため、日本語前提の運用は要検証です。
 
 ### 5) プライバシー/コンプライアンス
-- データ保持・送信範囲・学習利用の既定/オプトアウト可否を確認。Copilotは4月24日以降、Free/Pro/Pro+のユーザーで学習利用が既定有効（オプトアウト可）と記載されています[[1]](https://github.com/features/copilot/plans)。
-- 課金対象機能の切り分け（例：Cursor本体とBugbotの別課金）も見積もり上重要です[[8]](https://cursor.com/blog/may-2026-bugbot-changes?utm_source=openai)。
+
+- データ保持・送信範囲・学習利用の既定/オプトアウト可否を確認。Copilotは4月24日以降、Free/Pro/Pro+のユーザーで学習利用が既定有効（オプトアウト可）と記載されています。
+- 課金対象機能の切り分け（例：Cursor本体とBugbotの別課金）も見積もり上重要です。
 
 ## 比較対象と評価方法（公平性の担保）
-- 対象ツール（本稿で一次情報を確認できた中心）
-  - GitHub Copilot[[1]](https://github.com/features/copilot/plans)
-  - Amazon Q Developer（AWS）[[2]](https://aws.amazon.com/jp/q/developer/pricing/?loc=7&p=qdev&z=subnav&utm_source=openai)[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)[[7]](https://aws.amazon.com/q/developer/pricing/?sc_channel=el&trk=0c0bc293-6689-4920-8057-e1ad3368d38a&utm_source=openai)
-  - Cursor[[3]](https://cursor.com/terms/pricing/2026-03-25?utm_source=openai)[[8]](https://cursor.com/blog/may-2026-bugbot-changes?utm_source=openai)[[9]](https://docs.cursor.com/account/pricing?utm_source=openai)
-  - Claude Code（Anthropic）[[4]](https://claude.com/pricing?utm_source=openai)[[10]](https://platform.claude.com/docs/en/about-claude/pricing?_bhlid=1e790afecf6d3d1d026f3e05f0013b84d88c3c57&utm_source=openai)
-- 参考候補（本稿では最新の価格・仕様を未確認）
-  - Codeium、Tabnine（詳細は各社公式で最新を確認のうえ評価軸に当てはめてください）
-- テスト課題（例）
-  - CRUD API実装、ユニットテスト生成、既存バグ修正、リファクタ、セキュリティ改善提案
-- 採点基準（例）
-  - 正確性/テスト合格率、説明の明瞭さ、編集反映の質、速度、設定容易性
+
+### 対象ツール（本稿で一次情報を確認できた中心）
+
+- GitHub Copilot
+- Amazon Q Developer（AWS）
+- Cursor
+- Claude Code（Anthropic）
+
+### 参考候補（本稿では最新の価格・仕様を未確認）
+
+- Codeium、Tabnine（詳細は各社公式で最新を確認のうえ評価軸に当てはめてください）
+
+### テスト課題（例）
+
+- CRUD API実装、ユニットテスト生成、既存バグ修正、リファクタ、セキュリティ改善提案
+
+### 採点基準（例）
+
+- 正確性/テスト合格率、説明の明瞭さ、編集反映の質、速度、設定容易性
 
 ## 要約の見方（サマリを読む前に）
-- 価格/無料枠/同梱クレジットは変動します。必ず公式の直近表示を確認してください（CopilotのAI Creditsやプランは随時更新の可能性あり）[[1]](https://github.com/features/copilot/plans)[[5]](https://github.blog/changelog/2026-06-01-updates-to-github-copilot-billing-and-plans/?utm_source=openai)。
-- IDEごとの機能差（特にチャット/レビュー/エージェント）は要確認です[[1]](https://github.com/features/copilot/plans)[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)。
+
+- 価格/無料枠/同梱クレジットは変動します。必ず公式の直近表示を確認してください（CopilotのAI Creditsやプランは随時更新の可能性あり）。
+- IDEごとの機能差（特にチャット/レビュー/エージェント）は要確認です。
 
 ## ツール別レビュー：強み・弱み・おすすめ像
+
 ### GitHub Copilot
+
 - 強み
-  - 対応IDEが広く、既存エコシステムに馴染みやすい[[1]](https://github.com/features/copilot/plans)。
-  - 有料プランではコード補完がクレジット非消費。チャット/エージェント/CLI/レビュー等はAI Creditsを消費[[1]](https://github.com/features/copilot/plans)[[5]](https://github.blog/changelog/2026-06-01-updates-to-github-copilot-billing-and-plans/?utm_source=openai)。
+  - 対応IDEが広く、既存エコシステムに馴染みやすい。
+  - 有料プランではコード補完がクレジット非消費。チャット/エージェント/CLI/レビュー等はAI Creditsを消費。
 - 注意点
-  - 使い過ぎるとクレジット上限に達し、追加課金または翌月まで待つ必要が出る可能性。無料枠（補完2000回・チャット50回）も本開発では枯渇しやすい[[1]](https://github.com/features/copilot/plans)。
-  - 一部ユーザー層で学習利用が既定オン。機密性要件に応じてオプトアウト設定を検討[[1]](https://github.com/features/copilot/plans)。
+  - 使い過ぎるとクレジット上限に達し、追加課金または翌月まで待つ必要が出る可能性。無料枠（補完2000回・チャット50回）も本開発では枯渇しやすい。
+  - 一部ユーザー層で学習利用が既定オン。機密性要件に応じてオプトアウト設定を検討。
 - おすすめ像
   - 既存IDEを変えずに幅広い言語・ワークフローで導入したい個人/小規模チーム
 
 ### Amazon Q Developer（AWS）
+
 - 強み
-  - VS Code/JetBrainsで利用可能。AWS環境と連携し、Agentic Coding体験を提供。対応言語が幅広く明示されています[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)。
-  - Free/Pro等の層と、コード変換などで行数ベースの月次プールが公開されています[[2]](https://aws.amazon.com/jp/q/developer/pricing/?loc=7&p=qdev&z=subnav&utm_source=openai)。
-  - IDE/コンソールでQチャットにサインインしても、その行為自体ではサブスク料金は発生しない旨の注意書きがあります[[7]](https://aws.amazon.com/q/developer/pricing/?sc_channel=el&trk=0c0bc293-6689-4920-8057-e1ad3368d38a&utm_source=openai)。
+  - VS Code/JetBrainsで利用可能。AWS環境と連携し、Agentic Coding体験を提供。対応言語が幅広く明示されています。
+  - Free/Pro等の層と、コード変換などで行数ベースの月次プールが公開されています。
+  - IDE/コンソールでQチャットにサインインしても、その行為自体ではサブスク料金は発生しない旨の注意書きがあります。
 - 注意点
-  - 会話言語は「現在は英語」と明記。日本語でのやり取りを前提にせず、英語プロンプトで評価を[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)。
+  - 会話言語は「現在は英語」と明記。日本語でのやり取りを前提にせず、英語プロンプトで評価を。
 - おすすめ像
   - AWS中心の開発/運用を行うチーム。IaCやクラウド連携のPoCを英語で進められる環境
 
 ### Cursor（AIコードエディタ）
+
 - 強み
-  - 専用エディタとしてチャット/エージェントを前提にした体験。PRレビューや自動修正エージェント「Bugbot」との連係も想定されています[[8]](https://cursor.com/blog/may-2026-bugbot-changes?utm_source=openai)。
+  - 専用エディタとしてチャット/エージェントを前提にした体験。PRレビューや自動修正エージェント「Bugbot」との連係も想定されています。
 - 注意点
-  - 料金は「Models & Pricing/Policy」に準拠。Bugbotは2026年6月8日以降、利用量ベースの課金へ移行（既存契約は次回更新から反映）[[8]](https://cursor.com/blog/may-2026-bugbot-changes?utm_source=openai)。
-  - 一部モードはモデル提供者のAPI価格に基づくなど、課金単位の違いに要注意[[9]](https://docs.cursor.com/account/pricing?utm_source=openai)。最新の料金カードを必ず確認してください[[3]](https://cursor.com/terms/pricing/2026-03-25?utm_source=openai)[[9]](https://docs.cursor.com/account/pricing?utm_source=openai)。
+  - 料金は「Models & Pricing/Policy」に準拠。Bugbotは2026年6月8日以降、利用量ベースの課金へ移行（既存契約は次回更新から反映）。
+  - 一部モードはモデル提供者のAPI価格に基づくなど、課金単位の違いに要注意。最新の料金カードを必ず確認してください。
 - おすすめ像
   - リポジトリ横断のエージェント編集やPRレビューの効率化を重視し、専用エディタへの移行コストを許容できる個人/チーム
 
 ### Claude Code（Anthropic）
+
 - 強み
-  - Claudeサブスクリプションに含まれる開発支援プロダクトで、Web/デスクトップ/モバイル/Claude Codeの利用は同一プールから消費されます[[4]](https://claude.com/pricing?utm_source=openai)。
-  - API（Claude Platform）の価格は別体系で明確に区分されています[[10]](https://platform.claude.com/docs/en/about-claude/pricing?_bhlid=1e790afecf6d3d1d026f3e05f0013b84d88c3c57&utm_source=openai)。
+  - Claudeサブスクリプションに含まれる開発支援プロダクトで、Web/デスクトップ/モバイル/Claude Codeの利用は同一プールから消費されます。
+  - API（Claude Platform）の価格は別体系で明確に区分されています。
 - 注意点
-  - 具体的な月額や容量はClaudeの価格ページのカード表示に準拠。国/通貨/キャンペーンで変動し得るため、都度の確認が必要です[[4]](https://claude.com/pricing?utm_source=openai)。
+  - 具体的な月額や容量はClaudeの価格ページのカード表示に準拠。国/通貨/キャンペーンで変動し得るため、都度の確認が必要です。
 - おすすめ像
-  - 会話中心で要件整理やコード方針のすり合わせを行いながら進めたい個人/チーム（IDE連携の詳細は最新情報を要確認）[[4]](https://claude.com/pricing?utm_source=openai)
+  - 会話中心で要件整理やコード方針のすり合わせを行いながら進めたい個人/チーム（IDE連携の詳細は最新情報を要確認）
 
 ### Codeium／Tabnine（参考）
+
 - 本稿の調査範囲外のため、最新の価格・機能・組織向け条件（自己ホスト/データ保持/SSO/監査ログ等）は公式情報を参照し、上記5軸に当てはめて評価してください。
 
 ## ユースケース別おすすめ（すぐ選びたい人向け早見）
-- Webバックエンド（Node/Java/Python）
-  - **既存IDEを活かしつつ幅広い言語で使いたい:** GitHub Copilot[[1]](https://github.com/features/copilot/plans)
-  - **AWS連携や英語での設計対話を重視:** Amazon Q Developer[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)
-- フロントエンド（React/Vue/TypeScript）
-  - **エディタ内での対話的修正やファイル横断提案を試したい:** Cursor（Bugbot連係も想定）[[8]](https://cursor.com/blog/may-2026-bugbot-changes?utm_source=openai)
-- データサイエンス/スクリプト（Python）
-  - **方針検討や説明重視の対話で進めたい:** Claude Code（利用はClaudeの同一プールから消費）[[4]](https://claude.com/pricing?utm_source=openai)
-- インフラ/IaC（Terraform、CloudFormation）
-  - **AWS中心で英語対話に抵抗がない:** Amazon Q Developer[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)
-- 企業導入（監査/データ保持/自己ホスト重視）
-  - 席課金＋従量の設計や学習利用の既定/オプトアウト、監査・ポリシー設定を必ず確認。Copilotのプラン/データ利用記載を参照のうえ、要件適合は自社の法務/セキュリティ部門と最終確認を[[1]](https://github.com/features/copilot/plans)。
+
+### Webバックエンド（Node/Java/Python）
+
+- **既存IDEを活かしつつ幅広い言語で使いたい:** GitHub Copilot
+- **AWS連携や英語での設計対話を重視:** Amazon Q Developer
+
+### フロントエンド（React/Vue/TypeScript）
+
+- **エディタ内での対話的修正やファイル横断提案を試したい:** Cursor（Bugbot連係も想定）
+
+### データサイエンス/スクリプト（Python）
+
+- **方針検討や説明重視の対話で進めたい:** Claude Code（利用はClaudeの同一プールから消費）
+
+### インフラ/IaC（Terraform、CloudFormation）
+
+- **AWS中心で英語対話に抵抗がない:** Amazon Q Developer
+
+### 企業導入（監査/データ保持/自己ホスト重視）
+
+- 席課金＋従量の設計や学習利用の既定/オプトアウト、監査・ポリシー設定を必ず確認。Copilotのプラン/データ利用記載を参照のうえ、要件適合は自社の法務/セキュリティ部門と最終確認を。
 
 ## 導入と検証のステップ（2週間トライアル計画）
-- **Day 1-2:** セットアップ/ショートカット習熟
-  - 既存IDEで拡張を入れる（またはCursorを導入）。CopilotはIDEごとにチャット可用性が異なる点を把握[[1]](https://github.com/features/copilot/plans)。Amazon Q DeveloperはAWS Toolkit前提を確認[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)。
-- **Day 3-7:** 課題別ベンチ
-  - CRUD APIの新規実装、ユニットテスト生成、既知バグ修正、リファクタ、セキュリティ提案の5本勝負で比較。各課題でプロンプト/操作を同条件化。
-- **Day 8-12:** 既存リポへの適用
-  - プロジェクト全体を読み込ませ、変更提案や説明の妥当性を確認。大規模対話や高性能モードは従量消費が増えやすいため、警告/上限を設定（CopilotのAI Creditsに注意）[[1]](https://github.com/features/copilot/plans)。
-- **Day 13-14:** 定量・定性の比較レビューと最終決定
-  - テスト合格率、修正回数、生成コードの可読性、説明の明瞭さ、編集反映の質、実行速度、設定容易性、月次コスト見込みを集計。
+
+### Day 1-2: セットアップ/ショートカット習熟
+
+- 既存IDEで拡張を入れる（またはCursorを導入）。CopilotはIDEごとにチャット可用性が異なる点を把握。Amazon Q DeveloperはAWS Toolkit前提を確認。
+
+### Day 3-7: 課題別ベンチ
+
+- CRUD APIの新規実装、ユニットテスト生成、既知バグ修正、リファクタ、セキュリティ提案の5本勝負で比較。各課題でプロンプト/操作を同条件化。
+
+### Day 8-12: 既存リポへの適用
+
+- プロジェクト全体を読み込ませ、変更提案や説明の妥当性を確認。大規模対話や高性能モードは従量消費が増えやすいため、警告/上限を設定（CopilotのAI Creditsに注意）。
+
+### Day 13-14: 定量・定性の比較レビューと最終決定
+
+- テスト合格率、修正回数、生成コードの可読性、説明の明瞭さ、編集反映の質、実行速度、設定容易性、月次コスト見込みを集計。
 
 ## 評価チェックリスト（コピペ可）
+
 - 生成コードの可読性/一貫性（命名・コメント・スタイル）
 - 説明や根拠の明瞭さ（日本語/英語の差）
 - 既存コードの理解度（設計意図・リポ全体の把握）
@@ -140,48 +185,61 @@ published: true
 - 料金とスケール（無料枠→有料/個人→チームの移行しやすさ、従量超過時の影響）
 
 ## 併用/乗り換えのコツ（失敗例と回避策）
-- ツール混在のルール化
-  - 生成物の出典/プロンプトをコミットメッセージやPRに簡記。コミット前レビューを必須化。
-- プロンプト/スタイルガイドの共通化
-  - 命名規約、エラーハンドリング方針、ログ/テレメトリ標準を事前に共有。
-- 機密情報の取り扱い設定
-  - 学習利用の既定/オプトアウトや、送信除外ファイル、対象リポのスコープをチームで合意。Copilotの既定と設定可否を要確認[[1]](https://github.com/features/copilot/plans)。
-- コスト管理
-  - 長時間のチャットや大規模編集、モデル切替は従量消費が増えがち。AI Creditsや行数/トークン課金の上限/警告を設定する（Copilotのクレジット、Cursorのモード別課金、Amazon Qの行数プールなど）[[1]](https://github.com/features/copilot/plans)[[2]](https://aws.amazon.com/jp/q/developer/pricing/?loc=7&p=qdev&z=subnav&utm_source=openai)[[9]](https://docs.cursor.com/account/pricing?utm_source=openai)。
+
+### ツール混在のルール化
+
+- 生成物の出典/プロンプトをコミットメッセージやPRに簡記。コミット前レビューを必須化。
+
+### プロンプト/スタイルガイドの共通化
+
+- 命名規約、エラーハンドリング方針、ログ/テレメトリ標準を事前に共有。
+
+### 機密情報の取り扱い設定
+
+- 学習利用の既定/オプトアウトや、送信除外ファイル、対象リポのスコープをチームで合意。Copilotの既定と設定可否を要確認。
+
+### コスト管理
+
+- 長時間のチャットや大規模編集、モデル切替は従量消費が増えがち。AI Creditsや行数/トークン課金の上限/警告を設定する（Copilotのクレジット、Cursorのモード別課金、Amazon Qの行数プールなど）。
 
 ## まとめ：タイプ別の最終おすすめと次の一手
-- **既存IDE中心でまず1本選ぶなら：** GitHub Copilot（幅広いIDE対応と導入のしやすさ）[[1]](https://github.com/features/copilot/plans)
-- **AWSワークロード重視で英語運用可なら：** Amazon Q Developer（対応言語とAgentic Coding）[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)
-- **AIに寄り添った新しい編集体験を試すなら：** Cursor（Bugbotやモード別課金に注意）[[8]](https://cursor.com/blog/may-2026-bugbot-changes?utm_source=openai)[[9]](https://docs.cursor.com/account/pricing?utm_source=openai)
-- **会話を軸に構想→実装の往復をしたいなら：** Claude Code（Claudeサブスクの同一プール消費。API価格は別体系）[[4]](https://claude.com/pricing?utm_source=openai)[[10]](https://platform.claude.com/docs/en/about-claude/pricing?_bhlid=1e790afecf6d3d1d026f3e05f0013b84d88c3c57&utm_source=openai)
+
+- **既存IDE中心でまず1本選ぶなら：** GitHub Copilot（幅広いIDE対応と導入のしやすさ）
+- **AWSワークロード重視で英語運用可なら：** Amazon Q Developer（対応言語とAgentic Coding）
+- **AIに寄り添った新しい編集体験を試すなら：** Cursor（Bugbotやモード別課金に注意）
+- **会話を軸に構想→実装の往復をしたいなら：** Claude Code（Claudeサブスクの同一プール消費。API価格は別体系）
 
 最後に、価格や無料枠、IDE機能マトリクス、データ取り扱いは変動が早い分野です。選定前に公式の最新ページを必ず再確認し、2週間のミニPoCで自分たちのコードベースに合うかを検証しましょう。
 
 ## 公式情報を確認する
 
-<AffiliateLink href="https://claude.ai/" service="Claude" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">Claudeを公式サイトで確認する</AffiliateLink>
 
-<AffiliateLink href="https://www.cursor.com/" service="Cursor" linkType="official" network="none" ctaType="secondary" ctaPlacement="before_faq">Cursorを公式サイトで確認する</AffiliateLink>## よくある質問
+<AffiliateLink href="https://claude.ai/" service="Claude" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">Claudeを公式サイトで確認する</AffiliateLink>
+<AffiliateLink href="https://claude.ai/" service="Claude" linkType="official" network="none" ctaType="primary" ctaPlacement="after_toc">Claudeを公式サイトで確認する</AffiliateLink>
+
+<AffiliateLink href="https://www.cursor.com/" service="Cursor" linkType="official" network="none" ctaType="secondary" ctaPlacement="before_faq">Cursorを公式サイトで確認する</AffiliateLink>
+
+## よくある質問
 
 ### 商用利用は可能ですか？
 
-多くのツールは商用での利用を想定していますが、プランや組織向け条件（データ保持・監査・SSO等）で差があります。たとえばGitHub Copilotは複数プランがあり、料金・機能やデータ利用（学習の既定/オプトアウト）など提供条件がプランページに整理されています。自社の法務/セキュリティ要件に照らして各プランの記載を確認してください[[1]](https://github.com/features/copilot/plans)。
+多くのツールは商用での利用を想定していますが、プランや組織向け条件（データ保持・監査・SSO等）で差があります。たとえばGitHub Copilotは複数プランがあり、料金・機能やデータ利用（学習の既定/オプトアウト）など提供条件がプランページに整理されています。自社の法務/セキュリティ要件に照らして各プランの記載を確認してください。
 
 ### 機密コードは学習に使われますか？
 
-ツールやプランによります。GitHub Copilotでは4月24日以降、Free/Pro/Pro+のユーザーで学習利用が既定で有効（オプトアウト可）と記載があります。機密性が高い場合はオプトアウトや組織ポリシー設定を検討してください[[1]](https://github.com/features/copilot/plans)。
+ツールやプランによります。GitHub Copilotでは4月24日以降、Free/Pro/Pro+のユーザーで学習利用が既定で有効（オプトアウト可）と記載があります。機密性が高い場合はオプトアウトや組織ポリシー設定を検討してください。
 
 ### 日本語プロンプトの精度は期待できますか？
 
-製品・タスク・コード規模に依存し断定できません。なおAmazon Q Developerは会話言語が「現在は英語」と明記されているため、日本語中心の運用は前提にせず英語での評価を推奨します[[6]](https://aws.amazon.com/q/developer/build//?utm_source=openai)。
+製品・タスク・コード規模に依存し断定できません。なおAmazon Q Developerは会話言語が「現在は英語」と明記されているため、日本語中心の運用は前提にせず英語での評価を推奨します。
 
 ### 無料でどこまで使えますか？
 
-GitHub Copilot Freeには「補完2000回・チャット50回」などの上限が明記されています[[1]](https://github.com/features/copilot/plans)。Amazon Q DeveloperはFree/Pro等の層があり、特定機能に行数ベースの月次プールが設定されています（詳細は料金ページの最新表を要確認）[[2]](https://aws.amazon.com/jp/q/developer/pricing/?loc=7&p=qdev&z=subnav&utm_source=openai)。
+GitHub Copilot Freeには「補完2000回・チャット50回」などの上限が明記されています。Amazon Q DeveloperはFree/Pro等の層があり、特定機能に行数ベースの月次プールが設定されています（詳細は料金ページの最新表を要確認）。
 
 ### セキュリティ監査に備えて最低限どこを確認すべき？
 
-以下を推奨します。1) データ送信範囲と保持/学習利用（既定とオプトアウト可否）[[1]](https://github.com/features/copilot/plans)、2) 課金対象機能の切り分け（例：Cursor本体とBugbotは別課金設計）[[8]](https://cursor.com/blog/may-2026-bugbot-changes?utm_source=openai)、3) IDE/プラグインの機能差や権限設定（CopilotのチャットはIDEにより提供範囲が異なる）[[1]](https://github.com/features/copilot/plans)。
+以下を推奨します。1) データ送信範囲と保持/学習利用（既定とオプトアウト可否）、2) 課金対象機能の切り分け（例：Cursor本体とBugbotは別課金設計）、3) IDE/プラグインの機能差や権限設定（CopilotのチャットはIDEにより提供範囲が異なる）。
 
 ## 参考情報
 
