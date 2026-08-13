@@ -1515,6 +1515,52 @@ def run_rewrite(
     return article_path
 
 
+def run_phase_c(
+    article_path: Path,
+    log_file: Path,
+) -> None:
+    """
+    Phase Cを実行する。
+
+    ・AIによる自然なタイトル改行
+    ・Blog 16:9画像生成
+    ・Instagram 4:5画像生成
+    ・MDXのimage更新
+    ・titleLines / cardTitleLines更新
+
+    を対象記事へ反映する。
+    """
+
+    slug = article_path.stem
+
+    log(
+        "Phase Cを実行します："
+        f"{slug}",
+        log_file,
+    )
+
+    result = run_python_script(
+        "generate_images.py",
+        log_file,
+        arguments=[
+            slug,
+        ],
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "Phase Cの画像・タイトル生成に"
+            "失敗しました："
+            f"{slug}"
+        )
+
+    log(
+        "Phase C完了："
+        f"{slug}",
+        log_file,
+    )
+
+
 def save_latest_run(
     status: str,
     action: str,
@@ -1554,6 +1600,7 @@ def main(
     action = ""
 
     rewritten_article_path: Path | None = None
+    new_article_path: Path | None = None
 
     lock_acquired = False
 
@@ -1890,6 +1937,11 @@ def main(
                 )
             )
 
+            run_phase_c(
+                new_article_path,
+                log_file,
+            )
+
             expansion_topic = str(
                 decision.get(
                     "expansion_topic",
@@ -1949,6 +2001,11 @@ def main(
                 )
             )
 
+            run_phase_c(
+                rewritten_article_path,
+                log_file,
+            )
+
         elif action == "wait":
             log(
                 "本日は記事生成・リライトを"
@@ -2003,6 +2060,28 @@ def main(
             ]
 
             if (
+                action == "new_article"
+                and new_article_path
+                is not None
+            ):
+                publish_paths.append(
+                    new_article_path
+                )
+
+                blog_image_path = (
+                    BASE_DIR.parent
+                    / "public"
+                    / "images"
+                    / "blog"
+                    / f"{new_article_path.stem}.png"
+                )
+
+                if blog_image_path.exists():
+                    publish_paths.append(
+                        blog_image_path
+                    )
+
+            elif (
                 action == "rewrite_article"
                 and rewritten_article_path
                 is not None
@@ -2010,6 +2089,19 @@ def main(
                 publish_paths.append(
                     rewritten_article_path
                 )
+
+                blog_image_path = (
+                    BASE_DIR.parent
+                    / "public"
+                    / "images"
+                    / "blog"
+                    / f"{rewritten_article_path.stem}.png"
+                )
+
+                if blog_image_path.exists():
+                    publish_paths.append(
+                        blog_image_path
+                    )
 
             pushed = (
                 publish_additional_files(
