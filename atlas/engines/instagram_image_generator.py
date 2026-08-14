@@ -32,10 +32,10 @@ BLOG_IMAGE_DIR = (
 )
 
 SOCIAL_OUTPUT_DIR = (
-    BASE_DIR
-    / "data"
-    / "social"
+    WEBSITE_ROOT
+    / "public"
     / "images"
+    / "social"
 )
 
 
