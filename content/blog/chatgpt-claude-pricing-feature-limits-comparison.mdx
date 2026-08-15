@@ -1,24 +1,15 @@
 ---
 title: "ChatGPTとClaudeの料金・機能・利用制限を徹底比較：用途別の最適解と選び方"
 titleLines:
-  - "ChatGPTとClaudeの料金・機能・利用制限を徹底比較："
-  - "用途別の最適解と選び方"
-cardTitleLines:
-  - "ChatGPTとClaudeの料金・機能・利用制限を徹底比較："
-  - "用途別の最適解と選び方"
-description: "ChatGPTとClaudeの最新プラン（個人・チーム・企業）の料金・利用制限・データ取扱いを公式情報で整理。用途別のおすすめ、選び方フローチャート、導入手順とチェックポイントまでを一気に理解できます。"
+  - "ChatGPTとClaudeの料金・機能・利用制限を徹底比較：用途別の最適解と選び方"
+description: "個人・チーム・法人で迷わない。ChatGPTとClaudeの料金体系（UIとAPIの違い）、利用制限の考え方、データ取扱いの要点、最新の提供状況までを公式情報で整理。用途別のおすすめ・選び方・導入チェックリストで、今日決められます。"
 date: "2026-08-03"
-verified: "2026-08-03"
+verified: "2026-08-15"
+updated: "2026-08-15"
 category: "AIツール"
 image: "/images/blog/chatgpt-claude-pricing-feature-limits-comparison.png"
-readingTime: "13 min read"
-faq:
-  - question: "このサービスは無料で使えますか？"
-    answer: "無料プランの提供状況や利用条件は、公式サイトで最新情報を確認してください。"
-  - question: "初心者でも利用できますか？"
-    answer: "基本的な操作から始められますが、利用する機能やサービスによって必要な知識は異なります。"
-  - question: "業務で利用する際の注意点はありますか？"
-    answer: "個人情報や機密情報を入力する前に、所属組織の規則とサービスのデータ利用方針を確認してください。"
+readingTime: "9 min read"
+faq: [{"question": "ChatGPT Go／Plus／Proはどう違いますか？", "answer": "Goは低価格帯で無料より上限が広がり、広告が表示される場合があります。Plusは推論・画像生成・メモリ等の上限や機能が拡張。Proはヘビーユーザー向けで、公式発表で月額$200の案内と使用量ティアの説明があります（最新の価格は画面表示を優先）。"}, {"question": "UIの有料加入でAPIも使い放題になりますか？", "answer": "なりません。ChatGPT/ClaudeともUIサブスクとAPIは別契約・別課金です。特にClaudeは公式ヘルプで別請求である旨を明示しています。APIの料金表で最新単価を確認してください。"}, {"question": "1日のメッセージ回数は固定ですか？", "answer": "固定回数の公表はなく、プラン・モデル・負荷状況等で変動します。ChatGPTは変動運用の前提が明記され、Claudeも固定回数制ではない旨が案内されています。"}, {"question": "PowerPointやExcelの拡張を使うと費用はどうなりますか？", "answer": "ChatGPTの法人向け拡張（Excel/Sheets/PowerPointなど）はトークン課金の体系です。PowerPointは2026-08-06まで無料の案内があり、それ以降は課金へ移行（現行はRate Cardを要確認）。"}, {"question": "Claudeの100万トークンはUIでも使えますか？", "answer": "100万トークンはAPIの対象モデルに関する明記です。UI（claude.ai）の具体的な上限は公表・固定ではなく、提供条件はAPIと別です。要件に応じてAPIの利用も検討してください。"}]
 tags:
   - "生成AI"
   - "AIツール"
@@ -27,243 +18,138 @@ tags:
   - "仕事効率化"
 published: true
 ---
-この記事は、ChatGPTとClaudeの「料金・機能・利用制限」を短時間で比較し、あなたの主用途に合う最適解を選べるように整理したものです。最終確認日：2026-08-02（日本時間）。記載の仕様や価格は今後変わる可能性があるため、導入前に公式情報の再確認をおすすめします。
+この記事は、ChatGPTとClaudeの「料金・機能・利用制限」を短時間で比較し、あなたの主用途に合う最適解を選べるように整理したものです。最終確認日：2026-08-15（日本時間）。仕様や価格は変わりやすいため、購入・契約前に必ず公式ページの最新表示を優先してください。
 
-## まず結論（用途別おすすめ早見表）
+## 先に結論：こう選ぶ（最短版）
 
-### 長文処理・重い資料が多い（1回のセッションで大量にやり取りしたい）
+- **長文・大規模資料の処理：** ロングコンテキスト重視ならClaude。APIでは最大100万トークンのコンテキストを扱える対象モデルが明記されています（UIとAPIは別製品）。長文の計画がある組織はClaude系を軸に検討しつつ、実際のUI上限は変動制と理解しておくのが安全です。
+- **月額コストを抑えたい個人：** ChatGPT Goは低価格帯で、無料より上限が拡大（広告が表示される場合あり）。Claudeは個人向けProを用意。いずれも価格は地域や表示通貨に左右されるため画面の実表示が最終基準です。
+- **厳格なデータ管理（学習に使われない前提）：** ChatGPT Business/Enterpriseは、ワークスペースのデータをモデル学習に使用しない方針が明記。監査・規程順守が必要な組織では有力候補です。
+- **UIサブスクとAPIの使い分け：** 両サービスともUI（チャット）とAPIは別契約・別課金。UIの有料加入だけではAPIが使い放題になりません（Claudeは公式ヘルプで明示）。自動化やRAGはAPIの従量課金も加味して設計します。
 
-- ClaudeのMax系（Max 5x/20x）やTeam Premiumは、Pro比でセッション容量が大きく拡張されます。長会話の設計や最大100万トークン級のコンテキスト案内（最新モデル）もあり、大容量タスク向きです。
+## 両サービスのプラン体系（UI/法人/API）を3分で把握
 
-### コスト最適化（ライト～中量の個人利用）
+### ChatGPT（UI：個人向け）
 
-- ChatGPT Goは「低価格サブスク」で無料より上限が拡大（年払い不可）。価格は地域で異なる可能性があるため、購入画面で確認を。
-- Claude Proは$20/月、年払い$200/年で実質単価を下げられます。
+- **プラン区分：** 無料版／Go／Plus／Pro。Goは低価格帯で、広告が表示される場合がある。Plus/Proは推論・画像生成・メモリ等の上限や機能が拡張される。価格表示は画面を優先。
+- **利用制限：** 上限は固定回数の公開がなく、モデルや負荷で変動する運用。将来変更もあり得る前提です。
 
-### 厳格なデータ管理（社内情報を扱う、学習への利用を避けたい）
+### Claude（UI：個人・チーム向け）
 
-- ChatGPT Business/Enterpriseは、ワークスペースのデータを学習（トレーニング）に用いないことが明記。管理機能も提供されます。
-- Claude TeamもSSOや権限管理、ドメインキャプチャなどの機能が用意されています（データ方針は各プランの最新約款で要確認）。
+- **プラン区分：** 個人向けはFree/有料（Pro/上位）。チーム・法人向けにTeam（席課金）を提供。比較・価格は日本語の料金ページで公開。価格・通貨は地域等で変わるため画面の実表示を優先。
+- **メッセージ上限の考え方：** 固定回数ではなく、会話長・モデル・機能利用によって変動する旨が案内されています。
 
-### チームでの共同利用・管理機能を重視（SSO/権限/コネクタ）
+### 法人向け（ChatGPT）
 
-- Claude TeamはSSO、ロール権限、ドメインキャプチャ、主要コネクタ（Google Drive/Microsoft 365/Slack/Gmail/GitHub）やエンタープライズ検索等を提供。
-- ChatGPT Business/Enterpriseは管理コンソールやSSO等を提供（詳細は見積もり・価格ページで要確認）。
+- **Business/Enterprise/Edu：** レート表（Rate Card）を公開。Excel/Sheets/PowerPointアドイン等はトークンベースの課金体系。PowerPointは2026-08-06まで無料、それ以降は課金へ移行する旨が案内されています（現時点では移行済みの可能性が高いため最新のRate Cardで確認）。
+- **モデル提供状況（UI）：** 2026-02-13付で一部旧モデルがChatGPT上で提供終了と案内。古い手順書の参照には注意が必要です。
 
-### API前提（自動化・システム連携）
+### API（OpenAI / Anthropic）
 
-- チャット用サブスクとAPIは別課金・別条件。ChatGPT BusinessはAPIと別サービスである旨が明記。AnthropicはAPIの価格表PDFを公開しています（用途に応じて別途確認）。
+- **別課金：** UIサブスクとAPI課金は別。OpenAI/AnthropicともAPIはトークン等の従量課金で、モデル・機能ごとに単価が異なります。見積もり・設計時はAPI料金表で最新の単価を必ず確認してください。
 
-注：モデル構成・上限・機能は随時更新されます。最終的には各アプリ内の表示と最新の公式ヘルプを優先してください。
+## 利用制限の見方（固定回数ではなく、変動制が基本）
 
-## 比較早見表（保存版）
+- **ChatGPT：** メッセージや添付の上限は、プラン・モデル・システム負荷等により変動。固定回数は公開されておらず、運用上変更されることがあります。
+- **Claude：** 「一定期間の使用総量」や「1会話の長さ」の概念があり、固定回数の明記はありません。上限は会話長やモデル等で変わります。
+- **ロングコンテキストの目安：** ClaudeのAPIでは、対象モデルで100万トークンのコンテキストが明記（標準料金でフルの1Mに対応）。ただしUIの提供条件はAPIと別扱いであり、UIでの具体上限は公表・固定ではありません。
 
-### ChatGPT（アプリ）
+## 料金の見方と最新注意点
 
-- **プラン区分：** Free／Go／Plus／Business／Enterprise（公式価格ページに記載）。
-- **Go：** 無料より高い上限と人気機能へのアクセスを提供する低価格サブスク。年払い不可。価格は地域等で異なる可能性があるため購入画面で確認。アプリ内課金は反映に数分かかる場合あり。
-- **Plus：** $20/月。無料より高い上限・優先度・先行機能アクセス等。モデル構成は随時更新・提供終了の可能性あり。
-- **Business/Enterprise：** 管理機能とデータ保護（ワークスペースのデータは学習に不使用）。価格・条件は見積もりや地域で変動。
+- **画面表示が最終基準：** 個人向けUIの価格は地域・通貨・決済手段で異なる場合があります。必ず自分のアカウントの価格表示で確認してください。
+- **ChatGPT Go/Plus/Proの位置づけ：** Goは低価格のエントリープラン。Plusは機能・上限の拡張。Proはヘビーユーザー向けで、OpenAI公式発表では月額$200の案内と、使用量ティア（$100=Plusの約5倍、$200=約20倍）の説明が公開されています（詳細・最新は公式で要確認）。
+- **法人の追加コスト：** Excel/Sheets/PowerPoint等の拡張はトークン課金。PowerPointは2026-08-06以降、無料期間終了の案内あり（現行の実課金はRate Cardで最終確認）。
 
-### Claude（アプリ）
+## 用途別のおすすめ（判断基準）
 
-- **個人向け：** Free $0、Pro $20/月（$200/年）、Max 5x $100/月、Max 20x $200/月。MaxはPro比でセッション容量が大きい設計。
-- **Team（2名以上）：** Standard seat $25/人（月払い）または$20/人（月額換算・年払い）、Premium seat $125/人（月払い）または$100/人（月額換算・年払い）。SSO、ロール権限、ドメインキャプチャ、主要コネクタ、エンタープライズ検索等。週次リセットの使用上限と、上限到達時の「使用クレジット」前払いで継続利用が可能。地域・通貨・税で価格差あり。
+- **長文要約・重い分析を1セッションで：** Claude（特に上位プラン/Team）を主軸に。API利用も併用してロングコンテキスト設計を検討。UIの上限は変動制のため、分割投入・要約併用の運用も視野に。
+- **ライト〜中量の個人利用：** 低予算ならChatGPT Go、もう少し広げるならPlusやClaude Pro。まずは今週の実利用を踏まえ、上限に達するかを観察してから上げ下げを判断。
+- **厳格なデータ管理・監査：** ChatGPT Business/Enterpriseは「学習に使わない」方針が明記。機密データの取り扱い要件がある場合の第一候補に。
+- **自動化・RAG・業務システム連携：** UIサブスクとは別にAPIの従量課金を前提に、OpenAI/Anthropicの料金表とモデル特性で設計。UIは検証・下書き、APIは本番パイプラインで使い分けるのが基本です。
 
-### 利用制限・会話長
+## 選び方フローチャート（テキスト簡易版）
 
-- **ChatGPT：** 無料/有料とも詳細な上限値は公開されず変動。最新はアプリ内の使用状況表示を参照。
-- **Claude：** 使用上限（期間あたり総量）と長さ上限（1会話あたり）を区別。有料プランの最新モデルでは最大100万トークンのコンテキスト案内。長会話を継続する仕組み（要設定）あり。
+1. **主用途を決める：** 長文・重容量/ライト〜中量/チーム運用/自動化のどれかを第一優先にする。
+2. **データ要件を確認：** 学習不使用が必須ならChatGPT Business/Enterpriseが有力。
+3. **コストと上限の試算：** 個人はGo/Plus/Pro or Claude Proの画面価格を確認。1週間の想定メッセージ量とファイル投入量で、まずは下位プランから試す。
+4. **APIの要否：** 自動化やRAGならAPI料金表を別途確認。UIサブスクと混同しない。
+5. **最終確認：** UI上の上限は変動制。直近の実利用で上限到達の有無を観察し、必要なら翌月にプランを微調整。
 
-## 料金体系の違いを整理（無料/有料、アプリ/API）
+## 導入チェックリスト（最短で失敗しない）
 
-### 無料 vs 有料（個人向け）
-
-- ChatGPT Go/Plusは月額サブスクで、Go/Plusとも年払い非対応。
-- Claude Proは$20/月または$200/年（年払いで月換算が安い）。
-
-### チーム/企業向け
-
-- ChatGPT Business/Enterpriseは見積もり・地域差が前提。データは学習に用いない旨が明記。
-- Claude Teamは席課金で、年払いの方が安価。週次リセットと追加クレジットの仕組みあり。
-
-### アプリ（ChatGPT/Claude）とAPI（OpenAI/Anthropic）は別課金
-
-- ChatGPT BusinessはAPIと別サービスである旨が公式ヘルプに明記。APIを使う場合は、チャット用サブスクとは別に価格・上限を確認する必要があります。
-- AnthropicはAPIの価格表PDFを公開（モデル別単価・キャッシュ/バッチ等を整理）。最新のPDFで確認を。
-
-## 個人向けプラン比較（価格・上限・できることの見方）
-
-### ChatGPT Free/Go/Plus
-
-- **Go：** 無料より高い上限・人気機能へのアクセスを提供する低価格サブスク。年払い不可。
-- **Plus：** $20/月。無料より高い優先枠・先行機能アクセス。モデル構成や機能は随時更新されるため、固定化した前提は避ける。
-- 無料/有料とも、具体的なメッセージ回数などは非公開かつ変動。最終的にはアプリ内表示の上限に従うこと。
-
-### Claude Free/Pro/Max
-
-- **Pro：** $20/月 or $200/年。標準的な容量と優先アクセス。
-- **Max 5x/20x：** Pro比でセッション容量が大きく、重い長文処理に有利。価格は$100/月、$200/月。
-- 使用上限（期間あたり）と会話長（1本あたり）を分けて考える。最新モデルで最大100万トークン級のコンテキスト案内。
-
-## チーム/企業向けプラン比較（管理・セキュリティ）
-
-### ChatGPT Business/Enterprise
-
-- 管理機能（管理コンソール、SSO等）やデータ保護を提供。ワークスペースのデータは学習に使用しない旨が明記。価格や条件は見積もりベースで地域差あり。
-
-### Claude Team/Enterprise
-
-- TeamはStandard/Premium席で機能・容量が異なる。SSO、ロール権限、ドメインキャプチャ、主要コネクタ、エンタープライズ検索を提供。週次リセットの上限と、上限到達後の使用クレジット前払いによる継続利用が可能。
-
-## 利用制限の違い（メッセージ・レート・コンテキスト）
-
-- **ChatGPT：** 具体数値は公開されず変動運用。アプリ内の「使用状況」表示が最終的な基準。
-
-### Claude
-
-- 使用上限（一定期間の総量）と長さ上限（1会話のトークン長）を区別。
-- 有料プランの最新モデルで最大100万トークンのコンテキスト案内。長会話継続の自動要約的な仕組みあり（設定有効時）。
-- Teamは週次リセット。上限到達後は「使用クレジット」を事前購入して継続可能。
-
-## 機能比較（アプリ側）の見方と注意点
-
-- 両サービスとも、提供モデルや機能は入れ替わることがあるため、「現時点」の仕様で選び、変更への耐性（代替策・併用）を用意するのが安全です。
-- チームでのドキュメント連携・社内検索などを重視する場合、Claude Teamのコネクタ/エンタープライズ検索の有無が判断材料になります。
-- 具体的なメッセージ上限や添付サイズなどは非公開・変動のため、アプリ内表示を優先してください。
-
-## API利用の比較ポイント（概要）
-
-- チャット用サブスクとAPIは別契約・別課金。ChatGPT BusinessはAPIと別サービスである旨が明記されています。
-- AnthropicはAPIの価格表PDFを公開しています（モデル別の単価やキャッシュ/バッチの料金など）。自動化・RAG・バッチ変換などの実装を検討する場合は、最新PDFでの再確認が前提です。
-
-## プライバシー・セキュリティ・コンプライアンス
-
-- **ChatGPT Go等：** 会話内容がモデル改善に用いられる可能性が明記されています。
-- **ChatGPT Business/Enterprise：** ワークスペースのデータは学習に使用しません。
-- **Claude Team：** SSO、権限管理、ドメインキャプチャ等の管理機能を提供（データ取り扱いの詳細は最新の利用規約・管理画面で要確認）。
-
-## 地域・決済・導入しやすさ
-
-- 価格・通貨・税は地域により異なる場合があります（Claude Teamに明記）。
-- ChatGPT Go/Plusは年払い非対応。アプリ内課金は反映まで数分かかることがあります。最終価格は購入画面で確認を。
-
-## 用途別の最適解（具体例付き）
-
-### ビジネス資料・議事録の長文要約や比較的重い分析
-
-- 1回のセッションで大量の文書を扱うなら、Claude Max 5x/20xやTeam Premiumのようにセッション容量が拡張されたプランが安心です。
-
-### 調査・リサーチの下ごしらえ（ライト～中量）
-
-- 予算を抑えつつ上限を少し広げたいなら、ChatGPT Go（低価格サブスク）かClaude Pro（年払いで実質単価低下）を軸に検討。
-
-### チームでの利用・社内ドキュメント連携
-
-- 権限やSSO、コネクタが必要ならClaude Team。ChatGPT側はBusiness/Enterpriseでデータ保護と管理機能を重点比較。
-
-### 規制・監査を意識した利用
-
-- データを学習に用いないことが明記されたChatGPT Business/Enterpriseが有力候補。詳細条件は見積もり・契約で最終確認を。
-
-## 選び方フローチャート（テキスト版）
-
-### 1) 予算の上限は？
-
-- **低予算：** ChatGPT Go、Claude Pro（年払いで実質単価低下）
-- **余裕あり：** Claude Max 5x/20x、Team Premium、ChatGPT Business/Enterpriseを候補に加える
-
-### 2) 主用途は？
-
-- **長文・重容量：** Claude Max系/Team Premium
-- **ライト～中量：** ChatGPT Go or Claude Pro
-- **チーム運用：** Claude Team or ChatGPT Business/Enterprise
-
-### 3) 必要機能は？（SSO/権限/コネクタ/検索など）
-
-- **必要：** Claude Team（SSO/権限/コネクタ/エンタープライズ検索）やChatGPT Business/Enterpriseを優先。
-
-### 4) セキュリティ要件は？
-
-- **学習に使われないことが必須：** ChatGPT Business/Enterprise。
-
-### 5) 最終決定
-
-- 直近1週間の想定使用量と、アプリ内の上限表示を見ながら最終調整（Claudeは週次リセット・追加クレジット運用が可能）。
+- **無料で動作確認：** 基本操作・出力傾向・ファイル入出力の挙動を試す（ChatGPT/Claude）。
+- **画面価格のスクリーンショット保存：** チーム合意・社内申請向けに、通貨・税込/税別・更新タイミングを明確化。
+- **UIとAPIの境界を明文化：** 誰がUI、誰がAPI、請求はどこに集約するか。ClaudeはUIサブスクとAPIが別契約であることをヘルプで共有。
+- **法人拡張の費用線表：** Excel/Sheets/PowerPointなどを使う部署の見積りはRate Cardを都度確認（無料期間の終了や単価更新に対応）。
+- **モデル更新への備え：** 提供モデル切替・終了があり得るため、代替モデル・ベンダー併用の運用設計を用意。
 
 ## 乗り換え・併用のコツ
 
-- 上限の見え方が異なるため、まず1～2週間は実利用で「上限到達の有無」を観察。Claudeは週次リセットや使用クレジット追加で運用調整が可能です。
-- モデル・機能は入れ替わることがあるため、片方に障害や混雑がある時の代替として「両方のアカウント」を用意しておくと安心です。
-- **目的別に使い分け：** 重い長文はClaude Max系、軽作業はGo/Proなど、ワークロードに応じてプランを切り替えるとコスト最適化しやすくなります。
+- **短期A/B運用：** 1〜2週間、ChatGPTとClaudeを同時運用して上限到達や混雑の影響を体感。安定性とコストのバランスで最終判断。
+- **役割分担：** リサーチ・下書きはChatGPT（Go/Plus）、長文の重作業はClaude（上位/Team）、自動化はAPIといった分担が定着しやすい。
+- **費用の見える化：** UIサブスク費用とAPI従量費用を分離してダッシュボード化。特にAPIはモデルごとに単価が異なるため、早めに監視基盤を整備。
 
-## はじめての設定手順とチェックリスト
+## ChatGPTとClaudeの主要ポイント比較（UI/法人/APIの観点）
 
-- **無料枠で試す：** まずはFreeで基本動作と出力傾向を確認。
-
-### 有料化のポイント
-
-- ChatGPT Go/Plusは月払いのみ（年払いなし）。アプリ内課金は反映に時間がかかる場合あり。
-- Claude Proは月額/年額を選択可（$200/年）。
-- Claude Teamは2名以上で契約。席種（Standard/Premium）と年払いの有無を検討。
-
-### 上限の把握
-
-- ChatGPTはアプリ内の使用状況表示に従う。
-- Claudeは「使用上限」と「長さ上限」を区別し、週次リセットや追加クレジットの運用を理解。
-
-- **APIの準備（必要な場合）：** チャット用サブスクとは別にAPIの料金・上限・キー管理を検討（Anthropicは価格表PDF公開）。
-
-## 執筆時に必ず確認・更新する公式情報リスト（再チェック推奨）
-
-- ChatGPTの価格ページ（Free/Go/Plus/Business/Enterpriseの区分・最新モデル案内）
-- ChatGPT Plusの案内（価格・提供モデル更新の注意）
-- ChatGPT Goの案内（年払い不可、購入反映の注意、地域差の可能性）
-- ChatGPT Businessのデータ方針（学習不使用）と「APIと別サービス」の明示
-- Business Pricing（法人向けの価格案内・見積もり前提）
-- Claudeの「プランを選択」（Free/Pro/Maxの価格・容量コンセプト）
-- Claude Team（席種・価格・SSO/権限/コネクタ・週次リセット・追加クレジット）
-- Claudeの使用上限と長さ上限（最大コンテキスト案内、長会話継続の仕組み）
-- Anthropic APIの価格表PDF（モデル/キャッシュ/バッチ等）
+| 比較項目 | ChatGPT | Claude |
+| --- | --- | --- |
+| 個人向けUIの主なプラン | 無料／Go／Plus／Pro（価格は画面で要確認、Goは広告表示の可能性あり） | Free／有料（Pro/上位）／Team（席課金）。価格は画面で要確認 |
+| 年払いの取扱い | 公式画面で要確認（地域・通貨で表示差あり） | 公式画面で要確認（地域・通貨で表示差あり） |
+| メッセージ上限の公開有無 | 固定回数の公表なし。プランや負荷で変動 | 固定回数ではなく、会話長・モデル等で変動 |
+| ロングコンテキストの明記 | UIの具体上限は公表・固定ではない | APIで最大100万トークン対応モデルが明記（UIは別扱い） |
+| データ学習（法人ワークスペース） | Business/Enterpriseは学習に使用しない方針を明記 | Team/Enterpriseは管理機能を提供。データ方針は契約・約款で要確認 |
+| UIサブスクとAPIの関係 | 別課金。APIはOpenAIの料金表を参照 | 別契約・別請求である旨を公式ヘルプで明示 |
+| 法人向け拡張の課金注記 | Excel/Sheets/PowerPointはトークン課金。PowerPointは2026-08-06で無料期間終了の案内 | 該当なし／要確認 |
 
 ## まとめ
 
-- 料金と上限の「見え方」が、ChatGPTとClaudeで異なるのが最大の違いです。ChatGPTは詳細上限が非公開で変動しやすく、Claudeはセッション容量と週次リセットの考え方が明確です。
-- コスト最適化なら、ChatGPT Go（低価格）とClaude Pro（年払い対応）を起点に。重い長文処理なら、Claude Max系/Team Premiumが現実解になりやすいでしょう。
-- 社内データを扱うなら、データ学習に用いないことを明示したChatGPT Business/Enterpriseや、管理機能が揃うClaude Teamを比較検討してください。
-- いずれもモデル・機能は入れ替わるため、導入前と導入後の定期点検（価格・上限・データ方針の再確認）を習慣化することが、失敗を避ける一番の近道です。
+- 最大の違いは「上限と料金の見え方」。ChatGPTは固定回数の公表がなく変動運用、Claudeは「固定回数ではない」旨を明示しつつ、APIでは超ロングコンテキストを提供するモデルがある、という整理になります。
+- 個人の入り口はChatGPT Go/PlusまたはClaude Pro、長文中心はClaude上位、厳格なデータ要件はChatGPT Business/Enterprise、自動化はAPIの別課金を前提に設計、が基本線です。
+- 価格・モデル・提供条件は動的に変わるため、購入・契約前と導入後の定期点検（料金ページ/Rate Card/ドキュメントの再確認）を習慣化しましょう。
+
+<AffiliateLink href="https://chatgpt.com/" service="ChatGPT" linkType="official" network="none" ctaType="primary" ctaPlacement="after_toc">ChatGPTを公式サイトで確認する</AffiliateLink>
+
+## 公式情報を確認する
+
+<AffiliateLink href="https://chatgpt.com/" service="ChatGPT" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">ChatGPTを公式サイトで確認する</AffiliateLink>
+
+<AffiliateLink href="https://claude.ai/" service="Claude" linkType="official" network="none" ctaType="secondary" ctaPlacement="before_faq">Claudeを公式サイトで確認する</AffiliateLink>
 
 ## よくある質問
 
-### 無料と有料の体感差はどれくらいありますか？
+### ChatGPT Go／Plus／Proはどう違いますか？
 
-一般に有料では使用上限や優先度が上がり、先行機能にアクセスできる場合があります。ChatGPT Plusは$20/月で優先枠・先行機能等が案内されています。 Claude Proは$20/月（年払い$200）で標準容量と優先アクセスを提供します。 ただし具体的な上限値は変動があるため、最終的にはアプリ内表示を確認してください。
+Goは低価格帯で無料より上限が広がり、広告が表示される場合があります。Plusは推論・画像生成・メモリ等の上限や機能が拡張。Proはヘビーユーザー向けで、公式発表で月額$200の案内と使用量ティアの説明があります（最新の価格は画面表示を優先）。
 
-### メッセージ上限は1日何回までですか？
+### UIの有料加入でAPIも使い放題になりますか？
 
-ChatGPTは具体数値を公開しておらず変動運用のため、アプリ内の「使用状況」表示が最終基準です。 Claudeは「使用上限（期間あたり）」と「長さ上限（1会話あたり）」を分けており、週次リセットと追加クレジットの仕組みがあります。
+なりません。ChatGPT/ClaudeともUIサブスクとAPIは別契約・別課金です。特にClaudeは公式ヘルプで別請求である旨を明示しています。APIの料金表で最新単価を確認してください。
 
-### データは学習（トレーニング）に使われますか？
+### 1日のメッセージ回数は固定ですか？
 
-ChatGPT Go等では会話内容がモデル改善に使われる可能性が明記されています。 一方、ChatGPT Business/Enterpriseはワークスペースのデータを学習に使用しないと明記されています。 ClaudeについてはTeamの管理機能は明記されていますが、学習利用の可否は最新の規約・管理画面で確認してください。
+固定回数の公表はなく、プラン・モデル・負荷状況等で変動します。ChatGPTは変動運用の前提が明記され、Claudeも固定回数制ではない旨が案内されています。
 
-### 年払いはできますか？
+### PowerPointやExcelの拡張を使うと費用はどうなりますか？
 
-ChatGPT Go/Plusは年払い非対応です。 Claude Proは$200/年の年払いが可能で、月換算の単価が下がります。 Claude Teamも年払いで席単価が下がる設計です。
+ChatGPTの法人向け拡張（Excel/Sheets/PowerPointなど）はトークン課金の体系です。PowerPointは2026-08-06まで無料の案内があり、それ以降は課金へ移行（現行はRate Cardを要確認）。
 
-### チームで使う場合、どの違いに注目すべきですか？
+### Claudeの100万トークンはUIでも使えますか？
 
-ChatGPTはBusiness/Enterpriseでデータ学習不使用と管理機能が明記され、価格は見積もりベースです。 Claude TeamはStandard/Premium席、SSO、権限管理、ドメインキャプチャ、主要コネクタ、週次リセットと追加クレジットの仕組みが特徴です。
+100万トークンはAPIの対象モデルに関する明記です。UI（claude.ai）の具体的な上限は公表・固定ではなく、提供条件はAPIと別です。要件に応じてAPIの利用も検討してください。
+
 
 ## 参考情報
 
-1. [ChatGPT のプラン | 無料版、Go、Plus、Pro、Business、Enterprise](https://chatgpt.com/ja-JP/pricing/?goal=build-awareness&utm_source=openai)
-2. [What is ChatGPT Plus? | OpenAI Help Center](https://help.openai.com/en/articles/6950777-chatgpt-plus?utm_source=openai)
-3. [What is ChatGPT Go? | OpenAI Help Center](https://help.openai.com/en/articles/11989085-what-is-chatgpt-go?_bhlid=48c3d735c2177de01232fdf242aed15f3cb5e7b5&utm_source=openai)
-4. [ChatGPT Business とは？ | OpenAI Help Center](https://help.openai.com/ja-jp/articles/8792828-chatgpt-business-?utm_source=openai)
-5. [Business Pricing | OpenAI](https://openai.com/ja-JP/business/pricing/?utm_source=openai)
-6. [Claudeプランを選択 | Anthropicヘルプセンター](https://support.claude.com/ja/articles/11049762-claude%E3%83%97%E3%83%A9%E3%83%B3%E3%82%92%E9%81%B8%E6%8A%9E)
-7. [What is the Team plan? | Claude Help Center](https://support.claude.com/en/articles/9266767-what-is-the-team-plan)
-8. [How do usage and length limits work? | Claude Help Center](https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work)
-9. [Anthropic List Prices — 2026-05-27](https://www-cdn.anthropic.com/files/4zrzovbb/website/3684c2faafb97418665782cea0001f439f74b1d2.pdf?utm_source=openai)
-10. [ChatGPT Go とは？ | OpenAI Help Center](https://help.openai.com/ja-jp/articles/11989085-chatgpt-go-?utm_source=openai)
+この記事の作成・確認に使用した主な情報源です。
+
+- [ChatGPT のプラン | 無料版、Go、Plus、Pro、Business、Enterprise](https://chatgpt.com/ja-JP/pricing/?openaicom-did=2d885c2f-978b-4d02-8cfe-994469f959dd&openaicom_referred=true)
+- [ChatGPT Go が登場、世界中で利用可能に | OpenAI](https://openai.com/ja-JP/index/introducing-chatgpt-go/?utm_source=openai)
+- [ChatGPT Pro が登場 | OpenAI](https://openai.com/ja-JP/index/introducing-chatgpt-pro/?utm_source=openai)
+- [ChatGPT レート表（Business、Enterprise/Edu） | OpenAI Help Center](https://help.openai.com/ja-jp/articles/11481834-chatgpt-%E3%83%AC%E3%83%BC%E3%83%88%E8%A1%A8businessenterpriseedu?utm_source=openai)
+- [料金 | Claude](https://claude.com/ja/pricing?fcdaa149_sort_date=desc&s=&utm_source=openai)
+- [料金 - Claude Platform Docs](https://platform.claude.com/docs/ja/about-claude/pricing?utm_source=openai)
+- [Plans & Pricing | Claude by Anthropic](https://claude.com/pricing?m=1&utm_source=openai)
+- [ChatGPT とは: FAQ | OpenAI Help Center](https://help.openai.com/ja-jp/articles/12677804?utm_source=openai)
+- [ChatGPT Rate Card (Business, Enterprise/Edu) | OpenAI Help Center](https://help.openai.com/en/articles/11481834-chatgpt-rate-card?trk=public_post_comment-text&utm_source=openai)
+- [OpenAI API Pricing | OpenAI](https://openai.com/api/pricing/?_conv_s=null&utm_source=openai)
+- [私は有料のClaude.aiプランに加入しています。なぜConsoleでのAPI使用料を別途支払う必要があるのですか？ | Anthropicヘルプセンター](https://support.anthropic.com/ja/articles/9876003-%E7%A7%81%E3%81%AF%E6%9C%89%E6%96%99%E3%81%AEclaude-ai%E3%83%97%E3%83%A9%E3%83%B3%E3%81%AB%E5%8A%A0%E5%85%A5%E3%81%97%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99-%E3%81%AA%E3%81%9Cconsole%E3%81%A7%E3%81%AEapi%E4%BD%BF%E7%94%A8%E6%96%99%E3%82%92%E5%88%A5%E9%80%94%E6%94%AF%E6%89%95%E3%81%86%E5%BF%85%E8%A6%81%E3%81%8C%E3%81%82%E3%82%8B%E3%81%AE%E3%81%A7%E3%81%99%E3%81%8B?utm_source=openai)

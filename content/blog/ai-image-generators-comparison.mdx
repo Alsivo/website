@@ -3,16 +3,14 @@ title: "AI画像生成ツールおすすめ比較｜料金・画質・日本語�
 titleLines:
   - "AI画像生成ツールおすすめ比較｜"
   - "料金・画質・日本語対応・商用利用で選ぶ"
-cardTitleLines:
-  - "AI画像生成ツールおすすめ比較｜"
-  - "料金・画質・日本語対応・商用利用で選ぶ"
-description: "主要なAI画像生成（静止画）を、料金単位・日本語対応・商用条件の観点でやさしく比較。Adobe Firefly／Midjourney／OpenAI（ChatGPT・Images API）／Stable Diffusionを中心に、用途別の選び方と最初の一歩を提案します。"
+description: "主要なAI画像生成（静止画）を、料金の仕組み・日本語UI・商用条件の観点で実務的に比較。Adobe Firefly／Midjourney／OpenAI（ChatGPT・Images API）／Stable Diffusionの違いと、用途別の選び方・最初の一歩を整理します。"
 date: "2026-08-05"
-verified: "2026-08-05"
+verified: "2026-08-15"
+updated: "2026-08-15"
 category: "AIツール"
 image: "/images/blog/ai-image-generators-comparison.png"
 readingTime: "10 min read"
-faq: [{"question": "Adobe Fireflyの画像は商用利用できますか？", "answer": "AdobeはFireflyを「商用利用に安全（commercially safe）」とする立場を公表しています。ただし利用は追加規約の範囲内で、入力素材の権利侵害禁止などの前提があります。データとコンテンツの取り扱い資料では、ユーザーが生成物の権利を保有する旨の説明もあります。導入前に最新の規約原文を確認してください。"}, {"question": "Midjourneyで社外秘の画像やプロンプトを扱う場合の注意点は？", "answer": "非公開生成（Stealth Mode）はPro/Megaプランが対象です。基本の公開設定やコミュニティ利用規範もあります。秘匿が必要ならプラン選択と運用設計を見直してください。"}, {"question": "OpenAI（ChatGPT／Images API）の1枚あたりの価格目安は？", "answer": "画像生成はトークン従量課金（テキストトークン／画像トークン）ですが、具体単価は更新頻度が高く、本稿では数値特定をしていません。必ず最新の公式価格表をご確認ください。"}, {"question": "Stable Diffusionを企業で商用利用する際のライセンスはどう確認しますか？", "answer": "Stability AIのCore Modelsは、年間売上USD 100万超の場合にエンタープライズライセンスが必要と明記されています。モデルごとにライセンス条件が異なるため、利用モデルのライセンス本文とAcceptable Useを必ず確認してください。"}, {"question": "C2PAメタデータはどのツールで付与されますか？", "answer": "Adobe FireflyはContent Credentials（C2PA準拠）の付与を案内しており、OpenAIの画像生成もC2PAメタデータ付与について案内があります。出力後の書き出しやSNS投稿でメタデータが失われないよう運用してください。"}]
+faq: [{"question": "Midjourneyを商用で使う企業はどのプランが必要ですか？", "answer": "年間売上が100万USD超の企業はProまたはMegaが必要とされています。個人・中小は通常プランでの商用可ですが、最新の公式ドキュメントを必ず確認してください。"}, {"question": "Adobe Fireflyの生成クレジットはどのプランで使えますか？", "answer": "Firefly単体、Creative Cloud、Expressなどの各プランに月次の生成クレジット枠が設けられています。消費や付与量はプランや機能により異なります。"}, {"question": "OpenAIの生成画像の権利や利用条件はどこで確認できますか？", "answer": "OpenAIのサービス利用規約に、出力の取り扱い・免責等が規定されています。商用利用前に原文を確認してください。"}, {"question": "Stable Diffusionを商用導入する場合のライセンスは？", "answer": "Stability AIのライセンスでは、年商100万USD未満の範囲での商用可を含むコミュニティライセンス等が定義されています。超える場合は商用/エンタープライズが必要です。モデルごとに条件が異なるため原文確認が必須です。"}, {"question": "商用不可の代表例はありますか？", "answer": "Microsoft Designerは「個人的な非商用使用」とされており、業務用途は不可の解釈です。最新のサポートページと利用条件を確認してください。"}]
 tags:
   - "生成AI"
   - "AIツール"
@@ -21,248 +19,214 @@ tags:
   - "OpenAI"
 published: true
 ---
+## この記事で分かること
 
-## 本記事の対象範囲と前提
+- 商用前提で使うときにまず確認すべき「料金単位」「商用条件」「公開/非公開運用」の要点
+- Adobe Firefly／Midjourney／OpenAI（ChatGPT/Images）／Stable Diffusionの違いと、用途別の選び方
+- 価格や規約が変わりやすい領域で、失敗を避けるチェックポイント（一次情報の参照先付き）
 
-- 対象は「静止画の一般用途（写真風・イラスト・広告画像など）」です。動画生成・3D・ロゴ自動生成は比較対象から除外します。
-- 料金・商用条件は更新が多いため、導入前に必ず公式ページで最新情報を確認してください。
+前提：本記事は静止画の一般用途（写真風・イラスト・広告画像など）を対象とします。価格・規約は頻繁に更新されるため、導入直前に必ず公式情報を確認してください。
 
-## まずは結論：目的別おすすめ早見
+## 先に結論：用途別のおすすめ指針
 
-以下は「まず試す一本」を決めるための道しるべです。モデルのアップデートやプロンプト設計で結果は変わるため、絶対評価ではありません。
+- **法務・組織導入重視（Adobe環境と併用）:** Adobe Firefly。Creative Cloud/Express/Fireflyの各プランで「生成クレジット」枠が提供される設計で、商用利用は追加条項に従います。
+- **会話で素早く試作・社内ワークフローに組み込みたい:** OpenAI（ChatGPT/Images）。ChatGPT上で反復指示→生成がしやすく、Images APIで自動化も可能。利用はOpenAIのサービス利用規約に従います。
+- **スタイル探索・出力量重視:** Midjourney。月額プランでの高速/リラックスなどの利用枠が明確。企業の年間売上が100万USD超の場合はProまたはMegaが必要です。
+- **コスト最適化と自由度（上級者・社内運用）:** Stable Diffusion（Stability Platformや自前実行）。開発者向けはクレジット制課金が用意。商用条件はコミュニティ/商用ライセンスなどモデルごとに異なり、年商要件に注意。
 
-### 法務・開示の安心感を優先
+## 選び方の4基準（最初にここを見る）
 
-「Content Credentials（C2PA準拠のメタデータ）」付与や、商用利用を前提に設計という公式の立場が明示されています。 商用条件は追加規約に従います。
+1) **画質とコントロール性**
 
-### 操作のしやすさ（日本語指示）と実務ワークフロー
+被写体・スタイル・文字表現などの得手不得手はモデルやバージョンで差があります。アップスケール/部分編集/参照画像など、必要なコントロール手段があるかを確認。
 
-会話形式で指示が伝えやすく、画像生成APIも用意。安全策やC2PAメタデータ付与に関する案内があります。
+2) **日本語対応とUI**
 
-### スタイル探索・表現力
+日本語プロンプトや日本語UIの対応はサービスごとに異なります。Adobeは日本語含む多言語対応に言及があります。 そのほかは、実際の操作感を小規模検証で確認しましょう。
 
-月額プラン／GPU時間ベースで大量試行がしやすい設計。非公開生成（Stealth）は上位プラン、商用条件は収益規模で要件があります。
+3) **商用利用とライセンス**
 
-### コスパと自由度（上級者・社内運用）
+「商用可」の定義や要件はサービスごとに異なります。たとえばMidjourneyは企業の年間売上が100万USD超の場合に上位プランが必要。 Stable Diffusionは年商100万USD未満の範囲でコミュニティライセンス下の商用可を規定（超える場合は別ライセンス）。 Adobe Fireflyは追加条項、OpenAIはサービス利用規約を必ず原文確認を。
 
-ローカルや自社クラウドで運用可能。ただし最新モデルはライセンス条件がモデルごとに異なり、特に企業規模による条件差に注意が必要です。
+4) **料金と運用コスト**
 
-## AI画像生成ツールの選び方4基準
-
-1) 画質とコントロール性
-- 写真/イラスト/文字表現など、目的に合わせてモデルの得手不得手を検証。アップスケール・編集（インペイント）・構図コントロールの有無も確認。
-
-2) 日本語対応とUI
-- 日本語プロンプトの解釈や、UI/マニュアルの日本語対応状況を確認。会話型UI（例：ChatGPT）か、デザインツール連携（例：Photoshop内の生成）かも選定材料。
-
-3) 商用利用とライセンス
-- 生成物の権利は各社規約と入力素材の権利状態に依存。Adobeは商用前提の姿勢とデータ利用ポリシーを公表していますが、追加規約と入力制限の遵守が前提です。 Stable Diffusion系はモデルごとに条件が異なります。
-
-4) 料金と運用コスト
-- クレジット制／GPU時間／トークン従量など、課金単位がツールごとに違います。解像度やバッチ生成で1枚あたりコストが大きく変わるため、小規模検証で実効コストを算出してから本番運用に入りましょう。
+クレジット制・月額制（GPU時間）・API従量課金など、課金単位が異なります。まずは想定品質で少量生成し、1枚あたり実効コストを把握してから本番へ。
 
 ## 料金の仕組みを理解する
 
-### クレジット制（例：Adobe Firefly）
+### クレジット制（Adobe Firefly など）
 
-プランごとに毎月の「生成クレジット」上限があり、画像生成や編集で消費します。詳細は公式のプラン比較で確認してください。
+FireflyやCreative Cloud/Expressに付与される「生成クレジット」を消費して生成/編集を行います。クレジット枠や消費はプラン・機能で異なります。
 
-### GPU時間／月額サブスク（例：Midjourney）
+### 月額サブスク（GPU時間/優先度、Midjourney）
 
-月額$10/$30/$60/$120。各プランでFast GPU時間・Relaxモード（無制限生成だが速度や優先度に差）・Stealthの可否が異なります。
+Midjourneyは月額プランで、高速（Fast）/リラックス（Relax）の利用枠や優先度、同時実行数などが定義されています。
 
-### トークン従量（OpenAIのImages API）
+### 従量課金（OpenAI Images / API）
 
-「テキストトークン」と「画像トークン」でメータリングされる従量課金。金額は更新頻度が高いため、最新の価格表を必ず確認してください。
+OpenAIの画像生成APIは従量課金です。具体レートや制限はヘルプ/価格ページの最新版を確認してください。
 
-### 自前GPU（Stable Diffusion系）
+### 開発者向けクレジット制/自前実行（Stable Diffusion）
 
-ローカル/自社クラウドで運用すれば都度課金は減らせますが、GPU初期投資・保守や、モデルごとの商用ライセンス条件の確認が必要です。
+Stabilityの開発者プラットフォームはクレジット制課金です。用途により自前GPUなど他の実行形態も選べます。
 
-### 実効コストの出し方（例）
+### 実効コストの出し方（小さく検証）
 
-1) 想定解像度・品質で10〜20枚ほど試作
-2) 消費クレジット/GPU時間/トークン数を記録
-3) 1枚あたりの平均コストを算出→本番の枚数で見積
+1. **前提を固定：** 解像度・品質・バッチ数を決める。
+2. **10〜20枚を試作：** 消費（クレジット/時間/リクエスト）を記録。
+3. **1枚あたり原価を推計：** 本番の枚数に乗じて概算。
 
-## 比較の方法と評価ルール（本記事の前提）
+## 比較の前提と評価ルール（本記事の方法）
 
-- 共通プロンプトの骨子（例）
-  - **被写体：** レモンの炭酸飲料ボトルの製品写真
-  - **スタイル：** 爽やか、逆光、水滴、広告バナー用
-  - **構図：** 中央配置、余白多め（テキスト入れ想定）
-  - **ネガティブ：** 歪み、余分な指、文字化け
-- 出力サイズ・生成回数を各ツールで近づけ、人物やロゴの扱いは各規約に従って回避。
-- **安全性・開示：** C2PAメタデータの付与や安全策の有無を確認（Adobe/ OpenAIは公表）。
+- 共通の骨子で試作（例）
+ - **被写体：** レモンの炭酸飲料ボトルの製品写真
+ - **スタイル：** 爽やか、逆光、水滴、広告バナー用
+ - **構図：** 中央配置、余白多め（テキスト入れ想定）
+ - **ネガティブ：** 歪み、ノイズ過多、読めない文字
+- 出力サイズ・生成回数は近づけ、人物/ロゴなどは各規約の禁止・注意に従い回避。
+- 品質の「優劣の断定」は避け、用途別の向き不向きを観察（モデル更新で変動しうるため）。
 
 ## 主要ツールの総合比較サマリー（要点）
 
 ### Adobe Firefly
 
-商用前提の設計とContent Credentialsを明示。 生成はクレジット制。 商用条件は追加規約を要確認。
+- **特徴：** Adobe製品と一体で使える「生成クレジット」制。
+- **商用：** 追加条項と関連規約の遵守が前提。
 
 ### Midjourney
 
-月額プランでFast GPU時間/Relax/Stealthなどの差。年商$1,000,000超の企業はProまたはMegaが必要。
+- **特徴：** 月額プランで高速/リラックスなどの利用枠が明確。
+- **商用：** 年商100万USD超の企業はProまたはMegaが必要。
+
+### OpenAI（ChatGPT／Images）
+
+- **特徴：** ChatGPTの会話で意図を詰めやすく、Images APIで自動化も可能。
+- **商用：** OpenAIのサービス利用規約に準拠。
+
+### Stable Diffusion（Stability Platform など）
+
+- **特徴：** 開発者プラットフォームはクレジット制。用途により自前実行も選択肢。
+- **商用：** コミュニティ/商用/エンタープライズなどライセンス階層に要注意。
+
+## 個別レビュー
+
+### Midjourney
+
+- **料金/プラン：** 月額プランでFast/Relax、同時実行などの仕様差がある。非公開生成（Stealth）可否もプランで異なる。
+- **商用条件：** 年商100万USD超の企業はProまたはMegaが必要（個人・中小は通常プラン内で可）。
+- **日本語/運用：** 日本語プロンプトでも活用事例は多いが、最終品質はプロンプト/設定依存のため事前検証を推奨。
 
 ### OpenAI（ChatGPT／Images API）
 
-会話型で指示しやすく、APIで自社ワークフローにも組み込み可能。トークン従量課金とC2PAメタデータ付与の案内あり。
+- **制作のしやすさ：** 会話で意図共有→追加指示→再生成の反復が容易。APIで社内ツールへの組み込みもしやすい。
+- **商用・出力の扱い：** サービス利用規約に従う。出力の取り扱い・免責等は原文で確認を。
+- **料金：** APIは従量課金。具体レートは必ず最新の公式ページで確認。
 
-### Stable Diffusion（DreamStudio／ローカル）
+### Adobe Firefly
 
-モデル・配布単位でライセンスが異なる。最新のCore Modelsは企業規模で条件差（年商USD 100万超はエンタープライズライセンスが必要）。具体の許諾範囲はモデルのライセンス本文を都度確認。
+- **学習/利用の開示姿勢：** 日本語を含む多言語対応への言及あり。
+- **料金：** Firefly/Creative Cloud/Expressで「生成クレジット」枠が設定される。消費や付与量はプラン/機能による。
+- **商用：** 生成AI追加条項（日本語版あり）を確認のうえ運用を。
 
-## 個別レビュー：Midjourney
+### Stable Diffusion（Stability Platform／自前運用）
 
-### 画質・スタイル表現
+- **自由度：** APIや自前実行など複数の実行形態が取れる。
+- **商用ライセンス：** コミュニティライセンスは年商100万USD未満の組織/個人の商用可。超える場合は商用/エンタープライズが必要（モデルや配布物により条件が異なる）。
+- **料金：** Stabilityの開発者プラットフォームはクレジット制。想定トラフィックに応じて試算を。
 
-多様なスタイル探索に向き、バリエーション生成やアップスケールが可能（具体仕様はプランによる）。
+## 商用利用の実務チェックリスト（導入前に）
 
-### 料金
+- **規約の原文確認：** Adobeは生成AI追加条項、OpenAIはサービス利用規約を必読。
+- **企業規模による要件差：** Midjourneyは年商100万USD超→Pro/Megaが必要。
+- **ライセンス階層の理解：** Stable Diffusionは年商100万USD未満の商用可など、コミュニティ/商用/エンタープライズの区分に注意。
+- **クレジット/上限の把握：** Fireflyの生成クレジットはプラン・機能で挙動が異なる。
+- **外部素材の扱い：** CanvaはAI出力がユーザーコンテンツでも、Canvaライブラリ素材を使うと該当ライセンスの制約を受けます。
+- **商用不可の代表例：** Microsoft Designerは「個人的な非商用使用」ライセンスでの提供（業務利用は不可の解釈）。
 
-月額$10/$30/$60/$120。Fast GPU時間やRelaxの有無・優先度、Stealth可否がプランで異なります。
+## 作例づくりのコツ（日本語プロンプト）
 
-### 日本語プロンプト
-
-プロンプトは多言語で使われることが一般的ですが、公式ドキュメントは英語中心でDiscordベースのUIです。結果は用途ごとに事前検証を推奨します。
-
-### 商用条件の注意
-
-年商$1,000,000超の企業はProまたはMegaが必要。非公開生成（Stealth）はPro/Megaのみ。
-
-## 個別レビュー：OpenAIの画像生成（ChatGPT／Images API）
-
-### 制作のしやすさ
-
-会話形式で意図を詰めやすく、反復指示でリライトしながら品質調整が可能。APIで社内ツールに組み込みやすい点も特徴です。
-
-### 料金の目安
-
-課金はトークン従量（テキストトークン/画像トークン）。具体単価は更新頻度が高いため、導入時に必ず最新の価格表を確認してください。
-
-### 商用利用
-
-OpenAIの利用規約・ポリシーに従います（権利侵害・不正用途の禁止等）。 C2PAメタデータ付与の案内もあります。
-
-## 個別レビュー：Adobe Firefly
-
-### 学習データの透明性と開示
-
-生成物にContent Credentials（C2PA準拠）を付与する方針を公表。 商用利用に安全（commercially safe）とする立場も発表されています（詳細は追加規約の範囲内）。
-
-### 料金（クレジット制）
-
-生成クレジットの月次上限はプランごとに異なります。最新のプラン表で必ず確認してください。
-
-### 商用条件の確認ポイント
-
-追加規約・データとコンテンツの取り扱い資料を必読。ユーザーが生成物の権利を保有する旨の説明がありますが、入力素材の権利侵害禁止など前提条件があります。
-
-## 個別レビュー：Stable Diffusion（DreamStudio／ローカル運用）
-
-### 自由度とモデル選択
-
-オープンな配布形態が多く、拡張・微調整・自前推論が可能。ただしモデルごとにライセンスが異なり、最新世代は条件が厳格化している場合があります。
-
-### 商用ライセンスの確認ポイント
-
-- Stability AIのCore Modelsでは、年間売上USD 100万超の商用利用にエンタープライズライセンスが必要と明記されています。
-- 具体のモデル（例：SD3.5 Large）のライセンス本文で、商用目的を含む利用許諾の条項があるものも確認できます（バージョンに依存）。
-- DreamStudioを使う場合は、そのTOSに従います。
-
-### 導入難易度
-
-ローカル運用はコスト最適化の余地がある一方、GPU・環境構築・セキュリティ設計が必要です。まずは小規模検証を推奨。
-
-## 商用利用の実務チェックリスト
-
-- 規約の原文・追加条項を必ず確認（Adobeは「追加規約」あり）。
-- 入力素材（写真・ロゴ・人物）の権利確認と禁止事項の遵守（OpenAI/Adobe/Stable DiffusionのAcceptable Use等）。
-- 企業規模による条件差（Stable DiffusionのCore Modelsなど）。
-- C2PAメタデータの保持（Firefly/ OpenAIの付与案内）。書き出しやSNS投稿でメタデータが削除されない運用を設計。
-- 生成物の保管・開示ポリシー（非公開生成オプションの有無：Midjourneyは上位プランでStealth）。
-
-## 作例傾向と使い分け（目安）
-
-- **写真風：** ライティング・レンズ情報を具体化。肌・金属・液体の質感を比較。
-- **イラスト：** 画材・タッチ・時代性を明示。
-- **文字入り：** フォント風味・配置・文字数を短く。日本語レンダリングはモデル差があるため事前検証を。
-
-## 日本語で失敗しないプロンプト作成のコツ
-
-- **構造化する：** 目的→被写体→スタイル→構図→ライティング→解像度→ネガティブの順で短文化。
-- **数値化する：** 色温度・露出感・焦点距離・画角などを具体に。
-- **参照画像を使う：** テイストの共有に有効（各ツールの対応方法は仕様確認）。
-- **反復で詰める：** 生成→短いフィードバック→再生成を数回まわす。
+- **構造化：** 目的 → 被写体 → スタイル → 構図 → ライティング → 解像度 → ネガティブの順で短く。
+- **具体化：** 色温度/露出感/焦点距離/画角などを数値や固有名で指定。
+- **参照画像：** テイストの共有に有効（各ツールの対応方法はヘルプ/仕様で確認）。
+- **反復：** 生成→短いフィードバック→再生成を数回まわす。
 
 ## 用途別おすすめシナリオと導入ステップ
 
-- **SNS画像・バナー：** まずはAdobe FireflyかChatGPT（OpenAI）で小ロット検証。C2PA開示を求めるワークフローならFireflyを優先。
-- **ブログ挿絵・社内資料：** 指示の反復が多いならChatGPTの会話型で素早く試作。
-- **ECモックアップ：** 背景差し替え・生成塗りつぶしを活用（Photoshop等と連携する場合はFireflyのクレジット消費設計を確認）。
+- **SNS画像・広告バナー：** Adobe製品連携を重視→Firefly。素早い試作・自動化→OpenAI（ChatGPT/Images）。
+- **ブログ挿絵・社内資料：** 会話で詰めたい→OpenAI（ChatGPT）。
+- **スタイル探索・ビジュアルR&D：** 多彩なバリエーション→Midjourney（プラン要件に注意）。
+- **内製化・コスト最適化：** API/自前GPUの選択肢→Stable Diffusion（ライセンス区分を精読）。
 
-### 導入の最初の一歩（共通）
+### 最初の一歩（小さく始めて迷いを減らす）
 
-1) 目的・画角・解像度を決め、10〜20枚の試作で実効コストを算出（クレジット/GPU/トークン）。
-2) 商用条件・追加規約を原文確認（Stable Diffusionはモデル別ライセンス）。
-3) ワークフロー（C2PA保持、非公開生成、社内保存）を設計。
+1. **要件定義：** 目的/解像度/納期/公開範囲（社内限定か）を整理。
+2. **小規模検証：** 候補ツールで10〜20枚生成し、品質/時間/実効コストを記録。
+3. **リーガル確認：** サービス固有の商用条件・ライセンス・公開設定を原文で確認。
+4. **運用設計：** 保存/共有/再現性（プロンプト管理）/非公開要件（必要なら対象プラン）を決める。
 
-参考：他の代表的サービス
-- Canva、Microsoft Designer/Copilot、Leonardo AIなども選択肢です。本記事では一次情報の範囲外につき詳細比較は割愛します。導入時は各公式の料金・規約・日本語対応の最新情報をご確認ください。
+## 主要AI画像生成の比較（課金・商用条件・提供形態）
 
-## まとめ：迷ったらこれ—最初の1本と次点、次にやること
+| 比較項目 | Adobe Firefly | Midjourney | OpenAI（ChatGPT/Images） | Stable Diffusion（Stability） |
+| --- | --- | --- | --- | --- |
+| 課金単位 | 生成クレジット制（プランに月次枠） | 月額プラン（高速/リラックス等の枠） | APIの従量課金（最新ページを要確認） | 開発者プラットフォームはクレジット制（自前実行も選択肢） |
+| 商用利用の要点 | 商用は生成AI追加条項などの原文遵守が前提 | 年商100万USD超の企業はProまたはMegaが必要 | OpenAIのサービス利用規約に準拠 | コミュニティは年商100万USD未満で商用可。超は別ライセンス |
+| 提供形態の例 | Creative Cloud/Express/Fireflyで利用可 | Discordベース、各プランで仕様差 | ChatGPTでの生成/Images APIで自動化 | Stability Platform（API）/他ツールなど |
 
-- **まず1本：** 開示・法務面を重視するならAdobe Firefly。
-- **次点：** 会話で素早く詰めたい/自社組み込みも視野ならOpenAI（ChatGPT／Images API）。
-- スタイル探索重視ならMidjourney（非公開生成や収益規模の条件に注意）。
-- コスト最適化と自由度を求めるならStable Diffusion（モデルごとのライセンスを厳密に確認）。
+## まとめ：結局どれを選ぶ？
 
-最後に、価格や条項は更新が多い領域です。導入前に各社の最新ページと原文規約を必ず再確認してください。
+- Adobe環境での安心感と連携重視→**Firefly**。
+- 試作スピードと自動化→**OpenAI（ChatGPT/Images）**。
+- スタイル探索・出力量→**Midjourney**（企業規模の要件に注意）。
+- 自由度とコスト最適化→**Stable Diffusion**（ライセンス区分を精読）。
+
+価格・規約は変動が多いため、導入直前に必ず公式情報の最新内容を確認してください。
+
+<AffiliateLink href="https://chatgpt.com/" service="ChatGPT" linkType="official" network="none" ctaType="primary" ctaPlacement="after_toc">ChatGPTの画像生成の最新仕様と料金を確認する</AffiliateLink>
 
 ## 公式情報を確認する
 
-
-<AffiliateLink href="https://chatgpt.com/" service="ChatGPT" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">ChatGPTを公式サイトで確認する</AffiliateLink>
-<AffiliateLink href="https://chatgpt.com/" service="ChatGPT" linkType="official" network="none" ctaType="primary" ctaPlacement="after_toc">ChatGPTを公式サイトで確認する</AffiliateLink>
+<AffiliateLink href="https://chatgpt.com/" service="ChatGPT" linkType="official" network="none" ctaType="primary" ctaPlacement="before_faq">ChatGPTの画像生成の最新仕様と料金を確認する</AffiliateLink>
 
 <AffiliateLink href="https://www.canva.com/" service="Canva" linkType="official" network="none" ctaType="secondary" ctaPlacement="before_faq">Canvaを公式サイトで確認する</AffiliateLink>
 
 ## よくある質問
 
-### Adobe Fireflyの画像は商用利用できますか？
+### Midjourneyを商用で使う企業はどのプランが必要ですか？
 
-AdobeはFireflyを「商用利用に安全（commercially safe）」とする立場を公表しています。ただし利用は追加規約の範囲内で、入力素材の権利侵害禁止などの前提があります。データとコンテンツの取り扱い資料では、ユーザーが生成物の権利を保有する旨の説明もあります。導入前に最新の規約原文を確認してください。
+年間売上が100万USD超の企業はProまたはMegaが必要とされています。個人・中小は通常プランでの商用可ですが、最新の公式ドキュメントを必ず確認してください。
 
-### Midjourneyで社外秘の画像やプロンプトを扱う場合の注意点は？
+### Adobe Fireflyの生成クレジットはどのプランで使えますか？
 
-非公開生成（Stealth Mode）はPro/Megaプランが対象です。基本の公開設定やコミュニティ利用規範もあります。秘匿が必要ならプラン選択と運用設計を見直してください。
+Firefly単体、Creative Cloud、Expressなどの各プランに月次の生成クレジット枠が設けられています。消費や付与量はプランや機能により異なります。
 
-### OpenAI（ChatGPT／Images API）の1枚あたりの価格目安は？
+### OpenAIの生成画像の権利や利用条件はどこで確認できますか？
 
-画像生成はトークン従量課金（テキストトークン／画像トークン）ですが、具体単価は更新頻度が高く、本稿では数値特定をしていません。必ず最新の公式価格表をご確認ください。
+OpenAIのサービス利用規約に、出力の取り扱い・免責等が規定されています。商用利用前に原文を確認してください。
 
-### Stable Diffusionを企業で商用利用する際のライセンスはどう確認しますか？
+### Stable Diffusionを商用導入する場合のライセンスは？
 
-Stability AIのCore Modelsは、年間売上USD 100万超の場合にエンタープライズライセンスが必要と明記されています。モデルごとにライセンス条件が異なるため、利用モデルのライセンス本文とAcceptable Useを必ず確認してください。
+Stability AIのライセンスでは、年商100万USD未満の範囲での商用可を含むコミュニティライセンス等が定義されています。超える場合は商用/エンタープライズが必要です。モデルごとに条件が異なるため原文確認が必須です。
 
-### C2PAメタデータはどのツールで付与されますか？
+### 商用不可の代表例はありますか？
 
-Adobe FireflyはContent Credentials（C2PA準拠）の付与を案内しており、OpenAIの画像生成もC2PAメタデータ付与について案内があります。出力後の書き出しやSNS投稿でメタデータが失われないよう運用してください。
+Microsoft Designerは「個人的な非商用使用」とされており、業務用途は不可の解釈です。最新のサポートページと利用条件を確認してください。
+
 
 ## 参考情報
 
-1. [Approach to generative AI with Adobe Firefly - Adobe](https://www.adobe.com/ai/overview/firefly/gen-ai-approach.html?utm_source=openai)
-2. [Adobe Expands Generative AI Offerings Delivering New Firefly App with Industry’s First Commercially Safe Video Model](https://news.adobe.com/news/2025/02/firefly-web-app-commercially-safe?utm_source=openai)
-3. [Datasheet
-Adobe Firefly:  
-Data and Content Usage](https://business.adobe.com/content/dam/dx/us/en/resources/sdk/adobe-firefly-data-and-content-usage/adobe-firefly-data-and-content-usage.pdf?utm_source=openai)
-4. [Comparing Midjourney Plans – Midjourney](https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans)
-5. [Introducing our latest image generation model in the API | OpenAI](https://openai.com/index/image-generation-api/?utm_source=openai)
-6. [Stability AI License — Stability AI](https://stability.ai/license?utm_source=openai)
-7. [LICENSE.md · stabilityai/stable-diffusion-3.5-large at refs/pr/102](https://huggingface.co/stabilityai/stable-diffusion-3.5-large/blob/refs%2Fpr%2F102/LICENSE.md?code=true&utm_source=openai)
-8. [生成AIを含むプランを比較 | Adobe Firefly](https://www.adobe.com/jp/products/firefly/plans.html?msockid=06d42e57136a681e0400386c120169e8&utm_source=openai)
-9. [Adobe Generative AI Additional Terms (ja_JP)](https://wwwimages2.adobe.com/content/dam/cc/jp/legal/servicetou/Adobe-Generative-AI-Additional-Terms_ja_JP_20240415.pdf?utm_source=openai)
-10. [API に最新の画像生成モデルが登場 | OpenAI](https://openai.com/ja-JP/index/image-generation-api/?utm_source=openai)
-11. [Dream Studio Terms of Service | Explore TOS & Use Responsibly — Stability AI](https://stability.ai/ds-tos?utm_source=openai)
-12. [Adobe Firefly | Product Description](https://helpx-origin-ew1.aws116.adobeitc.com/gr_en/legal/product-descriptions/adobe-firefly.html?utm_source=openai)
+この記事の作成・確認に使用した主な情報源です。
+
+- [Creative Cloud のライセンスで Adobe Firefly が使えます | Firefly](https://helpx.adobe.com/jp/firefly/using/use-firefly-with-creative-cloud-license-jp.html?utm_source=openai)
+- [Comparing Midjourney Plans – Midjourney](https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans?utm_source=openai)
+- [サービス利用規約 | OpenAI](https://openai.com/ja-JP/policies/service-terms/?utm_source=openai)
+- [Stability AI - Developer Platform](https://platform.stability.ai/pricing?utm_source=openai)
+- [利用規約](https://www.canva.com/ja_jp/policies/terms-of-use/?utm_source=openai)
+- [Microsoft Designerについてよく寄せられる質問 | Microsoft Support](https://support.microsoft.com/ja-JP/designer/frequently-asked-questions-about-microsoft-designer?utm_source=openai)
+- [Adobe Generative AI Additional Terms (ja_JP)](https://wwwimages2.adobe.com/content/dam/cc/jp/legal/servicetou/Adobe-Generative-AI-Additional-Terms_ja_JP_20240116.pdf?utm_source=openai)
+- [アドビ株式会社 
+     141-0032   品川区大崎 1-11-2](https://www.adobe.com/content/dam/cc/jp/news-room/pdfs/202310/20231011_next-gen-firefly-model.pdf?utm_source=openai)
+- [Using Images & Videos Commercially – Midjourney](https://docs.midjourney.com/hc/en-us/articles/27870375276557-Using-Images-Videos-Commercially?utm_source=openai)
+- [画像生成 | OpenAI Help Center](https://help.openai.com/ja-jp/collections/3698342-image-generation?utm_source=openai)
+- [Stability AI License — Stability AI](https://stability.ai/license?utm_source=openai)
+- [Canvaコンテンツ使用許諾契約](https://www.canva.com/ja_jp/policies/content-license-agreement/?msockid=0f50aed4b53c65ef2a92b85fb46364e0&utm_source=openai)
+- [生成クレジット FAQ | Creative Cloud](https://helpx.adobe.com/jp/creative-cloud/apps/generative-ai/generative-credits-faq.html?utm_source=openai)
