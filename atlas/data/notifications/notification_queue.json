@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-08-12T23:49:07.073060",
-  "total": 2,
+  "generated_at": "2026-08-15T16:40:14.338380",
+  "total": 3,
   "requires_attention": true,
   "counts": {
     "CRITICAL": 0,
     "WARNING": 0,
-    "ACTION": 2,
+    "ACTION": 3,
     "INFO": 0
   },
   "notifications": [
     {
       "notification_id": "route:5d9cb1b636ac:ready",
-      "created_at": "2026-08-12T23:49:07.073060",
+      "created_at": "2026-08-15T16:40:14.338380",
       "source": "approved_action_router",
       "level": "ACTION",
       "priority": 93,
@@ -26,8 +26,20 @@
       "status": "ready"
     },
     {
-      "notification_id": "alert:1:ACTION::ChatGPTの収益化対応があります",
-      "created_at": "2026-08-12T23:49:07.073060",
+      "notification_id": "alert:1:ACTION::AI編集長から編集Actionがあります",
+      "created_at": "2026-08-15T16:40:14.338380",
+      "source": "atlas_alert",
+      "level": "ACTION",
+      "priority": 60,
+      "title": "AI編集長から編集Actionがあります",
+      "target": "",
+      "message": "Claudeの料金プラン比較 2026｜無料・Pro・Max（5x/20x）・Teams/Enterprise・APIの違いと最適な選び方 に対して new_article が選択されています。 priority=78",
+      "next_action": "",
+      "status": "active"
+    },
+    {
+      "notification_id": "alert:2:ACTION::ChatGPTの収益化対応があります",
+      "created_at": "2026-08-15T16:40:14.338380",
       "source": "atlas_alert",
       "level": "ACTION",
       "priority": 60,
