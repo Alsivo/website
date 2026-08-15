@@ -139,6 +139,7 @@ def find_font() -> Path:
     """利用可能な日本語フォントを探す。"""
 
     for path in FONT_CANDIDATES:
+
         if path.exists():
             return path
 
@@ -190,12 +191,16 @@ def clean_text(
         value
     )
 
-    text = text.replace(
-        "\r",
-        " ",
-    ).replace(
-        "\n",
-        " ",
+    text = (
+        text
+        .replace(
+            "\r",
+            " ",
+        )
+        .replace(
+            "\n",
+            " ",
+        )
     )
 
     text = re.sub(
@@ -205,6 +210,23 @@ def clean_text(
     )
 
     return text.strip()
+
+
+def compact_text(
+    value: str,
+) -> str:
+    """
+    改行結果検証用。
+
+    半角・全角を含む空白と改行だけ除去し、
+    文章自体が変更されていないことを確認する。
+    """
+
+    return re.sub(
+        r"\s+",
+        "",
+        str(value),
+    )
 
 
 def text_width(
@@ -253,6 +275,8 @@ def text_height(
 
 # =========================================================
 # Normal text wrapping
+#
+# AI改行が使えない場合だけ使用する。
 # =========================================================
 
 def find_break_index(
@@ -262,8 +286,10 @@ def find_break_index(
     max_width: int,
 ) -> int:
     """
-    descriptionなどの通常文章用。
     幅を超えない範囲で改行位置を探す。
+
+    AI改行が取得できない場合の
+    フォールバックとして使用する。
     """
 
     if not text:
@@ -275,6 +301,7 @@ def find_break_index(
         1,
         len(text) + 1,
     ):
+
         candidate = text[
             :index
         ]
@@ -287,7 +314,9 @@ def find_break_index(
             )
             <= max_width
         ):
+
             best = index
+
         else:
             break
 
@@ -297,13 +326,22 @@ def find_break_index(
     if best <= 0:
         return 1
 
+    # -----------------------------------------------------
+    # 行頭禁則
+    # -----------------------------------------------------
+
     while (
         best < len(text)
         and text[best]
         in PROHIBITED_LINE_START
         and best > 1
     ):
+
         best -= 1
+
+    # -----------------------------------------------------
+    # 行末禁則
+    # -----------------------------------------------------
 
     while (
         best > 1
@@ -312,7 +350,12 @@ def find_break_index(
         ]
         in PROHIBITED_LINE_END
     ):
+
         best -= 1
+
+    # -----------------------------------------------------
+    # 自然な区切り位置を優先
+    # -----------------------------------------------------
 
     preferred_breaks = (
         "？",
@@ -343,10 +386,12 @@ def find_break_index(
         search_start - 1,
         -1,
     ):
+
         if (
             text[index]
             in preferred_breaks
         ):
+
             return (
                 index + 1
             )
@@ -360,43 +405,18 @@ def find_break_index(
 def rebalance_lines(
     lines: list[str],
 ) -> list[str]:
-    """descriptionの最終行が極端に短くなる状態を軽減する。"""
+    """
+    機械的な文字移動は行わない。
 
-    if len(lines) < 2:
-        return lines
+    以前は最終行が短い場合に、
+    前行末尾から2〜4文字を強制的に移動していたが、
+    英単語や日本語の語句を途中で分断する原因になるため廃止。
 
-    updated = lines[:]
+    行バランスはAI改行を優先し、
+    フォールバック時も安全な改行位置だけで処理する。
+    """
 
-    if len(
-        updated[-1]
-    ) <= 3:
-
-        previous = updated[-2]
-
-        if len(previous) >= 6:
-
-            move_count = min(
-                4,
-                max(
-                    2,
-                    len(previous) // 4,
-                ),
-            )
-
-            moved = previous[
-                -move_count:
-            ]
-
-            updated[-2] = previous[
-                :-move_count
-            ].rstrip()
-
-            updated[-1] = (
-                moved
-                + updated[-1]
-            ).lstrip()
-
-    return updated
+    return lines
 
 
 def wrap_text(
@@ -416,7 +436,7 @@ def wrap_text(
     if not text:
         return []
 
-    lines = []
+    lines: list[str] = []
 
     rest = text
 
@@ -434,10 +454,13 @@ def wrap_text(
             )
             <= max_width
         ):
+
             lines.append(
                 rest
             )
+
             rest = ""
+
             break
 
         break_index = (
@@ -449,16 +472,24 @@ def wrap_text(
             )
         )
 
-        line = rest[
-            :break_index
-        ].strip()
+        line = (
+            rest[
+                :break_index
+            ]
+            .strip()
+        )
 
-        rest = rest[
-            break_index:
-        ].strip()
+        rest = (
+            rest[
+                break_index:
+            ]
+            .strip()
+        )
 
         if not line:
+
             line = rest[:1]
+
             rest = rest[1:]
 
         lines.append(
@@ -486,6 +517,7 @@ def wrap_text(
             )
             > max_width
         ):
+
             last = last[:-1]
 
         lines[-1] = (
@@ -497,17 +529,14 @@ def wrap_text(
 
 
 # =========================================================
-# AI title layout helpers
+# AI line helpers
 # =========================================================
 
-def get_ai_title_lines(
+def get_ai_lines(
     article: dict[str, Any],
     key: str,
 ) -> list[str]:
-    """
-    generate_images.pyでAIが生成した
-    改行済みタイトルを取得する。
-    """
+    """AIが生成した改行済み文字列を取得する。"""
 
     raw_lines = article.get(
         key,
@@ -518,9 +547,10 @@ def get_ai_title_lines(
         raw_lines,
         list,
     ):
+
         return []
 
-    lines = []
+    lines: list[str] = []
 
     for raw_line in raw_lines:
 
@@ -529,6 +559,7 @@ def get_ai_title_lines(
         )
 
         if line:
+
             lines.append(
                 line
             )
@@ -536,32 +567,29 @@ def get_ai_title_lines(
     return lines
 
 
-def validate_ai_title_lines(
-    title: str,
+def validate_ai_lines(
+    original_text: str,
     lines: list[str],
 ) -> bool:
     """
-    AIがタイトルを書き換えていないか確認する。
-    改行だけならTrue。
+    AIが文章を書き換えていないか確認する。
+
+    行を連結して元文章と同一ならTrue。
     """
 
     if not lines:
         return False
 
-    original = re.sub(
-        r"\s+",
-        "",
+    original = compact_text(
         clean_text(
-            title
-        ),
+            original_text
+        )
     )
 
-    reconstructed = re.sub(
-        r"\s+",
-        "",
+    reconstructed = compact_text(
         "".join(
             lines
-        ),
+        )
     )
 
     return (
@@ -569,6 +597,10 @@ def validate_ai_title_lines(
         == reconstructed
     )
 
+
+# =========================================================
+# AI title layout helpers
+# =========================================================
 
 def split_long_title_lines(
     draw: ImageDraw.ImageDraw,
@@ -578,13 +610,8 @@ def split_long_title_lines(
     check_font_size: int,
 ) -> list[str]:
     """
-    AIが決めた意味的な改行をできるだけ維持しつつ、
-    画像上で長すぎる行だけ追加分割する。
-
-    ・AI改行は原則維持
-    ・長すぎる行だけ分割
-    ・記号など自然な位置を優先
-    ・最大行数を超えない
+    AIタイトル改行を維持しつつ、
+    長すぎる行だけ追加分割する。
     """
 
     if not lines:
@@ -612,8 +639,6 @@ def split_long_title_lines(
             - remaining_original_lines
         )
 
-        # これ以上分割すると最大行数を超える場合は
-        # AIの行をそのまま使用する。
         if available_slots <= 1:
 
             result.append(
@@ -622,7 +647,6 @@ def split_long_title_lines(
 
             continue
 
-        # 十分収まっている行はAI改行をそのまま維持。
         if (
             text_width(
                 draw,
@@ -642,7 +666,6 @@ def split_long_title_lines(
 
         while rest:
 
-            # 残りがそのまま収まるなら終了。
             if (
                 text_width(
                     draw,
@@ -670,7 +693,6 @@ def split_long_title_lines(
                 - remaining_original_lines
             )
 
-            # これ以上安全に分割できない。
             if slots_left <= 1:
 
                 result.append(
@@ -679,16 +701,19 @@ def split_long_title_lines(
 
                 break
 
-            break_index = find_break_index(
-                draw=draw,
-                text=rest,
-                text_font=check_font,
-                max_width=max_width,
+            break_index = (
+                find_break_index(
+                    draw=draw,
+                    text=rest,
+                    text_font=check_font,
+                    max_width=max_width,
+                )
             )
 
             if (
                 break_index <= 0
-                or break_index >= len(rest)
+                or break_index
+                >= len(rest)
             ):
 
                 result.append(
@@ -697,13 +722,19 @@ def split_long_title_lines(
 
                 break
 
-            first = rest[
-                :break_index
-            ].strip()
+            first = (
+                rest[
+                    :break_index
+                ]
+                .strip()
+            )
 
-            second = rest[
-                break_index:
-            ].strip()
+            second = (
+                rest[
+                    break_index:
+                ]
+                .strip()
+            )
 
             if (
                 not first
@@ -725,24 +756,6 @@ def split_long_title_lines(
     return result
 
 
-def fixed_prebroken_title(
-    lines: list[str],
-    font_size: int,
-) -> tuple[
-    ImageFont.FreeTypeFont,
-    list[str],
-]:
-    """
-    AIが決めた改行をそのまま使用し、
-    指定した固定フォントサイズを返す。
-    """
-
-    return (
-        font(font_size),
-        lines,
-    )
-
-
 def fit_prebroken_title(
     draw: ImageDraw.ImageDraw,
     lines: list[str],
@@ -751,7 +764,7 @@ def fit_prebroken_title(
     min_font_size: int,
 ) -> ImageFont.FreeTypeFont:
     """
-    AIが決めた改行位置を変更せず、
+    AIが決めたタイトル改行を維持し、
     全行が収まる最大フォントサイズを探す。
     """
 
@@ -794,10 +807,7 @@ def fallback_title_lines(
     ImageFont.FreeTypeFont,
     list[str],
 ]:
-    """
-    AI改行が取得できなかった場合だけ使用する
-    シンプルなフォールバック。
-    """
+    """AIタイトル改行が使えない場合のフォールバック。"""
 
     cleaned_title = clean_text(
         title
@@ -822,18 +832,14 @@ def fallback_title_lines(
             ellipsis=False,
         )
 
-        reconstructed = re.sub(
-            r"\s+",
-            "",
+        reconstructed = compact_text(
             "".join(
                 lines
-            ),
+            )
         )
 
-        original = re.sub(
-            r"\s+",
-            "",
-            cleaned_title,
+        original = compact_text(
+            cleaned_title
         )
 
         if (
@@ -842,6 +848,7 @@ def fallback_title_lines(
             and len(lines)
             <= max_lines
         ):
+
             return (
                 title_font,
                 lines,
@@ -865,15 +872,17 @@ def fallback_title_lines(
         fallback_lines,
     )
 
+
 # =========================================================
 # Image title settings
 # =========================================================
 
-BLOG_TITLE_FONT_SIZE = 64
-INSTAGRAM_TITLE_FONT_SIZE = 44
+BLOG_TITLE_FONT_SIZE = 88
+INSTAGRAM_TITLE_FONT_SIZE = 74
 
-BLOG_TITLE_LINE_GAP = 6
-INSTAGRAM_TITLE_LINE_GAP = 8
+BLOG_TITLE_LINE_GAP = 12
+INSTAGRAM_TITLE_LINE_GAP = 14
+
 
 def prepare_title(
     draw: ImageDraw.ImageDraw,
@@ -889,44 +898,67 @@ def prepare_title(
     list[str],
 ]:
     """
-    AI改行を最優先する。
+    AIが決めた自然な改行を最優先する。
 
-    ただしAIが作った1行が画像上で長すぎる場合は、
-    意味的な改行をできるだけ維持しながら
-    長い行だけ追加分割する。
+    1. AI改行をそのまま使用できるか確認
+    2. 改行位置を変えず、フォントサイズだけ縮小
+    3. min_font_sizeでも入らない場合のみ追加分割
+    4. それでも無理な場合だけ通常フォールバック
 
-    最後にフォントサイズを調整して
-    全行を確実に画像内へ収める。
+    Blog / Instagramでは
+    max_width・font sizeが別々に渡されるため、
+    それぞれ独立したレイアウトになる。
     """
 
-    ai_lines = get_ai_title_lines(
+    ai_lines = get_ai_lines(
         article,
         ai_key,
     )
 
     if (
         ai_lines
-        and len(ai_lines)
-        <= max_lines
-        and validate_ai_title_lines(
+        and len(ai_lines) <= max_lines
+        and validate_ai_lines(
             title,
             ai_lines,
         )
     ):
 
-        # -------------------------------------------------
-        # AI改行をベースに、
-        # 長すぎる行だけ追加分割
-        #
-        # 最大フォントサイズより少し小さいサイズを
-        # 判定基準にすることで、
-        # 不必要な分割を避ける。
-        # -------------------------------------------------
+        # -----------------------------------------------------
+        # 最優先：
+        # AIの自然な改行を一切変更せず、
+        # フォントサイズだけ下げて収める
+        # -----------------------------------------------------
 
-        check_font_size = max(
-            min_font_size,
-            max_font_size - 8,
-        )
+        for size in range(
+            max_font_size,
+            min_font_size - 1,
+            -2,
+        ):
+            title_font = font(
+                size
+            )
+
+            if all(
+                text_width(
+                    draw,
+                    line,
+                    title_font,
+                )
+                <= max_width
+                for line in ai_lines
+            ):
+                return (
+                    title_font,
+                    ai_lines,
+                )
+
+        # -----------------------------------------------------
+        # minサイズでも入らない場合だけ
+        # AI行を追加分割する
+        #
+        # ここではmin_font_sizeを基準にする。
+        # -----------------------------------------------------
 
         adjusted_lines = (
             split_long_title_lines(
@@ -934,21 +966,19 @@ def prepare_title(
                 lines=ai_lines,
                 max_width=max_width,
                 max_lines=max_lines,
-                check_font_size=check_font_size,
+                check_font_size=min_font_size,
             )
         )
 
-        # タイトル文字列が壊れていないことを再確認。
         if (
             adjusted_lines
             and len(adjusted_lines)
             <= max_lines
-            and validate_ai_title_lines(
+            and validate_ai_lines(
                 title,
                 adjusted_lines,
             )
         ):
-
             title_font = (
                 fit_prebroken_title(
                     draw=draw,
@@ -959,8 +989,6 @@ def prepare_title(
                 )
             )
 
-            # min_font_sizeでも幅を超えるような
-            # 異常ケースはfallbackへ回す。
             if all(
                 text_width(
                     draw,
@@ -970,11 +998,15 @@ def prepare_title(
                 <= max_width
                 for line in adjusted_lines
             ):
-
                 return (
                     title_font,
                     adjusted_lines,
                 )
+
+    # ---------------------------------------------------------
+    # AI結果そのものが使えなかった場合だけ
+    # 機械フォールバック
+    # ---------------------------------------------------------
 
     return fallback_title_lines(
         draw=draw,
@@ -984,6 +1016,258 @@ def prepare_title(
         max_font_size=max_font_size,
         min_font_size=min_font_size,
     )
+
+
+# =========================================================
+# AI subtitle layout helpers
+# =========================================================
+
+def fit_prebroken_subtitle(
+    draw: ImageDraw.ImageDraw,
+    lines: list[str],
+    max_width: int,
+    max_font_size: int,
+    min_font_size: int,
+) -> ImageFont.FreeTypeFont:
+    """
+    AIが決めた説明文の改行を維持し、
+    全行が横幅へ収まる最大フォントサイズを探す。
+    """
+
+    for size in range(
+        max_font_size,
+        min_font_size - 1,
+        -2,
+    ):
+
+        subtitle_font = font(
+            size
+        )
+
+        if all(
+            text_width(
+                draw,
+                line,
+                subtitle_font,
+            )
+            <= max_width
+            for line in lines
+        ):
+
+            return subtitle_font
+
+    return font(
+        min_font_size
+    )
+
+
+def subtitle_block_height(
+    draw: ImageDraw.ImageDraw,
+    lines: list[str],
+    subtitle_font: ImageFont.FreeTypeFont,
+    line_gap: int,
+) -> int:
+    """説明文ブロック全体の高さを計算する。"""
+
+    if not lines:
+        return 0
+
+    height = 0
+
+    for index, line in enumerate(
+        lines
+    ):
+
+        height += text_height(
+            draw,
+            line,
+            subtitle_font,
+        )
+
+        if index < len(lines) - 1:
+            height += line_gap
+
+    return height
+
+
+def prepare_subtitle(
+    draw: ImageDraw.ImageDraw,
+    article: dict[str, Any],
+    subtitle: str,
+    ai_key: str,
+    max_width: int,
+    max_lines: int,
+    max_font_size: int,
+    min_font_size: int,
+    max_height: int,
+    line_gap: int,
+) -> tuple[
+    ImageFont.FreeTypeFont,
+    list[str],
+]:
+    """
+    説明文の改行を決定する。
+
+    1. Blog/Instagram専用のAI改行を最優先
+    2. AIが文章を書き換えていないか検証
+    3. 横幅と高さに合わせてフォントを調整
+    4. AI結果が使えない場合だけ機械改行へフォールバック
+
+    BlogとInstagramではai_keyが異なるため、
+    それぞれ独立した改行結果を使用できる。
+    """
+
+    cleaned_subtitle = clean_text(
+        subtitle
+    )
+
+    if not cleaned_subtitle:
+
+        return (
+            font(
+                max_font_size
+            ),
+            [],
+        )
+
+    ai_lines = get_ai_lines(
+        article,
+        ai_key,
+    )
+
+    # -----------------------------------------------------
+    # AI改行を使用
+    # -----------------------------------------------------
+
+    if (
+        ai_lines
+        and len(ai_lines)
+        <= max_lines
+        and validate_ai_lines(
+            cleaned_subtitle,
+            ai_lines,
+        )
+    ):
+
+        for size in range(
+            max_font_size,
+            min_font_size - 1,
+            -2,
+        ):
+
+            subtitle_font = font(
+                size
+            )
+
+            width_ok = all(
+                text_width(
+                    draw,
+                    line,
+                    subtitle_font,
+                )
+                <= max_width
+                for line in ai_lines
+            )
+
+            if not width_ok:
+                continue
+
+            block_height = (
+                subtitle_block_height(
+                    draw=draw,
+                    lines=ai_lines,
+                    subtitle_font=subtitle_font,
+                    line_gap=line_gap,
+                )
+            )
+
+            if block_height <= max_height:
+
+                return (
+                    subtitle_font,
+                    ai_lines,
+                )
+
+    # -----------------------------------------------------
+    # Fallback
+    #
+    # AI改行がない場合だけ、
+    # 画像幅を見ながら機械的に処理する。
+    # -----------------------------------------------------
+
+    for size in range(
+        max_font_size,
+        min_font_size - 1,
+        -2,
+    ):
+
+        subtitle_font = font(
+            size
+        )
+
+        lines = wrap_text(
+            draw=draw,
+            text=cleaned_subtitle,
+            text_font=subtitle_font,
+            max_width=max_width,
+            max_lines=max_lines,
+            ellipsis=False,
+        )
+
+        if not validate_ai_lines(
+            cleaned_subtitle,
+            lines,
+        ):
+
+            continue
+
+        block_height = (
+            subtitle_block_height(
+                draw=draw,
+                lines=lines,
+                subtitle_font=subtitle_font,
+                line_gap=line_gap,
+            )
+        )
+
+        if block_height <= max_height:
+
+            return (
+                subtitle_font,
+                lines,
+            )
+
+    # -----------------------------------------------------
+    # 最終フォールバック
+    #
+    # ここでは勝手に文章を切らない。
+    # minサイズで最大行数まで返す。
+    # それでも入らない場合は、
+    # generate_images.py側でAI再要約する対象になる。
+    # -----------------------------------------------------
+
+    final_font = font(
+        min_font_size
+    )
+
+    final_lines = wrap_text(
+        draw=draw,
+        text=cleaned_subtitle,
+        text_font=final_font,
+        max_width=max_width,
+        max_lines=max_lines,
+        ellipsis=False,
+    )
+
+    return (
+        final_font,
+        final_lines,
+    )
+
+
+# =========================================================
+# Visual helpers
+# =========================================================
 
 def interpolate_color(
     color_1: tuple[
@@ -1196,11 +1480,7 @@ def draw_brand(
         else 48
     )
 
-    tagline_size = (
-        21
-        if large
-        else 19
-    )
+    tagline_size = 38
 
     draw.text(
         (
@@ -1291,9 +1571,10 @@ def get_tags(
         raw_tags,
         list,
     ):
+
         return []
 
-    tags = []
+    tags: list[str] = []
 
     for raw_tag in raw_tags:
 
@@ -1305,6 +1586,7 @@ def get_tags(
             tag
             and tag not in tags
         ):
+
             tags.append(
                 tag
             )
@@ -1312,9 +1594,43 @@ def get_tags(
     return tags[:3]
 
 
-def get_description(
+def get_image_title(
     article: dict[str, Any],
 ) -> str:
+    """画像専用タイトルを取得する。"""
+
+    image_title = clean_text(
+        article.get(
+            "image_title",
+            "",
+        )
+    )
+
+    if image_title:
+        return image_title
+
+    return clean_text(
+        article.get(
+            "title",
+            "",
+        )
+    )
+
+
+def get_image_subtitle(
+    article: dict[str, Any],
+) -> str:
+    """画像専用サブタイトルを取得する。"""
+
+    image_subtitle = clean_text(
+        article.get(
+            "image_subtitle",
+            "",
+        )
+    )
+
+    if image_subtitle:
+        return image_subtitle
 
     return clean_text(
         article.get(
@@ -1339,9 +1655,18 @@ def validate_article(
                 key
             )
         ):
+
             raise ValueError(
                 f"{key}がありません。"
             )
+
+    if not get_image_title(
+        article
+    ):
+
+        raise ValueError(
+            "画像へ表示するタイトルがありません。"
+        )
 
 
 # =========================================================
@@ -1352,13 +1677,7 @@ def create_blog_image(
     article: dict[str, Any],
     output_path: Path | None = None,
 ) -> Path:
-    """
-    ブログ用16:9画像を生成する。
-
-    Blog版はSNS用と役割を分け、
-    ブランドロゴやURLは表示せず、
-    記事内容そのものを主役にする。
-    """
+    """Blog用16:9画像を生成する。"""
 
     validate_article(
         article
@@ -1368,15 +1687,15 @@ def create_blog_image(
         article["slug"]
     )
 
-    title = clean_text(
-        article["title"]
-    )
-
-    category = get_category(
+    title = get_image_title(
         article
     )
 
-    description = get_description(
+    subtitle = get_image_subtitle(
+        article
+    )
+
+    category = get_category(
         article
     )
 
@@ -1399,10 +1718,6 @@ def create_blog_image(
             exist_ok=True,
         )
 
-    # =====================================================
-    # Canvas
-    # =====================================================
-
     image = Image.new(
         "RGB",
         (
@@ -1420,12 +1735,9 @@ def create_blog_image(
         image
     )
 
-    # =====================================================
-    # Main white card
-    #
-    # ALSIVOロゴ領域をなくした分、
-    # カードを画面中央へ大きく配置する。
-    # =====================================================
+    # -----------------------------------------------------
+    # Card
+    # -----------------------------------------------------
 
     card = (
         64,
@@ -1442,13 +1754,13 @@ def create_blog_image(
         width=2,
     )
 
-    # =====================================================
+    # -----------------------------------------------------
     # Category
-    # =====================================================
+    # -----------------------------------------------------
 
     badge = (
         110,
-        120,
+        118,
         410,
         184,
     )
@@ -1459,15 +1771,12 @@ def create_blog_image(
         category,
     )
 
-    # =====================================================
+    # -----------------------------------------------------
     # Title
-    #
-    # generate_images.pyでAIが決めた
-    # blog_title_linesを最優先する。
-    # =====================================================
+    # -----------------------------------------------------
 
     title_x = 110
-    title_y = 245
+    title_y = 225
 
     title_max_width = (
         BLOG_WIDTH
@@ -1475,20 +1784,20 @@ def create_blog_image(
         - 120
     )
 
-    title_font, title_lines = prepare_title(
-        draw=draw,
-        article=article,
-        title=title,
-        ai_key="blog_title_lines",
-        max_width=title_max_width,
-        max_lines=3,
-        max_font_size=BLOG_TITLE_FONT_SIZE,
-        min_font_size=54,
+    title_font, title_lines = (
+        prepare_title(
+            draw=draw,
+            article=article,
+            title=title,
+            ai_key="blog_title_lines",
+            max_width=title_max_width,
+            max_lines=3,
+            max_font_size=BLOG_TITLE_FONT_SIZE,
+            min_font_size=60,
+        )
     )
 
     current_y = title_y
-
-    line_gap = BLOG_TITLE_LINE_GAP
 
     for line in title_lines:
 
@@ -1508,87 +1817,100 @@ def create_blog_image(
                 line,
                 title_font,
             )
-            + line_gap
+            + BLOG_TITLE_LINE_GAP
         )
 
-    # =====================================================
+    # -----------------------------------------------------
     # Divider
-    # =====================================================
+    # -----------------------------------------------------
 
-    divider_y = max(
-        current_y + 18,
-        520,
+    divider_y = (
+        current_y + 28
     )
 
     divider_y = min(
         divider_y,
-        585,
+        560,
     )
 
     draw.line(
         (
             title_x,
             divider_y,
-            BLOG_WIDTH - 300,
+            BLOG_WIDTH - 190,
             divider_y,
         ),
         fill=DIVIDER,
         width=2,
     )
 
-    # =====================================================
-    # Description
-    # =====================================================
+    # -----------------------------------------------------
+    # Subtitle
+    #
+    # Blog専用のAI改行
+    # blog_subtitle_linesを最優先する。
+    # -----------------------------------------------------
 
-    description_font = font(
-        27
-    )
+    if subtitle:
 
-    description_lines = wrap_text(
-        draw=draw,
-        text=description,
-        text_font=description_font,
-        max_width=1180,
-        max_lines=3,
-        ellipsis=True,
-    )
-
-    description_y = (
-        divider_y + 34
-    )
-
-    for line in description_lines:
-
-        draw.text(
-            (
-                title_x,
-                description_y,
-            ),
-            line,
-            font=description_font,
-            fill=TEXT_MUTED,
+        subtitle_y = (
+            divider_y + 30
         )
 
-        description_y += 43
+        subtitle_max_height = (
+            738
+            - subtitle_y
+        )
 
-    # =====================================================
-    # Very subtle decoration
-    #
-    # 意味のないAIイラストは使わず、
-    # ALSIVOの背景デザインだけ薄く残す。
-    # =====================================================
+        subtitle_font, subtitle_lines = (
+            prepare_subtitle(
+                draw=draw,
+                article=article,
+                subtitle=subtitle,
+                ai_key="blog_subtitle_lines",
+                max_width=1220,
+                max_lines=4,
+                max_font_size=64,
+                min_font_size=48,
+                max_height=subtitle_max_height,
+                line_gap=12,
+            )
+        )
+
+        current_subtitle_y = subtitle_y
+
+        for line in subtitle_lines:
+
+            draw.text(
+                (
+                    title_x,
+                    current_subtitle_y,
+                ),
+                line,
+                font=subtitle_font,
+                fill=TEXT_MUTED,
+            )
+
+            current_subtitle_y += (
+                text_height(
+                    draw,
+                    line,
+                    subtitle_font,
+                )
+                + 12
+            )
+
+    # -----------------------------------------------------
+    # Decoration
+    # -----------------------------------------------------
 
     draw_wave(
         draw=draw,
         width=BLOG_WIDTH,
-        base_y=755,
+        base_y=750,
         amplitude=24,
-        height=100,
+        height=110,
     )
-
-    # =====================================================
-    # Save
-    # =====================================================
 
     image.save(
         output_path,
@@ -1597,6 +1919,11 @@ def create_blog_image(
     )
 
     return output_path
+
+
+# =========================================================
+# Instagram 4:5
+# =========================================================
 
 def create_instagram_image(
     article: dict[str, Any],
@@ -1612,15 +1939,15 @@ def create_instagram_image(
         article["slug"]
     )
 
-    title = clean_text(
-        article["title"]
-    )
-
-    category = get_category(
+    title = get_image_title(
         article
     )
 
-    description = get_description(
+    subtitle = get_image_subtitle(
+        article
+    )
+
+    category = get_category(
         article
     )
 
@@ -1664,18 +1991,26 @@ def create_instagram_image(
         image
     )
 
+    # -----------------------------------------------------
+    # Brand
+    # -----------------------------------------------------
+
     draw_brand(
         draw,
         56,
-        40,
+        26,
         large=False,
     )
 
+    # -----------------------------------------------------
+    # Main card
+    # -----------------------------------------------------
+
     card = (
         45,
-        185,
+        175,
         1035,
-        1010,
+        1005,
     )
 
     draw.rounded_rectangle(
@@ -1686,11 +2021,15 @@ def create_instagram_image(
         width=2,
     )
 
+    # -----------------------------------------------------
+    # Category
+    # -----------------------------------------------------
+
     badge = (
         85,
-        225,
+        215,
         390,
-        296,
+        286,
     )
 
     draw_badge(
@@ -1699,8 +2038,12 @@ def create_instagram_image(
         category,
     )
 
+    # -----------------------------------------------------
+    # Title
+    # -----------------------------------------------------
+
     title_x = 85
-    title_y = 350
+    title_y = 325
 
     title_max_width = (
         1035
@@ -1708,24 +2051,20 @@ def create_instagram_image(
         - 65
     )
 
-    # -----------------------------------------------------
-    # AIが意味を理解して決めた改行を最優先
-    # -----------------------------------------------------
-
-    title_font, title_lines = prepare_title(
-        draw=draw,
-        article=article,
-        title=title,
-        ai_key="instagram_title_lines",
-        max_width=title_max_width,
-        max_lines=5,
-        max_font_size=INSTAGRAM_TITLE_FONT_SIZE,
-        min_font_size=38,
+    title_font, title_lines = (
+        prepare_title(
+            draw=draw,
+            article=article,
+            title=title,
+            ai_key="instagram_title_lines",
+            max_width=title_max_width,
+            max_lines=4,
+            max_font_size=INSTAGRAM_TITLE_FONT_SIZE,
+            min_font_size=50,
+        )
     )
 
     current_y = title_y
-
-    line_gap = INSTAGRAM_TITLE_LINE_GAP
 
     for line in title_lines:
 
@@ -1745,70 +2084,110 @@ def create_instagram_image(
                 line,
                 title_font,
             )
-            + line_gap
+            + INSTAGRAM_TITLE_LINE_GAP
         )
 
-    divider_y = max(
-        current_y + 22,
-        620,
+    # -----------------------------------------------------
+    # Divider
+    # -----------------------------------------------------
+
+    divider_y = (
+        current_y + 26
     )
 
     divider_y = min(
         divider_y,
-        735,
+        675,
     )
 
     draw.line(
         (
             85,
             divider_y,
-            760,
+            950,
             divider_y,
         ),
         fill=DIVIDER,
         width=2,
     )
 
-    description_font = font(
-        27
-    )
+    # -----------------------------------------------------
+    # Subtitle
+    #
+    # Instagram専用のAI改行
+    # instagram_subtitle_linesを最優先する。
+    #
+    # Blogとは画像幅が違うため
+    # 同一改行結果を使わない。
+    # -----------------------------------------------------
 
-    description_lines = wrap_text(
-        draw=draw,
-        text=description,
-        text_font=description_font,
-        max_width=820,
-        max_lines=3,
-        ellipsis=True,
-    )
+    if subtitle:
 
-    description_y = (
-        divider_y + 30
-    )
-
-    for line in description_lines:
-
-        draw.text(
-            (
-                85,
-                description_y,
-            ),
-            line,
-            font=description_font,
-            fill=BLACK,
+        subtitle_y = (
+            divider_y + 28
         )
 
-        description_y += 42
+        subtitle_max_height = (
+            965
+            - subtitle_y
+        )
+
+        subtitle_font, subtitle_lines = (
+            prepare_subtitle(
+                draw=draw,
+                article=article,
+                subtitle=subtitle,
+                ai_key="instagram_subtitle_lines",
+                max_width=850,
+                max_lines=5,
+                max_font_size=56,
+                min_font_size=44,
+                max_height=subtitle_max_height,
+                line_gap=10,
+            )
+        )
+
+        current_subtitle_y = subtitle_y
+
+        for line in subtitle_lines:
+
+            draw.text(
+                (
+                    85,
+                    current_subtitle_y,
+                ),
+                line,
+                font=subtitle_font,
+                fill=BLACK,
+            )
+
+            current_subtitle_y += (
+                text_height(
+                    draw,
+                    line,
+                    subtitle_font,
+                )
+                + 10
+            )
+
+    # -----------------------------------------------------
+    # Waves
+    # -----------------------------------------------------
 
     draw_wave(
         draw=draw,
         width=INSTAGRAM_WIDTH,
-        base_y=1030,
+        base_y=1020,
         amplitude=28,
-        height=250,
+        height=260,
     )
 
+    # -----------------------------------------------------
+    # Tags
+    # -----------------------------------------------------
+
     if not tags:
+
         tags = [
             category,
         ]
@@ -1835,8 +2214,8 @@ def create_instagram_image(
         / chip_count
     )
 
-    chip_y1 = 1065
-    chip_y2 = 1138
+    chip_y1 = 1050
+    chip_y2 = 1130
 
     for index, tag in enumerate(
         tags[:3]
@@ -1865,14 +2244,14 @@ def create_instagram_image(
 
         draw.rounded_rectangle(
             chip_box,
-            radius=36,
+            radius=40,
             fill=NAVY,
             outline=BLUE_LIGHT,
             width=3,
         )
 
         chip_font = font(
-            24
+            26
         )
 
         chip_label = tag
@@ -1906,28 +2285,43 @@ def create_instagram_image(
             WHITE,
         )
 
+    # -----------------------------------------------------
+    # CTA
+    # -----------------------------------------------------
+
     cta_box = (
         45,
-        1220,
+        1180,
         1035,
-        1315,
+        1325,
     )
 
     draw.rounded_rectangle(
         cta_box,
-        radius=48,
+        radius=62,
         fill=BLUE,
     )
 
-    draw.text(
-        (
-            80,
-            1248,
-        ),
-        "詳しくはプロフィールのリンクからチェック！",
-        font=font(
-            24
-        ),
+    cta_text = (
+        "詳しくはプロフィールのリンクからチェック！"
+    )
+
+    cta_font = font(
+        32
+    )
+
+    cta_text_box = (
+        65,
+        1188,
+        1015,
+        1250,
+    )
+
+    draw_centered_text(
+        draw=draw,
+        box=cta_text_box,
+        text=cta_text,
+        text_font=cta_font,
         fill=WHITE,
     )
 
@@ -1936,23 +2330,21 @@ def create_instagram_image(
     )
 
     website_font = font(
-        23
+        32
     )
 
-    website_width = text_width(
-        draw,
-        website_text,
-        website_font,
+    website_box = (
+        65,
+        1250,
+        1015,
+        1317,
     )
 
-    draw.text(
-        (
-            990
-            - website_width,
-            1249,
-        ),
-        website_text,
-        font=website_font,
+    draw_centered_text(
+        draw=draw,
+        box=website_box,
+        text=website_text,
+        text_font=website_font,
         fill=WHITE,
     )
 
@@ -1977,7 +2369,10 @@ def generate_article_images(
 ]:
     """
     1記事から
-    Blog 16:9 + Instagram 4:5
+
+    ・Blog 16:9
+    ・Instagram 4:5
+
     を生成する。
     """
 

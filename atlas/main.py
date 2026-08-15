@@ -117,15 +117,35 @@ def main() -> None:
                 research,
             )
 
+            approved = (
+                review["approved"]
+                and review["score"] >= MIN_REVIEW_SCORE
+            )
+
             print("\n===== レビュー結果 =====\n")
+
             print(
                 "公開判定："
-                f"{'承認' if review['approved'] else '要修正'}"
+                f"{'承認' if approved else '要修正'}"
             )
+
             print(
                 f"品質スコア：{review['score']} / 100"
             )
-            print(f"講評：{review['summary']}")
+
+            print(
+                f"Reviewer判定："
+                f"{'承認' if review['approved'] else '要修正'}"
+            )
+
+            print(
+                f"公開基準："
+                f"{MIN_REVIEW_SCORE}点以上"
+            )
+
+            print(
+                f"講評：{review['summary']}"
+            )
 
             if review["issues"]:
                 print("\n問題点")
@@ -138,11 +158,6 @@ def main() -> None:
                     "improvement_instructions"
                 ]:
                     print(f"- {instruction}")
-
-            approved = (
-                review["approved"]
-                and review["score"] >= MIN_REVIEW_SCORE
-            )
 
             if approved:
                 break

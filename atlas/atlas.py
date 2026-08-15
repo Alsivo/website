@@ -70,6 +70,20 @@ EXPANSION_CANDIDATES_FILE = (
     / "expansion_candidates.json"
 )
 
+SOCIAL_QUEUE_FILE = (
+    BASE_DIR
+    / "data"
+    / "social"
+    / "social_queue.json"
+)
+
+SOCIAL_APPROVAL_QUEUE_FILE = (
+    BASE_DIR
+    / "data"
+    / "social"
+    / "social_approval_queue.json"
+)
+
 def ensure_directories() -> None:
     """自動運転に必要なフォルダを作る。"""
 
@@ -1561,6 +1575,609 @@ def run_phase_c(
     )
 
 
+def run_social_distribution(
+    article_path: Path,
+    log_file: Path,
+    refresh: bool = False,
+) -> None:
+    """
+    記事のSNS配信候補を生成する。
+
+    ・Social Distribution
+    ・Social Copy Generator
+    ・Social Approval Queue
+
+    までを実行する。
+
+    refresh=Trueの場合は、
+    同一記事の未投稿SNS候補を
+    最新記事内容で更新する。
+
+    実投稿は行わない。
+    """
+
+    slug = article_path.stem
+
+    log(
+        "Social Distributionを開始します："
+        f"{slug}",
+        log_file,
+    )
+
+    # -----------------------------------------------------
+    # 1. SNS配信候補生成
+    # -----------------------------------------------------
+
+    distribution_arguments = [
+        slug,
+    ]
+
+    if refresh:
+        distribution_arguments.append(
+            "--refresh"
+        )
+
+    result = run_python_module(
+        "engines.social_distribution",
+        log_file,
+        arguments=distribution_arguments,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "Social Distributionに"
+            "失敗しました："
+            f"{slug}"
+        )
+
+    # -----------------------------------------------------
+    # 2. SNS投稿文生成
+    # -----------------------------------------------------
+
+    result = run_python_module(
+        "engines.social_copy_generator",
+        log_file,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "Social Copy Generatorに"
+            "失敗しました："
+            f"{slug}"
+        )
+
+    # -----------------------------------------------------
+    # 3. Human Approval Queueへ追加
+    # -----------------------------------------------------
+
+    result = run_python_module(
+        "engines.social_approval_queue",
+        log_file,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "Social Approval Queueに"
+            "失敗しました："
+            f"{slug}"
+        )
+
+    log(
+        "SNS投稿候補を承認待ちへ"
+        "追加しました："
+        f"{slug}",
+        log_file,
+    )
+
+
+def run_social_publishers(
+    log_file: Path,
+) -> None:
+    """
+    承認済みSNS投稿を配信する。
+
+    ・Social Publish Routerでapprovedをready化
+    ・X PublisherでXへ投稿
+    ・Instagram PublisherでInstagramへ投稿
+
+    各Publisherは1回の実行につき
+    最大1件だけ実投稿する。
+    """
+
+    log(
+        "承認済みSNS投稿の配信処理を"
+        "開始します。",
+        log_file,
+    )
+
+    # -----------------------------------------------------
+    # 1. approved → ready Route生成
+    # -----------------------------------------------------
+
+    result = run_python_module(
+        "engines.social_publish_router",
+        log_file,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "Social Publish Routerに"
+            "失敗しました。"
+        )
+
+    # -----------------------------------------------------
+    # 2. X
+    # -----------------------------------------------------
+
+    result = run_python_module(
+        "engines.x_publisher",
+        log_file,
+        arguments=[
+            "--apply",
+        ],
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "X Publisherに"
+            "失敗しました。"
+        )
+
+    # -----------------------------------------------------
+    # 3. Instagram
+    # -----------------------------------------------------
+
+    result = run_python_module(
+        "engines.instagram_publisher",
+        log_file,
+        arguments=[
+            "--apply",
+        ],
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "Instagram Publisherに"
+            "失敗しました。"
+        )
+
+    log(
+        "承認済みSNS投稿の"
+        "配信処理が完了しました。",
+        log_file,
+    )
+
+
+def run_refresh_all_articles() -> None:
+    """
+    既存の全MDX記事を現在のAlsivo仕様へ一括更新する。
+
+    各記事について、
+
+    1. rewrite
+    2. Phase C
+    3. SNS候補refresh
+    4. SNS投稿文生成
+    5. Social Approval Queue更新
+
+    を実行する。
+
+    全記事終了後に、
+
+    ・internal_links更新
+    ・GitHub Push
+
+    を1回だけ実行する。
+
+    通常のAtlas自動運転、
+    AI編集長、
+    Search Console更新、
+    SNS実投稿処理は実行しない。
+    """
+
+    ensure_directories()
+
+    remove_old_logs()
+
+    log_file = create_log_file()
+
+    lock_acquired = False
+
+    successful: list[str] = []
+
+    failed: list[
+        tuple[
+            str,
+            str,
+        ]
+    ] = []
+
+    blog_dir = (
+        BASE_DIR.parent
+        / "content"
+        / "blog"
+    )
+
+    article_paths = sorted(
+        path
+        for path in blog_dir.glob(
+            "*.mdx"
+        )
+        if path.is_file()
+    )
+
+    if not article_paths:
+        raise RuntimeError(
+            "一括更新対象のMDX記事がありません。"
+        )
+
+    total = len(
+        article_paths
+    )
+
+    try:
+        acquire_lock()
+
+        lock_acquired = True
+
+        log(
+            "================================",
+            log_file,
+        )
+
+        log(
+            "Atlas全記事一括更新を開始します。",
+            log_file,
+        )
+
+        log(
+            f"対象記事数：{total}",
+            log_file,
+        )
+
+        log(
+            "SNS実投稿・AI編集長・"
+            "Search Console更新は実行しません。",
+            log_file,
+        )
+
+        log(
+            "================================",
+            log_file,
+        )
+
+        # =====================================================
+        # 各記事を更新
+        # =====================================================
+
+        for index, article_path in enumerate(
+            article_paths,
+            start=1,
+        ):
+            slug = article_path.stem
+
+            log(
+                "--------------------------------",
+                log_file,
+            )
+
+            log(
+                f"[{index}/{total}] "
+                f"更新開始：{slug}",
+                log_file,
+            )
+
+            try:
+                decision = {
+                    "action":
+                        "rewrite_article",
+                    "priority_score":
+                        100,
+                    "reason":
+                        (
+                            "既存記事を現在の"
+                            "Alsivo仕様へ一括更新"
+                        ),
+                    "target_keyword":
+                        "",
+                    "target_slug":
+                        slug,
+                    "target_title":
+                        "",
+                    "search_intent":
+                        "",
+                    "recommended_focus":
+                        [],
+                    "target_queries":
+                        [],
+                    "monetization_opportunity":
+                        "",
+                    "expected_effect":
+                        "",
+                }
+
+                # ---------------------------------------------
+                # 1. Rewrite
+                # ---------------------------------------------
+
+                rewritten_article_path = (
+                    run_rewrite(
+                        decision,
+                        log_file,
+                    )
+                )
+
+                # ---------------------------------------------
+                # 2. Phase C
+                #
+                # Blog / Instagram画像
+                # タイトル改行などを更新
+                # ---------------------------------------------
+
+                run_phase_c(
+                    rewritten_article_path,
+                    log_file,
+                )
+
+                # ---------------------------------------------
+                # 3. SNS候補refresh
+                # 4. SNS投稿文生成
+                # 5. Approval Queue更新
+                # ---------------------------------------------
+
+                run_social_distribution(
+                    rewritten_article_path,
+                    log_file,
+                )
+
+                successful.append(
+                    slug
+                )
+
+                log(
+                    f"[OK] 更新完了：{slug}",
+                    log_file,
+                )
+
+            except Exception as article_error:
+                message = (
+                    f"{type(article_error).__name__}: "
+                    f"{article_error}"
+                )
+
+                failed.append(
+                    (
+                        slug,
+                        message,
+                    )
+                )
+
+                log(
+                    f"[FAILED] {slug}",
+                    log_file,
+                )
+
+                log(
+                    message,
+                    log_file,
+                )
+
+                log(
+                    "次の記事へ進みます。",
+                    log_file,
+                )
+
+        # =====================================================
+        # Internal Links
+        #
+        # 全記事終了後に1回だけ再計算する
+        # =====================================================
+
+        log(
+            "全記事処理後の"
+            "AI関連記事更新を開始します。",
+            log_file,
+        )
+
+        internal_link_result = (
+            run_python_script(
+                "internal_links.py",
+                log_file,
+            )
+        )
+
+        if (
+            internal_link_result.returncode
+            != 0
+        ):
+            raise RuntimeError(
+                "全記事更新後の"
+                "AI関連記事更新に失敗しました。"
+            )
+
+        log(
+            "AI関連記事更新完了。",
+            log_file,
+        )
+
+        # =====================================================
+        # GitHub Push
+        #
+        # 全変更を最後に1回だけPushする
+        # =====================================================
+
+        publish_paths: list[Path] = [
+            INTERNAL_LINKS_FILE,
+            SOCIAL_QUEUE_FILE,
+            SOCIAL_APPROVAL_QUEUE_FILE,
+        ]
+
+        for article_path in article_paths:
+
+            slug = article_path.stem
+
+            # ---------------------------------------------
+            # MDX
+            # ---------------------------------------------
+
+            if article_path.exists():
+                publish_paths.append(
+                    article_path
+                )
+
+            # ---------------------------------------------
+            # Blog image
+            # ---------------------------------------------
+
+            blog_image_path = (
+                BASE_DIR.parent
+                / "public"
+                / "images"
+                / "blog"
+                / f"{slug}.png"
+            )
+
+            if blog_image_path.exists():
+                publish_paths.append(
+                    blog_image_path
+                )
+
+            # ---------------------------------------------
+            # Instagram image
+            # ---------------------------------------------
+
+            instagram_image_path = (
+                BASE_DIR.parent
+                / "public"
+                / "images"
+                / "social"
+                / (
+                    f"{slug}"
+                    "-instagram.png"
+                )
+            )
+
+            if instagram_image_path.exists():
+                publish_paths.append(
+                    instagram_image_path
+                )
+
+        # 同一Pathが複数入った場合に備えて重複除去
+        publish_paths = list(
+            dict.fromkeys(
+                publish_paths
+            )
+        )
+
+        log(
+            "全記事更新結果を"
+            "GitHubへ反映します。",
+            log_file,
+        )
+
+        pushed = (
+            publish_additional_files(
+                paths=publish_paths,
+                commit_prefix=(
+                    "Refresh all Atlas articles"
+                ),
+            )
+        )
+
+        if pushed:
+            log(
+                "全記事更新の"
+                "GitHub Push完了。",
+                log_file,
+            )
+        else:
+            log(
+                "Git差分がないため、"
+                "Pushをスキップしました。",
+                log_file,
+            )
+
+        # =====================================================
+        # Result
+        # =====================================================
+
+        log(
+            "================================",
+            log_file,
+        )
+
+        log(
+            "Atlas全記事一括更新結果",
+            log_file,
+        )
+
+        log(
+            f"対象記事：{total}",
+            log_file,
+        )
+
+        log(
+            f"成功：{len(successful)}",
+            log_file,
+        )
+
+        log(
+            f"失敗：{len(failed)}",
+            log_file,
+        )
+
+        if successful:
+            log(
+                "----- 成功 -----",
+                log_file,
+            )
+
+            for slug in successful:
+                log(
+                    f"[OK] {slug}",
+                    log_file,
+                )
+
+        if failed:
+            log(
+                "----- 失敗 -----",
+                log_file,
+            )
+
+            for slug, message in failed:
+                log(
+                    f"[FAILED] {slug}",
+                    log_file,
+                )
+
+                log(
+                    f"         {message}",
+                    log_file,
+                )
+
+        log(
+            "================================",
+            log_file,
+        )
+
+        if failed:
+            log(
+                "一部記事で失敗しましたが、"
+                "一括更新処理は完了しました。",
+                log_file,
+            )
+        else:
+            log(
+                "全記事の更新が"
+                "正常に完了しました。",
+                log_file,
+            )
+
+    finally:
+        if lock_acquired:
+            release_lock()
+
+
 def save_latest_run(
     status: str,
     action: str,
@@ -1624,6 +2241,38 @@ def main(
             "================================",
             log_file,
         )
+
+        # ----------------------------------------------------
+        # 前回までに人間が承認したSNS投稿を配信
+        #
+        # 通常運転時のみ実投稿する。
+        #
+        # DRY RUN：
+        #   実投稿しない。
+        #
+        # FORCE REWRITE：
+        #   記事メンテナンスが目的なので、
+        #   起動時のSNS実投稿は行わない。
+        # ----------------------------------------------------
+
+        if dry_run:
+            log(
+                "DRY RUNのため、"
+                "SNS実投稿をスキップします。",
+                log_file,
+            )
+
+        elif force_rewrite is not None:
+            log(
+                "FORCE REWRITEモードのため、"
+                "起動時のSNS実投稿をスキップします。",
+                log_file,
+            )
+
+        else:
+            run_social_publishers(
+                log_file
+            )
 
         sync_affiliate_manager(
             log_file
@@ -2172,6 +2821,11 @@ def main(
                 log_file,
             )
 
+            run_social_distribution(
+                new_article_path,
+                log_file,
+            )
+
             expansion_topic = str(
                 decision.get(
                     "expansion_topic",
@@ -2236,6 +2890,12 @@ def main(
                 log_file,
             )
 
+            run_social_distribution(
+                rewritten_article_path,
+                log_file,
+                refresh=True,
+            )
+
         elif action == "wait":
             log(
                 "本日は記事生成・リライトを"
@@ -2289,6 +2949,14 @@ def main(
                 INTERNAL_LINKS_FILE,
             ]
 
+            if action == "new_article":
+                publish_paths.extend(
+                    [
+                        SOCIAL_QUEUE_FILE,
+                        SOCIAL_APPROVAL_QUEUE_FILE,
+                    ]
+                )
+
             if (
                 action == "new_article"
                 and new_article_path
@@ -2309,6 +2977,22 @@ def main(
                 if blog_image_path.exists():
                     publish_paths.append(
                         blog_image_path
+                    )
+
+                instagram_image_path = (
+                    BASE_DIR.parent
+                    / "public"
+                    / "images"
+                    / "social"
+                    / (
+                        f"{new_article_path.stem}"
+                        "-instagram.png"
+                    )
+                )
+
+                if instagram_image_path.exists():
+                    publish_paths.append(
+                        instagram_image_path
                     )
 
             elif (
@@ -2681,7 +3365,24 @@ if __name__ == "__main__":
         ),
     )
 
+    parser.add_argument(
+        "--refresh-all-articles",
+        action="store_true",
+        help=(
+            "既存の全MDX記事を"
+            "現在のAlsivo仕様へ一括更新します。"
+            "Rewrite、Phase C、"
+            "SNS候補更新まで実行し、"
+            "最後にまとめてGitHubへPushします。"
+            "SNS実投稿は行いません。"
+        ),
+    )
+
     args = parser.parse_args()
+
+    if args.refresh_all_articles:
+        run_refresh_all_articles()
+        sys.exit(0)
 
     main(
         dry_run=args.dry_run,

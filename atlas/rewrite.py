@@ -376,7 +376,7 @@ def main() -> None:
         ]
 
         # --------------------------------------------------------
-        # リライト時のCTA Planを保証する
+        # リライト時のCTA Planを最終確認
         # --------------------------------------------------------
 
         rewritten_cta_plan = rewritten.get(
@@ -387,87 +387,25 @@ def main() -> None:
             rewritten_cta_plan,
             dict,
         ):
-            existing_cta_plan = article.get(
-                "cta_plan"
+            raise ValueError(
+                "リライト結果に"
+                "cta_planがありません。"
             )
 
-            if isinstance(
-                existing_cta_plan,
-                dict,
-            ):
-                rewritten["cta_plan"] = (
-                    existing_cta_plan
-                )
+        rewritten_cta_plan[
+            "placement"
+        ] = "after_toc"
 
-            else:
-                recommended_tools = (
-                    rewritten.get(
-                        "recommended_tools",
-                        [],
-                    )
-                )
+        primary_service = (
+            rewritten_cta_plan.get(
+                "primary_service"
+            )
+        )
 
-                primary_service = ""
-
-                if (
-                    isinstance(
-                        recommended_tools,
-                        list,
-                    )
-                    and recommended_tools
-                ):
-                    first_tool = (
-                        recommended_tools[0]
-                    )
-
-                    if isinstance(
-                        first_tool,
-                        str,
-                    ):
-                        primary_service = (
-                            first_tool.strip()
-                        )
-
-                comparison_table = (
-                    rewritten.get(
-                        "comparison_table"
-                    )
-                )
-
-                has_comparison_table = (
-                    isinstance(
-                        comparison_table,
-                        dict,
-                    )
-                    and bool(
-                        comparison_table
-                    )
-                )
-
-                placement = (
-                    "after_comparison"
-                    if has_comparison_table
-                    else "before_faq"
-                )
-
-                rewritten["cta_plan"] = {
-                    "primary_service":
-                        primary_service,
-                    "placement":
-                        placement,
-                    "cta_label":
-                        (
-                            f"{primary_service}の"
-                            "公式サイトを確認する"
-                            if primary_service
-                            else ""
-                        ),
-                    "reason":
-                        (
-                            "リライト記事の"
-                            "フォールバックCTA設定"
-                        ),
-                }
+        if primary_service is None:
+            rewritten_cta_plan[
+                "cta_label"
+            ] = None
 
         filepath = publish_article(
             rewritten,

@@ -30,17 +30,93 @@ type BlogPostPageProps = {
   }>;
 };
 
+
+/* ==========================================================
+   Article introduction
+   ========================================================== */
+
+function splitArticleIntroduction(
+  content: string,
+): {
+  introduction: string;
+  body: string;
+} {
+  const normalized = content.trim();
+
+  if (!normalized) {
+    return {
+      introduction: "",
+      body: "",
+    };
+  }
+
+  /*
+   * 最初のH2より前を記事導入として扱う。
+   *
+   * 例：
+   *
+   * 長い資料を急いでまとめたいのに……
+   * この記事では……
+   *
+   * ## まず結論
+   *
+   * ↓
+   *
+   * introduction:
+   * 長い資料を……
+   *
+   * body:
+   * ## まず結論
+   */
+  const firstH2Match = normalized.match(
+    /^##\s+/m,
+  );
+
+  if (
+    !firstH2Match
+    || firstH2Match.index === undefined
+  ) {
+    return {
+      introduction: "",
+      body: normalized,
+    };
+  }
+
+  const introduction = normalized
+    .slice(
+      0,
+      firstH2Match.index,
+    )
+    .trim();
+
+  const body = normalized
+    .slice(
+      firstH2Match.index,
+    )
+    .trim();
+
+  return {
+    introduction,
+    body,
+  };
+}
+
+
 export function generateStaticParams() {
   return getAllBlogSlugs().map((slug) => ({
     slug,
   }));
 }
 
+
 export async function generateMetadata({
   params,
 }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+
+  const post = getBlogPostBySlug(
+    slug,
+  );
 
   if (!post) {
     return {
@@ -52,14 +128,19 @@ export async function generateMetadata({
     };
   }
 
-  const articleUrl = `${SITE_URL}/blog/${post.slug}`;
+  const articleUrl =
+    `${SITE_URL}/blog/${post.slug}`;
 
   return {
-    title: `${post.title} | ${SITE_NAME}`,
-    description: post.description,
+    title:
+      `${post.title} | ${SITE_NAME}`,
+
+    description:
+      post.description,
 
     alternates: {
-      canonical: articleUrl,
+      canonical:
+        articleUrl,
     },
 
     openGraph: {
@@ -67,288 +148,501 @@ export async function generateMetadata({
       locale: "ja_JP",
       siteName: SITE_NAME,
       title: post.title,
-      description: post.description,
+      description:
+        post.description,
       url: articleUrl,
-      publishedTime: post.date,
-      modifiedTime: post.updated ?? post.date,
-      tags: post.tags,
+      publishedTime:
+        post.date,
+      modifiedTime:
+        post.updated
+        ?? post.date,
+      tags:
+        post.tags,
     },
 
     twitter: {
-      card: "summary_large_image",
-      title: post.title,
-      description: post.description,
+      card:
+        "summary_large_image",
+      title:
+        post.title,
+      description:
+        post.description,
     },
   };
 }
+
 
 export default async function BlogPostPage({
   params,
 }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
+
+  const post = getBlogPostBySlug(
+    slug,
+  );
 
   if (!post) {
     notFound();
   }
 
+
+  /* ========================================================
+     Structured data
+     ======================================================== */
+
   const articleJsonLd =
-    createArticleJsonLd(post);
+    createArticleJsonLd(
+      post,
+    );
 
   const breadcrumbJsonLd =
-    createBreadcrumbJsonLd(post);
+    createBreadcrumbJsonLd(
+      post,
+    );
 
   const faqJsonLd =
-    createFaqJsonLd(post);
+    createFaqJsonLd(
+      post,
+    );
 
-  const tableOfContents = extractTableOfContents(
-    post.content,
+
+  /* ========================================================
+     Table of contents
+     ======================================================== */
+
+  const tableOfContents =
+    extractTableOfContents(
+      post.content,
+    );
+
+
+  /* ========================================================
+     CTA
+     ======================================================== */
+
+  const afterTocCta =
+    extractArticleCta(
+      post.content,
+      "after_toc",
+    );
+
+  const articleContent =
+    removeArticleCta(
+      post.content,
+      "after_toc",
+      "primary",
+    );
+
+
+  /* ========================================================
+     Introduction / body separation
+     ======================================================== */
+
+  const {
+    introduction:
+      articleIntroduction,
+    body:
+      articleBody,
+  } = splitArticleIntroduction(
+    articleContent,
   );
 
-  const afterTocCta = extractArticleCta(
-    post.content,
-    "after_toc",
-  );
 
-  const articleContent = removeArticleCta(
-    post.content,
-    "after_toc",
-    "primary",
-  );
+  /* ========================================================
+     Related articles
+     ======================================================== */
 
-  const relatedPosts = getRelatedBlogPosts(
-    post.slug,
-    post.category,
-    post.tags,
-    3,
-  );
+  const relatedPosts =
+    getRelatedBlogPosts(
+      post.slug,
+      post.category,
+      post.tags,
+      3,
+    );
 
-  const publishedDate = new Intl.DateTimeFormat("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(new Date(post.date));
+
+  /* ========================================================
+     Dates
+     ======================================================== */
+
+  const publishedDate =
+    new Intl.DateTimeFormat(
+      "ja-JP",
+      {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      },
+    ).format(
+      new Date(
+        post.date,
+      ),
+    );
 
   const verifiedSourceDate =
     post.verified
     ?? post.updated
     ?? post.date;
 
-  const verifiedDate = new Intl.DateTimeFormat("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(
-    new Date(verifiedSourceDate),
-  );
+  const verifiedDate =
+    new Intl.DateTimeFormat(
+      "ja-JP",
+      {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      },
+    ).format(
+      new Date(
+        verifiedSourceDate,
+      ),
+    );
+
+
+  /* ========================================================
+     Render
+     ======================================================== */
 
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: serializeJsonLd(
-            articleJsonLd,
-          ),
+          __html:
+            serializeJsonLd(
+              articleJsonLd,
+            ),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: serializeJsonLd(
-            breadcrumbJsonLd,
-          ),
+          __html:
+            serializeJsonLd(
+              breadcrumbJsonLd,
+            ),
         }}
       />
 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: serializeJsonLd(
-            faqJsonLd,
-          ),
+          __html:
+            serializeJsonLd(
+              faqJsonLd,
+            ),
         }}
       />
 
       <main>
         <article className="article-page">
-        <Link className="article-back-link" href="/blog">
-          ← Blogへ戻る
-        </Link>
 
-        <p className="article-category">{post.category}</p>
+          {/* ===============================================
+              Header
+              =============================================== */}
 
-        <h1>
-          <ArticleTitle
-            title={post.title}
-            lines={post.titleLines}
-          />
-        </h1>
-
-        <p className="article-lead">{post.description}</p>
-
-        <div className="article-meta-row">
-          <time dateTime={post.date}>{publishedDate}</time>
-          <span>{post.readingTime}</span>
-        </div>
-
-        <div className="article-tag-list">
-          {post.tags.map((tag: string) => (
-            <span key={tag}>{tag}</span>
-          ))}
-        </div>
-
-        <div className="article-hero-image">
-          <Image
-            src={post.image}
-            alt={`${post.title}のアイキャッチ画像`}
-            fill
-            priority
-            sizes="(max-width: 800px) 100vw, 1200px"
-          />
-        </div>
-
-        <aside
-          className="article-information-note"
-          aria-label="記事情報について"
-        >
-          <p className="article-information-note-title">
-            情報について
-          </p>
-
-          <p>
-            この記事は
-            <strong>{verifiedDate}</strong>
-            時点の情報に基づいています。
-            料金・機能・利用条件などは変更されている可能性があります。
-            最新情報は各サービスの公式サイトをご確認ください。
-          </p>
-        </aside>
-
-        {tableOfContents.length > 0 && (
-          <nav
-            className="article-toc"
-            aria-label="記事の目次"
+          <Link
+            className="article-back-link"
+            href="/blog"
           >
-            <p className="article-toc-title">
-              目次
+            ← Blogへ戻る
+          </Link>
+
+          <p className="article-category">
+            {post.category}
+          </p>
+
+          <h1>
+            <ArticleTitle
+              title={post.title}
+              lines={post.titleLines}
+            />
+          </h1>
+
+          <p className="article-lead">
+            {post.description}
+          </p>
+
+          <div className="article-meta-row">
+            <time dateTime={post.date}>
+              {publishedDate}
+            </time>
+
+            <span>
+              {post.readingTime}
+            </span>
+          </div>
+
+          <div className="article-tag-list">
+            {post.tags.map(
+              (
+                tag: string,
+              ) => (
+                <span key={tag}>
+                  {tag}
+                </span>
+              ),
+            )}
+          </div>
+
+
+          {/* ===============================================
+              Hero image
+              =============================================== */}
+
+          <div className="article-hero-image">
+            <Image
+              src={post.image}
+              alt={
+                `${post.title}のアイキャッチ画像`
+              }
+              fill
+              priority
+              sizes="(max-width: 800px) 100vw, 760px"
+            />
+          </div>
+
+
+          {/* ===============================================
+              Article opening
+              =============================================== */}
+
+          {articleIntroduction && (
+            <div className="article-opening">
+              <MdxContent
+                source={
+                  articleIntroduction
+                }
+              />
+            </div>
+          )}
+
+
+          {/* ===============================================
+              Information
+              =============================================== */}
+
+          <aside
+            className="article-information-note"
+            aria-label="記事情報について"
+          >
+            <p className="article-information-note-title">
+              情報について
             </p>
 
-            <ol>
-              {tableOfContents.map((item) => (
-                <li
-                  className={
-                    item.level === 3
-                      ? "article-toc-level-3"
-                      : undefined
-                  }
-                  key={`${item.level}-${item.id}`}
-                >
-                  <a href={`#${item.id}`}>
-                    {item.text}
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </nav>
-        )}
+            <p>
+              この記事は
+              <strong>
+                {verifiedDate}
+              </strong>
+              時点の情報に基づいています。
+              料金・機能・利用条件などは変更されている可能性があります。
+              最新情報は各サービスの公式サイトをご確認ください。
+            </p>
+          </aside>
 
-        {afterTocCta && (
-          <div className="article-after-toc-cta">
-            <AffiliateLink
-              href={afterTocCta.href}
-              service={afterTocCta.service}
-              linkType={afterTocCta.linkType}
-              network={afterTocCta.network}
-              ctaType={afterTocCta.ctaType}
-              ctaPlacement="after_toc"
+
+          {/* ===============================================
+              Table of contents
+              =============================================== */}
+
+          {tableOfContents.length > 0 && (
+            <nav
+              className="article-toc"
+              aria-label="記事の目次"
             >
-              {afterTocCta.label}
-            </AffiliateLink>
+              <p className="article-toc-title">
+                目次
+              </p>
+
+              <ol>
+                {tableOfContents.map(
+                  (item) => (
+                    <li
+                      className={
+                        item.level === 3
+                          ? "article-toc-level-3"
+                          : undefined
+                      }
+                      key={
+                        `${item.level}-${item.id}`
+                      }
+                    >
+                      <a
+                        href={
+                          `#${item.id}`
+                        }
+                      >
+                        {item.text}
+                      </a>
+                    </li>
+                  ),
+                )}
+              </ol>
+            </nav>
+          )}
+
+
+          {/* ===============================================
+              Primary CTA
+              =============================================== */}
+
+          {afterTocCta && (
+            <div className="article-after-toc-cta">
+              <AffiliateLink
+                href={
+                  afterTocCta.href
+                }
+                service={
+                  afterTocCta.service
+                }
+                linkType={
+                  afterTocCta.linkType
+                }
+                network={
+                  afterTocCta.network
+                }
+                ctaType={
+                  afterTocCta.ctaType
+                }
+                ctaPlacement="after_toc"
+              >
+                {afterTocCta.label}
+              </AffiliateLink>
+            </div>
+          )}
+
+
+          {/* ===============================================
+              Article body
+              =============================================== */}
+
+          <div className="article-content">
+            <MdxContent
+              source={
+                articleBody
+              }
+            />
           </div>
-        )}
 
-        <div className="article-content">
-          <MdxContent source={articleContent} />
-        </div>
-        {relatedPosts.length > 0 && (
-          <section
-            className="related-posts"
-            aria-labelledby="related-posts-title"
-          >
-            <div className="related-posts-header">
-              <div>
-                <p className="section-kicker">
-                  RELATED
-                </p>
 
-                <h2 id="related-posts-title">
-                  関連記事
-                </h2>
+          {/* ===============================================
+              Related articles
+              =============================================== */}
+
+          {relatedPosts.length > 0 && (
+            <section
+              className="related-posts"
+              aria-labelledby="related-posts-title"
+            >
+              <div className="related-posts-header">
+                <div>
+                  <p className="section-kicker">
+                    RELATED
+                  </p>
+
+                  <h2 id="related-posts-title">
+                    関連記事
+                  </h2>
+                </div>
+
+                <Link href="/blog">
+                  すべての記事を見る →
+                </Link>
               </div>
 
-              <Link href="/blog">
-                すべての記事を見る →
-              </Link>
-            </div>
+              <div className="related-posts-grid">
+                {relatedPosts.map(
+                  (
+                    relatedPost,
+                  ) => {
+                    const formattedDate =
+                      new Intl.DateTimeFormat(
+                        "ja-JP",
+                        {
+                          year: "numeric",
+                          month: "2-digit",
+                          day: "2-digit",
+                        },
+                      ).format(
+                        new Date(
+                          relatedPost.date,
+                        ),
+                      );
 
-            <div className="related-posts-grid">
-              {relatedPosts.map((relatedPost) => {
-                const formattedDate =
-                  new Intl.DateTimeFormat("ja-JP", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                  }).format(
-                    new Date(relatedPost.date),
-                  );
+                    return (
+                      <Link
+                        className="related-post-card"
+                        href={
+                          `/blog/${relatedPost.slug}`
+                        }
+                        key={
+                          relatedPost.slug
+                        }
+                      >
+                        <div className="related-post-image">
+                          <Image
+                            src={
+                              relatedPost.image
+                            }
+                            alt={
+                              `${relatedPost.title}のアイキャッチ画像`
+                            }
+                            fill
+                            sizes="(max-width: 700px) 100vw, 33vw"
+                          />
+                        </div>
 
-                return (
-                  <Link
-                    className="related-post-card"
-                    href={`/blog/${relatedPost.slug}`}
-                    key={relatedPost.slug}
-                  >
-                    <div className="related-post-image">
-                      <Image
-                        src={relatedPost.image}
-                        alt={`${relatedPost.title}のアイキャッチ画像`}
-                        fill
-                        sizes="(max-width: 700px) 100vw, 33vw"
-                      />
-                    </div>
+                        <div className="related-post-body">
 
-                    <div className="related-post-body">
-                      <div className="related-post-meta">
-                        <span>
-                          {relatedPost.category}
-                        </span>
+                          <div className="related-post-meta">
+                            <span>
+                              {
+                                relatedPost.category
+                              }
+                            </span>
 
-                        <time dateTime={relatedPost.date}>
-                          {formattedDate}
-                        </time>
-                      </div>
+                            <time
+                              dateTime={
+                                relatedPost.date
+                              }
+                            >
+                              {
+                                formattedDate
+                              }
+                            </time>
+                          </div>
 
-                      <h3>
-                        <ArticleTitle
-                          title={relatedPost.title}
-                          lines={relatedPost.cardTitleLines}
-                        />
-                      </h3>
+                          <h3>
+                            <ArticleTitle
+                              title={
+                                relatedPost.title
+                              }
+                              lines={
+                                relatedPost.cardTitleLines
+                              }
+                            />
+                          </h3>
 
-                      <p>{relatedPost.description}</p>
+                          <p>
+                            {
+                              relatedPost.description
+                            }
+                          </p>
 
-                      <span className="related-post-link">
-                        記事を読む →
-                      </span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
-        )}
+                          <span className="related-post-link">
+                            記事を読む →
+                          </span>
+                        </div>
+                      </Link>
+                    );
+                  },
+                )}
+              </div>
+            </section>
+          )}
+
         </article>
       </main>
     </>

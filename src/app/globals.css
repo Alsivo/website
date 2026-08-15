@@ -835,6 +835,30 @@ main {
   line-height: 1.45;
 }
 
+/* ==========================================================
+   Article title Japanese line breaking
+   ========================================================== */
+
+.article-page > h1 {
+  word-break: normal;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+@supports (word-break: auto-phrase) {
+  .article-page > h1 {
+    word-break: auto-phrase;
+  }
+}
+
+.article-title-desktop {
+  display: inline;
+}
+
+.article-title-mobile {
+  display: none;
+}
+
 .article-paragraph {
   margin: 0 0 24px;
   color: #343734;
@@ -964,6 +988,14 @@ main {
   .article-page > h1 {
     font-size: 24px;
     line-height: 1.22;
+  }
+
+  .article-title-desktop {
+    display: none;
+  }
+
+  .article-title-mobile {
+    display: inline;
   }
 
   .article-lead {
@@ -2359,5 +2391,233 @@ main {
     font-size: 38px;
     line-height: 1.28;
     letter-spacing: -0.045em;
+  }
+}
+
+/* ==========================================================
+   Article hero image sizing
+   ========================================================== */
+
+.article-hero-image {
+  width: min(760px, 100%);
+  aspect-ratio: 16 / 9;
+  margin: 52px auto 30px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #e9eae5;
+}
+
+.article-hero-image img {
+  object-fit: contain;
+}
+
+.article-hero-image + .article-information-note {
+  margin-top: 24px;
+}
+
+@media (max-width: 800px) {
+  .article-hero-image {
+    width: 100%;
+    margin: 38px 0 24px;
+    border-radius: 18px;
+  }
+
+  .article-hero-image + .article-information-note {
+    margin-top: 18px;
+  }
+}
+
+/* ==========================================================
+   Full image display for featured / related cards
+   ========================================================== */
+
+.home-featured-image,
+.home-featured-card-main .home-featured-image,
+.related-post-image {
+  aspect-ratio: 16 / 9;
+  background: #e9eae5;
+}
+
+.home-featured-image img,
+.related-post-image img {
+  object-fit: contain;
+}
+
+.home-featured-card:hover .home-featured-image img,
+.related-post-card:hover .related-post-image img {
+  transform: none;
+}
+
+/* ==========================================================
+   Article opening
+   ========================================================== */
+
+/*
+ * 最初のH2より前にある記事導入文。
+ *
+ * 個別記事ページでは
+ *
+ * Hero image
+ * ↓
+ * Article opening
+ * ↓
+ * Information
+ * ↓
+ * TOC
+ *
+ * の順番で表示する。
+ */
+
+.article-opening {
+  width: min(960px, 100%);
+  margin: 32px auto 30px;
+  padding: 28px 32px;
+  border-left: 5px solid var(--accent);
+  border-radius: 0 16px 16px 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(88, 101, 242, 0.075),
+      rgba(88, 101, 242, 0.025)
+    );
+}
+
+
+/* ==========================================================
+   Article opening text
+   ========================================================== */
+
+.article-opening .article-paragraph {
+  margin: 0 0 18px;
+  color: #2f3230;
+  font-size: 18px;
+  line-height: 1.95;
+}
+
+.article-opening .article-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+
+/* ==========================================================
+   Article opening lists
+   ========================================================== */
+
+.article-opening .article-list,
+.article-opening .article-numbered-list {
+  margin-top: 16px;
+  margin-bottom: 18px;
+  color: #2f3230;
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+.article-opening .article-list:last-child,
+.article-opening .article-numbered-list:last-child {
+  margin-bottom: 0;
+}
+
+
+/* ==========================================================
+   Article opening emphasis
+   ========================================================== */
+
+.article-opening strong {
+  color: var(--foreground);
+  font-weight: 750;
+}
+
+
+/* ==========================================================
+   Information note after opening
+   ========================================================== */
+
+/*
+ * 以前はHero画像のすぐ下にInformationがあり、
+ * negative marginで上へ寄せていた。
+ *
+ * 今回はArticle openingが間に入るため、
+ * negative marginを解除する。
+ */
+
+.article-information-note {
+  margin: 0 0 40px;
+}
+
+
+/* ==========================================================
+   Hero image → opening spacing
+   ========================================================== */
+
+.article-hero-image {
+  margin-bottom: 0;
+}
+
+
+/* ==========================================================
+   Opening → information spacing
+   ========================================================== */
+
+.article-opening + .article-information-note {
+  margin-top: 0;
+}
+
+
+/* ==========================================================
+   Article without opening fallback
+   ========================================================== */
+
+/*
+ * 古い記事など、
+ * 最初のH2より前に導入本文が存在しない場合は
+ * Hero画像とInformationの間に通常の余白を戻す。
+ */
+
+.article-hero-image + .article-information-note {
+  margin-top: 24px;
+}
+
+
+/* ==========================================================
+   Mobile
+   ========================================================== */
+
+@media (max-width: 800px) {
+  .article-opening {
+    width: 100%;
+    margin:
+      24px
+      0
+      26px;
+    padding:
+      22px
+      20px;
+    border-left-width: 4px;
+    border-radius:
+      0
+      13px
+      13px
+      0;
+  }
+
+  .article-opening .article-paragraph {
+    margin-bottom: 16px;
+    font-size: 16px;
+    line-height: 1.85;
+  }
+
+  .article-opening .article-list,
+  .article-opening .article-numbered-list {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .article-information-note {
+    margin-bottom: 36px;
+  }
+
+  .article-hero-image + .article-information-note {
+    margin-top: 18px;
   }
 }

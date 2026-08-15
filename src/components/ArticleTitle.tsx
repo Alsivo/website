@@ -13,12 +13,18 @@ export default function ArticleTitle({
 
   return (
     <>
-      {lines.map((line, index) => (
-        <span key={`${line}-${index}`}>
-          {line}
-          {index < lines.length - 1 && <br />}
-        </span>
-      ))}
+      <span className="article-title-desktop">
+        {lines.map((line, index) => (
+          <span key={`${line}-${index}`}>
+            {line}
+            {index < lines.length - 1 && <br />}
+          </span>
+        ))}
+      </span>
+
+      <span className="article-title-mobile">
+        {title}
+      </span>
     </>
   );
 }

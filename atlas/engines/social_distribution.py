@@ -444,6 +444,83 @@ def add_candidate(
     )
 
 
+def refresh_candidate(
+    queue: list[dict[str, Any]],
+    candidate: dict[str, Any],
+) -> tuple[
+    list[dict[str, Any]],
+    bool,
+]:
+    """
+    同一記事・同一platformの未投稿候補を
+    新しい候補へ置き換える。
+
+    published済み候補は履歴として残す。
+    """
+
+    candidate_key = (
+        build_identity_key(
+            candidate
+        )
+    )
+
+    refreshed_queue: list[
+        dict[str, Any]
+    ] = []
+
+    replaced = False
+
+    for item in queue:
+
+        if (
+            build_identity_key(
+                item
+            )
+            != candidate_key
+        ):
+            refreshed_queue.append(
+                item
+            )
+            continue
+
+        published = bool(
+            item.get(
+                "published",
+                False,
+            )
+        )
+
+        status = normalize_text(
+            item.get(
+                "status",
+                "",
+            )
+        ).lower()
+
+        # 実投稿済みは履歴として残す
+        if (
+            published
+            or status == "published"
+        ):
+            refreshed_queue.append(
+                item
+            )
+            continue
+
+        # 未投稿の旧候補は削除して
+        # 新候補へ置き換える
+        replaced = True
+
+    refreshed_queue.append(
+        candidate
+    )
+
+    return (
+        refreshed_queue,
+        replaced,
+    )
+
+
 def save_queue(
     queue: list[dict[str, Any]],
 ) -> Path:
@@ -516,6 +593,7 @@ def save_queue(
 
 def create_distribution_queue(
     slug: str,
+    refresh: bool = False,
 ) -> tuple[
     list[dict[str, Any]],
     int,
@@ -544,16 +622,30 @@ def create_distribution_queue(
             )
         )
 
-        (
-            queue,
-            added,
-        ) = add_candidate(
-            queue,
-            candidate,
-        )
+        if refresh:
 
-        if added:
+            (
+                queue,
+                _,
+            ) = refresh_candidate(
+                queue,
+                candidate,
+            )
+
             added_count += 1
+
+        else:
+
+            (
+                queue,
+                added,
+            ) = add_candidate(
+                queue,
+                candidate,
+            )
+
+            if added:
+                added_count += 1
 
     save_queue(
         queue
@@ -630,11 +722,21 @@ def main() -> None:
         help="配信候補を作成する記事slug",
     )
 
+    parser.add_argument(
+        "--refresh",
+        action="store_true",
+        help=(
+            "同一記事の未投稿SNS候補を"
+            "最新内容で置き換える"
+        ),
+    )
+
     args = parser.parse_args()
 
     queue, added_count = (
         create_distribution_queue(
-            args.slug
+            args.slug,
+            refresh=args.refresh,
         )
     )
 

@@ -272,6 +272,84 @@ def already_exists(
     return False
 
 
+def remove_stale_pending_items(
+    queue: list[dict[str, Any]],
+    candidate: dict[str, Any],
+) -> tuple[
+    list[dict[str, Any]],
+    int,
+]:
+    """
+    同一記事・同一platformの古いpending候補だけを削除する。
+
+    approved / rejected は履歴として残す。
+    """
+
+    candidate_slug = normalize_text(
+        candidate.get(
+            "article_slug",
+            "",
+        )
+    )
+
+    candidate_platform = normalize_text(
+        candidate.get(
+            "platform",
+            "",
+        )
+    ).lower()
+
+    cleaned_queue: list[
+        dict[str, Any]
+    ] = []
+
+    removed_count = 0
+
+    for item in queue:
+
+        item_slug = normalize_text(
+            item.get(
+                "article_slug",
+                "",
+            )
+        )
+
+        item_platform = normalize_text(
+            item.get(
+                "platform",
+                "",
+            )
+        ).lower()
+
+        item_status = normalize_text(
+            item.get(
+                "status",
+                "",
+            )
+        ).lower()
+
+        same_target = (
+            item_slug == candidate_slug
+            and item_platform == candidate_platform
+        )
+
+        if (
+            same_target
+            and item_status == "pending"
+        ):
+            removed_count += 1
+            continue
+
+        cleaned_queue.append(
+            item
+        )
+
+    return (
+        cleaned_queue,
+        removed_count,
+    )
+
+
 def build_approval_queue(
 ) -> tuple[
     list[dict[str, Any]],
@@ -319,11 +397,42 @@ def build_approval_queue(
         if candidate is None:
             continue
 
+        # -------------------------------------------------
+        # 同一投稿内容がすでに存在する場合は何もしない
+        #
+        # 同じ処理を何度実行しても
+        # Approval Queueを作り直さないための安全策。
+        # -------------------------------------------------
+
         if already_exists(
             approval_queue,
             candidate,
         ):
             continue
+
+        # -------------------------------------------------
+        # 投稿文が更新された場合、
+        # 同一記事・同一platformの古いpendingだけ削除する。
+        #
+        # approved / rejected は履歴として残す。
+        # -------------------------------------------------
+
+        (
+            approval_queue,
+            removed_count,
+        ) = remove_stale_pending_items(
+            approval_queue,
+            candidate,
+        )
+
+        if removed_count:
+            print(
+                "[Social Approval] "
+                f"{candidate.get('article_slug', '')} / "
+                f"{candidate.get('platform', '')} の"
+                f"古いpending候補を"
+                f"{removed_count}件削除しました。"
+            )
 
         approval_queue.append(
             candidate

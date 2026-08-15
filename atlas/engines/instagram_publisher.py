@@ -7,7 +7,6 @@ from typing import Any
 
 import requests
 from dotenv import load_dotenv
-from requests_oauthlib import OAuth1
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -33,8 +32,10 @@ SOCIAL_APPROVAL_QUEUE_FILE = (
     / "social_approval_queue.json"
 )
 
-X_CREATE_POST_URL = (
-    "https://api.x.com/2/tweets"
+SITE_URL = "https://www.alsivo.com"
+
+INSTAGRAM_API_BASE = (
+    "https://graph.instagram.com/v24.0"
 )
 
 
@@ -47,31 +48,19 @@ load_dotenv(
 )
 
 
-def get_x_credentials() -> dict[str, str]:
-    """X API認証情報を.envから取得する。"""
+def get_instagram_credentials() -> dict[str, str]:
+    """Instagram API認証情報を取得する。"""
 
     credentials = {
-        "api_key":
-            os.getenv(
-                "X_API_KEY",
-                "",
-            ).strip(),
-
-        "api_key_secret":
-            os.getenv(
-                "X_API_KEY_SECRET",
-                "",
-            ).strip(),
-
         "access_token":
             os.getenv(
-                "X_ACCESS_TOKEN",
+                "INSTAGRAM_ACCESS_TOKEN",
                 "",
             ).strip(),
 
-        "access_token_secret":
+        "user_id":
             os.getenv(
-                "X_ACCESS_TOKEN_SECRET",
+                "INSTAGRAM_USER_ID",
                 "",
             ).strip(),
     }
@@ -85,7 +74,8 @@ def get_x_credentials() -> dict[str, str]:
 
     if missing:
         raise RuntimeError(
-            "X API認証情報が不足しています："
+            "Instagram API認証情報が"
+            "不足しています："
             + ", ".join(missing)
         )
 
@@ -125,13 +115,35 @@ def load_json(
     return data
 
 
+def save_json(
+    filepath: Path,
+    data: dict[str, Any],
+) -> None:
+    """JSONをUTF-8で保存する。"""
+
+    filepath.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    filepath.write_text(
+        json.dumps(
+            data,
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
 # =========================================================
 # Route
 # =========================================================
 
-def load_ready_x_routes(
+def load_ready_instagram_routes(
 ) -> list[dict[str, Any]]:
-    """X Publisherで処理可能なRouteだけ取得する。"""
+    """Instagram用Ready Routeを取得する。"""
 
     data = load_json(
         SOCIAL_PUBLISH_ROUTES_FILE
@@ -188,13 +200,16 @@ def load_ready_x_routes(
             )
         ).strip()
 
-        if platform != "x":
+        if platform != "instagram":
             continue
 
         if route_status != "ready":
             continue
 
-        if publisher != "x_publisher":
+        if (
+            publisher
+            != "instagram_publisher"
+        ):
             continue
 
         if not post_text:
@@ -207,40 +222,120 @@ def load_ready_x_routes(
     return ready_routes
 
 
+def build_image_url(
+    route: dict[str, Any],
+) -> str:
+    """記事slugから公開Instagram画像URLを作る。"""
+
+    slug = str(
+        route.get(
+            "article_slug",
+            "",
+        )
+    ).strip()
+
+    if not slug:
+        return ""
+
+    return (
+        f"{SITE_URL}"
+        f"/images/social/"
+        f"{slug}-instagram.png"
+    )
+
+
 # =========================================================
 # Validation
 # =========================================================
 
-def validate_post_text(
-    post_text: str,
+def validate_route(
+    route: dict[str, Any],
 ) -> tuple[
     bool,
     str,
+    str,
 ]:
-    """X投稿文を最低限検証する。"""
+    """投稿内容を検証する。"""
 
-    text = post_text.strip()
+    post_text = str(
+        route.get(
+            "post_text",
+            "",
+        )
+    ).strip()
 
-    if not text:
+    if not post_text:
         return (
             False,
             "投稿文が空です。",
+            "",
         )
 
-    # 厳密なXのweighted length計算ではない。
-    # 明らかな異常値のみここで止める。
-    if len(text) > 500:
+    image_url = (
+        build_image_url(
+            route
+        )
+    )
+
+    if not image_url:
+        return (
+            False,
+            "Instagram画像URLを作成できません。",
+            "",
+        )
+
+    # Metaから画像を取得できるか確認する
+    try:
+        response = requests.get(
+            image_url,
+            timeout=30,
+        )
+
+    except requests.RequestException as error:
         return (
             False,
             (
-                "投稿文が長すぎる可能性があります。"
-                f" len={len(text)}"
+                "Instagram画像URLへ"
+                "アクセスできません："
+                f"{error}"
             ),
+            image_url,
+        )
+
+    if response.status_code != 200:
+        return (
+            False,
+            (
+                "Instagram画像が"
+                "公開されていません："
+                f"HTTP {response.status_code}"
+            ),
+            image_url,
+        )
+
+    content_type = (
+        response.headers.get(
+            "Content-Type",
+            "",
+        )
+    )
+
+    if not content_type.startswith(
+        "image/"
+    ):
+        return (
+            False,
+            (
+                "公開URLが画像ではありません："
+                f"{content_type}"
+            ),
+            image_url,
         )
 
     return (
         True,
         "",
+        image_url,
     )
 
 
@@ -251,7 +346,241 @@ def validate_post_text(
 def dry_run_publish(
     route: dict[str, Any],
 ) -> dict[str, Any]:
-    """X投稿を実行せず内容だけ確認する。"""
+    """投稿せず内容だけ確認する。"""
+
+    valid, reason, image_url = (
+        validate_route(
+            route
+        )
+    )
+
+    if not valid:
+        return {
+            "status": "blocked",
+            "posted": False,
+            "media_id": "",
+            "container_id": "",
+            "image_url": image_url,
+            "reason": reason,
+        }
+
+    return {
+        "status": "dry_run",
+        "posted": False,
+        "media_id": "",
+        "container_id": "",
+        "image_url": image_url,
+        "reason":
+            "DRY RUNのためInstagramには"
+            "投稿していません。",
+    }
+
+
+# =========================================================
+# Real publish
+# =========================================================
+
+def create_media_container(
+    user_id: str,
+    access_token: str,
+    image_url: str,
+    caption: str,
+) -> tuple[
+    bool,
+    str,
+    str,
+]:
+    """画像投稿用Media Containerを作る。"""
+
+    endpoint = (
+        f"{INSTAGRAM_API_BASE}"
+        f"/{user_id}/media"
+    )
+
+    try:
+        response = requests.post(
+            endpoint,
+            data={
+                "image_url":
+                    image_url,
+                "caption":
+                    caption,
+                "access_token":
+                    access_token,
+            },
+            timeout=30,
+        )
+
+    except requests.RequestException as error:
+        return (
+            False,
+            "",
+            (
+                "Media Container作成時の"
+                "通信に失敗しました："
+                f"{error}"
+            ),
+        )
+
+    if response.status_code not in {
+        200,
+        201,
+    }:
+        return (
+            False,
+            "",
+            (
+                "Media Container作成に"
+                "失敗しました："
+                f"HTTP {response.status_code} / "
+                f"{response.text}"
+            ),
+        )
+
+    try:
+        data = response.json()
+
+    except ValueError:
+        return (
+            False,
+            "",
+            "Media Containerレスポンスの"
+            "JSON解析に失敗しました。",
+        )
+
+    container_id = str(
+        data.get(
+            "id",
+            "",
+        )
+    ).strip()
+
+    if not container_id:
+        return (
+            False,
+            "",
+            "Media Container IDを"
+            "取得できませんでした。",
+        )
+
+    return (
+        True,
+        container_id,
+        "",
+    )
+
+
+def publish_media_container(
+    user_id: str,
+    access_token: str,
+    container_id: str,
+) -> tuple[
+    bool,
+    str,
+    str,
+]:
+    """作成済みMedia Containerを公開する。"""
+
+    endpoint = (
+        f"{INSTAGRAM_API_BASE}"
+        f"/{user_id}/media_publish"
+    )
+
+    try:
+        response = requests.post(
+            endpoint,
+            data={
+                "creation_id":
+                    container_id,
+                "access_token":
+                    access_token,
+            },
+            timeout=30,
+        )
+
+    except requests.RequestException as error:
+        return (
+            False,
+            "",
+            (
+                "Instagram Publish時の"
+                "通信に失敗しました："
+                f"{error}"
+            ),
+        )
+
+    if response.status_code not in {
+        200,
+        201,
+    }:
+        return (
+            False,
+            "",
+            (
+                "Instagram Publishに"
+                "失敗しました："
+                f"HTTP {response.status_code} / "
+                f"{response.text}"
+            ),
+        )
+
+    try:
+        data = response.json()
+
+    except ValueError:
+        return (
+            False,
+            "",
+            "Instagram Publishレスポンスの"
+            "JSON解析に失敗しました。",
+        )
+
+    media_id = str(
+        data.get(
+            "id",
+            "",
+        )
+    ).strip()
+
+    if not media_id:
+        return (
+            False,
+            "",
+            "公開後Media IDを"
+            "取得できませんでした。",
+        )
+
+    return (
+        True,
+        media_id,
+        "",
+    )
+
+
+def publish_to_instagram(
+    route: dict[str, Any],
+) -> dict[str, Any]:
+    """Instagramへ画像投稿する。"""
+
+    valid, reason, image_url = (
+        validate_route(
+            route
+        )
+    )
+
+    if not valid:
+        return {
+            "status": "blocked",
+            "posted": False,
+            "media_id": "",
+            "container_id": "",
+            "image_url": image_url,
+            "reason": reason,
+        }
+
+    credentials = (
+        get_instagram_credentials()
+    )
 
     post_text = str(
         route.get(
@@ -260,65 +589,74 @@ def dry_run_publish(
         )
     ).strip()
 
-    valid, reason = (
-        validate_post_text(
-            post_text
+    success, container_id, error = (
+        create_media_container(
+            user_id=credentials[
+                "user_id"
+            ],
+            access_token=credentials[
+                "access_token"
+            ],
+            image_url=image_url,
+            caption=post_text,
         )
     )
 
-    if not valid:
+    if not success:
         return {
-            "status": "blocked",
+            "status": "error",
             "posted": False,
-            "post_id": "",
-            "reason": reason,
+            "media_id": "",
+            "container_id": "",
+            "image_url": image_url,
+            "reason": error,
+        }
+
+    success, media_id, error = (
+        publish_media_container(
+            user_id=credentials[
+                "user_id"
+            ],
+            access_token=credentials[
+                "access_token"
+            ],
+            container_id=container_id,
+        )
+    )
+
+    if not success:
+        return {
+            "status": "error",
+            "posted": False,
+            "media_id": "",
+            "container_id":
+                container_id,
+            "image_url": image_url,
+            "reason": error,
         }
 
     return {
-        "status": "dry_run",
-        "posted": False,
-        "post_id": "",
+        "status": "published",
+        "posted": True,
+        "media_id": media_id,
+        "container_id":
+            container_id,
+        "image_url": image_url,
         "reason":
-            "DRY RUNのためXには投稿していません。",
+            "Instagramへの投稿が"
+            "完了しました。",
     }
 
 
-
-def save_json(
-    filepath: Path,
-    data: dict[str, Any],
-) -> None:
-    """JSONをUTF-8で保存する。"""
-
-    filepath.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    filepath.write_text(
-        json.dumps(
-            data,
-            ensure_ascii=False,
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-
+# =========================================================
+# State update
+# =========================================================
 
 def mark_route_published(
     route: dict[str, Any],
-    post_id: str,
+    media_id: str,
 ) -> None:
-    """
-    X投稿成功後に、
-
-    ・social_queue
-    ・social_approval_queue
-    ・social_publish_routes
-
-    をpublished状態へ更新する。
-    """
+    """投稿成功後に各JSONをpublishedへ更新する。"""
 
     approval_id = str(
         route.get(
@@ -370,7 +708,7 @@ def mark_route_published(
                         "",
                     )
                 ).strip()
-                != "x"
+                != "instagram"
             ):
                 continue
 
@@ -387,10 +725,16 @@ def mark_route_published(
 
             item["status"] = "published"
             item["published"] = True
-            item["published_at"] = published_at
-            item["external_post_id"] = post_id
+            item["published_at"] = (
+                published_at
+            )
+            item["external_post_id"] = (
+                media_id
+            )
             item["error"] = ""
-            item["updated_at"] = published_at
+            item["updated_at"] = (
+                published_at
+            )
 
         queue_data["updated_at"] = (
             published_at
@@ -399,24 +743,39 @@ def mark_route_published(
         queue_data["pending"] = sum(
             1
             for item in queue
-            if isinstance(item, dict)
-            and item.get("status")
+            if isinstance(
+                item,
+                dict,
+            )
+            and item.get(
+                "status"
+            )
             == "pending"
         )
 
         queue_data["approved"] = sum(
             1
             for item in queue
-            if isinstance(item, dict)
-            and item.get("status")
+            if isinstance(
+                item,
+                dict,
+            )
+            and item.get(
+                "status"
+            )
             == "approved"
         )
 
         queue_data["published"] = sum(
             1
             for item in queue
-            if isinstance(item, dict)
-            and item.get("status")
+            if isinstance(
+                item,
+                dict,
+            )
+            and item.get(
+                "status"
+            )
             == "published"
         )
 
@@ -473,7 +832,7 @@ def mark_route_published(
                 published_at
             )
             item["external_post_id"] = (
-                post_id
+                media_id
             )
             item["updated_at"] = (
                 published_at
@@ -533,11 +892,12 @@ def mark_route_published(
             )
 
             item["external_post_id"] = (
-                post_id
+                media_id
             )
 
             item["reason"] = (
-                "Xへの投稿が完了しました。"
+                "Instagramへの投稿が"
+                "完了しました。"
             )
 
         routes_data["generated_at"] = (
@@ -547,7 +907,10 @@ def mark_route_published(
         routes_data["ready"] = sum(
             1
             for item in routes
-            if isinstance(item, dict)
+            if isinstance(
+                item,
+                dict,
+            )
             and item.get(
                 "route_status"
             )
@@ -557,7 +920,10 @@ def mark_route_published(
         routes_data["blocked"] = sum(
             1
             for item in routes
-            if isinstance(item, dict)
+            if isinstance(
+                item,
+                dict,
+            )
             and item.get(
                 "route_status"
             )
@@ -575,143 +941,6 @@ def mark_route_published(
 
 
 # =========================================================
-# Real publish
-# =========================================================
-
-def publish_to_x(
-    route: dict[str, Any],
-) -> dict[str, Any]:
-    """X API v2へ実際に投稿する。"""
-
-    post_text = str(
-        route.get(
-            "post_text",
-            "",
-        )
-    ).strip()
-
-    valid, reason = (
-        validate_post_text(
-            post_text
-        )
-    )
-
-    if not valid:
-        return {
-            "status": "blocked",
-            "posted": False,
-            "post_id": "",
-            "reason": reason,
-        }
-
-    credentials = (
-        get_x_credentials()
-    )
-
-    auth = OAuth1(
-        credentials[
-            "api_key"
-        ],
-        credentials[
-            "api_key_secret"
-        ],
-        credentials[
-            "access_token"
-        ],
-        credentials[
-            "access_token_secret"
-        ],
-    )
-
-    try:
-        response = requests.post(
-            X_CREATE_POST_URL,
-            auth=auth,
-            json={
-                "text":
-                    post_text,
-            },
-            timeout=30,
-        )
-
-    except requests.RequestException as error:
-        return {
-            "status": "error",
-            "posted": False,
-            "post_id": "",
-            "reason":
-                "X API通信に失敗しました："
-                f"{error}",
-        }
-
-    if response.status_code not in {
-        200,
-        201,
-    }:
-        return {
-            "status": "error",
-            "posted": False,
-            "post_id": "",
-            "reason": (
-                "X APIエラー："
-                f"HTTP {response.status_code} / "
-                f"{response.text}"
-            ),
-        }
-
-    try:
-        response_data = (
-            response.json()
-        )
-
-    except ValueError:
-        return {
-            "status": "error",
-            "posted": False,
-            "post_id": "",
-            "reason":
-                "X APIのレスポンスJSONを"
-                "解析できませんでした。",
-        }
-
-    data = response_data.get(
-        "data",
-        {},
-    )
-
-    if not isinstance(
-        data,
-        dict,
-    ):
-        data = {}
-
-    post_id = str(
-        data.get(
-            "id",
-            "",
-        )
-    ).strip()
-
-    if not post_id:
-        return {
-            "status": "error",
-            "posted": False,
-            "post_id": "",
-            "reason":
-                "投稿自体は成功応答でしたが、"
-                "Post IDを取得できませんでした。",
-        }
-
-    return {
-        "status": "published",
-        "posted": True,
-        "post_id": post_id,
-        "reason":
-            "Xへの投稿が完了しました。",
-    }
-
-
-# =========================================================
 # Console
 # =========================================================
 
@@ -720,7 +949,7 @@ def print_route(
     route: dict[str, Any],
     result: dict[str, Any],
 ) -> None:
-    """投稿内容と結果を表示する。"""
+    """投稿予定内容・結果を表示する。"""
 
     print(
         "--------------------------------"
@@ -748,7 +977,14 @@ def print_route(
     print()
 
     print(
-        "--- POST ---"
+        "Image："
+        f"{result.get('image_url', '')}"
+    )
+
+    print()
+
+    print(
+        "--- CAPTION ---"
     )
 
     print(
@@ -762,17 +998,30 @@ def print_route(
 
     print()
 
-    post_id = str(
+    container_id = str(
         result.get(
-            "post_id",
+            "container_id",
             "",
         )
     ).strip()
 
-    if post_id:
+    if container_id:
         print(
-            "Post ID："
-            f"{post_id}"
+            "Container ID："
+            f"{container_id}"
+        )
+
+    media_id = str(
+        result.get(
+            "media_id",
+            "",
+        )
+    ).strip()
+
+    if media_id:
+        print(
+            "Media ID："
+            f"{media_id}"
         )
 
     print(
@@ -790,14 +1039,14 @@ def print_route(
 def main(
     apply_mode: bool = False,
 ) -> None:
-    """X Publisherを実行する。"""
+    """Instagram Publisherを実行する。"""
 
     routes = (
-        load_ready_x_routes()
+        load_ready_instagram_routes()
     )
 
     print(
-        "\n===== Atlas X Publisher =====\n"
+        "\n===== Atlas Instagram Publisher =====\n"
     )
 
     print(
@@ -818,14 +1067,13 @@ def main(
 
     if not routes:
         print(
-            "投稿可能なX Routeはありません。"
+            "投稿可能なInstagram Routeは"
+            "ありません。"
         )
         return
 
     if apply_mode:
-        # 実投稿する場合だけ認証情報を
-        # 事前チェックする。
-        get_x_credentials()
+        get_instagram_credentials()
 
     for index, route in enumerate(
         routes,
@@ -834,7 +1082,7 @@ def main(
 
         if apply_mode:
             result = (
-                publish_to_x(
+                publish_to_instagram(
                     route
                 )
             )
@@ -859,26 +1107,27 @@ def main(
             )
             is True
         ):
-            post_id = str(
+            media_id = str(
                 result.get(
-                    "post_id",
+                    "media_id",
                     "",
                 )
             ).strip()
 
-            if post_id:
+            if media_id:
                 mark_route_published(
                     route,
-                    post_id,
+                    media_id,
                 )
 
                 print(
-                    "[X Publisher] "
-                    "投稿状態をpublishedへ更新しました。"
+                    "[Instagram Publisher] "
+                    "投稿状態をpublishedへ"
+                    "更新しました。"
                 )
 
-        # 安全のため、実投稿時は
-        # 一度の実行につき1件だけ投稿する。
+        # 安全のため実投稿時は
+        # 1回につき1件のみ
         if apply_mode:
             break
 
@@ -887,7 +1136,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description=(
-            "Atlas X Publisher"
+            "Atlas Instagram Publisher"
         )
     )
 
@@ -895,7 +1144,7 @@ if __name__ == "__main__":
         "--apply",
         action="store_true",
         help=(
-            "Xへ実際に投稿します。"
+            "Instagramへ実際に投稿します。"
             "指定しない場合はDRY RUNです。"
         ),
     )
