@@ -18,6 +18,7 @@ from engines.article_loader import (
 from engines.instagram_image_generator import (
     generate_article_images,
 )
+from engines.affiliate_disclosure import content_has_affiliate_link
 
 
 # =========================================================
@@ -188,6 +189,7 @@ def build_image_article(
         "category": category,
         "tags": tags,
         "content": content,
+        "is_affiliate_article": content_has_affiliate_link(content),
     }
 
 

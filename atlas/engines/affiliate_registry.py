@@ -68,6 +68,14 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
             "program_name",
             "",
         )
+        program_id = item.get(
+            "program_id",
+            "",
+        )
+        promotion_details = item.get(
+            "promotion_details",
+            "",
+        )
 
         if (
             not isinstance(official_url, str)
@@ -143,6 +151,16 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
                 f"{tool_name}のprogram_nameが不正です。"
             )
 
+        if not isinstance(program_id, str):
+            raise ValueError(
+                f"{tool_name}のprogram_idが不正です。"
+            )
+
+        if not isinstance(promotion_details, str):
+            raise ValueError(
+                f"{tool_name}のpromotion_detailsが不正です。"
+            )
+
         if (
             affiliate_status == "active"
             and not affiliate_url
@@ -167,6 +185,8 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
             "program_name": (
                 program_name.strip()
             ),
+            "program_id": program_id.strip(),
+            "promotion_details": promotion_details.strip(),
         }
 
     return validated

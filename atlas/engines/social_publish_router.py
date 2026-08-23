@@ -34,10 +34,6 @@ PLATFORM_ROUTES = {
         "destination": "instagram",
         "publisher": "instagram_publisher",
     },
-    "line": {
-        "destination": "line",
-        "publisher": "line_publisher",
-    },
 }
 
 

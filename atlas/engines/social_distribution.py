@@ -18,7 +18,6 @@ SITE_URL = "https://alsivo.com"
 SUPPORTED_PLATFORMS = {
     "x",
     "instagram",
-    "line",
 }
 
 
@@ -290,6 +289,15 @@ def build_social_item(
         datetime.now().isoformat()
     )
 
+    try:
+        article_path = Path(article["filepath"])
+        article_content = article_path.read_text(encoding="utf-8")
+    except (KeyError, OSError):
+        article_content = ""
+
+    from engines.affiliate_disclosure import content_has_affiliate_link
+    is_affiliate_article = content_has_affiliate_link(article_content)
+
     return {
         "social_id":
             uuid.uuid4().hex[:12],
@@ -331,6 +339,9 @@ def build_social_item(
 
         "article_url":
             article["url"],
+
+        "is_affiliate_article":
+            is_affiliate_article,
 
         "post_text":
             "",
@@ -613,7 +624,6 @@ def create_distribution_queue(
     for platform in [
         "x",
         "instagram",
-        "line",
     ]:
         candidate = (
             build_social_item(
@@ -685,7 +695,6 @@ def print_summary(
     for platform in [
         "x",
         "instagram",
-        "line",
     ]:
         count = sum(
             1

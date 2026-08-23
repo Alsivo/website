@@ -2646,3 +2646,16 @@ main {
     margin-top: 18px;
   }
 }
+
+.article-pr-disclosure {
+  width: fit-content;
+  margin: 24px 0 18px;
+  border: 1px solid rgba(88, 101, 242, 0.28);
+  border-radius: 999px;
+  padding: 8px 13px;
+  background: rgba(88, 101, 242, 0.08);
+  color: #424bb7;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}

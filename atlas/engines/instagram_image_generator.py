@@ -2002,6 +2002,18 @@ def create_instagram_image(
         large=False,
     )
 
+    if bool(article.get("is_affiliate_article", False)):
+        pr_font = font(34)
+        pr_box = (880, 38, 1015, 100)
+        draw.rounded_rectangle(pr_box, radius=18, fill=WHITE)
+        draw_centered_text(
+            draw=draw,
+            box=pr_box,
+            text="#PR",
+            text_font=pr_font,
+            fill=NAVY,
+        )
+
     # -----------------------------------------------------
     # Main card
     # -----------------------------------------------------

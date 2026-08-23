@@ -233,6 +233,11 @@ export default async function BlogPostPage({
       "primary",
     );
 
+  const isAffiliateArticle =
+    /<AffiliateLink\b[\s\S]*?\blinkType=["']affiliate["'][\s\S]*?>/.test(
+      post.content,
+    );
+
 
   /* ========================================================
      Introduction / body separation
@@ -348,6 +353,12 @@ export default async function BlogPostPage({
           >
             ← Blogへ戻る
           </Link>
+
+          {isAffiliateArticle && (
+            <p className="article-pr-disclosure">
+              PR｜本記事にはアフィリエイト広告が含まれます。
+            </p>
+          )}
 
           <p className="article-category">
             {post.category}

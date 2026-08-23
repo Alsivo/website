@@ -498,6 +498,14 @@ def sync_affiliate_registry() -> dict[str, dict[str, Any]]:
             )
         )
 
+        if (
+            isinstance(existing_item, dict)
+            and existing_item.get("affiliate_status") == "active"
+            and existing_item.get("affiliate_url")
+            and program.get("status") != "active"
+        ):
+            continue
+
         existing_aliases = (
             existing_item.get(
                 "aliases",

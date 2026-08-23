@@ -16,6 +16,9 @@ from engines.affiliate_registry import (
     build_affiliate_section,
     load_affiliate_registry,
 )
+from engines.a8_submission_export import (
+    export_a8_submission_csv,
+)
 
 
 BLOG_DIR = Path("../content/blog")
@@ -2096,5 +2099,8 @@ def publish_article(
         mdx,
         encoding="utf-8",
     )
+
+    # 公開記事を毎回すべて再走査し、A8.net提出用CSVを更新する。
+    export_a8_submission_csv()
 
     return filepath

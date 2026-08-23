@@ -1579,6 +1579,7 @@ def run_social_distribution(
     article_path: Path,
     log_file: Path,
     refresh: bool = False,
+    auto_publish: bool = True,
 ) -> None:
     """
     記事のSNS配信候補を生成する。
@@ -1593,7 +1594,8 @@ def run_social_distribution(
     同一記事の未投稿SNS候補を
     最新記事内容で更新する。
 
-    実投稿は行わない。
+    通常運転ではX・Instagramを自動承認し、即時投稿する。
+    全記事更新などではauto_publish=Falseを指定する。
     """
 
     slug = article_path.stem
@@ -1665,6 +1667,27 @@ def run_social_distribution(
     log(
         "SNS投稿候補を承認待ちへ"
         "追加しました："
+        f"{slug}",
+        log_file,
+    )
+
+    if not auto_publish:
+        return
+
+    result = run_python_module(
+        "engines.social_auto_approver",
+        log_file,
+        arguments=[slug],
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "SNS投稿の自動承認に失敗しました："
+            f"{slug}"
+        )
+
+    log(
+        "X・Instagram投稿を自動承認しました："
         f"{slug}",
         log_file,
     )
@@ -1928,6 +1951,8 @@ def run_refresh_all_articles() -> None:
                 run_social_distribution(
                     rewritten_article_path,
                     log_file,
+                    refresh=True,
+                    auto_publish=False,
                 )
 
                 successful.append(
@@ -3039,6 +3064,28 @@ def main(
                     "Pushをスキップしました。",
                     log_file,
                 )
+
+            published_article_path = (
+                new_article_path
+                if action == "new_article"
+                else rewritten_article_path
+            )
+
+            if published_article_path is not None:
+                deploy_result = run_python_module(
+                    "engines.publication_waiter",
+                    log_file,
+                    arguments=[published_article_path.stem],
+                )
+
+                if deploy_result.returncode == 0:
+                    run_social_publishers(log_file)
+                else:
+                    log(
+                        "本番反映待ちのため、SNS配信を"
+                        "次回自動運転へ繰り越しました。",
+                        log_file,
+                    )
 
         save_latest_run(
             status="success",

@@ -15,6 +15,7 @@ from config import (
 )
 from engines.affiliate_registry import (
     get_affiliate_tool_names,
+    load_affiliate_registry,
 )
 
 
@@ -324,6 +325,21 @@ def generate_article(
         ", ".join(
             affiliate_tool_names
         )
+    )
+
+    affiliate_program_context = {
+        service: {
+            "ASP案件名": item.get("program_name", ""),
+            "ASP・運営元": item.get("network", ""),
+            "PR内容・掲載条件": item.get("promotion_details", ""),
+        }
+        for service, item in load_affiliate_registry().items()
+        if item.get("affiliate_status") == "active"
+    }
+    affiliate_program_text = json.dumps(
+        affiliate_program_context,
+        ensure_ascii=False,
+        indent=2,
     )
 
     print(
@@ -1040,7 +1056,14 @@ def generate_article(
                 f"{research_text}\n\n"
 
                 "===== CTAへ登録可能なサービス =====\n"
-                f"{affiliate_tool_text}"
+                f"{affiliate_tool_text}\n\n"
+
+                "===== 承認済み案件のPR内容・掲載条件 =====\n"
+                f"{affiliate_program_text}\n\n"
+                "PR内容・掲載条件は該当サービスを扱う場合だけ参照し、"
+                "Web調査結果と矛盾しない範囲で記事へ反映してください。"
+                "未確認の効果を創作せず、掲載条件やNG表現は必ず守ってください。"
+                "広告主から受け取る報酬額は記事の評価や推奨理由に使わないでください。"
             ),
             text={
                 "format": {
@@ -1101,6 +1124,15 @@ def revise_article(
             review,
         "cta_registered_tools":
             affiliate_tool_names,
+        "approved_affiliate_programs": {
+            service: {
+                "ASP案件名": item.get("program_name", ""),
+                "ASP・運営元": item.get("network", ""),
+                "PR内容・掲載条件": item.get("promotion_details", ""),
+            }
+            for service, item in load_affiliate_registry().items()
+            if item.get("affiliate_status") == "active"
+        },
     }
 
     print(
@@ -1495,6 +1527,10 @@ def revise_article(
                 "記事が単なる情報の羅列へ"
                 "戻っていないことを"
                 "確認してください。"
+
+                "approved_affiliate_programsのPR内容・掲載条件は、"
+                "該当サービスを扱う場合に限って反映し、"
+                "未確認の効果を創作せず、掲載条件とNG表現を守ってください。"
 
                 "一方で、"
                 "問題提起を長くしすぎて"

@@ -7,6 +7,7 @@ from config import (
     OPENAI_API_KEY,
     MODEL,
 )
+from engines.affiliate_disclosure import ensure_pr_prefix
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -101,6 +102,12 @@ def build_prompt(
   過度な断定表現を使わない
 """
 
+    if bool(item.get("is_affiliate_article", False)):
+        common_rules += """
+- これはアフィリエイト広告を含む記事の紹介です
+- 投稿本文の先頭1行は必ず「#PR」にする
+"""
+
     if platform == "x":
         rules = """
 X向けの投稿文を作成してください。
@@ -154,26 +161,6 @@ Instagram向けの投稿文を作成してください。
 - 最後に記事への誘導を書く
 - URLを最後にそのまま付ける
 - 関連性の高いハッシュタグを3〜6個付ける
-"""
-
-    elif platform == "line":
-        rules = """
-LINE公式アカウント向けの新着通知文を作成してください。
-
-構成：
-1. 読者が抱きそうな困りごと・疑問を短く示す
-2. 記事を読むことで得られる解決のヒントを示す
-3. 新着記事へ誘導する
-
-条件：
-- 日本語
-- 100〜180文字程度
-- 短く分かりやすくする
-- 新着記事であることが分かる
-- 読者目線のメリットを1つ以上示す
-- URLを最後にそのまま付ける
-- ハッシュタグは不要
-- 煽り表現は禁止
 """
 
     else:
@@ -307,6 +294,9 @@ def update_social_queue(
         text = generate_copy(
             item
         )
+
+        if bool(item.get("is_affiliate_article", False)):
+            text = ensure_pr_prefix(text)
 
         item[
             "post_text"
