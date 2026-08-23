@@ -537,7 +537,10 @@ def sync_affiliate_registry() -> dict[str, dict[str, Any]]:
                 tool_name,
             )
 
+        # 手動管理で登録したプログラムID・広告ソース・PR条件などを保持する。
+        # 自動選定データにはこれらの項目がないため、全置換すると欠落する。
         registry[tool_name] = {
+            **existing_item,
             "official_url": (
                 program["official_url"]
             ),

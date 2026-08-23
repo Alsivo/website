@@ -125,9 +125,10 @@ def main() -> None:
             print("出典URLを取得できませんでした。")
 
         print("\n[Planner] 記事企画を作成中...\n")
+        editorial_brief = load_editorial_brief(topic)
         plan = create_article_plan(
             topic,
-            editorial_brief=load_editorial_brief(topic),
+            editorial_brief=editorial_brief,
         )
 
         print(f"仮タイトル：{plan['suggested_title']}")
@@ -224,6 +225,23 @@ def main() -> None:
             review["approved"]
             and review["score"] >= MIN_REVIEW_SCORE
         )
+
+        # アフィリエイト案件起点の記事では、CTAを主対象案件1件に限定する。
+        # Writerが比較対象や公式サービスをrecommended_toolsへ追加しても
+        # Publisherへ渡す直前に必ず上書きする。
+        affiliate_service = str(
+            (editorial_brief or {}).get("affiliate_service", "")
+        ).strip()
+        if affiliate_service:
+            article["recommended_tools"] = [affiliate_service]
+            cta_plan = article.get("cta_plan", {})
+            if not isinstance(cta_plan, dict):
+                cta_plan = {}
+            article["cta_plan"] = {
+                **cta_plan,
+                "primary_service": affiliate_service,
+                "placement": "after_toc",
+            }
 
         print("\n===== 最終記事 =====\n")
         print(f"タイトル：{article['title']}")

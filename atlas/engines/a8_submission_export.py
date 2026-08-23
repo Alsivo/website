@@ -14,6 +14,9 @@ ATLAS_DIR = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = ATLAS_DIR.parent
 BLOG_DIR = PROJECT_ROOT / "content" / "blog"
 REGISTRY_FILE = ATLAS_DIR / "data" / "affiliate_links.json"
+APPROVAL_QUEUE_FILE = (
+    ATLAS_DIR / "data" / "affiliate_programs" / "human_approval_queue.json"
+)
 EXPORT_DIR = ATLAS_DIR / "exports"
 SITE_URL = "https://www.alsivo.com"
 
@@ -24,11 +27,37 @@ def load_registry() -> dict[str, dict[str, Any]]:
     data = json.loads(REGISTRY_FILE.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
         raise ValueError("affiliate_links.jsonの形式が不正です。")
-    return {
+    registry = {
         str(service): item
         for service, item in data.items()
         if isinstance(item, dict)
     }
+    # 案件管理画面の正本から、提出に必要な情報を補完する。
+    # affiliate_links.jsonの更新漏れがあっても公開後に失敗させない。
+    if APPROVAL_QUEUE_FILE.exists():
+        queue_data = json.loads(APPROVAL_QUEUE_FILE.read_text(encoding="utf-8"))
+        for program in queue_data.get("programs", []):
+            if not isinstance(program, dict):
+                continue
+            service = str(program.get("service", "")).strip()
+            if not service:
+                continue
+            item = registry.setdefault(service, {})
+            for key in ("network", "program_id", "program_name"):
+                value = str(program.get(key, "")).strip()
+                if value and not str(item.get(key, "")).strip():
+                    item[key] = value
+    return registry
+
+
+def validate_a8_service(service: str) -> None:
+    """選択案件がA8.netなら、公開前にプログラムIDを検査する。"""
+    item = load_registry().get(service, {})
+    if str(item.get("network", "")).strip().lower() == "a8.net":
+        if not str(item.get("program_id", "")).strip():
+            raise ValueError(
+                f"{service}はA8.net案件ですが、プログラムIDが未登録です。"
+            )
 
 
 def is_published(mdx: str) -> bool:

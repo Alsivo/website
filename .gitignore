@@ -67,6 +67,9 @@ atlas/data/rewrite_backups/
 #Atlas SNS
 atlas/data/social/
 
+# Atlas local affiliate submission exports
+atlas/exports/
+
 # Atlas automation runtime
 atlas/data/automation/
 atlas/logs/

@@ -59,7 +59,7 @@ def title_of(path: Path) -> str:
 class App:
     def __init__(self, root: Tk) -> None:
         self.root=root; root.title("ALSIVO 運用コントロール"); root.geometry("1160x750"); root.minsize(960,640)
-        self.items: dict[str,dict[str,Any]]={}; self.status=StringVar(value="準備完了")
+        self.items: dict[str,dict[str,Any]]={}; self.status=StringVar(value="準備完了"); self.atlas_running=False; self.atlas_started:datetime|None=None
         style=ttk.Style(); style.configure("Title.TLabel",font=("Yu Gothic UI",18,"bold")); style.configure("Heading.TLabel",font=("Yu Gothic UI",11,"bold")); style.configure("Accent.TButton",font=("Yu Gothic UI",10,"bold"))
         head=ttk.Frame(root,padding=14); head.pack(fill=X); ttk.Label(head,text="ALSIVO 運用コントロール",style="Title.TLabel").pack(side=LEFT); ttk.Button(head,text="すべて更新",command=self.refresh).pack(side=RIGHT)
         self.tabs=ttk.Notebook(root); self.tabs.pack(fill=BOTH,expand=True,padx=14,pady=(0,10))
@@ -215,10 +215,32 @@ class App:
         if not messagebox.askyesno("Atlasを実行",messages[mode]+"\n\n続けますか？"):return
         args={"dry":("--dry-run",),"normal":(),"new":("--force-new-article",)}[mode]
         def task()->str:
-            result=subprocess.run([worker_python(),"atlas.py",*args],cwd=BASE,capture_output=True,text=True,encoding="utf-8",errors="replace",check=False,env=utf8_environment());out="\n".join(x.strip() for x in (result.stdout,result.stderr) if x.strip())
-            if result.returncode:raise RuntimeError(out or "Atlasの実行に失敗しました。")
+            flags=subprocess.CREATE_NO_WINDOW if os.name=="nt" else 0
+            result=subprocess.run([worker_python(),"atlas.py",*args],cwd=BASE,capture_output=True,text=True,encoding="utf-8",errors="replace",check=False,env=utf8_environment(),creationflags=flags);out="\n".join(x.strip() for x in (result.stdout,result.stderr) if x.strip())
+            if result.returncode:raise RuntimeError(self.atlas_error_summary(out))
             return out or "Atlasの実行が完了しました。"
-        self.background("Atlasを実行中です...",task,self.refresh)
+        self.atlas_running=True; self.atlas_started=datetime.now(); self.update_atlas_progress()
+        def refresh_after_run()->None:self.atlas_running=False;self.refresh()
+        self.background("Atlasを実行中です...",task,refresh_after_run)
+
+    def update_atlas_progress(self)->None:
+        if not self.atlas_running or self.atlas_started is None:return
+        elapsed=max(0,int((datetime.now()-self.atlas_started).total_seconds()));stage="準備・分析中"
+        logs=sorted((BASE/"logs"/"atlas").glob("*.log"),key=lambda p:p.stat().st_mtime,reverse=True)
+        if logs:
+            try:tail=logs[0].read_text(encoding="utf-8",errors="replace")[-8000:]
+            except OSError:tail=""
+            if "main.py" in tail:stage="記事本文を生成中"
+            if "新規記事を確認" in tail:stage="画像・公開処理中"
+            if "SNS配信" in tail:stage="SNS配信中"
+        self.status.set(f"Atlas実行中：{stage}（{elapsed//60}分{elapsed%60:02d}秒）")
+        self.root.after(1000,self.update_atlas_progress)
+
+    @staticmethod
+    def atlas_error_summary(output:str)->str:
+        matches=re.findall(r"(?:処理に失敗しました：|Atlas自動運転に失敗しました：)([^\r\n]+)",output)
+        if matches:return "記事自動公開に失敗しました。\n\n原因: "+matches[-1].strip()+"\n\n生成途中の記事・画像は削除されました。"
+        return "記事自動公開に失敗しました。生成途中の記事・画像は削除されました。"
 
     def background(self,message:str,task:Callable[[],str],refresh:Callable[[],None])->None:
         self.status.set(message)
@@ -230,7 +252,7 @@ class App:
                 return
             self.root.after(0,lambda:self.finished(output,refresh))
         threading.Thread(target=worker,daemon=True).start()
-    def failed(self,error:str)->None:self.status.set("処理に失敗しました。");messagebox.showerror("処理エラー",error[-5000:])
+    def failed(self,error:str)->None:self.atlas_running=False;self.status.set("処理に失敗しました。");messagebox.showerror("処理エラー",error[-1200:])
     def finished(self,output:str,refresh:Callable[[],None])->None:refresh();self.status.set("処理が完了しました。");messagebox.showinfo("完了",output[-4000:])
     @staticmethod
     def set_text(widget:Text,value:str)->None:widget.config(state="normal");widget.delete("1.0",END);widget.insert("1.0",value);widget.config(state="disabled")

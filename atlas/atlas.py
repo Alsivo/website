@@ -1411,6 +1411,19 @@ def run_new_article(
         / "blog"
     )
 
+    artifact_dirs = (
+        blog_dir,
+        BASE_DIR.parent / "public" / "images" / "blog",
+        BASE_DIR.parent / "public" / "images" / "social",
+    )
+
+    before_artifacts = {
+        path.resolve()
+        for directory in artifact_dirs
+        for path in directory.glob("*")
+        if path.is_file()
+    }
+
     before_files = {
         path.resolve()
         for path in blog_dir.glob("*.mdx")
@@ -1437,16 +1450,42 @@ def run_new_article(
             log_file,
         )
 
-    result = run_python_script(
-        "main.py",
-        log_file,
-        input_text=input_text,
-    )
+    try:
+        affiliate_service = str(decision.get("affiliate_service", "")).strip()
+        if affiliate_service:
+            from engines.a8_submission_export import validate_a8_service
+            validate_a8_service(affiliate_service)
+            log("公開前のアフィリエイト案件検査：OK", log_file)
 
-    if result.returncode != 0:
-        raise RuntimeError(
-            "main.pyが異常終了しました。"
+        result = run_python_script(
+            "main.py",
+            log_file,
+            input_text=input_text,
         )
+
+        if result.returncode != 0:
+            raise RuntimeError("main.pyが異常終了しました。")
+    except Exception:
+        after_artifacts = {
+            path.resolve()
+            for directory in artifact_dirs
+            for path in directory.glob("*")
+            if path.is_file()
+        }
+        from engines.social_record_cleanup import remove_article_records
+        failed_slugs = {
+            path.stem
+            for path in after_artifacts - before_artifacts
+            if path.parent == blog_dir.resolve() and path.suffix.lower() == ".mdx"
+        }
+        for failed_slug in failed_slugs:
+            remove_article_records(failed_slug)
+        removed = 0
+        for path in sorted(after_artifacts - before_artifacts):
+            path.unlink(missing_ok=True)
+            removed += 1
+        log(f"失敗時クリーンアップ：生成途中のファイルを{removed}件削除しました。", log_file)
+        raise
 
     after_files = {
         path.resolve()
@@ -1701,7 +1740,8 @@ def run_social_distribution(
 
 def run_social_publishers(
     log_file: Path,
-) -> None:
+    article_slug: str = "",
+) -> bool:
     """
     承認済みSNS投稿を配信する。
 
@@ -1726,6 +1766,7 @@ def run_social_publishers(
     result = run_python_module(
         "engines.social_publish_router",
         log_file,
+        arguments=["--article-slug", article_slug],
     )
 
     if result.returncode != 0:
@@ -1743,8 +1784,11 @@ def run_social_publishers(
         log_file,
         arguments=[
             "--apply",
+            "--article-slug",
+            article_slug,
         ],
     )
+    result_x = result
 
     if result.returncode != 0:
         raise RuntimeError(
@@ -1761,8 +1805,11 @@ def run_social_publishers(
         log_file,
         arguments=[
             "--apply",
+            "--article-slug",
+            article_slug,
         ],
     )
+    result_instagram = result
 
     if result.returncode != 0:
         raise RuntimeError(
@@ -1775,6 +1822,10 @@ def run_social_publishers(
         "配信処理が完了しました。",
         log_file,
     )
+
+    x_ok = "Xへの投稿が完了しました。" in (result_x.stdout or "")
+    instagram_ok = "Instagramへの投稿が完了しました。" in (result_instagram.stdout or "")
+    return x_ok and instagram_ok
 
 
 def run_refresh_all_articles() -> None:
@@ -2251,6 +2302,8 @@ def main(
 
     rewritten_article_path: Path | None = None
     new_article_path: Path | None = None
+    new_article_published = False
+    social_delivery_success = True
 
     lock_acquired = False
 
@@ -2992,14 +3045,6 @@ def main(
                 INTERNAL_LINKS_FILE,
             ]
 
-            if action == "new_article":
-                publish_paths.extend(
-                    [
-                        SOCIAL_QUEUE_FILE,
-                        SOCIAL_APPROVAL_QUEUE_FILE,
-                    ]
-                )
-
             if (
                 action == "new_article"
                 and new_article_path
@@ -3069,6 +3114,10 @@ def main(
                 )
             )
 
+            if action == "new_article":
+                # ここ以降はGitHubへ反映済みなので、後工程の失敗では削除しない。
+                new_article_published = True
+
             if pushed:
                 log(
                     "更新コンテンツの"
@@ -3097,7 +3146,15 @@ def main(
                 )
 
                 if deploy_result.returncode == 0:
-                    run_social_publishers(log_file)
+                    social_delivery_success = run_social_publishers(
+                        log_file,
+                        published_article_path.stem,
+                    )
+                    if not social_delivery_success:
+                        log(
+                            "記事公開は成功しましたが、SNS配信に失敗しました。",
+                            log_file,
+                        )
                 else:
                     log(
                         "本番反映待ちのため、SNS配信を"
@@ -3106,9 +3163,13 @@ def main(
                     )
 
         save_latest_run(
-            status="success",
+            status="success" if social_delivery_success else "warning",
             action=action,
-            message="Atlas自動運転完了",
+            message=(
+                "Atlas自動運転完了"
+                if social_delivery_success
+                else "記事公開は完了しましたが、SNS配信に失敗しました。"
+            ),
         )
 
         # 最終状態を表示する前に
@@ -3244,6 +3305,32 @@ def main(
             )
 
             raise
+
+        if (
+            action == "new_article"
+            and new_article_path is not None
+            and not new_article_published
+        ):
+            cleanup_targets = (
+                new_article_path,
+                BASE_DIR.parent / "public" / "images" / "blog" / f"{new_article_path.stem}.png",
+                BASE_DIR.parent / "public" / "images" / "blog" / f"{new_article_path.stem}.webp",
+                BASE_DIR.parent / "public" / "images" / "social" / f"{new_article_path.stem}-instagram.png",
+            )
+            removed = 0
+            for path in cleanup_targets:
+                if path.exists():
+                    path.unlink()
+                    removed += 1
+            from engines.social_record_cleanup import remove_article_records
+            social_removed = remove_article_records(new_article_path.stem)
+            log(f"失敗時クリーンアップ：生成途中のファイルを{removed}件削除しました。", log_file)
+            log(f"失敗時クリーンアップ：SNS記録を{social_removed}件削除しました。", log_file)
+            try:
+                from engines.a8_submission_export import export_a8_submission_csv
+                export_a8_submission_csv()
+            except Exception as cleanup_error:
+                log(f"A8.net提出用CSVの復元に失敗しました：{cleanup_error}", log_file)
 
         save_latest_run(
             status="error",

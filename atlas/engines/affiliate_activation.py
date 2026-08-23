@@ -317,6 +317,11 @@ def apply_activation_updates(
                     "program_name"
                 ] = program_name
 
+            for key in ("program_id", "promotion_details"):
+                value = str(program.get(key, "")).strip()
+                if value:
+                    updated_item[key] = value
+
             updated_registry[
                 service
             ] = updated_item
@@ -384,6 +389,11 @@ def apply_activation_updates(
                 updated_item[
                     "program_name"
                 ] = program_name
+
+            for key in ("program_id", "promotion_details"):
+                value = str(program.get(key, "")).strip()
+                if value:
+                    updated_item[key] = value
 
             updated_registry[
                 service

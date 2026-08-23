@@ -142,6 +142,7 @@ def save_json(
 # =========================================================
 
 def load_ready_instagram_routes(
+    article_slug: str = "",
 ) -> list[dict[str, Any]]:
     """Instagram用Ready Routeを取得する。"""
 
@@ -170,6 +171,9 @@ def load_ready_instagram_routes(
             item,
             dict,
         ):
+            continue
+
+        if article_slug and str(item.get("article_slug", "")).strip() != article_slug:
             continue
 
         platform = str(
@@ -1038,11 +1042,12 @@ def print_route(
 
 def main(
     apply_mode: bool = False,
+    article_slug: str = "",
 ) -> None:
     """Instagram Publisherを実行する。"""
 
     routes = (
-        load_ready_instagram_routes()
+        load_ready_instagram_routes(article_slug)
     )
 
     print(
@@ -1149,8 +1154,11 @@ if __name__ == "__main__":
         ),
     )
 
+    parser.add_argument("--article-slug", default="")
+
     args = parser.parse_args()
 
     main(
         apply_mode=args.apply,
+        article_slug=args.article_slug,
     )

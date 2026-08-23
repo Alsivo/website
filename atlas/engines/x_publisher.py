@@ -130,6 +130,7 @@ def load_json(
 # =========================================================
 
 def load_ready_x_routes(
+    article_slug: str = "",
 ) -> list[dict[str, Any]]:
     """X Publisherで処理可能なRouteだけ取得する。"""
 
@@ -158,6 +159,9 @@ def load_ready_x_routes(
             item,
             dict,
         ):
+            continue
+
+        if article_slug and str(item.get("article_slug", "")).strip() != article_slug:
             continue
 
         platform = str(
@@ -604,6 +608,31 @@ def publish_to_x(
             "reason": reason,
         }
 
+    article_url = str(route.get("article_url", "")).strip()
+    if not article_url:
+        return {
+            "status": "blocked",
+            "posted": False,
+            "post_id": "",
+            "reason": "記事URLがないためXへ投稿しません。",
+        }
+    try:
+        article_response = requests.get(article_url, timeout=20)
+    except requests.RequestException as error:
+        return {
+            "status": "blocked",
+            "posted": False,
+            "post_id": "",
+            "reason": f"記事の公開確認に失敗したためXへ投稿しません：{error}",
+        }
+    if article_response.status_code != 200:
+        return {
+            "status": "blocked",
+            "posted": False,
+            "post_id": "",
+            "reason": f"記事が公開されていないためXへ投稿しません：HTTP {article_response.status_code}",
+        }
+
     credentials = (
         get_x_credentials()
     )
@@ -789,11 +818,12 @@ def print_route(
 
 def main(
     apply_mode: bool = False,
+    article_slug: str = "",
 ) -> None:
     """X Publisherを実行する。"""
 
     routes = (
-        load_ready_x_routes()
+        load_ready_x_routes(article_slug)
     )
 
     print(
@@ -900,8 +930,11 @@ if __name__ == "__main__":
         ),
     )
 
+    parser.add_argument("--article-slug", default="")
+
     args = parser.parse_args()
 
     main(
         apply_mode=args.apply,
+        article_slug=args.article_slug,
     )

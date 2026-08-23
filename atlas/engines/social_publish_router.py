@@ -1,3 +1,4 @@
+import argparse
 import json
 from datetime import datetime
 from pathlib import Path
@@ -269,6 +270,7 @@ def build_route(
 
 
 def build_routes(
+    article_slug: str = "",
 ) -> list[dict[str, Any]]:
     """Publish Route一覧を作る。"""
 
@@ -299,6 +301,15 @@ def build_routes(
             item,
             dict,
         ):
+            continue
+
+        if article_slug and str(item.get("article_slug", "")).strip() != article_slug:
+            continue
+
+        item_slug = str(item.get("article_slug", "")).strip()
+        article_file = BASE_DIR.parent / "content" / "blog" / f"{item_slug}.mdx"
+        if not item_slug or not article_file.exists():
+            # 失敗後に記事が削除されたSNS記録は、次回起動時も配信しない。
             continue
 
         route = build_route(
@@ -435,10 +446,10 @@ def print_summary(
             )
 
 
-def main() -> None:
+def main(article_slug: str = "") -> None:
     """Social Publish Routerを実行する。"""
 
-    routes = build_routes()
+    routes = build_routes(article_slug)
 
     filepath = save_routes(
         routes
@@ -457,4 +468,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Atlas Social Publish Router")
+    parser.add_argument("--article-slug", default="")
+    args = parser.parse_args()
+    main(article_slug=args.article_slug)

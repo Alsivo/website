@@ -559,6 +559,11 @@ def review_article(
             "solution_angleと自然に"
             "つながるものだけにしてください。"
 
+            "planにaffiliate_serviceがある記事では、"
+            "recommended_toolsはその案件1件だけにしてください。"
+            "比較対象、他のアフィリエイト案件、"
+            "ChatGPTなどの公式CTAを追加しないでください。"
+
             "記事内で扱っている場合でも、"
             "読者が公式ページを確認する価値が"
             "低いサービスを"
