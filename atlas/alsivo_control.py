@@ -19,6 +19,22 @@ ARTICLE_BACKUPS = BASE / "logs" / "deleted_content"
 AFFILIATE_QUEUE = DATA / "affiliate_programs" / "human_approval_queue.json"
 AFFILIATE_LINKS = DATA / "affiliate_links.json"
 A8_EXPORTS = BASE / "exports"
+INTERNAL_LINKS = DATA / "internal_links" / "internal_links.json"
+SOCIAL_DATA_FILES = (
+    DATA / "social" / "social_queue.json",
+    DATA / "social" / "social_approval_queue.json",
+    DATA / "social" / "social_publish_routes.json",
+)
+ARTICLE_DATA_FILES = (
+    DATA / "affiliate_opportunities" / "affiliate_opportunities.json",
+    DATA / "affiliate_opportunities" / "affiliate_opportunity_decisions.json",
+    DATA / "affiliate_programs" / "affiliate_action_queue.json",
+    DATA / "affiliate_programs" / "domestic_asp_candidate_queue.json",
+    DATA / "monetization" / "monetization_matches.json",
+    DATA / "processed_keywords.json",
+    DATA / "seo_feedback" / "seo_action_plan.json",
+    DATA / "seo_feedback" / "seo_feedback.json",
+)
 LATEST_RUN = DATA / "automation" / "latest_run.json"
 SITE = "https://www.alsivo.com"
 STATUS_LABELS = {"approved_for_application":"申請予定","applied":"申請中","approved":"承認済み","rejected":"否認"}
@@ -55,6 +71,71 @@ def title_of(path: Path) -> str:
     except OSError: return path.stem
     match=re.search(r'^title:\s*["\']?(.*?)["\']?\s*$',text,re.MULTILINE)
     return match.group(1).strip() if match else path.stem
+
+def social_post_urls(slug: str) -> tuple[list[str],bool]:
+    """保存済みSNS記録から手動削除用URLの候補を返す。"""
+    x_urls:set[str]=set(); instagram_published=False
+    for path in SOCIAL_DATA_FILES:
+        data=load_json(path,{})
+        if not isinstance(data,dict):continue
+        items=data.get("routes",data.get("queue",[]))
+        if not isinstance(items,list):continue
+        for item in items:
+            if not isinstance(item,dict) or str(item.get("article_slug","")).strip()!=slug:continue
+            platform=str(item.get("platform",item.get("destination",""))).strip().lower()
+            post_id=str(item.get("external_post_id","")).strip()
+            published=bool(post_id) or str(item.get("status",item.get("route_status",""))).strip()=="published"
+            if platform=="x" and post_id:x_urls.add(f"https://x.com/i/web/status/{post_id}")
+            if platform=="instagram" and published:instagram_published=True
+    return sorted(x_urls),instagram_published
+
+def remove_internal_link_records(slug: str) -> bool:
+    """削除記事を関連記事台帳の親・リンク先から除外する。"""
+    data=load_json(INTERNAL_LINKS,{})
+    if not isinstance(data,dict):raise RuntimeError("internal_links.jsonの形式が不正です。")
+    changed=slug in data
+    data.pop(slug,None)
+    for source_slug,items in list(data.items()):
+        if not isinstance(items,list):continue
+        kept=[item for item in items if not isinstance(item,dict) or str(item.get("slug","")).strip()!=slug]
+        if len(kept)!=len(items):data[source_slug]=kept;changed=True
+    if changed:INTERNAL_LINKS.write_text(json.dumps(data,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    return changed
+
+def remove_related_article_records(slug: str) -> list[str]:
+    """各管理台帳から指定記事に直接ひもづく記録を除外する。"""
+    article_url=f"/blog/{slug}"
+    def matches(value:Any)->bool:
+        if not isinstance(value,dict):return False
+        if any(str(value.get(key,"")).strip()==slug for key in ("slug","article_slug","target_slug")):return True
+        output_path=str(value.get("output_path","")).replace("\\","/")
+        if output_path.endswith(f"/{slug}.mdx"):return True
+        return any(article_url in str(value.get(key,"")) for key in ("article_url","url"))
+    def clean(value:Any)->tuple[Any,bool]:
+        changed=False
+        if isinstance(value,list):
+            result=[]
+            for item in value:
+                if matches(item):changed=True;continue
+                cleaned,item_changed=clean(item);result.append(cleaned);changed=changed or item_changed
+            return result,changed
+        if isinstance(value,dict):
+            result={}
+            for key,item in value.items():
+                if str(key).strip()==slug:changed=True;continue
+                if matches(item):changed=True;continue
+                cleaned,item_changed=clean(item);result[key]=cleaned;changed=changed or item_changed
+            return result,changed
+        return value,False
+    changed_paths=[]
+    for path in ARTICLE_DATA_FILES:
+        if not path.exists():continue
+        data=load_json(path,{})
+        cleaned,changed=clean(data)
+        if changed:
+            path.write_text(json.dumps(cleaned,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+            changed_paths.append(path.relative_to(REPO).as_posix())
+    return changed_paths
 
 class App:
     def __init__(self, root: Tk) -> None:
@@ -119,16 +200,36 @@ class App:
         selected=self.article_tree.selection()
         if not selected: messagebox.showinfo("記事の取り下げ","対象記事を選択してください。"); return
         slug=selected[0]
-        if not messagebox.askyesno("最終確認",f"「{slug}」を本番サイトから取り下げますか？\n\n削除前のファイルはPC内へバックアップします。"): return
+        if not messagebox.askyesno("最終確認",f"「{slug}」を本番サイトから取り下げますか？\n\n記事・画像・関連記事・SNS管理記録を整理し、A8.net提出用CSVを再作成します。\n削除内容はGitへコミットしてpushします。\n\nXとInstagramの実投稿は自動削除せず、削除先を案内します。\n削除前のファイルはPC内へバックアップします。"): return
         targets=[BLOG/f"{slug}.mdx",BLOG_IMAGES/f"{slug}.png",BLOG_IMAGES/f"{slug}.webp",SOCIAL_IMAGES/f"{slug}-instagram.png"]; existing=[p.resolve() for p in targets if p.exists()]; allowed={BLOG.resolve(),BLOG_IMAGES.resolve(),SOCIAL_IMAGES.resolve()}
         if not existing or any(p.parent not in allowed for p in existing): messagebox.showerror("安全確認エラー","対象を安全に特定できませんでした。"); return
         backup=ARTICLE_BACKUPS/datetime.now().strftime("%Y%m%d-%H%M%S")/slug; backup.mkdir(parents=True,exist_ok=False); rel=[]
-        try:
-            for path in existing: shutil.copy2(path,backup/path.name); rel.append(path.relative_to(REPO.resolve()).as_posix()); path.unlink()
-            run_git("add","-A","--",*rel); diff=run_git("diff","--cached","--quiet","--",*rel,check=False)
-            if diff.returncode==1: run_git("commit","-m",f"Remove ALSIVO article: {slug}","--",*rel); run_git("push","origin",run_git("branch","--show-current").stdout.strip())
-        except Exception as error: messagebox.showerror("取り下げエラー",f"バックアップ: {backup}\n\n{error}"); self.refresh_articles(); return
-        self.refresh_articles(); messagebox.showinfo("完了",f"記事を取り下げました。\nバックアップ: {backup}")
+        x_urls,instagram_published=social_post_urls(slug)
+        def task()->str:
+            for path in existing:
+                shutil.copy2(path,backup/path.name);rel.append(path.relative_to(REPO.resolve()).as_posix());path.unlink()
+            related=[]
+            if remove_internal_link_records(slug):related.append(INTERNAL_LINKS.relative_to(REPO).as_posix())
+            related.extend(remove_related_article_records(slug))
+            sns_result=run_module("engines.social_record_cleanup",slug)
+            a8_result=run_module("engines.a8_submission_export")
+            commit_paths=list(dict.fromkeys([*rel,*related]))
+            run_git("add","-A","--",*commit_paths)
+            diff=run_git("diff","--cached","--quiet","--",*commit_paths,check=False)
+            if diff.returncode==1:
+                run_git("commit","-m",f"Remove ALSIVO article: {slug}","--",*commit_paths)
+                branch=run_git("branch","--show-current").stdout.strip()
+                run_git("push","origin",branch)
+                git_result="GitHubへのコミット・pushまで完了しました。"
+            elif diff.returncode==0:git_result="Git差分がないためコミット・pushは不要でした。"
+            else:raise RuntimeError("削除差分の確認に失敗しました。")
+            manual=[]
+            if x_urls:manual.append("Xの投稿は次のURLを開いて手動削除してください:\n"+"\n".join(x_urls))
+            else:manual.append("Xの投稿IDを確認できませんでした。投稿済みの場合はXから手動削除してください。")
+            if instagram_published:manual.append("Instagramの投稿はInstagramアプリから手動削除してください。")
+            else:manual.append("Instagramへ投稿済みか確認し、投稿があれば手動削除してください。")
+            return "\n\n".join([f"記事を取り下げました。\nバックアップ: {backup}",sns_result,a8_result,git_result,*manual])
+        self.background("記事と関連データを取り下げ中...",task,self.refresh_articles)
 
     def refresh_affiliates(self) -> None:
         data=load_json(AFFILIATE_QUEUE,{"programs":[]}); registry=load_json(AFFILIATE_LINKS,{}); programs=[x for x in data.get("programs",[]) if isinstance(x,dict)]; self.items={str(x.get("service","")):x for x in programs}; self.aff_tree.delete(*self.aff_tree.get_children()); counts={}
