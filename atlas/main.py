@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 from agents.planner import create_article_plan
 from agents.publisher import publish_article
 from agents.researcher import research_topic
@@ -12,6 +15,37 @@ from engines.keyword_queue import (
 from engines.affiliate_manager import (
     print_affiliate_selection,
 )
+
+
+EDITORIAL_DECISION_FILE = (
+    Path(__file__).resolve().parent
+    / "data"
+    / "editorial"
+    / "latest_decision.json"
+)
+
+
+def load_editorial_brief(topic: str) -> dict[str, object] | None:
+    """Atlasが選んだ案件と記事切り口をPlannerへ引き継ぐ。"""
+
+    if not EDITORIAL_DECISION_FILE.exists():
+        return None
+    try:
+        decision = json.loads(EDITORIAL_DECISION_FILE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    target_keyword = str(decision.get("target_keyword", "")).strip()
+    if not target_keyword or target_keyword not in topic:
+        return None
+    return {
+        "affiliate_service": str(decision.get("affiliate_service", "")).strip(),
+        "content_angle": str(decision.get("content_angle", "")).strip(),
+        "target_reader_problem": str(decision.get("target_reader_problem", "")).strip(),
+        "reader_after_state": str(decision.get("reader_after_state", "")).strip(),
+        "search_intent": str(decision.get("search_intent", "")).strip(),
+        "target_title": str(decision.get("target_title", "")).strip(),
+        "recommended_focus": decision.get("recommended_focus", []),
+    }
 
 
 def select_topic() -> tuple[str, KeywordItem | None]:
@@ -91,7 +125,10 @@ def main() -> None:
             print("出典URLを取得できませんでした。")
 
         print("\n[Planner] 記事企画を作成中...\n")
-        plan = create_article_plan(topic)
+        plan = create_article_plan(
+            topic,
+            editorial_brief=load_editorial_brief(topic),
+        )
 
         print(f"仮タイトル：{plan['suggested_title']}")
         print(f"検索意図：{plan['search_intent']}")

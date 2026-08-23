@@ -518,6 +518,18 @@ export default async function BlogPostPage({
                   afterTocCta.ctaType
                 }
                 ctaPlacement="after_toc"
+                bannerSrc={
+                  afterTocCta.bannerSrc
+                }
+                bannerWidth={
+                  afterTocCta.bannerWidth
+                }
+                bannerHeight={
+                  afterTocCta.bannerHeight
+                }
+                trackingPixelSrc={
+                  afterTocCta.trackingPixelSrc
+                }
               >
                 {afterTocCta.label}
               </AffiliateLink>

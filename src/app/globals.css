@@ -1716,6 +1716,7 @@ main {
       rgba(88, 101, 242, 0.035),
       rgba(255, 255, 255, 0.96)
     );
+  overflow-x: auto;
 }
 
 .affiliate-cta-card-content {
@@ -2645,6 +2646,30 @@ main {
   .article-hero-image + .article-information-note {
     margin-top: 18px;
   }
+}
+
+.affiliate-banner-link {
+  display: block;
+  width: fit-content;
+  margin-inline: auto;
+  border-radius: 12px;
+}
+
+.affiliate-banner-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.affiliate-banner-image {
+  display: block;
+}
+
+.affiliate-tracking-pixel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .article-pr-disclosure {

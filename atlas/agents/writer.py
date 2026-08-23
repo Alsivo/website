@@ -893,6 +893,15 @@ def generate_article(
                 "本文へ不自然なサービス紹介や"
                 "宣伝を追加しないでください。"
 
+                "記事企画のaffiliate_serviceが空文字でなく、"
+                "CTAへ登録可能なサービスに含まれる場合は、"
+                "そのサービスをrecommended_toolsへ含めてください。"
+                "cta_planのprimary_serviceにも原則として同じサービスを設定し、"
+                "content_angle、reader_problem、reader_after_stateに沿って"
+                "読者が適否を判断した後に確認できるCTAにしてください。"
+                "サービスを無条件に推奨せず、"
+                "向いていない人や注意点も示してください。"
+
                 "根拠のないランキングや"
                 "過度な推奨表現を"
                 "作らないでください。"

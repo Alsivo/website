@@ -63,6 +63,12 @@ PLAN_SCHEMA: dict[str, Any] = {
             "minItems": 3,
             "maxItems": 8,
         },
+        "affiliate_service": {
+            "type": "string",
+        },
+        "content_angle": {
+            "type": "string",
+        },
     },
     "required": [
         "primary_keyword",
@@ -77,6 +83,8 @@ PLAN_SCHEMA: dict[str, Any] = {
         "suggested_title",
         "outline",
         "related_keywords",
+        "affiliate_service",
+        "content_angle",
     ],
     "additionalProperties": False,
 }
@@ -84,6 +92,7 @@ PLAN_SCHEMA: dict[str, Any] = {
 
 def create_article_plan(
     topic: str,
+    editorial_brief: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """
     テーマから、
@@ -97,6 +106,12 @@ def create_article_plan(
         raise ValueError(
             "テーマを入力してください。"
         )
+
+    brief_text = json.dumps(
+        editorial_brief or {},
+        ensure_ascii=False,
+        indent=2,
+    )
 
     response = client.responses.create(
         model=MODEL,
@@ -126,6 +141,20 @@ def create_article_plan(
             "読者が問題を整理し、"
             "判断し、必要なら具体的な行動へ進めることを"
             "目的とします。"
+
+            "編集長指示が渡された場合は、"
+            "affiliate_service、content_angle、target_reader_problem、"
+            "reader_after_stateを企画へ具体的に反映してください。"
+            "既存記事と同じサービスを扱う場合でも、"
+            "検索意図、対象読者、悩み、利用場面の少なくとも1つを"
+            "明確に変え、単なる言い換え記事にしないでください。"
+            "案件に関連するテーマでも、記事全体を広告文にせず、"
+            "向いていない人や注意点も含めて判断可能にしてください。"
+
+            "affiliate_serviceには編集長指示の案件名をそのまま入れ、"
+            "案件指定がない場合は空文字にしてください。"
+            "content_angleには今回の記事固有の切り口を入れ、"
+            "案件指定がない場合もテーマに即した切り口を入れてください。"
 
             # =================================================
             # 各フィールドの役割
@@ -482,7 +511,9 @@ def create_article_plan(
         input=(
             "次のテーマから記事企画を"
             "作成してください。\n\n"
-            f"テーマ：{cleaned_topic}"
+            f"テーマ：{cleaned_topic}\n\n"
+            "編集長指示：\n"
+            f"{brief_text}"
         ),
         text={
             "format": {

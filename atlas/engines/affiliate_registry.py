@@ -1,6 +1,9 @@
 import json
+from html import escape
 from pathlib import Path
 from typing import Any
+
+from engines.affiliate_ad_source import parse_ad_source
 
 
 AFFILIATE_LINKS_FILE = (
@@ -68,6 +71,10 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
             "program_name",
             "",
         )
+        ad_source = item.get(
+            "ad_source",
+            "",
+        )
         program_id = item.get(
             "program_id",
             "",
@@ -79,7 +86,10 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
 
         if (
             not isinstance(official_url, str)
-            or not official_url.startswith("http")
+            or (
+                official_url
+                and not official_url.startswith("http")
+            )
         ):
             raise ValueError(
                 f"{tool_name}のofficial_urlが不正です。"
@@ -151,6 +161,11 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
                 f"{tool_name}のprogram_nameが不正です。"
             )
 
+        if not isinstance(ad_source, str):
+            raise ValueError(
+                f"{tool_name}のad_sourceが不正です。"
+            )
+
         if not isinstance(program_id, str):
             raise ValueError(
                 f"{tool_name}のprogram_idが不正です。"
@@ -161,18 +176,24 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
                 f"{tool_name}のpromotion_detailsが不正です。"
             )
 
-        if (
-            affiliate_status == "active"
-            and not affiliate_url
-        ):
-            raise ValueError(
-                f"{tool_name}はactiveですが、"
-                "affiliate_urlが未入力です。"
-            )
+        parsed_ad: dict[str, Any] = {}
+        if ad_source.strip():
+            try:
+                parsed_ad = parse_ad_source(ad_source)
+            except ValueError as error:
+                raise ValueError(f"{tool_name}の広告ソースが不正です。") from error
+
+        if affiliate_status == "active" and not parsed_ad and not affiliate_url:
+            raise ValueError(f"{tool_name}はactiveですが、広告ソースが未入力です。")
 
         validated[tool_name.strip()] = {
             "official_url": official_url.strip(),
-            "affiliate_url": affiliate_url.strip(),
+            "affiliate_url": str(parsed_ad.get("href", affiliate_url)).strip(),
+            "ad_source": ad_source.strip(),
+            "banner_src": str(parsed_ad.get("banner_src", "")),
+            "banner_width": int(parsed_ad.get("banner_width", 0) or 0),
+            "banner_height": int(parsed_ad.get("banner_height", 0) or 0),
+            "tracking_pixel_src": str(parsed_ad.get("tracking_pixel_src", "")),
             "cta_label": cta_label.strip(),
             "aliases": [
                 alias.strip()
@@ -195,9 +216,11 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
 def get_affiliate_tool_names() -> list[str]:
     """Writerが選択できる登録済みツール名を返す。"""
 
-    return list(
-        load_affiliate_registry().keys()
-    )
+    return [
+        tool_name
+        for tool_name, item in load_affiliate_registry().items()
+        if item.get("official_url") or item.get("affiliate_url")
+    ]
 
 
 def build_affiliate_section(
@@ -317,6 +340,11 @@ def build_affiliate_section(
             and bool(affiliate_url)
         )
 
+        banner_src = str(item.get("banner_src", "")).strip()
+        banner_width = int(item.get("banner_width", 0) or 0)
+        banner_height = int(item.get("banner_height", 0) or 0)
+        tracking_pixel_src = str(item.get("tracking_pixel_src", "")).strip()
+
         destination_url = (
             affiliate_url
             if use_affiliate_link
@@ -371,16 +399,28 @@ def build_affiliate_section(
         def build_link_markup(
             placement: str,
         ) -> str:
+            banner_attributes = ""
+            if use_affiliate_link and banner_src:
+                banner_attributes = (
+                    f' bannerSrc="{escape(banner_src, quote=True)}"'
+                    f' bannerWidth="{banner_width}"'
+                    f' bannerHeight="{banner_height}"'
+                )
+                if tracking_pixel_src:
+                    banner_attributes += (
+                        f' trackingPixelSrc="{escape(tracking_pixel_src, quote=True)}"'
+                    )
             return (
                 "<AffiliateLink"
-                f' href="{destination_url}"'
-                f' service="{tool_name}"'
+                f' href="{escape(destination_url, quote=True)}"'
+                f' service="{escape(tool_name, quote=True)}"'
                 f' linkType="{link_type}"'
-                f' network="{network}"'
+                f' network="{escape(network, quote=True)}"'
                 f' ctaType="{cta_type}"'
                 f' ctaPlacement="{placement}"'
+                f"{banner_attributes}"
                 ">"
-                f"{display_label}"
+                f"{escape(display_label)}"
                 "</AffiliateLink>"
             )
 

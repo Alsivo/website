@@ -70,6 +70,18 @@ EDITORIAL_DECISION_SCHEMA: dict[
         "expected_effect": {
             "type": "string",
         },
+        "affiliate_service": {
+            "type": "string",
+        },
+        "content_angle": {
+            "type": "string",
+        },
+        "target_reader_problem": {
+            "type": "string",
+        },
+        "reader_after_state": {
+            "type": "string",
+        },
     },
     "required": [
         "action",
@@ -83,6 +95,10 @@ EDITORIAL_DECISION_SCHEMA: dict[
         "target_queries",
         "monetization_opportunity",
         "expected_effect",
+        "affiliate_service",
+        "content_angle",
+        "target_reader_problem",
+        "reader_after_state",
     ],
     "additionalProperties": False,
 }
@@ -181,19 +197,45 @@ def make_editorial_decision(
             "検索意図と無関係な記事を選ばないでください。"
 
             "priority_affiliate_candidatesは、"
-            "承認済み・広告URL登録済みで、"
-            "既存記事内にサービス名が見つからない案件です。"
-            "これは強制指示ではありませんが、"
-            "新規記事を選ぶ場合の優先候補として"
-            "他の未処理キーワードより強く考慮してください。"
-            "読者価値や検索意図が弱い場合は選ばなくて構いません。"
+            "管理画面へ登録されたアフィリエイト案件です。"
+            "未記事化の承認済み案件を最優先し、"
+            "次に未記事化の申請予定・申請中案件を優先してください。"
+            "すでに記事化済みの案件も候補から外さず、"
+            "covered_articlesと検索意図が重ならない"
+            "別の悩み、対象読者、利用場面、判断課題を選び、"
+            "新しい記事として展開してください。"
+
+            "アフィリエイト案件が1件以上ある場合、"
+            "新規記事候補は原則としてその案件に関連するテーマを"
+            "通常の未処理キーワードより優先してください。"
+            "ただし、読者の具体的な悩みと検索意図が成立せず、"
+            "既存記事とも明確に差別化できない場合は"
+            "無理に記事を作らないでください。"
+
+            "advertising_readyがfalseの案件も記事候補にできます。"
+            "その場合は広告掲載を前提にせず、"
+            "読者に役立つ通常記事として企画してください。"
+            "承認後に広告を追加できる設計とします。"
+
+            "同じ案件を連続して扱う場合は、"
+            "タイトルだけを変えるのではなく、"
+            "検索意図、target_reader_problem、content_angle、"
+            "読者が記事後にできることを明確に変えてください。"
+
+            "affiliate_serviceには選択した案件のtool_nameを入れてください。"
+            "content_angleには既存記事と重複しない今回固有の切り口を、"
+            "target_reader_problemには読者の具体的な悩みを、"
+            "reader_after_stateには記事を読んだ後に判断・実行できることを"
+            "それぞれ具体的に入れてください。"
+            "案件を使わない判断の場合、これら4項目は空文字にしてください。"
 
             "収益性は判断要素の1つですが、"
             "読者価値と検索意図を優先してください。"
 
             "新規記事の場合はtarget_keywordへ"
             "未処理キーワード、または"
-            "priority_affiliate_candidatesのsuggested_keywordを"
+            "priority_affiliate_candidatesを基に作った、"
+            "案件名と今回固有の切り口が分かる検索キーワードを"
             "1つ入れてください。"
             "target_slugは空文字にしてください。"
 

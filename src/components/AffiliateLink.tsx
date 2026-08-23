@@ -20,6 +20,10 @@ type AffiliateLinkProps = {
     | "after_toc"
     | "after_comparison"
     | "before_faq";
+  bannerSrc?: string;
+  bannerWidth?: string | number;
+  bannerHeight?: string | number;
+  trackingPixelSrc?: string;
   children: ReactNode;
 };
 
@@ -43,6 +47,10 @@ export default function AffiliateLink({
   network = "none",
   ctaType = "primary",
   ctaPlacement = "before_faq",
+  bannerSrc,
+  bannerWidth,
+  bannerHeight,
+  trackingPixelSrc,
   children,
 }: AffiliateLinkProps) {
   const handleClick = (
@@ -102,31 +110,65 @@ export default function AffiliateLink({
         </p>
       </div>
 
-      <a
-        className={[
-          "affiliate-cta-link",
-          linkType === "affiliate"
-            ? "affiliate-cta-link-paid"
-            : "affiliate-cta-link-official",
-          `affiliate-cta-link-${ctaType}`,
-        ].join(" ")}
-        href={href}
-        onClick={handleClick}
-        rel={
-          linkType === "affiliate"
-            ? "sponsored nofollow noopener noreferrer"
-            : "noopener noreferrer"
-        }
-        target="_blank"
-      >
-        <span>{children}</span>
-        <span
-          className="affiliate-cta-arrow"
-          aria-hidden="true"
+      {bannerSrc ? (
+        <a
+          className="affiliate-banner-link"
+          href={href}
+          onClick={handleClick}
+          rel="sponsored nofollow noopener noreferrer"
+          target="_blank"
+          aria-label={`${service}の広告を確認する`}
         >
-          ↗
-        </span>
-      </a>
+          {/* ASP提供画像は計測URLを維持するため通常のimgを使用 */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className="affiliate-banner-image"
+            src={bannerSrc}
+            width={Number(bannerWidth) || undefined}
+            height={Number(bannerHeight) || undefined}
+            alt={`${service}の広告`}
+            loading="lazy"
+          />
+        </a>
+      ) : (
+        <a
+          className={[
+            "affiliate-cta-link",
+            linkType === "affiliate"
+              ? "affiliate-cta-link-paid"
+              : "affiliate-cta-link-official",
+            `affiliate-cta-link-${ctaType}`,
+          ].join(" ")}
+          href={href}
+          onClick={handleClick}
+          rel={
+            linkType === "affiliate"
+              ? "sponsored nofollow noopener noreferrer"
+              : "noopener noreferrer"
+          }
+          target="_blank"
+        >
+          <span>{children}</span>
+          <span
+            className="affiliate-cta-arrow"
+            aria-hidden="true"
+          >
+            ↗
+          </span>
+        </a>
+      )}
+
+      {trackingPixelSrc && (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          className="affiliate-tracking-pixel"
+          src={trackingPixelSrc}
+          width="1"
+          height="1"
+          alt=""
+          aria-hidden="true"
+        />
+      )}
 
       {linkType === "affiliate" && (
         <p className="affiliate-cta-disclosure">

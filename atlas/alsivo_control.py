@@ -1,11 +1,11 @@
 """ALSIVO統合運用コントロール。"""
 from __future__ import annotations
 
-import json, os, re, shutil, subprocess, sys, threading, webbrowser
+import json, os, re, shutil, subprocess, sys, tempfile, threading, webbrowser
 from datetime import datetime
 from pathlib import Path
 from tkinter import BOTH, END, LEFT, RIGHT, W, X, StringVar, Text, Tk, Toplevel
-from tkinter import messagebox
+from tkinter import filedialog, messagebox
 from tkinter import ttk
 from typing import Any, Callable
 
@@ -29,8 +29,15 @@ def load_json(path: Path, default: Any) -> Any:
     try: return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error: raise RuntimeError(f"データを読み込めません: {path.name}") from error
 
+def worker_python() -> str:
+    executable=Path(sys.executable)
+    if executable.name.lower()=="pythonw.exe":
+        console_python=executable.with_name("python.exe")
+        if console_python.is_file():return str(console_python)
+    return str(executable)
+
 def run_module(module: str, *args: str) -> str:
-    result = subprocess.run([sys.executable,"-m",module,*args],cwd=BASE,capture_output=True,text=True,encoding="utf-8",errors="replace",check=False,env=utf8_environment())
+    result = subprocess.run([worker_python(),"-m",module,*args],cwd=BASE,capture_output=True,text=True,encoding="utf-8",errors="replace",check=False,env=utf8_environment())
     output = "\n".join(x.strip() for x in (result.stdout,result.stderr) if x.strip())
     if result.returncode: raise RuntimeError(output or "処理に失敗しました。")
     return output or "処理が完了しました。"
@@ -72,17 +79,17 @@ class App:
         tab=ttk.Frame(self.tabs,padding=12); self.tabs.add(tab,text="アフィリエイト案件")
         self.aff_summary=ttk.Label(tab,style="Heading.TLabel"); self.aff_summary.pack(anchor=W,pady=(0,8))
         ttk.Label(tab,text="申請予定：ASPでは未申請　｜　申請中：申請済み・審査待ち　｜　承認済み：広告掲載可能　｜　否認：審査不通過または提携不可",wraplength=1050).pack(anchor=W,pady=(0,10))
-        toolbar=ttk.Frame(tab); toolbar.pack(fill=X,pady=(0,8)); ttk.Button(toolbar,text="新規案件を追加",style="Accent.TButton",command=self.add_dialog).pack(side=LEFT); ttk.Button(toolbar,text="選択案件を削除",command=self.delete_affiliate).pack(side=LEFT,padx=8); ttk.Button(toolbar,text="A8.net掲載URL CSVを作成",command=self.export_a8_csv).pack(side=RIGHT)
+        toolbar=ttk.Frame(tab); toolbar.pack(fill=X,pady=(0,8)); ttk.Button(toolbar,text="新規案件を追加",style="Accent.TButton",command=self.add_dialog).pack(side=LEFT); ttk.Button(toolbar,text="CSVをインポート",command=self.import_affiliate_csv).pack(side=LEFT,padx=(8,0)); ttk.Button(toolbar,text="CSVフォーマットを作成",command=self.create_affiliate_template).pack(side=LEFT,padx=8); ttk.Button(toolbar,text="選択案件を削除",command=self.delete_affiliate).pack(side=LEFT); ttk.Button(toolbar,text="A8.net掲載URL CSVを作成",command=self.export_a8_csv).pack(side=RIGHT)
         body=ttk.Panedwindow(tab,orient="horizontal"); body.pack(fill=BOTH,expand=True); left=ttk.Frame(body); right=ttk.Frame(body,padding=(12,0,0,0)); body.add(left,weight=3); body.add(right,weight=2)
         self.aff_tree=ttk.Treeview(left,columns=("status","network","service"),show="headings",selectmode="browse")
         for col,label,width in (("status","状態",110),("network","ASP・運営元",150),("service","サービス",330)): self.aff_tree.heading(col,text=label); self.aff_tree.column(col,width=width,anchor="center" if col=="status" else W)
         self.aff_tree.pack(fill=BOTH,expand=True); self.aff_tree.bind("<<TreeviewSelect>>",self.show_affiliate)
         ttk.Label(right,text="案件情報",style="Heading.TLabel").pack(anchor=W); self.aff_detail=Text(right,wrap="word",height=10,font=("Yu Gothic UI",10),state="disabled"); self.aff_detail.pack(fill=BOTH,expand=True,pady=(6,10))
-        form=ttk.Frame(right); form.pack(fill=X); self.aff_status=StringVar(value="申請中"); self.aff_program_id=StringVar(); self.aff_url=StringVar(); self.aff_note=StringVar()
+        form=ttk.Frame(right); form.pack(fill=X); self.aff_status=StringVar(value="申請中"); self.aff_program_id=StringVar(); self.aff_note=StringVar()
         ttk.Label(form,text="新しい状態").grid(row=0,column=0,sticky=W,pady=4); ttk.Combobox(form,textvariable=self.aff_status,values=tuple(STATUS_LABELS.values()),state="readonly").grid(row=0,column=1,sticky="ew",padx=(8,0),pady=4)
         ttk.Label(form,text="プログラムID").grid(row=1,column=0,sticky=W,pady=4); ttk.Entry(form,textvariable=self.aff_program_id).grid(row=1,column=1,sticky="ew",padx=(8,0),pady=4)
-        ttk.Label(form,text="広告URL").grid(row=2,column=0,sticky=W,pady=4); ttk.Entry(form,textvariable=self.aff_url).grid(row=2,column=1,sticky="ew",padx=(8,0),pady=4)
-        ttk.Label(form,text="PR内容・掲載条件").grid(row=3,column=0,sticky="nw",pady=4); self.aff_promotion=Text(form,wrap="word",height=5,font=("Yu Gothic UI",9)); self.aff_promotion.grid(row=3,column=1,sticky="ew",padx=(8,0),pady=4)
+        ttk.Label(form,text="広告ソース").grid(row=2,column=0,sticky="nw",pady=4); self.aff_ad_source=Text(form,wrap="word",height=5,font=("Consolas",8)); self.aff_ad_source.grid(row=2,column=1,sticky="ew",padx=(8,0),pady=4)
+        ttk.Label(form,text="PR内容・掲載条件").grid(row=3,column=0,sticky="nw",pady=4); self.aff_promotion=Text(form,wrap="word",height=4,font=("Yu Gothic UI",9)); self.aff_promotion.grid(row=3,column=1,sticky="ew",padx=(8,0),pady=4)
         ttk.Label(form,text="メモ").grid(row=4,column=0,sticky=W,pady=4); ttk.Entry(form,textvariable=self.aff_note).grid(row=4,column=1,sticky="ew",padx=(8,0),pady=4); form.columnconfigure(1,weight=1)
         ttk.Button(right,text="状態を保存",style="Accent.TButton",command=self.save_affiliate).pack(anchor="e",pady=(10,0))
 
@@ -135,28 +142,29 @@ class App:
     def show_affiliate(self,_event:Any=None) -> None:
         item=self.selected_affiliate()
         if not item:return
-        registry=load_json(AFFILIATE_LINKS,{}); registry_item=registry.get(str(item.get("service","")),{}); promotion=str(registry_item.get("promotion_details",item.get("promotion_details",""))); text=f"記事で使うサービス名: {item.get('service','')}\nASP案件名（正式名称）: {item.get('program_name','')}\nASP・運営元: {item.get('network','')}\nプログラムID: {item.get('program_id','')}\n現在の状態: {STATUS_LABELS.get(str(item.get('approval_status','')),item.get('approval_status',''))}\n申請ページ: {item.get('program_url','')}\n\nPR内容・掲載条件:\n{promotion}\n\nメモ:\n{item.get('human_notes','')}"; self.set_text(self.aff_detail,text); current=str(item.get("approval_status","applied")); self.aff_status.set(STATUS_LABELS.get(current,"申請中")); self.aff_note.set(str(item.get("human_notes",""))); self.set_text_value(self.aff_promotion,promotion); self.aff_program_id.set(str(registry_item.get("program_id",item.get("program_id","")))); self.aff_url.set(str(registry_item.get("affiliate_url","")))
+        registry=load_json(AFFILIATE_LINKS,{}); registry_item=registry.get(str(item.get("service","")),{}); promotion=str(registry_item.get("promotion_details",item.get("promotion_details",""))); ad_source=str(registry_item.get("ad_source","")); text=f"記事で使うサービス名: {item.get('service','')}\nASP案件名（正式名称）: {item.get('program_name','')}\nASP・運営元: {item.get('network','')}\nプログラムID: {item.get('program_id','')}\n現在の状態: {STATUS_LABELS.get(str(item.get('approval_status','')),item.get('approval_status',''))}\n申請ページ: {item.get('program_url','')}\n\n広告ソース: {'登録済み' if ad_source else '未登録'}\n\nPR内容・掲載条件:\n{promotion}\n\nメモ:\n{item.get('human_notes','')}"; self.set_text(self.aff_detail,text); current=str(item.get("approval_status","applied")); self.aff_status.set(STATUS_LABELS.get(current,"申請中")); self.aff_note.set(str(item.get("human_notes",""))); self.set_text_value(self.aff_ad_source,ad_source); self.set_text_value(self.aff_promotion,promotion); self.aff_program_id.set(str(registry_item.get("program_id",item.get("program_id",""))))
 
     def save_affiliate(self) -> None:
         item=self.selected_affiliate()
         if not item:messagebox.showinfo("案件管理","対象案件を選択してください。");return
-        status=STATUS_VALUES[self.aff_status.get()]; url=self.aff_url.get().strip()
-        if status=="approved" and not url:messagebox.showwarning("広告URLが必要です","承認済みの場合は広告URLを入力してください。");return
+        status=STATUS_VALUES[self.aff_status.get()]; ad_source=self.aff_ad_source.get("1.0",END).strip()
+        if status=="approved" and not ad_source:messagebox.showwarning("広告ソースが必要です","承認済みの場合はASPが発行した広告ソースを入力してください。");return
         program_id=self.aff_program_id.get().strip()
         if str(item.get("network","")).strip().lower()=="a8.net" and status=="approved" and not program_id:messagebox.showwarning("プログラムIDが必要です","A8.netの承認済み案件にはプログラムIDを入力してください。");return
-        promotion=self.aff_promotion.get("1.0",END).strip(); args=["add","--service",str(item.get("service","")),"--program-name",str(item.get("program_name","")),"--network",str(item.get("network","")),"--program-url",str(item.get("program_url","")),"--program-id",program_id,"--commission",str(item.get("commission","")),"--promotion-details",promotion,"--status",status,"--affiliate-url",url,"--notes",self.aff_note.get().strip()]; self.background("案件状態を更新中...",lambda:run_module("engines.affiliate_manual_manager",*args),self.refresh_affiliates)
+        promotion=self.aff_promotion.get("1.0",END).strip(); args=["add","--service",str(item.get("service","")),"--program-name",str(item.get("program_name","")),"--network",str(item.get("network","")),"--program-url",str(item.get("program_url","")),"--program-id",program_id,"--commission",str(item.get("commission","")),"--promotion-details",promotion,"--status",status,"--ad-source",ad_source,"--notes",self.aff_note.get().strip()]; self.background("案件状態を更新中...",lambda:run_module("engines.affiliate_manual_manager",*args),self.refresh_affiliates)
 
     def add_dialog(self) -> None:
-        dialog=Toplevel(self.root);dialog.title("新規アフィリエイト案件");dialog.geometry("700x650");dialog.transient(self.root);dialog.grab_set(); keys=("service","program_name","network","program_url","program_id","affiliate_url","notes"); fields={k:StringVar() for k in keys};fields["status"]=StringVar(value="申請予定"); labels=(("サービス名（記事で使う名称・必須）","service"),("ASP案件名（正式名称・任意）","program_name"),("ASP・運営元","network"),("申請ページURL","program_url"),("プログラムID（A8.net）","program_id"),("現在の状態","status"),("広告URL（承認済みの場合）","affiliate_url"),("メモ","notes"));form=ttk.Frame(dialog,padding=16);form.pack(fill=BOTH,expand=True)
+        dialog=Toplevel(self.root);dialog.title("新規アフィリエイト案件");dialog.geometry("760x760");dialog.transient(self.root);dialog.grab_set(); keys=("service","program_name","network","program_url","program_id","notes"); fields={k:StringVar() for k in keys};fields["status"]=StringVar(value="申請予定"); labels=(("サービス名（記事で使う名称・必須）","service"),("ASP案件名（正式名称・任意）","program_name"),("ASP・運営元","network"),("申請ページURL","program_url"),("プログラムID（A8.net）","program_id"),("現在の状態","status"),("メモ","notes"));form=ttk.Frame(dialog,padding=16);form.pack(fill=BOTH,expand=True)
         for row,(label,key) in enumerate(labels): ttk.Label(form,text=label).grid(row=row,column=0,sticky=W,pady=6); widget=ttk.Combobox(form,textvariable=fields[key],values=tuple(STATUS_LABELS.values()),state="readonly") if key=="status" else ttk.Entry(form,textvariable=fields[key]); widget.grid(row=row,column=1,sticky="ew",padx=(10,0),pady=6)
-        pr_row=len(labels); ttk.Label(form,text="PR内容・掲載条件").grid(row=pr_row,column=0,sticky="nw",pady=6); promotion_widget=Text(form,wrap="word",height=7,font=("Yu Gothic UI",9)); promotion_widget.grid(row=pr_row,column=1,sticky="nsew",padx=(10,0),pady=6)
+        ad_row=len(labels); ttk.Label(form,text="広告ソース（承認済みの場合）").grid(row=ad_row,column=0,sticky="nw",pady=6); ad_source_widget=Text(form,wrap="word",height=7,font=("Consolas",8)); ad_source_widget.grid(row=ad_row,column=1,sticky="nsew",padx=(10,0),pady=6)
+        pr_row=ad_row+1; ttk.Label(form,text="PR内容・掲載条件").grid(row=pr_row,column=0,sticky="nw",pady=6); promotion_widget=Text(form,wrap="word",height=6,font=("Yu Gothic UI",9)); promotion_widget.grid(row=pr_row,column=1,sticky="nsew",padx=(10,0),pady=6)
         form.columnconfigure(1,weight=1)
         def save() -> None:
             service=fields["service"].get().strip();status=STATUS_VALUES[fields["status"].get()]
             if not service:messagebox.showwarning("入力不足","サービス名を入力してください。",parent=dialog);return
-            if status=="approved" and not fields["affiliate_url"].get().strip():messagebox.showwarning("入力不足","承認済みには広告URLが必要です。",parent=dialog);return
+            if status=="approved" and not ad_source_widget.get("1.0",END).strip():messagebox.showwarning("入力不足","承認済みには広告ソースが必要です。",parent=dialog);return
             if fields["network"].get().strip().lower()=="a8.net" and status=="approved" and not fields["program_id"].get().strip():messagebox.showwarning("入力不足","A8.netの承認済み案件にはプログラムIDが必要です。",parent=dialog);return
-            args=["add","--service",service,"--program-name",fields["program_name"].get().strip(),"--network",fields["network"].get().strip(),"--program-url",fields["program_url"].get().strip(),"--program-id",fields["program_id"].get().strip(),"--promotion-details",promotion_widget.get("1.0",END).strip(),"--status",status,"--affiliate-url",fields["affiliate_url"].get().strip(),"--notes",fields["notes"].get().strip()];dialog.destroy();self.background("新規案件を保存中...",lambda:run_module("engines.affiliate_manual_manager",*args),self.refresh_affiliates)
+            args=["add","--service",service,"--program-name",fields["program_name"].get().strip(),"--network",fields["network"].get().strip(),"--program-url",fields["program_url"].get().strip(),"--program-id",fields["program_id"].get().strip(),"--promotion-details",promotion_widget.get("1.0",END).strip(),"--status",status,"--ad-source",ad_source_widget.get("1.0",END).strip(),"--notes",fields["notes"].get().strip()];dialog.destroy();self.background("新規案件を保存中...",lambda:run_module("engines.affiliate_manual_manager",*args),self.refresh_affiliates)
         ttk.Button(form,text="案件を追加",style="Accent.TButton",command=save).grid(row=pr_row+1,column=1,sticky="e",pady=(14,0))
 
     def delete_affiliate(self) -> None:
@@ -164,6 +172,32 @@ class App:
         if not item:messagebox.showinfo("案件削除","削除する案件を選択してください。");return
         service=str(item.get("service",""))
         if messagebox.askyesno("案件を削除",f"「{service}」を管理対象から削除しますか？\n\nバックアップはPC内に残ります。"):self.background("案件を削除中...",lambda:run_module("engines.affiliate_manual_manager","delete","--service",service),self.refresh_affiliates)
+
+    def import_affiliate_csv(self) -> None:
+        selected=filedialog.askopenfilename(title="アフィリエイト案件CSVを選択",filetypes=(("CSVファイル","*.csv"),("すべてのファイル","*.*")))
+        if not selected:return
+        if not messagebox.askyesno("CSVをインポート",f"このCSVを読み込みますか？\n\n{selected}\n\n同じサービス名の案件は更新されます。"):return
+        def task()->str:
+            source=Path(selected)
+            if not source.is_file():raise RuntimeError("選択したCSVを開けません。Google Drive上のファイルは、オフラインで使用可能にしてから再度お試しください。")
+            with tempfile.TemporaryDirectory(prefix="alsivo-affiliate-import-") as folder:
+                local_csv=Path(folder)/source.name
+                try:shutil.copy2(source,local_csv)
+                except OSError as error:raise RuntimeError("CSVをPC内へ読み込めません。Google Driveで『オフラインで使用可能』にするか、デスクトップへコピーしてから再度お試しください。") from error
+                output=run_module("engines.affiliate_manual_manager","import-csv","--file",str(local_csv))
+            data=load_json(AFFILIATE_QUEUE,{"programs":[]});count=len([item for item in data.get("programs",[]) if isinstance(item,dict)])
+            return output+f"\n\n現在の登録案件: {count}件"
+        self.background("CSVを読み込み中...",task,self.refresh_affiliates)
+
+    def create_affiliate_template(self) -> None:
+        candidates=[Path(os.environ.get("OneDrive",""))/"デスクトップ",Path.home()/"OneDrive"/"デスクトップ",Path.home()/"Desktop",Path.home()/"デスクトップ"]
+        desktop=next((path for path in candidates if str(path) and path.is_dir()),None)
+        if desktop is None:messagebox.showerror("保存先エラー","デスクトップフォルダが見つかりませんでした。");return
+        output=desktop/"ALSIVO_アフィリエイト案件登録フォーマット.csv"
+        if output.exists() and not messagebox.askyesno("上書き確認",f"同名のCSVがすでにあります。上書きしますか？\n\n{output}"):return
+        def task()->str:
+            return run_module("engines.affiliate_manual_manager","template","--output",str(output))
+        self.background("CSVフォーマットを作成中...",task,self.refresh_affiliates)
 
     def export_a8_csv(self) -> None:
         def task() -> str:
@@ -181,7 +215,7 @@ class App:
         if not messagebox.askyesno("Atlasを実行",messages[mode]+"\n\n続けますか？"):return
         args={"dry":("--dry-run",),"normal":(),"new":("--force-new-article",)}[mode]
         def task()->str:
-            result=subprocess.run([sys.executable,"atlas.py",*args],cwd=BASE,capture_output=True,text=True,encoding="utf-8",errors="replace",check=False,env=utf8_environment());out="\n".join(x.strip() for x in (result.stdout,result.stderr) if x.strip())
+            result=subprocess.run([worker_python(),"atlas.py",*args],cwd=BASE,capture_output=True,text=True,encoding="utf-8",errors="replace",check=False,env=utf8_environment());out="\n".join(x.strip() for x in (result.stdout,result.stderr) if x.strip())
             if result.returncode:raise RuntimeError(out or "Atlasの実行に失敗しました。")
             return out or "Atlasの実行が完了しました。"
         self.background("Atlasを実行中です...",task,self.refresh)
@@ -190,7 +224,10 @@ class App:
         self.status.set(message)
         def worker()->None:
             try:output=task()
-            except Exception as error:self.root.after(0,lambda:self.failed(str(error)));return
+            except Exception as error:
+                error_message=str(error)
+                self.root.after(0,lambda error_message=error_message:self.failed(error_message))
+                return
             self.root.after(0,lambda:self.finished(output,refresh))
         threading.Thread(target=worker,daemon=True).start()
     def failed(self,error:str)->None:self.status.set("処理に失敗しました。");messagebox.showerror("処理エラー",error[-5000:])

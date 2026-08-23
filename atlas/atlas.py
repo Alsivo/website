@@ -1393,6 +1393,12 @@ def run_new_article(
         )
     ).strip()
 
+    EDITORIAL_DECISION_FILE.parent.mkdir(parents=True, exist_ok=True)
+    EDITORIAL_DECISION_FILE.write_text(
+        json.dumps(decision, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
     log(
         "新規記事生成を開始します。"
         f"編集長候補：{target_keyword}",
@@ -2649,8 +2655,13 @@ def main(
                 log_file,
             )
 
+            affiliate_service = str(
+                decision.get("affiliate_service", "")
+            ).strip()
             expansion_candidate = (
-                load_top_expansion_candidate()
+                None
+                if affiliate_service
+                else load_top_expansion_candidate()
             )
 
             action = "new_article"
@@ -2742,7 +2753,7 @@ def main(
             # main.pyのKeyword Queueに任せる
             # ---------------------------------------------
 
-            else:
+            elif not affiliate_service:
 
                 decision[
                     "target_keyword"
@@ -2775,6 +2786,13 @@ def main(
                 log(
                     "Expansion候補がないため、"
                     "Keyword Queueを使用します。",
+                    log_file,
+                )
+
+            else:
+                log(
+                    "登録済みアフィリエイト案件を優先します："
+                    f"{affiliate_service}",
                     log_file,
                 )
 

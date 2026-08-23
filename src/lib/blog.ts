@@ -325,8 +325,23 @@ export type ArticleCta = {
     | "after_toc"
     | "after_comparison"
     | "before_faq";
+  bannerSrc?: string;
+  bannerWidth?: string;
+  bannerHeight?: string;
+  trackingPixelSrc?: string;
   label: string;
 };
+
+function decodeHtmlAttribute(
+  value: string,
+): string {
+  return value
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#39;", "'")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
+}
 
 export function extractArticleCta(
   content: string,
@@ -352,7 +367,9 @@ export function extractArticleCta(
         );
 
       return attributeMatch
-        ? attributeMatch[1]
+        ? decodeHtmlAttribute(
+            attributeMatch[1],
+          )
         : null;
     };
 
@@ -396,6 +413,18 @@ export function extractArticleCta(
         ?? "none",
       ctaType,
       ctaPlacement: placement,
+      bannerSrc:
+        getAttribute("bannerSrc")
+        ?? undefined,
+      bannerWidth:
+        getAttribute("bannerWidth")
+        ?? undefined,
+      bannerHeight:
+        getAttribute("bannerHeight")
+        ?? undefined,
+      trackingPixelSrc:
+        getAttribute("trackingPixelSrc")
+        ?? undefined,
       label,
     };
   }

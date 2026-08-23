@@ -1,7 +1,17 @@
-tool_name,network,program_name,status,official_url,affiliate_url,reward_type,reward_value,currency,conversion_action,cookie_days,approval_score,article_match_score,last_verified,notes
+﻿tool_name,network,program_name,status,official_url,affiliate_url,reward_type,reward_value,currency,conversion_action,cookie_days,approval_score,article_match_score,last_verified,notes
 Canva,,公式リンク,none,https://www.canva.com/,,none,0,JPY,なし,0,0,80,2026-08-05,ASP案件未登録
 Gamma,,公式リンク,none,https://gamma.app/,,none,0,JPY,なし,0,0,80,2026-08-05,ASP案件未登録
 ChatGPT,,公式リンク,none,https://chatgpt.com/,,none,0,JPY,なし,0,0,90,2026-08-05,ASP案件未登録
 Claude,,公式リンク,none,https://claude.ai/,,none,0,JPY,なし,0,0,90,2026-08-05,ASP案件未登録
 Gemini,,公式リンク,none,https://gemini.google.com/,,none,0,JPY,なし,0,0,90,2026-08-05,ASP案件未登録
 Cursor,,公式リンク,none,https://www.cursor.com/,,none,0,JPY,なし,0,0,90,2026-08-05,ASP案件未登録
+Neuro Dive,A8.net,AIやデータサイエンスが学べる就労移行支援【Neuro Dive】,active,https://media-console.a8.net/program/detail-partnered?programId=s00000019630003,https://px.a8.net/svt/ejp?a8mat=4BACLH+7H3Y7M+47GS+HWAG1,none,0,JPY,,0,0,0,2026-08-24,
+文賢,A8.net,ライター・編集者向け。AI搭載の文章作成支援ツール【文賢】,active,https://media-console.a8.net/program/detail-partnered?programId=s00000017376003,https://px.a8.net/svt/ejp?a8mat=4BACLH+7EQ7SI+3Q2O+HZPWH,none,0,JPY,,0,0,0,2026-08-24,
+Aiarty Image Enhancer,A8.net,画像高画質化AIツール【Aiarty Image Enhancer】,active,https://media-console.a8.net/program/detail-partnered?programId=s00000018952003,https://px.a8.net/svt/ejp?a8mat=4BACLH+7E4S6Q+428G+HW2Q9,none,0,JPY,,0,0,0,2026-08-24,
+Value AI Writer,A8.net,高品質SEO記事生成AIツール【Value AI Writer】,active,https://media-console.a8.net/program/detail-partnered?programId=s00000007238009,https://px.a8.net/svt/ejp?a8mat=4BACLH+786G4Y+1JUK+1HM30X,none,0,JPY,,0,0,0,2026-08-24,
+AI鬼管理（弁護士向けセミナー）,もしもアフィリエイト,AI鬼管理｜弁護士・法律事務所向け Claude Code 無料セミナーの参加完了,active,https://af.moshimo.com/af/shop/promotion/detail?promotion_id=7677&shop_site_id=683749,https://af.moshimo.com/af/c/click?a_id=5769031&p_id=7677&pc_id=22229&pl_id=95815,none,0,JPY,,0,0,0,2026-08-24,
+AIブログくんGOLD,もしもアフィリエイト,AIブログくんGOLD｜AI自動ブログの有料プラン登録,active,https://af.moshimo.com/af/shop/promotion/detail?promotion_id=7624&shop_site_id=683749,https://af.moshimo.com/af/c/click?a_id=5769035&p_id=7624&pc_id=22031&pl_id=95168,none,0,JPY,,0,0,0,2026-08-24,
+見積太郎２,もしもアフィリエイト,見積太郎２｜AI補助付き見積相談スレッド管理ツールの導入相談・契約,active,https://af.moshimo.com/af/shop/promotion/detail?promotion_id=7616&shop_site_id=683749,https://af.moshimo.com/af/c/click?a_id=5769037&p_id=7616&pc_id=22006&pl_id=95107,none,0,JPY,,0,0,0,2026-08-24,
+LOCALGOAT,もしもアフィリエイト,LOCALGOAT｜AI検索時代の店舗集客を支援するAIO×MEO×SNS 次世代対策サービスの申込,active,https://af.moshimo.com/af/shop/promotion/detail?promotion_id=7521&shop_site_id=683749,https://af.moshimo.com/af/c/click?a_id=5769039&p_id=7521&pc_id=21723&pl_id=94322,none,0,JPY,,0,0,0,2026-08-24,
+AI鬼管理（業務自動化トレーニング）,もしもアフィリエイト,AI鬼管理｜Claude Code活用の業務自動化トレーニングの無料申込完了,active,https://af.moshimo.com/af/shop/promotion/detail?promotion_id=7494&shop_site_id=683749,https://af.moshimo.com/af/c/click?a_id=5769040&p_id=7494&pc_id=21647&pl_id=93995,none,0,JPY,,0,0,0,2026-08-24,
+株式会社沖プロ,もしもアフィリエイト,株式会社沖プロ｜AIライティングマスター講座の申込み,active,https://af.moshimo.com/af/shop/promotion/detail?promotion_id=7009&shop_site_id=683749,https://af.moshimo.com/af/c/click?a_id=5769050&p_id=7009&pc_id=20041&pl_id=88527,none,0,JPY,,0,0,0,2026-08-24,
