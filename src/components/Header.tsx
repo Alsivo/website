@@ -28,10 +28,6 @@ export default function Header() {
         <Link href="/blog">
           記事を探す
         </Link>
-
-        <Link href="/about">
-          About
-        </Link>
       </nav>
 
       <Link

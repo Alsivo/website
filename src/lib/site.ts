@@ -2,4 +2,4 @@ export const SITE_NAME = "ALSIVO";
 export const SITE_URL = "https://www.alsivo.com";
 
 export const SITE_DESCRIPTION =
-  "AIツール、生成AI、仕事効率化に関する実践的な情報を発信するAIメディア。";
+  "AIツールや生成AIを、生活や仕事でどう使えばいいのか分かりやすく実践的に届けるAIメディア。";

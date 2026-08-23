@@ -72,7 +72,7 @@ export default function Home() {
             <p className="media-hero-description">
               AIツールや生成AIに関する情報を、分かりやすく実践的に。
               <br />
-              「結局どれを選べばいいのか」「仕事でどう使えばいいのか」を整理して届けます。
+              「結局どれを選べばいいのか」「生活や仕事でどう使えばいいのか」を整理して届けます。
             </p>
 
             <div className="media-hero-actions">
@@ -82,13 +82,6 @@ export default function Home() {
               >
                 記事を探す
                 <span aria-hidden="true">→</span>
-              </Link>
-
-              <Link
-                className="media-text-link"
-                href="/about"
-              >
-                ALSIVOについて
               </Link>
             </div>
           </div>
@@ -259,11 +252,10 @@ export default function Home() {
             <p className="section-kicker">
               ABOUT ALSIVO
             </p>
-
             <h2>
               <span>AIを</span>
               <br className="mobile-about-break" />
-              <span>あなたの仕事の</span>
+              <span>あなたの生活の</span>
               <br />
               <span>一番身近な味方へ。</span>
             </h2>
@@ -278,16 +270,10 @@ export default function Home() {
             <p>
               新しい技術をただ紹介するのではなく、
               「結局どれを選べばいいのか」
-              「仕事でどう使えばいいのか」を、
+              「生活や仕事でどう使えばいいのか」を、
               初めて使う人にも伝わる形で整理します。
             </p>
 
-            <Link
-              className="media-text-link"
-              href="/about"
-            >
-              ALSIVOについて詳しく見る →
-            </Link>
           </div>
         </section>
 

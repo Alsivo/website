@@ -19,11 +19,7 @@ export default function Footer() {
 
           <span>ALSIVO</span>
         </Link>
-
-        <p>
-          AIをあなたの仕事の
-          一番身近な味方へ。
-        </p>
+        <p>AIをあなたの生活の一番身近な味方へ。</p>
       </div>
 
       <nav
@@ -34,9 +30,6 @@ export default function Footer() {
           記事を探す
         </Link>
 
-        <Link href="/about">
-          ALSIVOについて
-        </Link>
 
         <Link href="/privacy">
           Privacy
