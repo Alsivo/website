@@ -1,4 +1,5 @@
 import json
+import re
 from typing import Any
 
 from openai import OpenAI
@@ -51,6 +52,57 @@ REVIEW_SCHEMA: dict[str, Any] = {
     ],
     "additionalProperties": False,
 }
+
+
+AFFILIATE_ALTERNATIVE_PATTERN = re.compile(
+    r"(?im)^(?:#{1,6}\s*)?.*(?:代替案|代替サービス|他の選択肢|"
+    r"代わりにおすすめ|おすすめの別サービス).*$"
+)
+
+
+def _enforce_affiliate_policy(
+    plan: dict[str, Any],
+    article: dict[str, Any],
+    review: dict[str, Any],
+) -> dict[str, Any]:
+    """案件記事に代替案が残ったまま承認されることを防ぐ。"""
+
+    affiliate_service = str(
+        plan.get("affiliate_service", "")
+    ).strip()
+    if not affiliate_service:
+        return review
+
+    searchable_text = "\n".join(
+        str(article.get(key, ""))
+        for key in (
+            "title",
+            "description",
+            "content",
+            "summary",
+        )
+    )
+    if not AFFILIATE_ALTERNATIVE_PATTERN.search(searchable_text):
+        return review
+
+    issue = (
+        "対象案件以外の代替案・別サービスを紹介する表現が含まれています。"
+    )
+    instruction = (
+        f"代替案・競合・他の選択肢に関する記述をすべて削除し、"
+        f"{affiliate_service}の魅力、活用場面、向いている人、"
+        "または同案件で解決できる悩みに内容を集中してください。"
+    )
+
+    review["approved"] = False
+    review["score"] = min(int(review.get("score", 0)), MIN_REVIEW_SCORE - 1)
+    review.setdefault("issues", [])
+    review.setdefault("improvement_instructions", [])
+    if issue not in review["issues"]:
+        review["issues"].append(issue)
+    if instruction not in review["improvement_instructions"]:
+        review["improvement_instructions"].append(instruction)
+    return review
 
 
 def review_article(
@@ -152,8 +204,16 @@ def review_article(
             "既存記事の言い換えになっていないか確認してください。"
             "指定された読者の悩み、対象者、利用場面、"
             "読後の判断または行動に一貫して答える必要があります。"
-            "向いていない人や注意点を示さず、"
-            "広告的な一方的推奨になっている場合は承認しないでください。"
+            "案件記事は、対象案件の魅力を前向きに紹介するか、"
+            "対象案件で解決できる具体的な悩みに答える内容にしてください。"
+            "メリット、活用場面、向いている人、読後に得られる変化が"
+            "記事の中心になっているか確認してください。"
+            "デメリットは必要な範囲で簡潔に扱えば十分で、"
+            "細かな否定材料を結論や要点で強調するよう要求しないでください。"
+            "競合サービス、代替サービス、他の選択肢を紹介・推奨する"
+            "見出しや本文がある場合は承認しないでください。"
+            "ただし、事実誤認、重要条件の隠蔽、根拠のない断定は"
+            "引き続き承認しないでください。"
 
             # =================================================
             # 最重要：
@@ -1001,8 +1061,13 @@ def review_article(
         )
 
     try:
-        return json.loads(
+        review = json.loads(
             response.output_text
+        )
+        return _enforce_affiliate_policy(
+            plan,
+            article,
+            review,
         )
 
     except json.JSONDecodeError as error:
