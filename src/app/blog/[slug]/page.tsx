@@ -102,6 +102,40 @@ function splitArticleIntroduction(
 }
 
 
+function splitArticleH2Sections(
+  content: string,
+): string[] {
+  const normalized = content.trim();
+
+  if (!normalized) {
+    return [];
+  }
+
+  const starts = Array.from(
+    normalized.matchAll(/^##\s+/gm),
+  )
+    .map((match) => match.index)
+    .filter(
+      (index): index is number =>
+        index !== undefined,
+    );
+
+  if (starts.length === 0) {
+    return [normalized];
+  }
+
+  return starts.map((start, index) =>
+    normalized
+      .slice(
+        start,
+        starts[index + 1]
+          ?? normalized.length,
+      )
+      .trim(),
+  );
+}
+
+
 export function generateStaticParams() {
   return getAllBlogSlugs().map((slug) => ({
     slug,
@@ -251,6 +285,11 @@ export default async function BlogPostPage({
   } = splitArticleIntroduction(
     articleContent,
   );
+
+  const articleH2Sections =
+    splitArticleH2Sections(
+      articleBody,
+    );
 
 
   /* ========================================================
@@ -542,11 +581,42 @@ export default async function BlogPostPage({
               =============================================== */}
 
           <div className="article-content">
-            <MdxContent
-              source={
-                articleBody
-              }
-            />
+            {isAffiliateArticle
+              && afterTocCta
+              ? articleH2Sections.map(
+                  (section, index) => (
+                    <div
+                      className="article-cta-section"
+                      key={`article-section-${index}`}
+                    >
+                      <MdxContent
+                        source={section}
+                      />
+
+                      <div className="article-after-toc-cta">
+                        <AffiliateLink
+                          href={afterTocCta.href}
+                          service={afterTocCta.service}
+                          linkType={afterTocCta.linkType}
+                          network={afterTocCta.network}
+                          ctaType={afterTocCta.ctaType}
+                          ctaPlacement="after_section"
+                          bannerSrc={afterTocCta.bannerSrc}
+                          bannerWidth={afterTocCta.bannerWidth}
+                          bannerHeight={afterTocCta.bannerHeight}
+                          trackingPixelSrc={afterTocCta.trackingPixelSrc}
+                        >
+                          {afterTocCta.label}
+                        </AffiliateLink>
+                      </div>
+                    </div>
+                  ),
+                )
+              : (
+                  <MdxContent
+                    source={articleBody}
+                  />
+                )}
           </div>
 
 

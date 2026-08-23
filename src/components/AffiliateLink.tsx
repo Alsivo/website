@@ -18,6 +18,7 @@ type AffiliateLinkProps = {
   ctaType?: CtaType;
   ctaPlacement?:
     | "after_toc"
+    | "after_section"
     | "after_comparison"
     | "before_faq";
   bannerSrc?: string;
