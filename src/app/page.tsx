@@ -284,9 +284,7 @@ export default function Home() {
               <br />
               <span className="copy-line">「結局どれを選べばいいのか」</span>
               <br />
-              <span className="copy-line">「生活</span>
-              <br />
-              <span className="copy-line">や仕事でどう使えばいいのか」</span>
+              <span className="copy-line">「生活や仕事でどう使えばいいのか」</span>
               <br />
               <span className="copy-line">を、初めて使う人にも伝わる形で整理します。</span>
             </p>
