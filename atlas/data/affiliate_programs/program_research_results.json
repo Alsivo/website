@@ -1,46 +1,6 @@
 {
   "programs": [
     {
-      "service": "Canva",
-      "program_found": true,
-      "program_type": "affiliate",
-      "program_name": "Canva Pro Affiliate Program",
-      "network": "Impact",
-      "program_url": "https://www.canva.com/pt_br/aprenda/programa-de-afiliados/1000/",
-      "commission": "月額プラン: 最初の2か月分の月額料金の80%／年額プラン: 年額料金の15%（一回限り）",
-      "cookie_duration": "",
-      "target_country": "",
-      "application_required": true,
-      "research_notes": "公式のCanvaコンテンツ（日本語・ポルトガル語・インドネシア語）で、現行のアフィリエイト制度の存在と詳細を確認。日本語の公式記事（最終更新日: 2026年1月23日）に報酬条件（80%/15%）が明記。ポルトガル語の公式記事には、応募がImpact（app.impact.com）経由であることを示す直接リンクが含まれており、申請導線を確認。インドネシア語ページで、プログラムがImpactで運用されている旨を補強。Cookie期間や対象国の明記は見つからなかったため未記入。過去の表現として「最大$36」の文言が残る地域ページもあるが、2026年の記事の条件（80%/15%）を採用。",
-      "sources": [
-        {
-          "title": "Canva アフィリエイトパートナーとしてCanva Pro を宣伝する16の方法（最終更新日: 2026年1月23日）",
-          "url": "https://www.canva.com/ja_jp/learn/16-great-ways-to-promote-as-a-canva-pro-partner/1000/",
-          "source_type": "official"
-        },
-        {
-          "title": "Afiliados do Canva Pro: Como Ganhar Dinheiro com o Canva（Impact申請リンク記載）",
-          "url": "https://www.canva.com/pt_br/aprenda/programa-de-afiliados/1000/",
-          "source_type": "official"
-        },
-        {
-          "title": "Langkah awal sebagai mitra afiliasi Canva Pro（Impact運用の記載）",
-          "url": "https://www.canva.com/id_id/belajar/memulai-afiliasi-canva/",
-          "source_type": "official"
-        },
-        {
-          "title": "Case study: Canva goes from novice to 9,000 diverse partnerships with Impact’s Partnership Cloud",
-          "url": "https://go.impact.com/CS-PC-EV-Canva.html",
-          "source_type": "affiliate_network"
-        }
-      ],
-      "priority": 68,
-      "source_articles": [
-        "ai-presentation-tools-comparison"
-      ],
-      "verified_at": "2026-08-08"
-    },
-    {
       "service": "ChatGPT",
       "program_found": true,
       "program_type": "referral",
@@ -235,57 +195,6 @@
         "deepl-pricing-plans-guide"
       ],
       "verified_at": "2026-08-10"
-    },
-    {
-      "service": "DMM 生成AI CAMP",
-      "program_found": true,
-      "program_type": "affiliate",
-      "program_name": "DMM 生成AI CAMP",
-      "network": "A8.net",
-      "program_url": "",
-      "commission": "新規入会申込: 7519 JPY",
-      "cookie_duration": "",
-      "target_country": "Japan",
-      "application_required": true,
-      "research_notes": "国内ASP管理画面で人間が案件を確認。 A8.netでChatGPT検索時に発見。ChatGPT本体案件ではなく生成AIスクールの関連案件。無料セミナー予約2257円、新規入会申込7519円。",
-      "sources": [],
-      "verified_at": "2026-08-12"
-    },
-    {
-      "service": "Gamma",
-      "program_found": true,
-      "program_type": "affiliate",
-      "program_name": "Gamma Affiliate Program",
-      "network": "PartnerStack",
-      "program_url": "https://market.partnerstack.com/artificial-intelligence/gammaapp",
-      "commission": "25% for the customer's first year",
-      "cookie_duration": "60 days",
-      "target_country": "Global",
-      "application_required": true,
-      "research_notes": "公式ヘルプにて、GammaのアフィリエイトはPartnerStackで運用され、申請～管理・支払いまでPartnerStack上で行う旨が明記。PartnerStack公式ディレクトリで「初年度25%」のオファーを確認。GammaのPartner Program T&CにCookie期間60日、支払いはPartnerStack経由の月次処理と記載。日本語版サイトのFAQには友だち招待でクレジット付与（非現金）の記載あり。日本国内ASP（A8.net、もしも、バリューコマース、afb、アクセストレード、JANet、Link-A、レントラックス）における当該サービスの公開案件は確認できず。ASP管理画面での有無は未検証。日本向け収益化判断：申請候補",
-      "sources": [
-        {
-          "title": "How do I join the Gamma affiliate program? | Gamma Help Center",
-          "url": "https://help.gamma.app/en/articles/11048092-how-do-i-join-the-gamma-affiliate-program",
-          "source_type": "help"
-        },
-        {
-          "title": "Gamma program listing | PartnerStack Marketplace",
-          "url": "https://market.partnerstack.com/artificial-intelligence/gammaapp",
-          "source_type": "affiliate_network"
-        },
-        {
-          "title": "Gamma Partner Program Terms and Conditions",
-          "url": "https://gamma-partners-y9y8f3m.gamma.site/",
-          "source_type": "official"
-        },
-        {
-          "title": "Gamma 日本語サイト（FAQ内：友だち招待でクレジット付与の記載）",
-          "url": "https://gamma.app/ja",
-          "source_type": "official"
-        }
-      ],
-      "verified_at": "2026-08-12"
     },
     {
       "service": "Gemini",

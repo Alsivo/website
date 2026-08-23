@@ -1,40 +1,4 @@
 {
-  "Canva": {
-    "official_url": "https://www.canva.com/",
-    "affiliate_url": "",
-    "cta_label": "Canvaを公式サイトで確認する",
-    "aliases": [
-      "Canva"
-    ],
-    "affiliate_status": "none",
-    "network": "",
-    "program_name": "公式リンク",
-    "reward_type": "none",
-    "reward_value": 0.0,
-    "currency": "JPY",
-    "conversion_action": "なし",
-    "cookie_days": 0,
-    "program_score": 0.0,
-    "last_verified": "2026-08-05"
-  },
-  "Gamma": {
-    "official_url": "https://gamma.app/",
-    "affiliate_url": "",
-    "cta_label": "Gammaを公式サイトで確認する",
-    "aliases": [
-      "Gamma"
-    ],
-    "affiliate_status": "none",
-    "network": "",
-    "program_name": "公式リンク",
-    "reward_type": "none",
-    "reward_value": 0.0,
-    "currency": "JPY",
-    "conversion_action": "なし",
-    "cookie_days": 0,
-    "program_score": 0.0,
-    "last_verified": "2026-08-05"
-  },
   "ChatGPT": {
     "official_url": "https://chatgpt.com/",
     "affiliate_url": "",
@@ -143,23 +107,5 @@
     "cookie_days": 0,
     "program_score": 0.0,
     "last_verified": ""
-  },
-  "DMM 生成AI CAMP": {
-    "official_url": "https://genai.dmm.com/",
-    "affiliate_url": "",
-    "cta_label": "DMM 生成AI CAMPを確認する",
-    "aliases": [
-      "DMM 生成AI CAMP"
-    ],
-    "affiliate_status": "pending",
-    "network": "A8.net",
-    "program_name": "DMM 生成AI CAMP",
-    "reward_type": "fixed",
-    "reward_value": 7519.0,
-    "currency": "JPY",
-    "conversion_action": "新規入会申込",
-    "cookie_days": 0,
-    "program_score": 0.0,
-    "last_verified": "2026-08-12"
   }
 }
