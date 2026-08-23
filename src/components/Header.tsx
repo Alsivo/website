@@ -25,6 +25,10 @@ export default function Header() {
         className="navigation"
         aria-label="メインナビゲーション"
       >
+        <Link href="/">
+          Top
+        </Link>
+
         <Link href="/blog">
           記事を探す
         </Link>

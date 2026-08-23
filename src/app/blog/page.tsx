@@ -23,8 +23,14 @@ export default function BlogPage() {
         </h1>
 
         <p className="page-description">
-          AIツール、生成AI、仕事効率化などに関する情報を、
-          分かりやすく実践的に紹介します。
+          <span className="desktop-copy copy-line">
+            AIツール、生成AI、仕事効率化などに関する情報を、分かりやすく実践的に紹介します。
+          </span>
+          <span className="mobile-copy">
+            <span className="copy-line">AIツール、生成AI、仕事効率化などに関する</span>
+            <br />
+            <span className="copy-line">情報を、分かりやすく実践的に紹介します。</span>
+          </span>
         </p>
       </section>
 

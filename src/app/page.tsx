@@ -70,9 +70,20 @@ export default function Home() {
             </h1>
 
             <p className="media-hero-description">
-              AIツールや生成AIに関する情報を、分かりやすく実践的に。
-              <br />
-              「結局どれを選べばいいのか」「生活や仕事でどう使えばいいのか」を整理して届けます。
+              <span className="desktop-copy">
+                <span className="copy-line">AIツールや生成AIに関する情報を、分かりやすく実践的に。</span>
+                <br />
+                <span className="copy-line">「結局どれを選べばいいのか」「生活や仕事でどう使えばいいのか」を整理して届けます。</span>
+              </span>
+              <span className="mobile-copy">
+                <span className="copy-line">AIツールや生成AIに関する情報を、</span>
+                <br />
+                <span className="copy-line">分かりやすく実践的に。「結局どれを選べばいいのか」</span>
+                <br />
+                <span className="copy-line">「生活や仕事でどう使えばいいのか」</span>
+                <br />
+                <span className="copy-line">を整理して届けます。</span>
+              </span>
             </p>
 
             <div className="media-hero-actions">
@@ -263,15 +274,21 @@ export default function Home() {
 
           <div className="home-about-copy">
             <p>
-              ALSIVOは、AIツールや生成AIに関する情報を、
-              分かりやすく実践的に届けるメディアです。
+              <span className="copy-line">ALSIVOは、AIツールや生成AIに関する情報を、</span>
+              <br />
+              <span className="copy-line">分かりやすく実践的に届けるメディアです。</span>
             </p>
 
             <p>
-              新しい技術をただ紹介するのではなく、
-              「結局どれを選べばいいのか」
-              「生活や仕事でどう使えばいいのか」を、
-              初めて使う人にも伝わる形で整理します。
+              <span className="copy-line">新しい技術をただ紹介するのではなく、</span>
+              <br />
+              <span className="copy-line">「結局どれを選べばいいのか」</span>
+              <br />
+              <span className="copy-line">「生活</span>
+              <br />
+              <span className="copy-line">や仕事でどう使えばいいのか」</span>
+              <br />
+              <span className="copy-line">を、初めて使う人にも伝わる形で整理します。</span>
             </p>
 
           </div>
