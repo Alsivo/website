@@ -164,6 +164,14 @@ function validateFrontmatter(
       fileName,
     ),
     description: data.description!,
+    alQuestion:
+      typeof data.alQuestion === "string"
+        ? data.alQuestion
+        : undefined,
+    ciboAnswer:
+      typeof data.ciboAnswer === "string"
+        ? data.ciboAnswer
+        : undefined,
     date: data.date!,
     updated:
       typeof data.updated === "string"

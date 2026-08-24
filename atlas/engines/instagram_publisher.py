@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -561,6 +562,45 @@ def publish_media_container(
     )
 
 
+def wait_until_media_ready(
+    container_id: str,
+    access_token: str,
+    timeout_seconds: int = 180,
+) -> tuple[bool, str]:
+    """Instagram側で画像コンテナの処理が終わるまで待つ。"""
+
+    deadline = time.monotonic() + timeout_seconds
+    while time.monotonic() < deadline:
+        try:
+            response = requests.get(
+                f"{INSTAGRAM_API_BASE}/{container_id}",
+                params={
+                    "fields": "status_code,status",
+                    "access_token": access_token,
+                },
+                timeout=30,
+            )
+        except requests.RequestException as error:
+            return False, f"Instagram画像の処理状態を確認できません：{error}"
+
+        if response.status_code != 200:
+            return (
+                False,
+                "Instagram画像の処理状態を確認できません："
+                f"HTTP {response.status_code} / {response.text}",
+            )
+
+        data = response.json()
+        status = str(data.get("status_code", "")).upper()
+        if status == "FINISHED":
+            return True, ""
+        if status in {"ERROR", "EXPIRED"}:
+            return False, f"Instagram側の画像処理に失敗しました：{data}"
+        time.sleep(3)
+
+    return False, "Instagram側の画像処理が時間内に完了しませんでした。"
+
+
 def publish_to_instagram(
     route: dict[str, Any],
 ) -> dict[str, Any]:
@@ -612,6 +652,20 @@ def publish_to_instagram(
             "posted": False,
             "media_id": "",
             "container_id": "",
+            "image_url": image_url,
+            "reason": error,
+        }
+
+    ready, error = wait_until_media_ready(
+        container_id=container_id,
+        access_token=credentials["access_token"],
+    )
+    if not ready:
+        return {
+            "status": "error",
+            "posted": False,
+            "media_id": "",
+            "container_id": container_id,
             "image_url": image_url,
             "reason": error,
         }

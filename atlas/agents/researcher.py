@@ -4,16 +4,16 @@ from openai import OpenAI
 
 from config import (
     MAX_WEB_SEARCH_CALLS,
-    MODEL,
     OPENAI_API_KEY,
+    RESEARCH_MODEL,
     WEB_SEARCH_CONTEXT_SIZE,
 )
 
 
 client = OpenAI(
     api_key=OPENAI_API_KEY,
-    timeout=180.0,
-    max_retries=2,
+    timeout=120.0,
+    max_retries=1,
 )
 
 
@@ -63,7 +63,7 @@ def research_topic(topic: str) -> dict[str, Any]:
     print("[Researcher] Web検索を開始...")
 
     response = client.responses.create(
-        model=MODEL,
+        model=RESEARCH_MODEL,
         store=False,
         tools=[
             {

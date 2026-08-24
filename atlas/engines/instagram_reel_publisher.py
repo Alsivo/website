@@ -22,6 +22,7 @@ from engines.instagram_publisher import (
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 SITE_URL = "https://www.alsivo.com"
+REEL_THUMB_OFFSET_MS = 3500
 HISTORY_FILE = BASE_DIR / "data" / "social" / "instagram_reel_history.json"
 REEL_DIR = BASE_DIR.parent / "public" / "images" / "social"
 
@@ -85,6 +86,7 @@ def create_reel_container(
         data={
             "media_type": "REELS", "video_url": video_url,
             "caption": caption, "share_to_feed": "false",
+            "thumb_offset": str(REEL_THUMB_OFFSET_MS),
             "access_token": access_token,
         },
         timeout=30,

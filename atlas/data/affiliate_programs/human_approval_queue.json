@@ -179,6 +179,42 @@
       "source_articles": [],
       "approval_status": "approved",
       "human_notes": ""
+    },
+    {
+      "service": "Notta",
+      "priority": 0,
+      "program_name": "作業効率改善に最適なAI自動文字起こしサービス【Notta】",
+      "program_type": "affiliate",
+      "network": "A8.net",
+      "program_url": "https://media-console.a8.net/program/detail-partnered?programId=s00000024524001",
+      "program_id": "s00000024524001",
+      "commission": "",
+      "promotion_details": "Web会議にNottaを起動しておくことで、リアルタイムで会議内容を文字に起します。\n細かくノートを取る必要がないので、会議内容や議論に思う存分集中することができます。\n議事録作成の時間短縮が見込まれるAI自動文字起こしサービスです！\n\n■Nottaの魅力\n・98.86%の文字起こし精度を達成\n・58種類の言語に対応\n・画面収録\n・テキスト翻訳機能\n・スケジュール機能\n・さまざまなファイル形式に対応\n・複数のデバイスで自動同期\n・チームワークスペースの作成\n・ユーザーのプライバシーとセキュリティを保護\n\n■ターゲットユーザー\n営業など会議・ミーティングが多い方\nテレワーク、リモートワーク、在宅勤務されている方\n記者、ライター、インタビュアー、ブロガーの方\n聴覚障害者やそのパートナーの方\n多言語話者、語学学生の方\n\n■実際に利用したお客様の事例はこちら\nhttps://www.notta.ai/cases\n\n■サービス紹介動画はこちら\nhttps://www.youtube.com/watch?v=IOT90ViUioY\n\n※サイトへの埋め込み使用可\n\n■広告主からのメッセージ：\nNottaを使用することにより、議事録にかかる時間や手間を大幅に削減し、\n工作効率を上げることができました。\nまた、人件費や時間も節約できるため、ビジネスの成果を最大化する上で非常に有効的です。\n\nメディア会員様のご協力によって、より多くの方々にNottaを利用していただくことができれば、\nさらに多くのお得な情報や新しいショップの情報を提供することができます。\nメディア会員様のご協力を心よりお願い申し上げます。",
+      "cookie_duration": "",
+      "target_country": "Japan",
+      "application_required": true,
+      "verified_at": "2026-08-24",
+      "source_articles": [],
+      "approval_status": "approved",
+      "human_notes": ""
+    },
+    {
+      "service": "Gamma",
+      "priority": 0,
+      "program_name": "Gamma",
+      "program_type": "affiliate",
+      "network": "PartnerStack",
+      "program_url": "https://gamma.app/",
+      "program_id": "",
+      "commission": "",
+      "promotion_details": "Gammaの特徴や訴求内容",
+      "cookie_duration": "",
+      "target_country": "Japan",
+      "application_required": true,
+      "verified_at": "2026-08-24",
+      "source_articles": [],
+      "approval_status": "approved",
+      "human_notes": ""
     }
   ]
 }

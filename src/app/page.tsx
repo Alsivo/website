@@ -97,10 +97,16 @@ export default function Home() {
             </div>
           </div>
 
-          <div
-            className="media-hero-orb"
-            aria-hidden="true"
-          />
+          <div className="media-hero-characters" aria-label="アルとシーボの紹介">
+            <div className="hero-character-card hero-character-al">
+              <div className="hero-character-image"><Image src="/images/characters/al-upper-body-v1.png" alt="アル" fill sizes="240px" /></div>
+              <p><strong>アル</strong><span>毎日悩みが尽きない女の子</span></p>
+            </div>
+            <div className="hero-character-card hero-character-cibo">
+              <div className="hero-character-image"><Image src="/images/characters/cibo-upper-body-v1.png" alt="シーボ" fill sizes="240px" /></div>
+              <p><strong>シーボ</strong><span>アルの幼馴染。アルを助けるために日々奔走</span></p>
+            </div>
+          </div>
         </section>
 
         {featuredArticles.length > 0 && (

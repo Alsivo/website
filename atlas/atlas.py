@@ -1464,7 +1464,15 @@ def run_new_article(
         )
 
         if result.returncode != 0:
-            raise RuntimeError("main.pyが異常終了しました。")
+            error_lines = [
+                line.strip()
+                for line in (result.stderr or "").splitlines()
+                if line.strip()
+            ]
+            detail = error_lines[-1] if error_lines else "原因を取得できませんでした。"
+            if "APITimeoutError" in detail or "timed out" in detail.lower():
+                detail = "OpenAIのWeb調査が通信タイムアウトしました。少し時間を置いて再実行してください。"
+            raise RuntimeError(f"main.pyが異常終了しました：{detail}")
     except Exception:
         after_artifacts = {
             path.resolve()

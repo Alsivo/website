@@ -3,6 +3,7 @@ import type {
 } from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import AffiliateLink from "./AffiliateLink";
+import Dialogue from "./Dialogue";
 import { createHeadingId } from "../lib/headings";
 import remarkGfm from "remark-gfm";
 
@@ -12,6 +13,7 @@ type MdxContentProps = {
 
 const components = {
   AffiliateLink,
+  Dialogue,
 
   h2: ({
     children,

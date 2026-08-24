@@ -419,8 +419,8 @@ def apply_source_citations(
 ) -> str:
     """
     本文中の[S1]形式の内部出典マーカーを削除し、
-    実際に使用された出典だけを記事末尾の
-    「参考情報」にまとめる。
+    出典IDを検証して公開本文から取り除く。
+    出典一覧は公開記事へ表示しない。
     """
 
     sources = research.get(
@@ -558,41 +558,8 @@ def apply_source_citations(
         )
     )
 
-    reference_lines = [
-        "",
-        "## 参考情報",
-        "",
-        "この記事の作成・確認に使用した主な情報源です。",
-        "",
-    ]
-
-    for source_id in ordered_source_ids:
-
-        source = source_map[
-            source_id
-        ]
-
-        title = (
-            escape_markdown_text(
-                source[
-                    "title"
-                ]
-            )
-        )
-
-        reference_lines.append(
-            f"- [{title}]"
-            f"({source['url']})"
-        )
-
-    result = (
-        content.rstrip()
-        + "\n\n"
-        + "\n".join(
-            reference_lines
-        )
-        + "\n"
-    )
+    # 出典は生成時の事実確認に利用し、公開本文には表示しない。
+    result = content.rstrip() + "\n"
 
     assert_no_source_markers(
         result
@@ -1157,6 +1124,26 @@ def validate_article(
                 f"記事データの「{field}」が"
                 "未入力です。"
             )
+
+    content = str(article["content"]).strip()
+    forbidden_sections = (
+        "## 公式情報を確認する",
+        "## 参考情報",
+        "## 代替案",
+        "## 実測レポ",
+        "## よくある質問",
+    )
+    if not content.startswith("## アルの相談"):
+        raise ValueError("対話記事は『## アルの相談』から開始してください。")
+    if any(section in content for section in forbidden_sections):
+        raise ValueError("対話記事に禁止されたレポート形式の章が含まれています。")
+    if content.count('<Dialogue speaker="al"') < 2 or content.count('<Dialogue speaker="cibo"') < 2:
+        raise ValueError("アルとシーボの会話量が不足しています。")
+    headings = re.findall(r"(?m)^##\s+(.+?)\s*$", content)
+    if not headings or headings[-1] != "まとめ":
+        raise ValueError("対話記事の最後のH2は『まとめ』にしてください。")
+    if not re.search(r'<Dialogue speaker="al"[^>]*>\s*やってみる！\s*</Dialogue>\s*$', content):
+        raise ValueError("記事の最後はアルの『やってみる！』で締めてください。")
 
     category = (
         article[
@@ -1854,6 +1841,15 @@ def publish_article(
             )
         )
 
+    summary_match = re.search(
+        r"(?m)^## まとめ\s*$",
+        full_content,
+    )
+    if summary_match is None:
+        raise ValueError("対話記事に『## まとめ』がありません。")
+    summary_section = full_content[summary_match.start():].strip()
+    full_content = full_content[:summary_match.start()].strip()
+
     # -----------------------------------------------------
     # CTA
     # -----------------------------------------------------
@@ -1924,6 +1920,9 @@ def publish_article(
             f"\n### {question}\n\n"
             f"{answer}\n"
         )
+
+    # FAQで本文中に残った疑問を補った後、会話のまとめで記事を締める。
+    full_content += "\n\n" + summary_section
 
     # -----------------------------------------------------
     # Reading time
@@ -2006,6 +2005,8 @@ def publish_article(
         "---",
         f'title: "{title}"',
         f'description: "{description}"',
+        f'alQuestion: "{escape_yaml_string(str(article.get("al_question", "")))}"',
+        f'ciboAnswer: "{escape_yaml_string(str(article.get("cibo_answer", "")))}"',
         f'date: "{published_date}"',
         f'verified: "{verified_date}"',
     ]
@@ -2066,8 +2067,8 @@ def publish_article(
     # -----------------------------------------------------
     # Sources
     #
-    # [S1]等を公開本文から除去し、
-    # 記事末尾へ参考情報を生成する。
+    # [S1]等を検証して公開本文から除去する。
+    # 情報源は内部確認にのみ利用する。
     # -----------------------------------------------------
 
     cited_content = (

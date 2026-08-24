@@ -341,6 +341,8 @@ class App:
     def atlas_error_summary(output:str)->str:
         matches=re.findall(r"(?:処理に失敗しました：|Atlas自動運転に失敗しました：)([^\r\n]+)",output)
         if matches:return "記事自動公開に失敗しました。\n\n原因: "+matches[-1].strip()+"\n\n生成途中の記事・画像は削除されました。"
+        if "APITimeoutError" in output or "Request timed out" in output:
+            return "記事自動公開に失敗しました。\n\n原因: OpenAIのWeb調査が通信タイムアウトしました。少し時間を置いて再実行してください。\n\n記事・画像・SNS投稿は作成されていません。"
         return "記事自動公開に失敗しました。生成途中の記事・画像は削除されました。"
 
     def background(self,message:str,task:Callable[[],str],refresh:Callable[[],None])->None:

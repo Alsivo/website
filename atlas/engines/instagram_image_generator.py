@@ -38,6 +38,8 @@ SOCIAL_OUTPUT_DIR = (
     / "social"
 )
 
+CHARACTER_DIR = WEBSITE_ROOT / "public" / "images" / "characters"
+
 
 # =========================================================
 # Sizes
@@ -1670,6 +1672,54 @@ def validate_article(
 
 
 # =========================================================
+# Character dialogue image
+# =========================================================
+
+def _wrap_characters(draw: ImageDraw.ImageDraw, text: str, text_font: Any, max_width: int) -> list[str]:
+    lines: list[str] = []
+    current = ""
+    for character in clean_text(text):
+        candidate = current + character
+        if current and draw.textbbox((0, 0), candidate, font=text_font)[2] > max_width:
+            lines.append(current)
+            current = character
+        else:
+            current = candidate
+    if current:
+        lines.append(current)
+    return lines[:4]
+
+
+def _create_character_dialogue_image(article: dict[str, Any], output_path: Path, width: int, height: int, instagram: bool = False) -> Path:
+    image = Image.new("RGBA", (width, height), (238, 247, 251, 255))
+    draw = ImageDraw.Draw(image)
+    draw.rounded_rectangle((32, 32, width - 32, height - 32), radius=42, fill=WHITE, outline=BORDER, width=3)
+    if instagram:
+        draw.text((58, 48), "ALSIVO", font=font(34), fill=NAVY)
+        if bool(article.get("is_affiliate_article", False)):
+            draw.text((width - 145, 48), "#PR", font=font(32), fill=NAVY)
+    al = Image.open(CHARACTER_DIR / "al-upper-body-v1.png").convert("RGBA")
+    cibo = Image.open(CHARACTER_DIR / "cibo-upper-body-v1.png").convert("RGBA")
+    character_height = int(height * (0.44 if instagram else 0.58))
+    for portrait in (al, cibo):
+        portrait.thumbnail((int(width * .34), character_height), Image.Resampling.LANCZOS)
+    image.alpha_composite(al, (42, height - al.height - 34))
+    image.alpha_composite(cibo, (width - cibo.width - 42, height - cibo.height - 34))
+    upper = (int(width * .30), int(height * .13), width - 52, int(height * .38))
+    lower = (52, int(height * .48), int(width * .70), int(height * .73))
+    for box, label, copy, copy_font, fill in (
+        (upper, "アル", get_image_title(article), font(42 if instagram else 38), (248, 252, 255, 255)),
+        (lower, "シーボ", get_image_subtitle(article), font(34 if instagram else 32), (238, 249, 251, 255)),
+    ):
+        draw.rounded_rectangle(box, radius=28, fill=fill, outline=BORDER, width=3)
+        draw.text((box[0] + 24, box[1] + 18), label, font=font(23), fill=(33, 99, 126))
+        lines = _wrap_characters(draw, copy, copy_font, box[2] - box[0] - 48)
+        draw.multiline_text((box[0] + 24, box[1] + 56), "\n".join(lines), font=copy_font, fill=NAVY, spacing=10)
+    image.convert("RGB").save(output_path, format="PNG", optimize=True)
+    return output_path
+
+
+# =========================================================
 # Blog 16:9
 # =========================================================
 
@@ -1718,13 +1768,8 @@ def create_blog_image(
             exist_ok=True,
         )
 
-    image = Image.new(
-        "RGB",
-        (
-            BLOG_WIDTH,
-            BLOG_HEIGHT,
-        ),
-        NAVY,
+    return _create_character_dialogue_image(
+        article, output_path, BLOG_WIDTH, BLOG_HEIGHT
     )
 
     draw_gradient(
@@ -1974,13 +2019,8 @@ def create_instagram_image(
             exist_ok=True,
         )
 
-    image = Image.new(
-        "RGB",
-        (
-            INSTAGRAM_WIDTH,
-            INSTAGRAM_HEIGHT,
-        ),
-        NAVY,
+    return _create_character_dialogue_image(
+        article, output_path, INSTAGRAM_WIDTH, INSTAGRAM_HEIGHT, instagram=True
     )
 
     draw_gradient(

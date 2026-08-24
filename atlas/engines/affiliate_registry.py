@@ -428,10 +428,8 @@ def build_affiliate_section(
                 "</AffiliateLink>"
             )
 
-        # ====================================================
-        # Primary CTA
-        # 必ず「目次直後」と「記事後半」の2か所に配置する
-        # ====================================================
+        # ページ側が目次直後と各章の後へ同じCTAを表示するため、
+        # MDXには抽出用のprimary CTAを1件だけ保存する。
 
         if cta_type == "primary":
             after_toc_links.append(
@@ -440,20 +438,6 @@ def build_affiliate_section(
                 )
             )
 
-            # 後半CTAの配置場所は
-            # cta_planの判断を利用する。
-            # after_toc指定の場合はbefore_faqへ配置する。
-            footer_placement = (
-                "before_faq"
-                if cta_placement == "after_toc"
-                else cta_placement
-            )
-
-            footer_links.append(
-                build_link_markup(
-                    footer_placement
-                )
-            )
 
         # ====================================================
         # Secondary CTA
@@ -489,12 +473,10 @@ def build_affiliate_section(
             )
         )
 
-    # 記事後半にはprimary + secondaryをまとめて表示する
+    # secondaryがある場合だけ、見出しを作らず抽出用に保存する。
     if footer_links:
         sections.append(
-            "## 公式情報を確認する"
-            + "\n\n"
-            + "\n\n".join(
+            "\n\n".join(
                 footer_links
             )
         )

@@ -8,6 +8,8 @@ export type BlogPostFrontmatter = {
   titleLines?: string[];
   cardTitleLines?: string[];
   description: string;
+  alQuestion?: string;
+  ciboAnswer?: string;
   date: string;
   updated?: string;
   verified?: string;

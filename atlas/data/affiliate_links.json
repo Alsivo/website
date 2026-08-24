@@ -338,20 +338,44 @@
   },
   "Gamma": {
     "official_url": "https://gamma.app/",
-    "affiliate_url": "",
+    "affiliate_url": "https://try.gamma.app/303dr7sg6wup",
     "cta_label": "Gammaを公式サイトで確認する",
     "aliases": [
       "Gamma"
     ],
-    "affiliate_status": "none",
-    "network": "",
-    "program_name": "公式リンク",
+    "affiliate_status": "active",
+    "network": "PartnerStack",
+    "program_name": "Gamma",
     "reward_type": "none",
     "reward_value": 0.0,
     "currency": "JPY",
-    "conversion_action": "なし",
+    "conversion_action": "",
     "cookie_days": 0,
-    "program_score": 0.0,
-    "last_verified": "2026-08-05"
+    "program_score": 10.0,
+    "last_verified": "2026-08-24",
+    "ad_source": "https://try.gamma.app/303dr7sg6wup",
+    "program_id": "",
+    "promotion_details": "Gammaの特徴や訴求内容"
+  },
+  "Notta": {
+    "official_url": "https://media-console.a8.net/program/detail-partnered?programId=s00000024524001",
+    "affiliate_url": "https://px.a8.net/svt/ejp?a8mat=4BACLH+7FBNEA+5988+609HT",
+    "ad_source": "<a href=\"https://px.a8.net/svt/ejp?a8mat=4BACLH+7FBNEA+5988+609HT\" rel=\"nofollow\">\n<img border=\"0\" width=\"300\" height=\"250\" alt=\"\" src=\"https://www28.a8.net/svt/bgt?aid=260823365449&wid=001&eno=01&mid=s00000024524001009000&mc=1\"></a>\n<img border=\"0\" width=\"1\" height=\"1\" src=\"https://www15.a8.net/0.gif?a8mat=4BACLH+7FBNEA+5988+609HT\" alt=\"\">",
+    "network": "A8.net",
+    "program_name": "作業効率改善に最適なAI自動文字起こしサービス【Notta】",
+    "program_id": "s00000024524001",
+    "promotion_details": "Web会議にNottaを起動しておくことで、リアルタイムで会議内容を文字に起します。\n細かくノートを取る必要がないので、会議内容や議論に思う存分集中することができます。\n議事録作成の時間短縮が見込まれるAI自動文字起こしサービスです！\n\n■Nottaの魅力\n・98.86%の文字起こし精度を達成\n・58種類の言語に対応\n・画面収録\n・テキスト翻訳機能\n・スケジュール機能\n・さまざまなファイル形式に対応\n・複数のデバイスで自動同期\n・チームワークスペースの作成\n・ユーザーのプライバシーとセキュリティを保護\n\n■ターゲットユーザー\n営業など会議・ミーティングが多い方\nテレワーク、リモートワーク、在宅勤務されている方\n記者、ライター、インタビュアー、ブロガーの方\n聴覚障害者やそのパートナーの方\n多言語話者、語学学生の方\n\n■実際に利用したお客様の事例はこちら\nhttps://www.notta.ai/cases\n\n■サービス紹介動画はこちら\nhttps://www.youtube.com/watch?v=IOT90ViUioY\n\n※サイトへの埋め込み使用可\n\n■広告主からのメッセージ：\nNottaを使用することにより、議事録にかかる時間や手間を大幅に削減し、\n工作効率を上げることができました。\nまた、人件費や時間も節約できるため、ビジネスの成果を最大化する上で非常に有効的です。\n\nメディア会員様のご協力によって、より多くの方々にNottaを利用していただくことができれば、\nさらに多くのお得な情報や新しいショップの情報を提供することができます。\nメディア会員様のご協力を心よりお願い申し上げます。",
+    "affiliate_status": "active",
+    "cta_label": "Nottaを公式サイトで確認する",
+    "aliases": [
+      "Notta"
+    ],
+    "reward_type": "none",
+    "reward_value": 0.0,
+    "currency": "JPY",
+    "conversion_action": "",
+    "cookie_days": 0,
+    "program_score": 10.0,
+    "last_verified": "2026-08-24"
   }
 }

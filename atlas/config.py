@@ -7,6 +7,10 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 MODEL = "gpt-5"
 
+# Web検索は長時間化しやすいため、調査専用の軽量モデルを使う。
+# 記事本文・レビューには従来どおりMODELを使用する。
+RESEARCH_MODEL = "gpt-5-mini"
+
 # ============================================================
 # Site settings
 # ============================================================
@@ -64,8 +68,10 @@ MAX_NEW_TAGS = 2
 # Web research settings
 # ============================================================
 
-WEB_SEARCH_CONTEXT_SIZE = "medium"
-MAX_WEB_SEARCH_CALLS = 5
+WEB_SEARCH_CONTEXT_SIZE = "low"
+# 5回ではWeb調査が長時間化し、Responses APIが180秒で
+# タイムアウトする事例がある。一次情報の確認に必要な範囲で3回に抑える。
+MAX_WEB_SEARCH_CALLS = 2
 
 # ============================================================
 # Review settings

@@ -98,7 +98,7 @@ export default function AffiliateLink({
     >
       <div className="affiliate-cta-card-content">
         <p className="affiliate-cta-eyebrow">
-          公式情報を確認
+          シーボのおすすめ
         </p>
 
         <p className="affiliate-cta-service">

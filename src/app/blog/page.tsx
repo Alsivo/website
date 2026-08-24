@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import BlogExplorer from "../../components/BlogExplorer";
+import Image from "next/image";
 import { getAllBlogPosts } from "../../lib/blog";
 
 export const metadata: Metadata = {
@@ -13,7 +14,8 @@ export default function BlogPage() {
 
   return (
     <main className="page-shell blog-page">
-      <section className="page-hero">
+      <section className="page-hero page-hero-with-characters">
+        <div className="page-hero-copy">
         <p className="section-kicker">BLOG</p>
 
         <h1>
@@ -22,16 +24,12 @@ export default function BlogPage() {
           生活に活かす。
         </h1>
 
-        <p className="page-description">
-          <span className="desktop-copy copy-line">
-            AIツール、生成AI、仕事効率化などに関する情報を、分かりやすく実践的に紹介します。
-          </span>
-          <span className="mobile-copy">
-            <span className="copy-line">AIツール、生成AI、仕事効率化などに関する</span>
-            <br />
-            <span className="copy-line">情報を、分かりやすく実践的に紹介します。</span>
-          </span>
-        </p>
+        <p className="page-description">日々の悩みを解決するAIツールや生成AIについて、アルとシーボが実例を通じて解説します。</p>
+        </div>
+        <div className="blog-hero-characters">
+          <div className="blog-hero-character blog-hero-al"><span>実際によくある悩みをもとに</span><div><Image src="/images/characters/al-upper-body-v1.png" alt="アル" fill sizes="180px" /></div></div>
+          <div className="blog-hero-character blog-hero-cibo"><span>解決策を紹介してるよ</span><div><Image src="/images/characters/cibo-upper-body-v1.png" alt="シーボ" fill sizes="180px" /></div></div>
+        </div>
       </section>
 
       <section className="article-list-section">

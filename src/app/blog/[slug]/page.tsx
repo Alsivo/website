@@ -35,73 +35,6 @@ type BlogPostPageProps = {
    Article introduction
    ========================================================== */
 
-function splitArticleIntroduction(
-  content: string,
-): {
-  introduction: string;
-  body: string;
-} {
-  const normalized = content.trim();
-
-  if (!normalized) {
-    return {
-      introduction: "",
-      body: "",
-    };
-  }
-
-  /*
-   * 最初のH2より前を記事導入として扱う。
-   *
-   * 例：
-   *
-   * 長い資料を急いでまとめたいのに……
-   * この記事では……
-   *
-   * ## まず結論
-   *
-   * ↓
-   *
-   * introduction:
-   * 長い資料を……
-   *
-   * body:
-   * ## まず結論
-   */
-  const firstH2Match = normalized.match(
-    /^##\s+/m,
-  );
-
-  if (
-    !firstH2Match
-    || firstH2Match.index === undefined
-  ) {
-    return {
-      introduction: "",
-      body: normalized,
-    };
-  }
-
-  const introduction = normalized
-    .slice(
-      0,
-      firstH2Match.index,
-    )
-    .trim();
-
-  const body = normalized
-    .slice(
-      firstH2Match.index,
-    )
-    .trim();
-
-  return {
-    introduction,
-    body,
-  };
-}
-
-
 function splitArticleH2Sections(
   content: string,
 ): string[] {
@@ -282,14 +215,7 @@ export default async function BlogPostPage({
      Introduction / body separation
      ======================================================== */
 
-  const {
-    introduction:
-      articleIntroduction,
-    body:
-      articleBody,
-  } = splitArticleIntroduction(
-    articleContent,
-  );
+  const articleBody = articleContent.trim();
 
   const articleH2Sections =
     splitArticleH2Sections(
@@ -327,26 +253,6 @@ export default async function BlogPostPage({
         post.date,
       ),
     );
-
-  const verifiedSourceDate =
-    post.verified
-    ?? post.updated
-    ?? post.date;
-
-  const verifiedDate =
-    new Intl.DateTimeFormat(
-      "ja-JP",
-      {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      },
-    ).format(
-      new Date(
-        verifiedSourceDate,
-      ),
-    );
-
 
   /* ========================================================
      Render
@@ -463,38 +369,9 @@ export default async function BlogPostPage({
               Article opening
               =============================================== */}
 
-          {articleIntroduction && (
-            <div className="article-opening">
-              <MdxContent
-                source={
-                  articleIntroduction
-                }
-              />
-            </div>
-          )}
-
-
-          {/* ===============================================
-              Information
-              =============================================== */}
-
-          <aside
-            className="article-information-note"
-            aria-label="記事情報について"
-          >
-            <p className="article-information-note-title">
-              情報について
-            </p>
-
-            <p>
-              この記事は
-              <strong>
-                {verifiedDate}
-              </strong>
-              時点の情報に基づいています。
-              料金・機能・利用条件などは変更されている可能性があります。
-              最新情報は各サービスの公式サイトをご確認ください。
-            </p>
+          <aside className="article-story-promise" aria-label="この記事の相談内容">
+            <p><strong>アルの悩み</strong>{post.alQuestion ?? post.description}</p>
+            <p><strong>この記事でわかること</strong>{post.ciboAnswer ?? "シーボが悩みをやさしく整理し、次の一歩を紹介します。"}</p>
           </aside>
 
 

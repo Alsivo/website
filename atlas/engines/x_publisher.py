@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -231,14 +232,12 @@ def validate_post_text(
             "投稿文が空です。",
         )
 
-    # 厳密なXのweighted length計算ではない。
-    # 明らかな異常値のみここで止める。
-    if len(text) > 500:
+    if x_weighted_length(text) > 280:
         return (
             False,
             (
-                "投稿文が長すぎる可能性があります。"
-                f" len={len(text)}"
+                "Xの投稿上限を超えています。"
+                f" weighted_length={x_weighted_length(text)}"
             ),
         )
 
@@ -246,6 +245,54 @@ def validate_post_text(
         True,
         "",
     )
+
+
+URL_PATTERN = re.compile(r"https?://\S+")
+
+
+def x_character_weight(character: str) -> int:
+    """全角文字を安全側の2として数える。"""
+
+    return 1 if ord(character) <= 0x10FF else 2
+
+
+def x_weighted_length(text: str) -> int:
+    """URLをt.coの23文字、それ以外を概算ウェイトで数える。"""
+
+    total = 0
+    cursor = 0
+    for match in URL_PATTERN.finditer(text):
+        total += sum(x_character_weight(char) for char in text[cursor:match.start()])
+        total += 23
+        cursor = match.end()
+    total += sum(x_character_weight(char) for char in text[cursor:])
+    return total
+
+
+def fit_post_text(post_text: str, limit: int = 280) -> str:
+    """#PRと末尾URLを保ち、既存投稿文もXの上限内へ収める。"""
+
+    text = post_text.strip()
+    if x_weighted_length(text) <= limit:
+        return text
+
+    urls = URL_PATTERN.findall(text)
+    final_url = urls[-1] if urls else ""
+    body = URL_PATTERN.sub("", text).strip()
+    suffix = f"\n{final_url}" if final_url else ""
+    ellipsis = "…"
+    budget = limit - x_weighted_length(suffix) - x_weighted_length(ellipsis)
+    fitted: list[str] = []
+    used = 0
+    for character in body:
+        weight = x_character_weight(character)
+        if used + weight > budget:
+            break
+        fitted.append(character)
+        used += weight
+
+    compact_body = "".join(fitted).rstrip(" \n、。,.—-")
+    return f"{compact_body}{ellipsis}{suffix}".strip()
 
 
 # =========================================================
@@ -257,12 +304,12 @@ def dry_run_publish(
 ) -> dict[str, Any]:
     """X投稿を実行せず内容だけ確認する。"""
 
-    post_text = str(
+    post_text = fit_post_text(str(
         route.get(
             "post_text",
             "",
         )
-    ).strip()
+    ).strip())
 
     valid, reason = (
         validate_post_text(
@@ -587,12 +634,12 @@ def publish_to_x(
 ) -> dict[str, Any]:
     """X API v2へ実際に投稿する。"""
 
-    post_text = str(
+    post_text = fit_post_text(str(
         route.get(
             "post_text",
             "",
         )
-    ).strip()
+    ).strip())
 
     valid, reason = (
         validate_post_text(
