@@ -13,6 +13,7 @@ import MdxContent from "../../../components/MdxContent";
 import {
   extractArticleCta,
   getAllBlogSlugs,
+  getAllBlogPosts,
   getBlogPostBySlug,
   getRelatedBlogPosts,
   removeArticleCta,
@@ -23,6 +24,7 @@ import {
 } from "../../../lib/site";
 import AffiliateLink from "../../../components/AffiliateLink";
 import ArticleTitle from "../../../components/ArticleTitle";
+import ArticleSidebar from "../../../components/ArticleSidebar";
 
 type BlogPostPageProps = {
   params: Promise<{
@@ -235,6 +237,10 @@ export default async function BlogPostPage({
       3,
     );
 
+  const allPosts = getAllBlogPosts();
+  const sidebarLatest = allPosts.filter((item) => item.slug !== post.slug).slice(0, 5);
+  const sidebarPopular = [post, ...sidebarLatest].slice(0, 5);
+
 
   /* ========================================================
      Dates
@@ -290,7 +296,7 @@ export default async function BlogPostPage({
         }}
       />
 
-      <main>
+      <main className="content-with-sidebar article-layout">
         <article className="article-page">
 
           {/* ===============================================
@@ -619,6 +625,7 @@ export default async function BlogPostPage({
           )}
 
         </article>
+        <ArticleSidebar popular={sidebarPopular} latest={sidebarLatest.length > 0 ? sidebarLatest : [post]} />
       </main>
     </>
   );

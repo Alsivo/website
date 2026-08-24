@@ -171,6 +171,9 @@ def load_article_by_slug(
         )
     )
 
+    al_question = parse_frontmatter_value(frontmatter, "alQuestion")
+    cibo_answer = parse_frontmatter_value(frontmatter, "ciboAnswer")
+
     category = parse_frontmatter_value(
         frontmatter,
         "category",
@@ -211,6 +214,8 @@ def load_article_by_slug(
         "slug": slug,
         "title": title,
         "description": description,
+        "alQuestion": al_question,
+        "ciboAnswer": cibo_answer,
         "category": category,
         "image": image,
         "date": date_value,

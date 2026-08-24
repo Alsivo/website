@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import BlogExplorer from "../../components/BlogExplorer";
 import Image from "next/image";
 import { getAllBlogPosts } from "../../lib/blog";
+import ArticleSidebar from "../../components/ArticleSidebar";
 
 export const metadata: Metadata = {
   title: "AI Blog",
@@ -32,6 +33,7 @@ export default function BlogPage() {
         </div>
       </section>
 
+      <div className="content-with-sidebar blog-content-with-sidebar">
       <section className="article-list-section">
         {articles.length === 0 ? (
           <p className="empty-message">
@@ -41,6 +43,8 @@ export default function BlogPage() {
           <BlogExplorer articles={articles} />
         )}
       </section>
+      <ArticleSidebar popular={articles.slice(0, 5)} latest={articles.slice(0, 5)} />
+      </div>
     </main>
   );
 }

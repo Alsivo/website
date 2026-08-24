@@ -29,6 +29,7 @@ IMAGE_DIRECTORY = (
     / "images"
     / "blog"
 )
+BACKGROUND_DIRECTORY = WEBSITE_ROOT / "public" / "images" / "article-backgrounds"
 
 
 def validate_slug(slug: str) -> str:
@@ -60,22 +61,24 @@ def create_image_prompt(
     """記事情報からアイキャッチ画像の指示文を作る。"""
 
     return (
-        "Create a polished editorial hero image for a Japanese "
-        "technology media website named Alsivo.\n\n"
+        "Create a photorealistic background photograph for a Japanese "
+        "technology media website article. Anime characters and speech bubbles "
+        "will be overlaid later.\n\n"
         f"Article title: {article['title']}\n"
         f"Article description: {article['description']}\n"
         f"Category: {article['category']}\n"
         f"Tags: {', '.join(article['tags'])}\n\n"
         "Visual direction:\n"
-        "- modern and sophisticated technology editorial artwork\n"
+        "- genuinely photorealistic editorial photography, not an illustration\n"
         "- clean composition with one clear focal point\n"
-        "- abstract visual metaphor related to the article topic\n"
-        "- subtle depth, soft lighting, premium digital aesthetic\n"
+        "- a realistic everyday scene and objects directly related to the article topic\n"
+        "- subtle depth and soft natural lighting\n"
         "- suitable for a professional AI and productivity website\n"
         "- landscape composition with safe space around the edges\n"
         "- do not use recognizable company logos\n"
         "- do not show copyrighted product interfaces\n"
-        "- do not include people unless essential\n"
+        "- no people or characters\n"
+        "- keep the upper-left and lower-right areas calm for character overlays\n"
         "- no words, letters, numbers, captions, UI text, or logos\n"
         "- avoid generic robot heads and glowing human brains\n"
     )
@@ -160,6 +163,10 @@ def generate_article_image(
     output_path = IMAGE_DIRECTORY / file_name
 
     output_path.write_bytes(image_bytes)
+
+    BACKGROUND_DIRECTORY.mkdir(parents=True, exist_ok=True)
+    background_path = BACKGROUND_DIRECTORY / file_name
+    background_path.write_bytes(image_bytes)
 
     print(
         "[Image Agent] 画像を保存しました："

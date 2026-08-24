@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getAllBlogPosts } from "../lib/blog";
 import ArticleTitle from "../components/ArticleTitle";
+import ArticleSidebar from "../components/ArticleSidebar";
 import {
   createWebsiteJsonLd,
   serializeJsonLd,
@@ -100,15 +101,17 @@ export default function Home() {
           <div className="media-hero-characters" aria-label="アルとシーボの紹介">
             <div className="hero-character-card hero-character-al">
               <div className="hero-character-image"><Image src="/images/characters/al-upper-body-v1.png" alt="アル" fill sizes="240px" /></div>
-              <p><strong>アル</strong><span>毎日悩みが尽きない女の子</span></p>
+              <p><strong>アル</strong><span>毎日悩みが尽きない女の子<br />いつもシーボに相談している</span></p>
             </div>
             <div className="hero-character-card hero-character-cibo">
               <div className="hero-character-image"><Image src="/images/characters/cibo-upper-body-v1.png" alt="シーボ" fill sizes="240px" /></div>
-              <p><strong>シーボ</strong><span>アルの幼馴染。アルを助けるために日々奔走</span></p>
+              <p><strong>シーボ</strong><span>アルの幼馴染の男の子<br />アルの相談を受けるのが日課</span></p>
             </div>
           </div>
         </section>
 
+        <div className="home-content-with-sidebar">
+        <div className="home-main-content">
         {featuredArticles.length > 0 && (
           <section className="home-section home-featured">
             <div className="home-section-heading">
@@ -265,38 +268,33 @@ export default function Home() {
         )}
 
         <section className="home-about">
-          <div>
+          <div className="home-about-heading">
             <p className="section-kicker">
               ABOUT ALSIVO
             </p>
-            <h2>
-              <span>AIを</span>
-              <br className="mobile-about-break" />
-              <span>あなたの生活の</span>
-              <br />
-              <span>一番身近な味方へ。</span>
-            </h2>
+            <div className="home-about-al-row">
+              <h2>
+                <span>AIを</span>
+                <br className="mobile-about-break" />
+                <span>あなたの生活の</span>
+                <br />
+                <span>一番身近な味方へ。</span>
+              </h2>
+              <div className="home-about-character home-about-al">
+                <div className="home-about-portrait"><Image src="/images/characters/al-upper-body-v1.png" alt="アル" fill sizes="140px" /></div>
+                <p>ALSIVOは、AIツールや生成AIに関する情報を、分かりやすく実践的に届けるメディアです。</p>
+              </div>
+            </div>
           </div>
 
-          <div className="home-about-copy">
-            <p>
-              <span className="copy-line">ALSIVOは、AIツールや生成AIに関する情報を、</span>
-              <br />
-              <span className="copy-line">分かりやすく実践的に届けるメディアです。</span>
-            </p>
-
-            <p>
-              <span className="copy-line">新しい技術をただ紹介するのではなく、</span>
-              <br />
-              <span className="copy-line">「結局どれを選べばいいのか」</span>
-              <br />
-              <span className="copy-line">「生活や仕事でどう使えばいいのか」</span>
-              <br />
-              <span className="copy-line">を、初めて使う人にも伝わる形で整理します。</span>
-            </p>
-
+          <div className="home-about-character home-about-cibo">
+            <div className="home-about-portrait"><Image src="/images/characters/cibo-upper-body-v1.png" alt="シーボ" fill sizes="150px" /></div>
+            <p>新しい技術をただ紹介するのではなく、「結局どれを選べばいいのか」「生活や仕事でどう使えばいいのか」を、初めて使う人にも伝わる形で整理します。</p>
           </div>
         </section>
+        </div>
+        <ArticleSidebar popular={articles.slice(0, 5)} latest={articles.slice(0, 5)} />
+        </div>
 
         <p
           style={{

@@ -9,6 +9,7 @@ from PIL import (
     Image,
     ImageDraw,
     ImageFont,
+    ImageOps,
 )
 
 
@@ -39,6 +40,7 @@ SOCIAL_OUTPUT_DIR = (
 )
 
 CHARACTER_DIR = WEBSITE_ROOT / "public" / "images" / "characters"
+ARTICLE_BACKGROUND_DIR = WEBSITE_ROOT / "public" / "images" / "article-backgrounds"
 
 
 # =========================================================
@@ -1691,30 +1693,44 @@ def _wrap_characters(draw: ImageDraw.ImageDraw, text: str, text_font: Any, max_w
 
 
 def _create_character_dialogue_image(article: dict[str, Any], output_path: Path, width: int, height: int, instagram: bool = False) -> Path:
-    image = Image.new("RGBA", (width, height), (238, 247, 251, 255))
+    background_path = ARTICLE_BACKGROUND_DIR / f"{clean_text(article.get('slug', ''))}.png"
+    if background_path.exists():
+        background = Image.open(background_path).convert("RGB")
+        image = ImageOps.fit(background, (width, height), method=Image.Resampling.LANCZOS).convert("RGBA")
+        image.alpha_composite(Image.new("RGBA", (width, height), (240, 247, 250, 105)))
+    else:
+        image = Image.new("RGBA", (width, height), (238, 247, 251, 255))
     draw = ImageDraw.Draw(image)
-    draw.rounded_rectangle((32, 32, width - 32, height - 32), radius=42, fill=WHITE, outline=BORDER, width=3)
+    draw.rounded_rectangle((32, 32, width - 32, height - 32), radius=42, outline=(255, 255, 255), width=3)
     if instagram:
         draw.text((58, 48), "ALSIVO", font=font(34), fill=NAVY)
         if bool(article.get("is_affiliate_article", False)):
             draw.text((width - 145, 48), "#PR", font=font(32), fill=NAVY)
     al = Image.open(CHARACTER_DIR / "al-upper-body-v1.png").convert("RGBA")
     cibo = Image.open(CHARACTER_DIR / "cibo-upper-body-v1.png").convert("RGBA")
-    character_height = int(height * (0.44 if instagram else 0.58))
+    character_height = int(height * (0.36 if instagram else 0.42))
     for portrait in (al, cibo):
         portrait.thumbnail((int(width * .34), character_height), Image.Resampling.LANCZOS)
-    image.alpha_composite(al, (42, height - al.height - 34))
-    image.alpha_composite(cibo, (width - cibo.width - 42, height - cibo.height - 34))
-    upper = (int(width * .30), int(height * .13), width - 52, int(height * .38))
-    lower = (52, int(height * .48), int(width * .70), int(height * .73))
-    for box, label, copy, copy_font, fill in (
-        (upper, "アル", get_image_title(article), font(42 if instagram else 38), (248, 252, 255, 255)),
-        (lower, "シーボ", get_image_subtitle(article), font(34 if instagram else 32), (238, 249, 251, 255)),
+    al_position = (42, int(height * .05))
+    cibo_position = (width - cibo.width - 42, height - cibo.height - 38)
+    image.alpha_composite(al, al_position)
+    image.alpha_composite(cibo, cibo_position)
+    upper = (al_position[0] + al.width - 14, int(height * .08), width - 52, int(height * .40))
+    lower = (52, int(height * .57), cibo_position[0] + 14, int(height * .91))
+    for box, side, copy, copy_font, fill in (
+        (upper, "left", get_image_title(article), font(37 if instagram else 36), (248, 252, 255, 242)),
+        (lower, "right", get_image_subtitle(article), font(31 if instagram else 30), (238, 249, 251, 242)),
     ):
         draw.rounded_rectangle(box, radius=28, fill=fill, outline=BORDER, width=3)
-        draw.text((box[0] + 24, box[1] + 18), label, font=font(23), fill=(33, 99, 126))
+        middle_y = int((box[1] + box[3]) / 2)
+        if side == "left":
+            draw.polygon([(box[0], middle_y - 18), (box[0] - 30, middle_y), (box[0], middle_y + 18)], fill=fill, outline=BORDER)
+        else:
+            draw.polygon([(box[2], middle_y - 18), (box[2] + 30, middle_y), (box[2], middle_y + 18)], fill=fill, outline=BORDER)
         lines = _wrap_characters(draw, copy, copy_font, box[2] - box[0] - 48)
-        draw.multiline_text((box[0] + 24, box[1] + 56), "\n".join(lines), font=copy_font, fill=NAVY, spacing=10)
+        line_box = draw.multiline_textbbox((0, 0), "\n".join(lines), font=copy_font, spacing=10)
+        text_height = line_box[3] - line_box[1]
+        draw.multiline_text((box[0] + 24, box[1] + max(20, (box[3] - box[1] - text_height) // 2)), "\n".join(lines), font=copy_font, fill=NAVY, spacing=10)
     image.convert("RGB").save(output_path, format="PNG", optimize=True)
     return output_path
 

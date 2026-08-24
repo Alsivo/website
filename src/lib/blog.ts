@@ -286,8 +286,8 @@ function getInternalLinkMap(): InternalLinkMap {
 
 export function getRelatedBlogPosts(
   currentSlug: string,
-  _category: string,
-  _tags: string[],
+  category: string,
+  tags: string[],
   limit = 3,
 ): BlogPostSummary[] {
   const internalLinkMap =
@@ -295,10 +295,6 @@ export function getRelatedBlogPosts(
 
   const selectedLinks =
     internalLinkMap[currentSlug] ?? [];
-
-  if (selectedLinks.length === 0) {
-    return [];
-  }
 
   const allPosts = getAllBlogPosts();
 
@@ -309,8 +305,7 @@ export function getRelatedBlogPosts(
     ]),
   );
 
-  return selectedLinks
-    .slice(0, limit)
+  const selected = selectedLinks
     .map((link) =>
       postMap.get(link.slug),
     )
@@ -321,6 +316,18 @@ export function getRelatedBlogPosts(
         post !== undefined
         && post.slug !== currentSlug,
     );
+
+  const selectedSlugs = new Set(selected.map((post) => post.slug));
+  const tagSet = new Set(tags);
+  const fallback = allPosts
+    .filter((post) => post.slug !== currentSlug && !selectedSlugs.has(post.slug))
+    .sort((a, b) => {
+      const scoreA = (a.category === category ? 3 : 0) + a.tags.filter((tag) => tagSet.has(tag)).length;
+      const scoreB = (b.category === category ? 3 : 0) + b.tags.filter((tag) => tagSet.has(tag)).length;
+      return scoreB - scoreA || new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+
+  return [...selected, ...fallback].slice(0, limit);
 }
 
 export type ArticleCta = {

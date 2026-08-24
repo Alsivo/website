@@ -1133,13 +1133,16 @@ def validate_article(
         "## 実測レポ",
         "## よくある質問",
     )
-    if not content.startswith("## アルの相談"):
-        raise ValueError("対話記事は『## アルの相談』から開始してください。")
+    if not content.startswith("## "):
+        raise ValueError("対話記事は会話内容が分かるH2見出しから開始してください。")
     if any(section in content for section in forbidden_sections):
         raise ValueError("対話記事に禁止されたレポート形式の章が含まれています。")
     if content.count('<Dialogue speaker="al"') < 2 or content.count('<Dialogue speaker="cibo"') < 2:
         raise ValueError("アルとシーボの会話量が不足しています。")
     headings = re.findall(r"(?m)^##\s+(.+?)\s*$", content)
+    toc_headings = re.findall(r"(?m)^#{2,3}\s+(.+?)\s*$", content)
+    if any(re.search(r"アル|シーボ", heading) for heading in toc_headings):
+        raise ValueError("目次に表示されるH2・H3見出しへアルやシーボの名前を入れないでください。")
     if not headings or headings[-1] != "まとめ":
         raise ValueError("対話記事の最後のH2は『まとめ』にしてください。")
     if not re.search(r'<Dialogue speaker="al"[^>]*>\s*やってみる！\s*</Dialogue>\s*$', content):

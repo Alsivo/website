@@ -38,11 +38,13 @@ export default function Dialogue({
 
   return (
     <div className={`character-dialogue character-dialogue-${speaker}`}>
-      <div className="character-dialogue-portrait">
-        <Image src={src} alt={`${name}の表情`} fill sizes="88px" />
+      <div className="character-dialogue-person">
+        <div className="character-dialogue-portrait">
+          <Image src={src} alt={`${name}の表情`} fill sizes="88px" />
+        </div>
+        <span className="character-dialogue-name">{name}</span>
       </div>
       <div className="character-dialogue-body">
-        <span className="character-dialogue-name">{name}</span>
         <div className="character-dialogue-bubble">{children}</div>
       </div>
     </div>

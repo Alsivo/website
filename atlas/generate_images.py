@@ -145,6 +145,9 @@ def build_image_article(
         )
     ).strip()
 
+    al_question = str(article.get("alQuestion", article.get("al_question", ""))).strip()
+    cibo_answer = str(article.get("ciboAnswer", article.get("cibo_answer", ""))).strip()
+
     raw_tags = article.get(
         "tags",
         [],
@@ -189,6 +192,8 @@ def build_image_article(
         "category": category,
         "tags": tags,
         "content": content,
+        "al_question": al_question,
+        "cibo_answer": cibo_answer,
         "is_affiliate_article": content_has_affiliate_link(content),
     }
 
@@ -226,6 +231,14 @@ def generate_image_copy(
     記事内容を基に、
     Blog / Instagram共通の画像専用コピーを生成する。
     """
+
+    al_question = str(article.get("al_question", "")).strip()
+    cibo_answer = str(article.get("cibo_answer", "")).strip()
+    if al_question and cibo_answer:
+        return {
+            "image_title": al_question,
+            "image_subtitle": cibo_answer,
+        }
 
     title = str(
         article.get(
