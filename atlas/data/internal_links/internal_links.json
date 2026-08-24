@@ -1,53 +1,54 @@
 {
   "ai-codegen-tools-comparison": [
     {
-      "slug": "chatgpt-claude-gemini-pricing-comparison",
-      "anchor": "ChatGPTの無料／Go／Plus／Proの違いと選び方を確認する（Claude/Geminiとの比較ポイントつき）",
-      "reason": "コード生成専用ツールに課金する代わりに、汎用LLMの有料プランで代替できるかを検討したい読者の次の疑問に答え、費用対効果の判断を補完します。"
+      "slug": "gemini-pricing-plan-comparison",
+      "anchor": "Geminiの料金と各プランの違いを確認する",
+      "reason": "比較記事で触れたGemini系を採用検討する際、契約プランの違いと費用感を把握したいという自然な次の疑問に答え、ライセンス設計や予算検討を補完できるため。"
     },
     {
-      "slug": "gemini-pricing-plan-comparison",
-      "anchor": "Geminiの無料版・Google AI Pro・AI Ultraの違いを把握する",
-      "reason": "記事内で触れたGemini系の利用検討時に、個人向けGeminiプランの料金・機能差を整理しておくことで、Code Assist以外の選択肢との住み分け判断を補完できます。"
+      "slug": "chatgpt-claude-gemini-pricing-comparison",
+      "anchor": "ChatGPT／Claude／Geminiの料金の違いを把握する",
+      "reason": "専用コード生成ツールの代替・併用として汎用LLMの有料プランを検討する際のコスト比較という次の検討ポイントを補完し、導入時の予算感や席数見積もりに役立つため。"
     }
   ],
-  "ai-data-analytics-tools-recommendations": [],
+  "ai-data-analytics-tools-recommendations": [
+    {
+      "slug": "ai-presentation-tools-comparison",
+      "anchor": "分析結果をわかりやすく伝えるAIプレゼン資料ツールの比較",
+      "reason": "分析・可視化の次は社内共有や意思決定のための説明資料作成が必要になるため。PowerPoint/Googleスライド対応のAIプレゼン比較は、元記事のワークフローを自然に補完する次の一歩。"
+    }
+  ],
   "ai-email-writing-tools-comparison": [
     {
       "slug": "chatgpt-claude-pricing-feature-limits-comparison",
-      "anchor": "ChatGPTとClaudeの違いと選び方",
-      "reason": "本文で汎用AI（ChatGPT）をメール作成の選択肢として扱っており、次に「どのモデルを使うべきか」を決めるニーズが自然に生じるため。料金・機能・制限を比較でき、用途別の使い分け判断を補完します。"
+      "anchor": "ChatGPTとClaudeのどちらを選ぶべきか（料金・制限の違い）",
+      "reason": "本記事で触れた汎用AIでのメール作成を進める際、課金の要否や上限・機能差を把握する判断を補完できるため。"
     }
   ],
   "ai-for-beginners-intro": [],
   "ai-image-generators-comparison": [
     {
-      "slug": "chatgpt-plus-free-difference",
-      "anchor": "ChatGPTで画像生成するならPlusは必要？無料版との違いを確認",
-      "reason": "本記事でOpenAI（ChatGPT）を選びそうな読者が、画像生成でPlusが必要か・無料でも足りるかをすぐ判断できる。利用制限や品質の実感に直結し、意思決定を補完するため。"
+      "slug": "chatgpt-pricing-plans-comparison",
+      "anchor": "ChatGPTの料金プランの違いと画像生成の利用可否",
+      "reason": "元記事でOpenAI（ChatGPT／Images API）を候補に挙げているため、実運用でどのプランが画像生成に向くか（利用上限・商用条件・チーム利用）を具体的に判断する材料になる。"
     },
     {
-      "slug": "chatgpt-pricing-plans-comparison",
-      "anchor": "ChatGPTの料金プランの違いと選び方（Free/Plus/Business/Enterprise）",
-      "reason": "画像の商用利用やチームでの運用を検討する読者に、データ取り扱いと商用条件を含むプラン選択の判断材料を提供し、本記事の「料金・商用条件」の比較を具体化できる。"
+      "slug": "chatgpt-plus-free-difference",
+      "anchor": "画像生成目的でPlusは必要？無料版との違いを手早く確認",
+      "reason": "個人利用でまず試す読者が「Plusは必要か」を判断する次の一歩。画像生成の可否や上限の違いを押さえて最小コストで始められる。"
     }
   ],
   "ai-meeting-minutes-tools-comparison": [],
   "ai-presentation-tools-comparison": [
     {
-      "slug": "ai-video-generator-tools-comparison-pricing-usage",
-      "anchor": "プレゼン資料を動画化したい人向け：AI動画生成ツールの選び方",
-      "reason": "スライドをウェビナーや社内共有向けに動画化したいという次のニーズに直結。生成時間・画質・商用利用など、導入判断に必要な観点で比較されており意思決定を補完します。"
-    },
-    {
-      "slug": "ai-email-writing-tools-comparison",
-      "anchor": "Gmail/OutlookでのAIメール作成：フォロー連絡を効率化するには",
-      "reason": "発表後のフォローメール・アポ依頼・議事要約送付など、プレゼン後の実務にすぐつながる用途。同じMicrosoft/Google環境での活用という連続性があり、導入判断の比較情報が役立ちます。"
-    },
-    {
       "slug": "chatgpt-claude-gemini-pricing-comparison",
-      "anchor": "ChatGPT/Claude/Geminiの料金とプランの違いを押さえる",
-      "reason": "プレゼン生成のためにどの汎用AIに課金すべきか迷う読者向け。無料/有料の違いや上限・提供条件を整理でき、全体のコスト最適化に関する意思決定を補完します。"
+      "anchor": "ChatGPT/Claude/Geminiの料金と選び方",
+      "reason": "PowerPoint+Copilot／Googleスライド+Geminiを使う際の課金条件や上限の理解を補完でき、どのLLMに課金すべきかという次の意思決定に直結するため。"
+    },
+    {
+      "slug": "ai-video-generator-tools-comparison-pricing-usage",
+      "anchor": "AI動画生成ツールの比較と選び方",
+      "reason": "スライドではなく動画で説明したい、あるいは資料を動画化したいと考えた読者が自然に次に知りたいテーマ。料金・生成時間・商用利用の注意点までまとまっており、選定を補完できる。"
     }
   ],
   "ai-search-recommendations": [],
@@ -55,136 +56,132 @@
     {
       "slug": "gemini-pricing-plan-comparison",
       "anchor": "Geminiの料金プランの違いと選び方",
-      "reason": "元記事ではGoogleのVeoをGemini AdvancedやAPI経由で使う前提に触れており、実運用時の費用感と最適プラン選定を具体化する次の一手になるため。"
+      "reason": "記事内で言及のあるGoogle（Veo）の利用可否や費用感を詰める際に、どのGeminiプランが適切か判断する材料を補完できるため。"
     }
   ],
   "ai-writing-tools-comparison-japanese-quality-pricing-ux": [
     {
       "slug": "chatgpt-claude-pricing-feature-limits-comparison",
-      "anchor": "ChatGPTとClaudeの料金・機能差を用途別に比較した詳細版",
-      "reason": "元記事で候補を絞った後、実務で使う際の上限・入出力制限や得手不得手まで踏み込んで最終判断を補完できるため。"
+      "anchor": "ChatGPTとClaudeを用途別に選ぶための料金・機能・上限の比較",
+      "reason": "元記事で候補に挙がる主要2サービスを深掘りし、用途別の最適解と制限の違いまで把握できるため、最終判断を補完できます。"
     },
     {
       "slug": "chatgpt-claude-gemini-pricing-comparison",
-      "anchor": "ChatGPTの無料/Go/Plus/Proの違いと、導入前に確認すべきポイント",
-      "reason": "ChatGPTを試す場合に必ず悩むプラン選択と費用感を整理。Claude/Geminiを併せて検討する際の注意点も分かり、導入計画に直結するため。"
+      "anchor": "ChatGPTの無料／Go／Plus／Proの違いと選び方（Claude/Gemini検討時の注意点も）",
+      "reason": "ChatGPTを選ぶ場合に直面するプラン選びを整理し、他モデルとの比較観点も押さえられるため、導入判断に直結します。"
     },
     {
       "slug": "claude-pricing-plans-comparison-pro-max",
-      "anchor": "Claudeの無料版・Pro・Maxの違いと選び方",
-      "reason": "日本語の書き心地でClaudeに傾いた読者が、どのプランにするかを具体的に決める材料（上限リセットや機能差）を得られるため。"
+      "anchor": "Claudeの無料・Pro・Maxの違いと選び方",
+      "reason": "Claudeを採用する際の具体的なプラン差・上限・料金を確認でき、元記事の選定結果を実務に落とし込みやすくなります。"
     }
   ],
   "best-ai-translation-tools": [],
+  "bunken-reputation": [],
   "chatgpt-claude-gemini-pricing-comparison": [
     {
-      "slug": "chatgpt-claude-pricing-feature-limits-comparison",
-      "anchor": "ChatGPTとClaudeの料金・機能・制限を比較して選ぶ",
-      "reason": "本記事の基礎理解を踏まえて、Claudeと並べた用途別の最適解を具体化できるため。"
+      "slug": "chatgpt-plus-free-difference",
+      "anchor": "ChatGPT Plusと無料版の違いを詳しく確認する",
+      "reason": "元記事で全プランの概要を掴んだ後、実際に検討者が多いPlusへのアップグレード判断を具体的に補強できるため。料金・制限・向いている人が明確で意思決定を後押しします。"
     },
     {
-      "slug": "chatgpt-plus-free-difference",
-      "anchor": "ChatGPT Plusと無料版の違いを詳しく確認",
-      "reason": "無料からPlusへアップグレードすべきかを、制限やメリットの詳細で最終判断できるため。"
+      "slug": "chatgpt-claude-pricing-feature-limits-comparison",
+      "anchor": "ChatGPTとClaudeを料金・機能・制限で比較して選び分ける",
+      "reason": "元記事ではClaude/Geminiの確認ポイントに触れるに留まるため、次の一歩としてChatGPTとClaudeの実用的な比較に進みたい読者の疑問を解消します。用途別の最適解が分かります。"
     }
   ],
   "chatgpt-claude-pricing-feature-limits-comparison": [
     {
       "slug": "chatgpt-pricing-plans-comparison",
-      "anchor": "ChatGPT各プラン（Free/Plus/Business/Enterprise）の違いと選び方",
-      "reason": "本記事で比較した後、ChatGPTを採用する場合の最終プラン選定に直結する深掘り。個人・チーム・法人それぞれの判断を補完できる。"
+      "anchor": "ChatGPTの料金プラン（Free・Plus・Business・Enterprise）の違いと選び方",
+      "reason": "比較記事からChatGPT側を深掘り。個人・チーム・法人ごとの導入判断を具体化できるため。"
+    },
+    {
+      "slug": "chatgpt-plus-free-difference",
+      "anchor": "個人利用で無料とPlusどちらが自分に合うかを最速で判断",
+      "reason": "個人の意思決定をすぐ固めたい読者向け。Plusの価値と制限を短時間で把握できる。"
     },
     {
       "slug": "chatgpt-claude-gemini-pricing-comparison",
-      "anchor": "ChatGPTの無料／Go／Plus／Proの違いをやさしく整理",
-      "reason": "UIの個人向けプラン間の違いをもう一段具体化。Claude/Gemini検討時の確認ポイントも押さえられ、迷いを解消できる。"
-    },
-    {
-      "slug": "ai-email-writing-tools-comparison",
-      "anchor": "メール作成をAIに任せるならどのツールが最適か",
-      "reason": "本記事でサービスを選んだ後の代表的な用途（メール作成）への落とし込み。同じ用途のツール比較として次の実装判断に役立つ。"
+      "anchor": "はじめてのChatGPT料金整理（無料／Go／Plus／Pro）と、Gemini・Claudeを検討する際の確認ポイント",
+      "reason": "ChatGPTかClaudeかで迷いつつ「Geminiも含めて初期比較したい」という自然な次の疑問に応える入門ガイド。"
     }
   ],
   "chatgpt-plus-free-difference": [
     {
       "slug": "chatgpt-pricing-plans-comparison",
-      "anchor": "ChatGPTの各プランの違いと選び方",
-      "reason": "同じサービス内でFree/Plusに加えBusinessやEnterpriseも含めて比較でき、個人・チームの検討を含む意思決定を補完できるため。"
-    },
-    {
-      "slug": "chatgpt-claude-gemini-pricing-comparison",
-      "anchor": "無料・Go・Plus・Proの違いと、Claude/Geminiも含めた検討ポイント",
-      "reason": "Plusに課金すべきか迷う読者が、他のChatGPTプランや主要競合を横並びで把握したいという自然な次の疑問に応えるため。"
+      "anchor": "ChatGPTの全プランの違いと選び方を詳しく見る",
+      "reason": "Plus以外（Business/Enterprise）まで含めて比較でき、個人/チームでの最適プラン判断を補完できるため"
     },
     {
       "slug": "chatgpt-claude-pricing-feature-limits-comparison",
-      "anchor": "ChatGPTとClaudeの料金・機能・上限の比較",
-      "reason": "同じ用途での代替候補を具体的に比較でき、料金だけでなく利用上限・得意分野まで含めた最適解の判断材料になるため。"
+      "anchor": "ChatGPTとClaudeを用途別に比較して最適解を確認",
+      "reason": "Plusに課金する前に主要代替（Claude）との料金・制限・得意分野を横比較したいニーズに直結するため"
     }
   ],
   "chatgpt-pricing-plans-comparison": [
     {
       "slug": "chatgpt-plus-free-difference",
-      "anchor": "Plusにするべきかを素早く見極めたい方はこちら",
-      "reason": "同じサービス内でFreeとPlusに特化して判断を深掘りでき、個人利用の最終決定を補完します。"
+      "anchor": "ChatGPT Plusは無料版と何が違うかを詳しく知る",
+      "reason": "本記事で全プランを俯瞰した後、個人利用で最も迷いやすいFreeとPlusの最終判断を素早く下せるよう、同一サービス内の詳細比較で意思決定を補完します。"
     },
     {
       "slug": "chatgpt-claude-pricing-feature-limits-comparison",
-      "anchor": "ChatGPTとClaudeを用途別に比べて最適な選択肢を確認する",
-      "reason": "ChatGPT内のプラン比較の次に自然に生じる「他社と比べるべきか」という疑問に答え、用途ごとの最適解で意思決定を補強します。"
+      "anchor": "ChatGPTとClaudeの料金・機能・制限を用途別に比較する",
+      "reason": "ChatGPT内のプラン比較を終えた読者が、次に「ChatGPTでよいか、Claudeが適するか」を検討する自然な流れ。用途別に強みと制限を横並びで確認でき、選択を後押しします。"
     },
     {
       "slug": "chatgpt-claude-gemini-pricing-comparison",
-      "anchor": "ChatGPT／Claude／Geminiの料金と選び方の全体像をさっと把握する",
-      "reason": "主要3サービスを横断して初期検討の抜け漏れをチェックでき、最終判断前の見落とし防止に役立ちます。"
+      "anchor": "ChatGPT各プランの要点とClaude/Geminiの料金もあわせて確認する",
+      "reason": "他社も含めた費用感と検討ポイントを短時間で把握したい読者向け。価格・プラン体系の違いを俯瞰し、予算と要件のすり合わせに役立ちます。"
     }
   ],
   "chatgpt-summarize-method": [
     {
-      "slug": "chatgpt-claude-gemini-pricing-comparison",
-      "anchor": "長文要約に合うChatGPTのプランを選ぶ（無料／Go／Plus／Proの違い）",
-      "reason": "元記事はファイル添付や上限に触れており、実運用でどのプランが必要かが次の判断になるため。要約用途での必要機能・制限を踏まえたプラン選定を補完できる（4・5）。"
+      "slug": "chatgpt-plus-free-difference",
+      "anchor": "無料版とPlusの違いを手早く確認する",
+      "reason": "長文要約では添付やトークン上限・速度が実用性に直結するため、初心者が「無料のままで足りるか／Plusにするべきか」を即判断できる補完情報になります。"
     },
     {
       "slug": "chatgpt-claude-pricing-feature-limits-comparison",
-      "anchor": "長文要約ならChatGPTとClaudeどちらが向いている？",
-      "reason": "同じ“長文要約”用途での比較記事。トークン上限や精度、料金の観点で両者を比べ、どちらを使うべきかの意思決定を具体化できる（2・5）。"
+      "anchor": "ChatGPTとClaudeの料金・機能・上限の違いを比較する",
+      "reason": "分割→統合や大容量要約を検討する読者にとって、長文に強いモデルや上限の差は意思決定ポイント。ChatGPT単独ではなくClaudeとの比較で最適な選択を後押しできます。"
     }
   ],
   "claude-pricing-plans-comparison-pro-max": [
     {
-      "slug": "claude-usage-limit-reset",
-      "anchor": "上限リセットのタイミングと今すぐ使う方法",
-      "reason": "元記事で触れた利用制限の具体的な仕組みと対処法を深掘りでき、読者の直近の疑問を解消できるため。"
+      "slug": "chatgpt-claude-pricing-feature-limits-comparison",
+      "anchor": "ChatGPTとClaudeの違いを用途別に整理",
+      "reason": "Claude Pro/Maxと他社のどちらを選ぶかで迷う読者に、料金・機能・上限を横並びで比較できるため意思決定を補完。"
     },
     {
-      "slug": "chatgpt-claude-pricing-feature-limits-comparison",
-      "anchor": "ChatGPTとClaudeの違い（料金・機能・制限）",
-      "reason": "Claudeの各プランを理解したうえで、他サービスとの横比較で最適な選択を支援できるため（意思決定の補完）。"
+      "slug": "claude-usage-limit-reset",
+      "anchor": "Claudeの利用制限リセット時刻と今すぐ使う方法",
+      "reason": "元記事で触れた上限リセットをさらに詳しく解説しており、実務上の対処に直結。"
     },
     {
       "slug": "chatgpt-claude-gemini-pricing-comparison",
-      "anchor": "ChatGPTの無料／Go／Plus／Proの違いと選び方",
-      "reason": "比較検討の次段階として、ChatGPT側のプラン詳細を把握しやすく、乗り換えや併用判断に役立つため。"
+      "anchor": "ChatGPTの料金プランの考え方とClaude/Gemini検討時のチェックポイント",
+      "reason": "代替候補としてChatGPTの各プランを把握したい読者に有用で、予算・プラン選定の比較検討を補強。"
     }
   ],
   "claude-usage-limit-reset": [
     {
       "slug": "claude-pricing-plans-comparison-pro-max",
-      "anchor": "Claudeの各プランの上限と違いを確認する",
-      "reason": "同じサービスをより詳しく説明しており、上限リセットや追加使用クレジットを検討する際の判断材料になる（優先1・5）。"
+      "anchor": "Pro/Maxにすると上限や使える機能はどう変わる？",
+      "reason": "同じサービス内での上限リセットや利用可能量・機能差を詳しく把握でき、元記事の「今すぐ続けたい時の対処（プラン検討）」の意思決定を補完します。"
     },
     {
       "slug": "chatgpt-claude-pricing-feature-limits-comparison",
-      "anchor": "ClaudeとChatGPTを上限・料金で比べて最適な選び方を知る",
-      "reason": "利用制限で悩む読者が、用途別にどちらを使うべきかを検討できる比較記事で、次の意思決定を補完する（優先2・5）。"
+      "anchor": "用途に合わせてChatGPTとClaudeを比べて選ぶ",
+      "reason": "Claudeの上限に頻繁に当たる場合の代替検討という自然な次の疑問に対し、料金・機能・利用制限の違いを横並びで確認でき、最適な選択に役立ちます。"
     }
   ],
   "cursor-pricing-plans-comparison": [
     {
       "slug": "ai-codegen-tools-comparison",
-      "anchor": "他のAIコード生成ツールとの比較を詳しく見る",
-      "reason": "Cursorの料金・機能を理解した読者が、他ツール（同じ用途）の料金や対応IDE、コード品質・使いやすさと比較して最終判断するのに役立つため。元記事の意思決定を補完する流れとして自然です。"
+      "anchor": "他のAIコード生成ツール（CopilotやCodeium等）との料金・機能比較を確認する",
+      "reason": "Cursorのプラン選定後に、同用途ツールと価格・対応IDE・コード品質を横並びで比較して最適解を検討できるため。"
     }
   ],
   "deepl-pricing-plans-guide": [],
@@ -192,18 +189,18 @@
   "gemini-pricing-plan-comparison": [
     {
       "slug": "chatgpt-claude-gemini-pricing-comparison",
-      "anchor": "ChatGPTの料金と、Gemini/Claudeを比較検討するポイント",
-      "reason": "Geminiのプラン選びと迷いやすい他サービス（ChatGPT/Claude）との料金・違いを横並びで確認でき、最終判断を補完できる"
+      "anchor": "ChatGPT・ClaudeとGeminiの料金と違いを比較する",
+      "reason": "Geminiの各プランを検討した上で、他サービスと横並びで比較して最終判断したい読者ニーズを補完する（意思決定の後押し）。"
     },
     {
       "slug": "ai-email-writing-tools-comparison",
-      "anchor": "メール作成に強いAIツールの比較（Gmail/Outlook対応）",
-      "reason": "Workspace連携やメール作成が主目的の場合、Gemini有料化の費用対効果を他ツールと比較して検討できる"
+      "anchor": "メール作成をAIで効率化したい人向けのツール比較（Gmail/Outlook対応）",
+      "reason": "Geminiを主にメール下書き用途で使うか迷う読者に対し、同用途の専用ツール比較で選び方を具体化できる（用途別の補完）。"
     },
     {
-      "slug": "ai-codegen-tools-comparison",
-      "anchor": "開発用途なら：AIコード生成ツールの比較",
-      "reason": "コーディング目当てでGeminiを検討している読者に、専用ツールとの機能・料金・IDE対応の比較という次の判断材料を提供できる"
+      "slug": "ai-presentation-tools-comparison",
+      "anchor": "プレゼン資料作成をAIで進めたい人向けの比較ガイド",
+      "reason": "スライド作成などの実務用途が関心軸の場合、同用途のツール比較で最適解を絞り込みやすくする（用途別の補完）。"
     }
   ],
   "value-ai-writer-reputation-review": []
