@@ -1639,7 +1639,8 @@ def run_social_distribution(
     同一記事の未投稿SNS候補を
     最新記事内容で更新する。
 
-    通常運転ではX・Instagramを自動承認し、即時投稿する。
+    通常運転ではX・Instagramを自動承認し、
+    Instagramの7秒リールも生成する。
     全記事更新などではauto_publish=Falseを指定する。
     """
 
@@ -1731,8 +1732,21 @@ def run_social_distribution(
             f"{slug}"
         )
 
+    result = run_python_module(
+        "engines.instagram_reel_generator",
+        log_file,
+        arguments=[slug],
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "Instagramリール生成に"
+            "失敗しました："
+            f"{slug}"
+        )
+
     log(
-        "X・Instagram投稿を自動承認しました："
+        "X・Instagram投稿を自動承認し、リールを生成しました："
         f"{slug}",
         log_file,
     )
@@ -1748,6 +1762,7 @@ def run_social_publishers(
     ・Social Publish Routerでapprovedをready化
     ・X PublisherでXへ投稿
     ・Instagram PublisherでInstagramへ投稿
+    ・Instagram Reel Publisherで7秒リールを投稿
 
     各Publisherは1回の実行につき
     最大1件だけ実投稿する。
@@ -1817,6 +1832,27 @@ def run_social_publishers(
             "失敗しました。"
         )
 
+    # -----------------------------------------------------
+    # 4. Instagram Reel
+    # -----------------------------------------------------
+
+    result = run_python_module(
+        "engines.instagram_reel_publisher",
+        log_file,
+        arguments=[
+            "--apply",
+            "--article-slug",
+            article_slug,
+        ],
+    )
+    result_reel = result
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            "Instagram Reel Publisherに"
+            "失敗しました。"
+        )
+
     log(
         "承認済みSNS投稿の"
         "配信処理が完了しました。",
@@ -1825,7 +1861,8 @@ def run_social_publishers(
 
     x_ok = "Xへの投稿が完了しました。" in (result_x.stdout or "")
     instagram_ok = "Instagramへの投稿が完了しました。" in (result_instagram.stdout or "")
-    return x_ok and instagram_ok
+    reel_ok = "Instagramリールへの投稿が完了しました。" in (result_reel.stdout or "")
+    return x_ok and instagram_ok and reel_ok
 
 
 def run_refresh_all_articles() -> None:
@@ -2143,6 +2180,17 @@ def run_refresh_all_articles() -> None:
                 publish_paths.append(
                     instagram_image_path
                 )
+
+            instagram_reel_path = (
+                BASE_DIR.parent
+                / "public"
+                / "images"
+                / "social"
+                / f"{slug}-instagram-reel.mp4"
+            )
+
+            if instagram_reel_path.exists():
+                publish_paths.append(instagram_reel_path)
 
         # 同一Pathが複数入った場合に備えて重複除去
         publish_paths = list(
@@ -3083,6 +3131,17 @@ def main(
                         instagram_image_path
                     )
 
+                instagram_reel_path = (
+                    BASE_DIR.parent
+                    / "public"
+                    / "images"
+                    / "social"
+                    / f"{new_article_path.stem}-instagram-reel.mp4"
+                )
+
+                if instagram_reel_path.exists():
+                    publish_paths.append(instagram_reel_path)
+
             elif (
                 action == "rewrite_article"
                 and rewritten_article_path
@@ -3104,6 +3163,24 @@ def main(
                     publish_paths.append(
                         blog_image_path
                     )
+
+                instagram_image_path = (
+                    BASE_DIR.parent
+                    / "public"
+                    / "images"
+                    / "social"
+                    / f"{rewritten_article_path.stem}-instagram.png"
+                )
+                instagram_reel_path = (
+                    BASE_DIR.parent
+                    / "public"
+                    / "images"
+                    / "social"
+                    / f"{rewritten_article_path.stem}-instagram-reel.mp4"
+                )
+                for social_path in (instagram_image_path, instagram_reel_path):
+                    if social_path.exists():
+                        publish_paths.append(social_path)
 
             pushed = (
                 publish_additional_files(
@@ -3316,6 +3393,7 @@ def main(
                 BASE_DIR.parent / "public" / "images" / "blog" / f"{new_article_path.stem}.png",
                 BASE_DIR.parent / "public" / "images" / "blog" / f"{new_article_path.stem}.webp",
                 BASE_DIR.parent / "public" / "images" / "social" / f"{new_article_path.stem}-instagram.png",
+                BASE_DIR.parent / "public" / "images" / "social" / f"{new_article_path.stem}-instagram-reel.mp4",
             )
             removed = 0
             for path in cleanup_targets:

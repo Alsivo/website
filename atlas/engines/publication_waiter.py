@@ -15,6 +15,7 @@ def wait_until_public(slug: str, timeout_seconds: int = 300) -> bool:
     urls = [
         f"{SITE_URL}/blog/{slug}",
         f"{SITE_URL}/images/social/{slug}-instagram.png",
+        f"{SITE_URL}/images/social/{slug}-instagram-reel.mp4",
     ]
     deadline = time.monotonic() + timeout_seconds
     while time.monotonic() < deadline:

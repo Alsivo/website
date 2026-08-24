@@ -262,9 +262,14 @@ export default async function BlogPostPage({
 
   const articleContent =
     removeArticleCta(
-      post.content,
-      "after_toc",
-      "primary",
+      removeArticleCta(
+        removeArticleCta(
+          post.content,
+          "after_toc",
+        ),
+        "after_comparison",
+      ),
+      "before_faq",
     );
 
   const isAffiliateArticle =

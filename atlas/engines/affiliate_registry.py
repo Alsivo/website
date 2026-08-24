@@ -181,10 +181,14 @@ def load_affiliate_registry() -> dict[str, dict[str, Any]]:
             try:
                 parsed_ad = parse_ad_source(ad_source)
             except ValueError as error:
-                raise ValueError(f"{tool_name}の広告ソースが不正です。") from error
+                raise ValueError(
+                    f"{tool_name}の広告ソース／紹介URLが不正です。"
+                ) from error
 
         if affiliate_status == "active" and not parsed_ad and not affiliate_url:
-            raise ValueError(f"{tool_name}はactiveですが、広告ソースが未入力です。")
+            raise ValueError(
+                f"{tool_name}はactiveですが、広告ソース／紹介URLが未入力です。"
+            )
 
         validated[tool_name.strip()] = {
             "official_url": official_url.strip(),

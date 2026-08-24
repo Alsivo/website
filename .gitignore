@@ -67,6 +67,9 @@ atlas/data/rewrite_backups/
 #Atlas SNS
 atlas/data/social/
 
+# Local licensed media assets (do not redistribute)
+atlas/local_assets/
+
 # Atlas local affiliate submission exports
 atlas/exports/
 

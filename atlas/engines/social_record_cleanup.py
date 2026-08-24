@@ -13,6 +13,7 @@ FILES = (
     (BASE_DIR / "data" / "social" / "social_queue.json", "queue"),
     (BASE_DIR / "data" / "social" / "social_approval_queue.json", "queue"),
     (BASE_DIR / "data" / "social" / "social_publish_routes.json", "routes"),
+    (BASE_DIR / "data" / "social" / "instagram_reel_history.json", "items"),
 )
 
 

@@ -169,7 +169,7 @@ class App:
         form=ttk.Frame(right); form.pack(fill=X); self.aff_status=StringVar(value="申請中"); self.aff_program_id=StringVar(); self.aff_note=StringVar()
         ttk.Label(form,text="新しい状態").grid(row=0,column=0,sticky=W,pady=4); ttk.Combobox(form,textvariable=self.aff_status,values=tuple(STATUS_LABELS.values()),state="readonly").grid(row=0,column=1,sticky="ew",padx=(8,0),pady=4)
         ttk.Label(form,text="プログラムID").grid(row=1,column=0,sticky=W,pady=4); ttk.Entry(form,textvariable=self.aff_program_id).grid(row=1,column=1,sticky="ew",padx=(8,0),pady=4)
-        ttk.Label(form,text="広告ソース").grid(row=2,column=0,sticky="nw",pady=4); self.aff_ad_source=Text(form,wrap="word",height=5,font=("Consolas",8)); self.aff_ad_source.grid(row=2,column=1,sticky="ew",padx=(8,0),pady=4)
+        ttk.Label(form,text="広告ソース／紹介URL").grid(row=2,column=0,sticky="nw",pady=4); self.aff_ad_source=Text(form,wrap="word",height=5,font=("Consolas",8)); self.aff_ad_source.grid(row=2,column=1,sticky="ew",padx=(8,0),pady=4)
         ttk.Label(form,text="PR内容・掲載条件").grid(row=3,column=0,sticky="nw",pady=4); self.aff_promotion=Text(form,wrap="word",height=4,font=("Yu Gothic UI",9)); self.aff_promotion.grid(row=3,column=1,sticky="ew",padx=(8,0),pady=4)
         ttk.Label(form,text="メモ").grid(row=4,column=0,sticky=W,pady=4); ttk.Entry(form,textvariable=self.aff_note).grid(row=4,column=1,sticky="ew",padx=(8,0),pady=4); form.columnconfigure(1,weight=1)
         ttk.Button(right,text="状態を保存",style="Accent.TButton",command=self.save_affiliate).pack(anchor="e",pady=(10,0))
@@ -201,7 +201,7 @@ class App:
         if not selected: messagebox.showinfo("記事の取り下げ","対象記事を選択してください。"); return
         slug=selected[0]
         if not messagebox.askyesno("最終確認",f"「{slug}」を本番サイトから取り下げますか？\n\n記事・画像・関連記事・SNS管理記録を整理し、A8.net提出用CSVを再作成します。\n削除内容はGitへコミットしてpushします。\n\nXとInstagramの実投稿は自動削除せず、削除先を案内します。\n削除前のファイルはPC内へバックアップします。"): return
-        targets=[BLOG/f"{slug}.mdx",BLOG_IMAGES/f"{slug}.png",BLOG_IMAGES/f"{slug}.webp",SOCIAL_IMAGES/f"{slug}-instagram.png"]; existing=[p.resolve() for p in targets if p.exists()]; allowed={BLOG.resolve(),BLOG_IMAGES.resolve(),SOCIAL_IMAGES.resolve()}
+        targets=[BLOG/f"{slug}.mdx",BLOG_IMAGES/f"{slug}.png",BLOG_IMAGES/f"{slug}.webp",SOCIAL_IMAGES/f"{slug}-instagram.png",SOCIAL_IMAGES/f"{slug}-instagram-reel.mp4"]; existing=[p.resolve() for p in targets if p.exists()]; allowed={BLOG.resolve(),BLOG_IMAGES.resolve(),SOCIAL_IMAGES.resolve()}
         if not existing or any(p.parent not in allowed for p in existing): messagebox.showerror("安全確認エラー","対象を安全に特定できませんでした。"); return
         backup=ARTICLE_BACKUPS/datetime.now().strftime("%Y%m%d-%H%M%S")/slug; backup.mkdir(parents=True,exist_ok=False); rel=[]
         x_urls,instagram_published=social_post_urls(slug)
@@ -249,7 +249,7 @@ class App:
         item=self.selected_affiliate()
         if not item:messagebox.showinfo("案件管理","対象案件を選択してください。");return
         status=STATUS_VALUES[self.aff_status.get()]; ad_source=self.aff_ad_source.get("1.0",END).strip()
-        if status=="approved" and not ad_source:messagebox.showwarning("広告ソースが必要です","承認済みの場合はASPが発行した広告ソースを入力してください。");return
+        if status=="approved" and not ad_source:messagebox.showwarning("広告情報が必要です","承認済みの場合はASPが発行した広告ソース、または紹介URLを入力してください。");return
         program_id=self.aff_program_id.get().strip()
         if str(item.get("network","")).strip().lower()=="a8.net" and status=="approved" and not program_id:messagebox.showwarning("プログラムIDが必要です","A8.netの承認済み案件にはプログラムIDを入力してください。");return
         promotion=self.aff_promotion.get("1.0",END).strip(); args=["add","--service",str(item.get("service","")),"--program-name",str(item.get("program_name","")),"--network",str(item.get("network","")),"--program-url",str(item.get("program_url","")),"--program-id",program_id,"--commission",str(item.get("commission","")),"--promotion-details",promotion,"--status",status,"--ad-source",ad_source,"--notes",self.aff_note.get().strip()]; self.background("案件状態を更新中...",lambda:run_module("engines.affiliate_manual_manager",*args),self.refresh_affiliates)
@@ -257,13 +257,13 @@ class App:
     def add_dialog(self) -> None:
         dialog=Toplevel(self.root);dialog.title("新規アフィリエイト案件");dialog.geometry("760x760");dialog.transient(self.root);dialog.grab_set(); keys=("service","program_name","network","program_url","program_id","notes"); fields={k:StringVar() for k in keys};fields["status"]=StringVar(value="申請予定"); labels=(("サービス名（記事で使う名称・必須）","service"),("ASP案件名（正式名称・任意）","program_name"),("ASP・運営元","network"),("申請ページURL","program_url"),("プログラムID（A8.net）","program_id"),("現在の状態","status"),("メモ","notes"));form=ttk.Frame(dialog,padding=16);form.pack(fill=BOTH,expand=True)
         for row,(label,key) in enumerate(labels): ttk.Label(form,text=label).grid(row=row,column=0,sticky=W,pady=6); widget=ttk.Combobox(form,textvariable=fields[key],values=tuple(STATUS_LABELS.values()),state="readonly") if key=="status" else ttk.Entry(form,textvariable=fields[key]); widget.grid(row=row,column=1,sticky="ew",padx=(10,0),pady=6)
-        ad_row=len(labels); ttk.Label(form,text="広告ソース（承認済みの場合）").grid(row=ad_row,column=0,sticky="nw",pady=6); ad_source_widget=Text(form,wrap="word",height=7,font=("Consolas",8)); ad_source_widget.grid(row=ad_row,column=1,sticky="nsew",padx=(10,0),pady=6)
+        ad_row=len(labels); ttk.Label(form,text="広告ソース／紹介URL（承認済みの場合）").grid(row=ad_row,column=0,sticky="nw",pady=6); ad_source_widget=Text(form,wrap="word",height=7,font=("Consolas",8)); ad_source_widget.grid(row=ad_row,column=1,sticky="nsew",padx=(10,0),pady=6)
         pr_row=ad_row+1; ttk.Label(form,text="PR内容・掲載条件").grid(row=pr_row,column=0,sticky="nw",pady=6); promotion_widget=Text(form,wrap="word",height=6,font=("Yu Gothic UI",9)); promotion_widget.grid(row=pr_row,column=1,sticky="nsew",padx=(10,0),pady=6)
         form.columnconfigure(1,weight=1)
         def save() -> None:
             service=fields["service"].get().strip();status=STATUS_VALUES[fields["status"].get()]
             if not service:messagebox.showwarning("入力不足","サービス名を入力してください。",parent=dialog);return
-            if status=="approved" and not ad_source_widget.get("1.0",END).strip():messagebox.showwarning("入力不足","承認済みには広告ソースが必要です。",parent=dialog);return
+            if status=="approved" and not ad_source_widget.get("1.0",END).strip():messagebox.showwarning("入力不足","承認済みには広告ソース、または紹介URLが必要です。",parent=dialog);return
             if fields["network"].get().strip().lower()=="a8.net" and status=="approved" and not fields["program_id"].get().strip():messagebox.showwarning("入力不足","A8.netの承認済み案件にはプログラムIDが必要です。",parent=dialog);return
             args=["add","--service",service,"--program-name",fields["program_name"].get().strip(),"--network",fields["network"].get().strip(),"--program-url",fields["program_url"].get().strip(),"--program-id",fields["program_id"].get().strip(),"--promotion-details",promotion_widget.get("1.0",END).strip(),"--status",status,"--ad-source",ad_source_widget.get("1.0",END).strip(),"--notes",fields["notes"].get().strip()];dialog.destroy();self.background("新規案件を保存中...",lambda:run_module("engines.affiliate_manual_manager",*args),self.refresh_affiliates)
         ttk.Button(form,text="案件を追加",style="Accent.TButton",command=save).grid(row=pr_row+1,column=1,sticky="e",pady=(14,0))

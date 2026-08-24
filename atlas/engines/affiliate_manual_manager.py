@@ -111,7 +111,7 @@ def add_program(args: argparse.Namespace) -> None:
         raise ValueError("サービス名が必要です。")
     parsed_ad = parse_ad_source(args.ad_source) if args.ad_source.strip() else {}
     if args.status == "approved" and not parsed_ad:
-        raise ValueError("承認済み案件には広告ソースが必要です。")
+        raise ValueError("承認済み案件には広告ソース、または紹介URLが必要です。")
 
     program_data = load_json(PROGRAM_FILE, {"programs": []})
     queue_data = load_json(QUEUE_FILE, {"programs": []})
@@ -324,7 +324,10 @@ def import_programs_csv(csv_path: Path) -> None:
             try:
                 parse_ad_source(args.ad_source)
             except ValueError as error:
-                raise ValueError(f"{line_number}行目: 承認済み案件には正しい広告ソースが必要です。") from error
+                raise ValueError(
+                    f"{line_number}行目: 承認済み案件には正しい広告ソース、"
+                    "またはhttpから始まる紹介URLが必要です。"
+                ) from error
         if args.network.lower() == "a8.net" and status == "approved" and not args.program_id:
             raise ValueError(f"{line_number}行目: A8.netの承認済み案件にはプログラムIDが必要です。")
         prepared.append(args)

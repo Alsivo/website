@@ -44,10 +44,21 @@ class _AdSourceParser(HTMLParser):
 
 
 def parse_ad_source(source: str) -> dict[str, Any]:
-    """リンク、表示バナー、計測ピクセルを抽出する。"""
+    """ASPのHTML広告ソース、または紹介URL単体を解析する。"""
+
+    raw_source = source.strip()
+    direct_url = _safe_http_url(raw_source)
+    if direct_url:
+        return {
+            "href": direct_url,
+            "banner_src": "",
+            "banner_width": 0,
+            "banner_height": 0,
+            "tracking_pixel_src": "",
+        }
 
     parser = _AdSourceParser()
-    parser.feed(source.strip())
+    parser.feed(raw_source)
     banner = next(
         (image for image in parser.images if not (image["width"] <= 1 and image["height"] <= 1)),
         None,
@@ -57,7 +68,10 @@ def parse_ad_source(source: str) -> dict[str, Any]:
         None,
     )
     if not parser.href or banner is None:
-        raise ValueError("広告ソースからリンク先またはバナー画像を読み取れません。")
+        raise ValueError(
+            "広告ソースからリンク先とバナー画像を読み取れません。"
+            "紹介URLだけを利用する案件は、httpから始まるURLを入力してください。"
+        )
     return {
         "href": parser.href,
         "banner_src": banner["src"],
