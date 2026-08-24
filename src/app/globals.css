@@ -2208,10 +2208,14 @@ main {
   background: var(--surface);
 }
 
+.home-popular {
+  background: var(--background);
+}
+
 .home-latest-grid {
   display: grid;
   grid-template-columns:
-    repeat(3, minmax(0, 1fr));
+    repeat(2, minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -2716,7 +2720,12 @@ main {
 .character-dialogue-cibo { flex-direction: row-reverse; }
 .character-dialogue-person { flex: 0 0 86px; display: flex; flex-direction: column; align-items: center; gap: 7px; }
 .character-dialogue-portrait { position: relative; flex: 0 0 86px; width: 86px; height: 86px; overflow: hidden; border-radius: 50%; background: #edf7fb; border: 3px solid #fff; box-shadow: 0 6px 20px rgba(25,70,98,.14); }
-.character-dialogue-portrait img { object-fit: cover; object-position: center top; }
+.character-dialogue-portrait img {
+  object-fit: cover;
+  object-position: center top;
+  transform: scale(1.65);
+  transform-origin: center 18%;
+}
 .character-dialogue-body { max-width: min(78%, 660px); }
 .character-dialogue-cibo .character-dialogue-body { display: flex; flex-direction: column; align-items: flex-end; }
 .character-dialogue-name { display: block; color: #315b74; font-weight: 800; font-size: .82rem; text-align: center; }
@@ -2845,4 +2854,146 @@ main {
   .home-about-portrait { width: 110px; flex-basis: 138px; }
   .home-about-character p::before, .home-about-cibo p::after { top: -10px; left: 50%; right: auto; border: 0; border-top: 1px solid #dce9ef; border-left: 1px solid #dce9ef; transform: translateX(-50%) rotate(45deg); }
   .blog-hero-character span { font-size: 1.05rem; }
+}
+
+/* ==========================================================
+   2026-08 layout refinements
+   ========================================================== */
+
+.blog-page {
+  padding-top: 78px;
+}
+
+.blog-page .page-hero {
+  padding-top: 38px;
+  padding-bottom: 38px;
+}
+
+.blog-page .page-hero-with-characters {
+  grid-template-columns: minmax(0, .85fr) minmax(520px, 1.15fr);
+  gap: 24px;
+}
+
+.blog-page .blog-hero-characters {
+  gap: 18px;
+}
+
+.blog-page .blog-hero-character span {
+  width: max-content;
+  max-width: 100%;
+  padding-inline: 18px;
+  font-size: 1.12rem;
+  white-space: nowrap;
+}
+
+.home-about h2 {
+  max-width: none;
+  margin-bottom: 14px;
+  font-size: clamp(18px, 3.05vw, 40px);
+  letter-spacing: -.045em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.home-about-character {
+  width: min(680px, 84%);
+}
+
+.home-about-al {
+  margin-right: auto;
+}
+
+.home-about-cibo {
+  width: min(680px, 84%);
+  margin-left: auto;
+}
+
+.home-about-character p {
+  font-size: 1.29rem;
+  line-height: 1.75;
+}
+
+.article-layout {
+  display: block;
+}
+
+.article-body-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 44px;
+  align-items: start;
+}
+
+.article-body-main {
+  min-width: 0;
+}
+
+.article-body-layout > .article-sidebar {
+  margin-top: 52px;
+}
+
+.article-toc-title,
+.article-toc li {
+  font-size: 21px;
+}
+
+.article-toc-level-3 {
+  font-size: 19.5px !important;
+}
+
+.article-toc li:not(.article-toc-level-3)::before,
+.article-toc-level-3::before {
+  font-size: 16.5px;
+}
+
+.character-dialogue-bubble {
+  font-size: 1.5rem;
+}
+
+.character-dialogue-name {
+  font-size: 1.23rem;
+}
+
+.article-story-promise p {
+  font-size: 1.5rem;
+}
+
+.article-story-promise strong {
+  font-size: 1.17rem;
+}
+
+.article-table {
+  font-size: 21px;
+}
+
+.affiliate-cta-eyebrow { font-size: 16.5px; }
+.affiliate-cta-service { font-size: 33px; }
+.affiliate-cta-description, .affiliate-cta-link { font-size: 21px; }
+.affiliate-cta-arrow { font-size: 24px; }
+.affiliate-cta-disclosure { font-size: 15px; }
+
+@media (max-width: 1180px) {
+  .article-body-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .article-body-layout > .article-sidebar {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 800px) {
+  .blog-page { padding-top: 70px; }
+  .blog-page .page-hero { padding: 30px 20px 34px; }
+  .blog-page .page-hero-with-characters { grid-template-columns: 1fr; }
+  .blog-page .blog-hero-character span { font-size: .92rem; }
+  .home-about-character, .home-about-cibo { width: 100%; }
+  .home-about-character p { font-size: 1.1rem; }
+  .character-dialogue-bubble { font-size: 1.2rem; }
+  .article-story-promise p { font-size: 1.15rem; }
+  .article-toc-title, .article-toc li { font-size: 17px; }
+  .article-toc-level-3 { font-size: 16px !important; }
+  .article-table { font-size: 17px; }
+  .affiliate-cta-service { font-size: 27px; }
+  .affiliate-cta-description, .affiliate-cta-link { font-size: 17px; }
 }

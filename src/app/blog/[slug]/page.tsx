@@ -353,6 +353,8 @@ export default async function BlogPostPage({
             )}
           </div>
 
+          <div className="article-body-layout">
+          <div className="article-body-main">
 
           {/* ===============================================
               Hero image
@@ -474,7 +476,7 @@ export default async function BlogPostPage({
               ? articleH2Sections.map(
                   (section, index) => (
                     <div
-                      className="article-cta-section"
+                      className={`article-cta-section${section.startsWith("## よくある質問") ? " article-faq-section" : ""}`}
                       key={`article-section-${index}`}
                     >
                       <MdxContent
@@ -506,7 +508,6 @@ export default async function BlogPostPage({
                   />
                 )}
           </div>
-
 
           {/* ===============================================
               Related articles
@@ -624,8 +625,11 @@ export default async function BlogPostPage({
             </section>
           )}
 
+          </div>
+          <ArticleSidebar popular={sidebarPopular} latest={sidebarLatest.length > 0 ? sidebarLatest : [post]} />
+          </div>
+
         </article>
-        <ArticleSidebar popular={sidebarPopular} latest={sidebarLatest.length > 0 ? sidebarLatest : [post]} />
       </main>
     </>
   );

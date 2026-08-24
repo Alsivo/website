@@ -1717,9 +1717,15 @@ def _create_character_dialogue_image(article: dict[str, Any], output_path: Path,
     image.alpha_composite(cibo, cibo_position)
     upper = (al_position[0] + al.width - 14, int(height * .08), width - 52, int(height * .40))
     lower = (52, int(height * .57), cibo_position[0] + 14, int(height * .91))
+    longest_copy = max(len(get_image_title(article)), len(get_image_subtitle(article)))
+    if instagram:
+        common_copy_size = 38 if longest_copy <= 38 else 34 if longest_copy <= 65 else 30
+    else:
+        common_copy_size = 40 if longest_copy <= 38 else 36 if longest_copy <= 65 else 32
+    common_copy_font = font(common_copy_size)
     for box, side, copy, copy_font, fill in (
-        (upper, "left", get_image_title(article), font(37 if instagram else 36), (248, 252, 255, 242)),
-        (lower, "right", get_image_subtitle(article), font(31 if instagram else 30), (238, 249, 251, 242)),
+        (upper, "left", get_image_title(article), common_copy_font, (248, 252, 255, 242)),
+        (lower, "right", get_image_subtitle(article), common_copy_font, (238, 249, 251, 242)),
     ):
         draw.rounded_rectangle(box, radius=28, fill=fill, outline=BORDER, width=3)
         middle_y = int((box[1] + box[3]) / 2)

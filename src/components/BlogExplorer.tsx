@@ -185,9 +185,6 @@ export default function BlogExplorer({
 
                   <div className="article-card-image-overlay" />
 
-                  <span className="article-card-category">
-                    {article.category}
-                  </span>
                 </div>
 
                 <div className="article-card-body">

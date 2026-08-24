@@ -5,21 +5,21 @@ type Speaker = "al" | "cibo";
 
 const portraits: Record<Speaker, Record<string, string>> = {
   al: {
-    worried: "/images/characters/al-upper-body-v1.png",
-    surprised: "/images/characters/al-upper-body-v1.png",
-    happy: "/images/characters/al-upper-body-v1.png",
-    sad: "/images/characters/al-upper-body-v1.png",
-    thinking: "/images/characters/al-upper-body-v1.png",
-    determined: "/images/characters/al-upper-body-v1.png",
+    worried: "/images/characters/al-worried.png",
+    surprised: "/images/characters/al-surprised.png",
+    happy: "/images/characters/al-happy.png",
+    sad: "/images/characters/al-sad.png",
+    thinking: "/images/characters/al-thinking.png",
+    determined: "/images/characters/al-determined.png",
     default: "/images/characters/al-upper-body-v1.png",
   },
   cibo: {
-    concerned: "/images/characters/cibo-upper-body-v1.png",
-    surprised: "/images/characters/cibo-upper-body-v1.png",
-    happy: "/images/characters/cibo-upper-body-v1.png",
-    empathetic: "/images/characters/cibo-upper-body-v1.png",
-    thinking: "/images/characters/cibo-upper-body-v1.png",
-    recommend: "/images/characters/cibo-upper-body-v1.png",
+    concerned: "/images/characters/cibo-concerned.png",
+    surprised: "/images/characters/cibo-surprised.png",
+    happy: "/images/characters/cibo-happy.png",
+    empathetic: "/images/characters/cibo-empathetic.png",
+    thinking: "/images/characters/cibo-thinking.png",
+    recommend: "/images/characters/cibo-recommend.png",
     default: "/images/characters/cibo-upper-body-v1.png",
   },
 };
