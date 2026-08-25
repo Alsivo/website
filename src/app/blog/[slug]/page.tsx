@@ -14,6 +14,7 @@ import {
   extractArticleCta,
   getAllBlogSlugs,
   getAllBlogPosts,
+  getPopularBlogPosts,
   getBlogPostBySlug,
   getRelatedBlogPosts,
   removeArticleCta,
@@ -250,7 +251,7 @@ export default async function BlogPostPage({
 
   const allPosts = getAllBlogPosts();
   const sidebarLatest = allPosts.filter((item) => item.slug !== post.slug).slice(0, 5);
-  const sidebarPopular = [post, ...sidebarLatest].slice(0, 5);
+  const sidebarPopular = getPopularBlogPosts(allPosts).slice(0, 5);
 
 
   /* ========================================================

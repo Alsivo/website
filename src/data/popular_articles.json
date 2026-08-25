@@ -1,0 +1,150 @@
+{
+  "generatedAt": "2026-08-25T23:24:25.462418",
+  "period": {
+    "start": "2026-07-28",
+    "end": "2026-08-24",
+    "days": 28
+  },
+  "articles": [
+    {
+      "slug": "chatgpt-pricing-plans-comparison",
+      "views": 52
+    },
+    {
+      "slug": "ai-search-recommendations",
+      "views": 43
+    },
+    {
+      "slug": "claude-usage-limit-reset",
+      "views": 20
+    },
+    {
+      "slug": "cursor-pricing-plans-comparison",
+      "views": 18
+    },
+    {
+      "slug": "ai-presentation-tools-comparison",
+      "views": 17
+    },
+    {
+      "slug": "dmm-genai-camp-reviews",
+      "views": 16
+    },
+    {
+      "slug": "chatgpt-claude-pricing-feature-limits-comparison",
+      "views": 15
+    },
+    {
+      "slug": "ai-for-beginners-intro",
+      "views": 12
+    },
+    {
+      "slug": "gemini-pricing-plan-comparison",
+      "views": 10
+    },
+    {
+      "slug": "value-ai-writer-reputation-review",
+      "views": 10
+    },
+    {
+      "slug": "chatgpt-long-summary-method",
+      "views": 9
+    },
+    {
+      "slug": "chatgpt-summarize-method",
+      "views": 8
+    },
+    {
+      "slug": "ai-codegen-tools-comparison",
+      "views": 7
+    },
+    {
+      "slug": "ai-email-writing-tools-comparison",
+      "views": 7
+    },
+    {
+      "slug": "ai-meeting-minutes-tools-comparison",
+      "views": 7
+    },
+    {
+      "slug": "chatgpt-claude-gemini-pricing-comparison",
+      "views": 7
+    },
+    {
+      "slug": "claude-pricing-plans-comparison-pro-max",
+      "views": 7
+    },
+    {
+      "slug": "deepl-pricing-plans-guide",
+      "views": 7
+    },
+    {
+      "slug": "ai-blogkun-gold-reputation-guide",
+      "views": 6
+    },
+    {
+      "slug": "best-ai-translation-tools",
+      "views": 6
+    },
+    {
+      "slug": "ai-beginner-guide",
+      "views": 5
+    },
+    {
+      "slug": "ai-image-generators-comparison",
+      "views": 5
+    },
+    {
+      "slug": "ai-data-analytics-tools-recommendations",
+      "views": 4
+    },
+    {
+      "slug": "bunken-reputation",
+      "views": 4
+    },
+    {
+      "slug": "chatgpt-long-summary-workflow",
+      "views": 4
+    },
+    {
+      "slug": "claude-free-pro-team-pricing",
+      "views": 4
+    },
+    {
+      "slug": "ai-saas-getting-started",
+      "views": 3
+    },
+    {
+      "slug": "chatgpt-work-guide",
+      "views": 3
+    },
+    {
+      "slug": "ai-blogkun-gold-reputation",
+      "views": 2
+    },
+    {
+      "slug": "ai-video-generator-tools-comparison-pricing-usage",
+      "views": 2
+    },
+    {
+      "slug": "bun-ken-review-price-security-workflow",
+      "views": 2
+    },
+    {
+      "slug": "chatgpt-long-document-summarize",
+      "views": 2
+    },
+    {
+      "slug": "記事スラッグ",
+      "views": 2
+    },
+    {
+      "slug": "ai-writing-tools-comparison-japanese-quality-pricing-ux",
+      "views": 1
+    },
+    {
+      "slug": "chatgpt-vs-claude-pricing-features-comparison",
+      "views": 1
+    }
+  ]
+}

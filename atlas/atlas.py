@@ -84,6 +84,13 @@ SOCIAL_APPROVAL_QUEUE_FILE = (
     / "social_approval_queue.json"
 )
 
+POPULAR_ARTICLES_FILE = (
+    BASE_DIR.parent
+    / "src"
+    / "data"
+    / "popular_articles.json"
+)
+
 def ensure_directories() -> None:
     """自動運転に必要なフォルダを作る。"""
 
@@ -1399,6 +1406,32 @@ def run_new_article(
         encoding="utf-8",
     )
 
+
+def update_ga4_popular_articles(
+    log_file: Path,
+    publish: bool = True,
+) -> None:
+    """GA4の記事閲覧数ランキングを更新する。"""
+
+    if not ATLAS_RUN_GA4_AFFILIATE:
+        log("GA4人気記事ランキング更新：SKIP", log_file)
+        return
+
+    log("GA4人気記事ランキングを更新します。", log_file)
+    result = run_python_script("ga4_popular_articles.py", log_file)
+    if result.returncode != 0:
+        if ATLAS_USE_CACHED_GA4_ON_ERROR and POPULAR_ARTICLES_FILE.exists():
+            log("GA4人気記事ランキング取得に失敗しました。前回順位を維持します。", log_file)
+            return
+        raise RuntimeError("GA4人気記事ランキングの更新に失敗しました。")
+
+    log("GA4人気記事ランキング更新成功。", log_file)
+    if publish:
+        publish_additional_files(
+            paths=[POPULAR_ARTICLES_FILE],
+            commit_prefix="Update GA4 popular articles",
+        )
+
     log(
         "新規記事生成を開始します。"
         f"編集長候補：{target_keyword}",
@@ -2418,6 +2451,11 @@ def main(
 
         update_ga4_affiliate_clicks(
             log_file
+        )
+
+        update_ga4_popular_articles(
+            log_file,
+            publish=not dry_run,
         )
 
         update_revenue_summary(

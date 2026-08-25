@@ -18,6 +18,13 @@ const INTERNAL_LINKS_FILE = path.join(
   "internal_links.json",
 );
 
+const POPULAR_ARTICLES_FILE = path.join(
+  process.cwd(),
+  "src",
+  "data",
+  "popular_articles.json",
+);
+
 function ensureBlogDirectory(): void {
   if (!fs.existsSync(BLOG_DIRECTORY)) {
     fs.mkdirSync(BLOG_DIRECTORY, { recursive: true });
@@ -328,6 +335,47 @@ export function getRelatedBlogPosts(
     });
 
   return [...selected, ...fallback].slice(0, limit);
+}
+
+export function getPopularBlogPosts(
+  posts: BlogPostSummary[] = getAllBlogPosts(),
+): BlogPostSummary[] {
+  if (!fs.existsSync(POPULAR_ARTICLES_FILE)) {
+    return posts;
+  }
+
+  try {
+    const data = JSON.parse(
+      fs.readFileSync(POPULAR_ARTICLES_FILE, "utf8"),
+    ) as { articles?: Array<{ slug?: unknown; views?: unknown }> };
+    const ranks = new Map<string, number>();
+    for (const item of data.articles ?? []) {
+      if (
+        typeof item.slug === "string" &&
+        typeof item.views === "number" &&
+        item.views > 0 &&
+        !ranks.has(item.slug)
+      ) {
+        ranks.set(item.slug, ranks.size);
+      }
+    }
+    if (ranks.size === 0) {
+      return posts;
+    }
+    const originalOrder = new Map(
+      posts.map((post, index) => [post.slug, index]),
+    );
+    return [...posts].sort((a, b) => {
+      const aRank = ranks.get(a.slug);
+      const bRank = ranks.get(b.slug);
+      if (aRank !== undefined && bRank !== undefined) return aRank - bRank;
+      if (aRank !== undefined) return -1;
+      if (bRank !== undefined) return 1;
+      return (originalOrder.get(a.slug) ?? 0) - (originalOrder.get(b.slug) ?? 0);
+    });
+  } catch {
+    return posts;
+  }
 }
 
 export type ArticleCta = {

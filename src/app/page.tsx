@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getAllBlogPosts } from "../lib/blog";
+import { getAllBlogPosts, getPopularBlogPosts } from "../lib/blog";
 import ArticleSidebar from "../components/ArticleSidebar";
 import {
   createWebsiteJsonLd,
@@ -39,7 +39,7 @@ export default function Home() {
   const articles = getAllBlogPosts();
 
   const latestArticles = articles.slice(0, 4);
-  const popularArticles = articles.slice(0, 4);
+  const popularArticles = getPopularBlogPosts(articles).slice(0, 4);
 
   const websiteJsonLd = createWebsiteJsonLd();
   return (
@@ -208,7 +208,7 @@ export default function Home() {
           </div>
         </section>
         </div>
-        <ArticleSidebar popular={articles.slice(0, 5)} latest={articles.slice(0, 5)} />
+        <ArticleSidebar popular={getPopularBlogPosts(articles).slice(0, 5)} latest={articles.slice(0, 5)} />
         </div>
 
         <p

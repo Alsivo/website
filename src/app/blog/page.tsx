@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import BlogExplorer from "../../components/BlogExplorer";
 import Image from "next/image";
-import { getAllBlogPosts } from "../../lib/blog";
+import { getAllBlogPosts, getPopularBlogPosts } from "../../lib/blog";
 import ArticleSidebar from "../../components/ArticleSidebar";
 
 export const metadata: Metadata = {
@@ -43,7 +43,7 @@ export default function BlogPage() {
           <BlogExplorer articles={articles} />
         )}
       </section>
-      <ArticleSidebar popular={articles.slice(0, 5)} latest={articles.slice(0, 5)} />
+      <ArticleSidebar popular={getPopularBlogPosts(articles).slice(0, 5)} latest={articles.slice(0, 5)} />
       </div>
     </main>
   );

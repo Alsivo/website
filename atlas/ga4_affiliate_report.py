@@ -51,12 +51,14 @@ SCOPES = [
     "https://www.googleapis.com/auth/analytics.readonly",
 ]
 
-def get_ga4_credentials() -> Credentials:
+def get_ga4_credentials(
+    force_reauthorize: bool = False,
+) -> Credentials:
     """GA4 Data API用OAuth認証情報を取得する。"""
 
     credentials = None
 
-    if GA4_TOKEN_FILE.exists():
+    if GA4_TOKEN_FILE.exists() and not force_reauthorize:
         credentials = (
             Credentials.from_authorized_user_file(
                 str(GA4_TOKEN_FILE),
