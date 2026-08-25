@@ -99,6 +99,8 @@ export async function generateMetadata({
 
   const articleUrl =
     `${SITE_URL}/blog/${post.slug}`;
+  const articleImageUrl =
+    `${SITE_URL}${post.image}`;
 
   return {
     title:
@@ -127,6 +129,12 @@ export async function generateMetadata({
         ?? post.date,
       tags:
         post.tags,
+      images: [
+        {
+          url: articleImageUrl,
+          alt: post.title,
+        },
+      ],
     },
 
     twitter: {
@@ -136,6 +144,9 @@ export async function generateMetadata({
         post.title,
       description:
         post.description,
+      images: [
+        articleImageUrl,
+      ],
     },
   };
 }
