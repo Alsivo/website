@@ -377,5 +377,19 @@
     "cookie_days": 0,
     "program_score": 10.0,
     "last_verified": "2026-08-24"
+  },
+  "CircleReuse": {
+    "official_url": "https://af.moshimo.com/af/shop/promotion/detail?promotion_id=7644&shop_site_id=683749",
+    "affiliate_url": "https://af.moshimo.com/af/c/click?a_id=5769034&p_id=7644&pc_id=22107&pl_id=95441",
+    "ad_source": "<a href=\"//af.moshimo.com/af/c/click?a_id=5769034&p_id=7644&pc_id=22107&pl_id=95441\" rel=\"nofollow\" referrerpolicy=\"no-referrer-when-downgrade\" attributionsrc><img src=\"//image.moshimo.com/af-img/1295/000000095441.png\" width=\"300\" height=\"250\" style=\"border:none;\"></a><img src=\"//i.moshimo.com/af/i/impression?a_id=5769034&p_id=7644&pc_id=22107&pl_id=95441\" width=\"1\" height=\"1\" style=\"border:none;\" loading=\"lazy\">",
+    "network": "もしもアフィリエイト",
+    "program_name": "CircleReuse（サークルリユース）｜AI査定SaaSのサービス説明会（オンライン・無料）申込",
+    "program_id": "",
+    "promotion_details": "■サービス/商品の概要\nCircleReuse（サークルリユース）は、株式会社ライフストーリーズが運営するリユース業向けAI査定SaaSです。写真からの一次査定支援・商品管理・EC一括出品・撮影発送代行BPOをワンストップで提供。本プロモーションは、サービス内容を紹介する無料オンライン説明会（セミナー）への申込獲得です。\n\n■訴求ポイント\n・参加無料・オンライン開催で申込ハードルが低い\n・「未出品在庫による機会損失（参考試算: 月67万円）」という強い課題訴求\n・リユース/買取/リサイクル事業者に刺さる専門特化テーマ\n\n■おすすめのターゲット\nリユース・買取・リサイクルショップ運営者、遺品整理・不用品回収など隣接業種、EC物販事業者、店舗DXに関心のある経営者\n\n■注意事項\n・「必ず儲かる」等の断定表現は禁止（金額はすべて参考試算と明記）\n・AI査定は意思決定支援ツールであり、真贋判定・金額保証を行うものではありません",
+    "affiliate_status": "active",
+    "cta_label": "CircleReuseの詳細を確認する",
+    "aliases": [
+      "CircleReuse"
+    ]
   }
 }

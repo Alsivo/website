@@ -258,7 +258,7 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
     },
     {
       "service": "文賢",
@@ -277,7 +277,7 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
     },
     {
       "service": "Aiarty Image Enhancer",
@@ -296,7 +296,7 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
     },
     {
       "service": "Value AI Writer",
@@ -315,7 +315,7 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
     },
     {
       "service": "AI鬼管理（弁護士向けセミナー）",
@@ -334,7 +334,7 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
     },
     {
       "service": "AIブログくんGOLD",
@@ -353,7 +353,7 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
     },
     {
       "service": "見積太郎２",
@@ -372,7 +372,7 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
     },
     {
       "service": "LOCALGOAT",
@@ -391,7 +391,7 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
     },
     {
       "service": "AI鬼管理（業務自動化トレーニング）",
@@ -410,7 +410,7 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
     },
     {
       "service": "株式会社沖プロ",
@@ -429,7 +429,7 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
     },
     {
       "service": "Notta",
@@ -448,7 +448,7 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
     },
     {
       "service": "Gamma",
@@ -467,7 +467,26 @@
       "sources": [],
       "priority": 0,
       "source_articles": [],
-      "verified_at": "2026-08-24"
+      "verified_at": "2026-08-25"
+    },
+    {
+      "service": "CircleReuse",
+      "program_found": true,
+      "program_type": "affiliate",
+      "program_name": "CircleReuse（サークルリユース）｜AI査定SaaSのサービス説明会（オンライン・無料）申込",
+      "network": "もしもアフィリエイト",
+      "program_url": "https://af.moshimo.com/af/shop/promotion/detail?promotion_id=7644&shop_site_id=683749",
+      "program_id": "",
+      "commission": "",
+      "promotion_details": "■サービス/商品の概要\nCircleReuse（サークルリユース）は、株式会社ライフストーリーズが運営するリユース業向けAI査定SaaSです。写真からの一次査定支援・商品管理・EC一括出品・撮影発送代行BPOをワンストップで提供。本プロモーションは、サービス内容を紹介する無料オンライン説明会（セミナー）への申込獲得です。\n\n■訴求ポイント\n・参加無料・オンライン開催で申込ハードルが低い\n・「未出品在庫による機会損失（参考試算: 月67万円）」という強い課題訴求\n・リユース/買取/リサイクル事業者に刺さる専門特化テーマ\n\n■おすすめのターゲット\nリユース・買取・リサイクルショップ運営者、遺品整理・不用品回収など隣接業種、EC物販事業者、店舗DXに関心のある経営者\n\n■注意事項\n・「必ず儲かる」等の断定表現は禁止（金額はすべて参考試算と明記）\n・AI査定は意思決定支援ツールであり、真贋判定・金額保証を行うものではありません",
+      "cookie_duration": "",
+      "target_country": "Japan",
+      "application_required": true,
+      "research_notes": "手動登録",
+      "sources": [],
+      "priority": 0,
+      "source_articles": [],
+      "verified_at": "2026-08-25"
     }
   ]
 }
