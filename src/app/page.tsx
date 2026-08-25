@@ -98,11 +98,11 @@ export default function Home() {
 
           <div className="media-hero-characters" aria-label="アルとシーボの紹介">
             <div className="hero-character-card hero-character-al">
-              <div className="hero-character-image"><Image src="/images/characters/al-upper-body-v1.png" alt="アル" fill sizes="240px" /></div>
+              <div className="hero-character-image"><Image src="/images/characters/al-upper-body-v1.png" alt="アル" fill sizes="240px" quality={100} /></div>
               <p><strong>アル</strong><span>毎日悩みが尽きない女の子<br />いつもシーボに相談している</span></p>
             </div>
             <div className="hero-character-card hero-character-cibo">
-              <div className="hero-character-image"><Image src="/images/characters/cibo-upper-body-v1.png" alt="シーボ" fill sizes="240px" /></div>
+              <div className="hero-character-image"><Image src="/images/characters/cibo-upper-body-v1.png" alt="シーボ" fill sizes="240px" quality={100} /></div>
               <p><strong>シーボ</strong><span>アルの幼馴染の男の子<br />アルの相談を受けるのが日課</span></p>
             </div>
           </div>
@@ -140,6 +140,7 @@ export default function Home() {
                         src={article.image}
                         alt={`${article.title}のアイキャッチ画像`}
                         fill
+                        quality={100}
                         sizes="(max-width: 700px) 100vw, 33vw"
                       />
                     </div>
@@ -173,7 +174,7 @@ export default function Home() {
             <div className="home-latest-grid">
               {popularArticles.map((article) => (
                 <Link className="home-latest-card" href={`/blog/${article.slug}`} key={article.slug}>
-                  <div className="home-latest-image"><Image src={article.image} alt={`${article.title}のアイキャッチ画像`} fill sizes="(max-width: 700px) 100vw, 33vw" /></div>
+                  <div className="home-latest-image"><Image src={article.image} alt={`${article.title}のアイキャッチ画像`} fill quality={100} sizes="(max-width: 700px) 100vw, 33vw" /></div>
                   <div className="home-latest-body"><span className="home-latest-category">{article.category}</span><h3>{article.title}</h3><p>{article.description}</p></div>
                 </Link>
               ))}
@@ -198,11 +199,11 @@ export default function Home() {
             <h2>AIをあなたの生活の一番身近な味方へ。</h2>
           </div>
           <div className="home-about-character home-about-al">
-            <div className="home-about-portrait"><Image src="/images/characters/al-upper-body-v1.png" alt="アル" fill sizes="140px" /></div>
+            <div className="home-about-portrait"><Image src="/images/characters/al-upper-body-v1.png" alt="アル" fill sizes="140px" quality={100} /></div>
             <p>ALSIVOは、AIツールや生成AIに関する情報を、分かりやすく実践的に届けるメディアです。</p>
           </div>
           <div className="home-about-character home-about-cibo">
-            <div className="home-about-portrait"><Image src="/images/characters/cibo-upper-body-v1.png" alt="シーボ" fill sizes="150px" /></div>
+            <div className="home-about-portrait"><Image src="/images/characters/cibo-upper-body-v1.png" alt="シーボ" fill sizes="150px" quality={100} /></div>
             <p>新しい技術をただ紹介するのではなく、「結局どれを選べばいいのか」「生活や仕事でどう使えばいいのか」を、初めて使う人にも伝わる形で整理します。</p>
           </div>
         </section>

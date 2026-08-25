@@ -2724,7 +2724,7 @@ main {
   object-fit: cover;
   object-position: center top;
   transform: scale(1.65);
-  transform-origin: center 18%;
+  transform-origin: center top;
 }
 .character-dialogue-body { max-width: min(78%, 660px); }
 .character-dialogue-cibo .character-dialogue-body { display: flex; flex-direction: column; align-items: flex-end; }
@@ -2934,20 +2934,20 @@ main {
 
 .article-toc-title,
 .article-toc li {
-  font-size: 21px;
+  font-size: 16.8px;
 }
 
 .article-toc-level-3 {
-  font-size: 19.5px !important;
+  font-size: 15.6px !important;
 }
 
 .article-toc li:not(.article-toc-level-3)::before,
 .article-toc-level-3::before {
-  font-size: 16.5px;
+  font-size: 13.2px;
 }
 
 .character-dialogue-bubble {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .character-dialogue-name {
@@ -2963,14 +2963,14 @@ main {
 }
 
 .article-table {
-  font-size: 21px;
+  font-size: 16.8px;
 }
 
-.affiliate-cta-eyebrow { font-size: 16.5px; }
-.affiliate-cta-service { font-size: 33px; }
-.affiliate-cta-description, .affiliate-cta-link { font-size: 21px; }
-.affiliate-cta-arrow { font-size: 24px; }
-.affiliate-cta-disclosure { font-size: 15px; }
+.affiliate-cta-eyebrow { font-size: 13.2px; }
+.affiliate-cta-service { font-size: 26.4px; }
+.affiliate-cta-description, .affiliate-cta-link { font-size: 16.8px; }
+.affiliate-cta-arrow { font-size: 19.2px; }
+.affiliate-cta-disclosure { font-size: 12px; }
 
 @media (max-width: 1180px) {
   .article-body-layout {
@@ -2989,11 +2989,11 @@ main {
   .blog-page .blog-hero-character span { font-size: .92rem; }
   .home-about-character, .home-about-cibo { width: 100%; }
   .home-about-character p { font-size: 1.1rem; }
-  .character-dialogue-bubble { font-size: 1.2rem; }
+  .character-dialogue-bubble { font-size: .96rem; }
   .article-story-promise p { font-size: 1.15rem; }
-  .article-toc-title, .article-toc li { font-size: 17px; }
-  .article-toc-level-3 { font-size: 16px !important; }
-  .article-table { font-size: 17px; }
-  .affiliate-cta-service { font-size: 27px; }
-  .affiliate-cta-description, .affiliate-cta-link { font-size: 17px; }
+  .article-toc-title, .article-toc li { font-size: 13.6px; }
+  .article-toc-level-3 { font-size: 12.8px !important; }
+  .article-table { font-size: 13.6px; }
+  .affiliate-cta-service { font-size: 21.6px; }
+  .affiliate-cta-description, .affiliate-cta-link { font-size: 13.6px; }
 }

@@ -1782,6 +1782,27 @@ def run_social_publishers(
         log_file,
     )
 
+    # 公開対象の記事について、配信直前にも承認Queueを同期して
+    # 自動承認する。記事生成後に処理が中断しても、次の実行で
+    # pendingのまま取り残さない。
+    if article_slug:
+        result = run_python_module(
+            "engines.social_approval_queue",
+            log_file,
+        )
+        if result.returncode != 0:
+            log("SNS承認Queueの同期に失敗しました。", log_file)
+            return False
+
+        result = run_python_module(
+            "engines.social_auto_approver",
+            log_file,
+            arguments=[article_slug],
+        )
+        if result.returncode != 0:
+            log(f"SNS投稿の自動承認に失敗しました：{article_slug}", log_file)
+            return False
+
     # -----------------------------------------------------
     # 1. approved → ready Route生成
     # -----------------------------------------------------
@@ -1798,68 +1819,31 @@ def run_social_publishers(
             "失敗しました。"
         )
 
-    # -----------------------------------------------------
-    # 2. X
-    # -----------------------------------------------------
-
-    result = run_python_module(
-        "engines.x_publisher",
-        log_file,
-        arguments=[
-            "--apply",
-            "--article-slug",
-            article_slug,
-        ],
+    publishers = (
+        ("X", "engines.x_publisher", "Xへの投稿が完了しました。"),
+        ("Instagram", "engines.instagram_publisher", "Instagramへの投稿が完了しました。"),
+        (
+            "Instagramリール",
+            "engines.instagram_reel_publisher",
+            "Instagramリールへの投稿が完了しました。",
+        ),
     )
-    result_x = result
+    delivery_results: dict[str, bool] = {}
 
-    if result.returncode != 0:
-        raise RuntimeError(
-            "X Publisherに"
-            "失敗しました。"
+    # 1媒体の失敗で残りの媒体を止めず、3種類をそれぞれ実行する。
+    for label, module, success_message in publishers:
+        result = run_python_module(
+            module,
+            log_file,
+            arguments=["--apply", "--article-slug", article_slug],
         )
-
-    # -----------------------------------------------------
-    # 3. Instagram
-    # -----------------------------------------------------
-
-    result = run_python_module(
-        "engines.instagram_publisher",
-        log_file,
-        arguments=[
-            "--apply",
-            "--article-slug",
-            article_slug,
-        ],
-    )
-    result_instagram = result
-
-    if result.returncode != 0:
-        raise RuntimeError(
-            "Instagram Publisherに"
-            "失敗しました。"
+        succeeded = (
+            result.returncode == 0
+            and success_message in (result.stdout or "")
         )
-
-    # -----------------------------------------------------
-    # 4. Instagram Reel
-    # -----------------------------------------------------
-
-    result = run_python_module(
-        "engines.instagram_reel_publisher",
-        log_file,
-        arguments=[
-            "--apply",
-            "--article-slug",
-            article_slug,
-        ],
-    )
-    result_reel = result
-
-    if result.returncode != 0:
-        raise RuntimeError(
-            "Instagram Reel Publisherに"
-            "失敗しました。"
-        )
+        delivery_results[label] = succeeded
+        if not succeeded:
+            log(f"{label}への自動配信に失敗しました。次の媒体を続行します。", log_file)
 
     log(
         "承認済みSNS投稿の"
@@ -1867,10 +1851,7 @@ def run_social_publishers(
         log_file,
     )
 
-    x_ok = "Xへの投稿が完了しました。" in (result_x.stdout or "")
-    instagram_ok = "Instagramへの投稿が完了しました。" in (result_instagram.stdout or "")
-    reel_ok = "Instagramリールへの投稿が完了しました。" in (result_reel.stdout or "")
-    return x_ok and instagram_ok and reel_ok
+    return all(delivery_results.values())
 
 
 def run_refresh_all_articles() -> None:
@@ -2199,6 +2180,15 @@ def run_refresh_all_articles() -> None:
 
             if instagram_reel_path.exists():
                 publish_paths.append(instagram_reel_path)
+
+            for suffix in (".webp", ".png", ".jpg", ".jpeg"):
+                background_path = (
+                    BASE_DIR.parent / "public" / "images" / "article-backgrounds"
+                    / f"{slug}{suffix}"
+                )
+                if background_path.exists():
+                    publish_paths.append(background_path)
+                    break
 
         # 同一Pathが複数入った場合に備えて重複除去
         publish_paths = list(
@@ -3150,6 +3140,15 @@ def main(
                 if instagram_reel_path.exists():
                     publish_paths.append(instagram_reel_path)
 
+                for suffix in (".webp", ".png", ".jpg", ".jpeg"):
+                    background_path = (
+                        BASE_DIR.parent / "public" / "images" / "article-backgrounds"
+                        / f"{new_article_path.stem}{suffix}"
+                    )
+                    if background_path.exists():
+                        publish_paths.append(background_path)
+                        break
+
             elif (
                 action == "rewrite_article"
                 and rewritten_article_path
@@ -3189,6 +3188,15 @@ def main(
                 for social_path in (instagram_image_path, instagram_reel_path):
                     if social_path.exists():
                         publish_paths.append(social_path)
+
+                for suffix in (".webp", ".png", ".jpg", ".jpeg"):
+                    background_path = (
+                        BASE_DIR.parent / "public" / "images" / "article-backgrounds"
+                        / f"{rewritten_article_path.stem}{suffix}"
+                    )
+                    if background_path.exists():
+                        publish_paths.append(background_path)
+                        break
 
             pushed = (
                 publish_additional_files(
@@ -3402,6 +3410,10 @@ def main(
                 BASE_DIR.parent / "public" / "images" / "blog" / f"{new_article_path.stem}.webp",
                 BASE_DIR.parent / "public" / "images" / "social" / f"{new_article_path.stem}-instagram.png",
                 BASE_DIR.parent / "public" / "images" / "social" / f"{new_article_path.stem}-instagram-reel.mp4",
+                BASE_DIR.parent / "public" / "images" / "article-backgrounds" / f"{new_article_path.stem}.png",
+                BASE_DIR.parent / "public" / "images" / "article-backgrounds" / f"{new_article_path.stem}.webp",
+                BASE_DIR.parent / "public" / "images" / "article-backgrounds" / f"{new_article_path.stem}.jpg",
+                BASE_DIR.parent / "public" / "images" / "article-backgrounds" / f"{new_article_path.stem}.jpeg",
             )
             removed = 0
             for path in cleanup_targets:

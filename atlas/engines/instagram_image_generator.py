@@ -1692,9 +1692,17 @@ def _wrap_characters(draw: ImageDraw.ImageDraw, text: str, text_font: Any, max_w
     return lines[:4]
 
 
+def _find_article_background(slug: str) -> Path | None:
+    for suffix in (".webp", ".png", ".jpg", ".jpeg"):
+        candidate = ARTICLE_BACKGROUND_DIR / f"{slug}{suffix}"
+        if candidate.is_file():
+            return candidate
+    return None
+
+
 def _create_character_dialogue_image(article: dict[str, Any], output_path: Path, width: int, height: int, instagram: bool = False) -> Path:
-    background_path = ARTICLE_BACKGROUND_DIR / f"{clean_text(article.get('slug', ''))}.png"
-    if background_path.exists():
+    background_path = _find_article_background(clean_text(article.get("slug", "")))
+    if background_path is not None:
         background = Image.open(background_path).convert("RGB")
         image = ImageOps.fit(background, (width, height), method=Image.Resampling.LANCZOS).convert("RGBA")
         image.alpha_composite(Image.new("RGBA", (width, height), (240, 247, 250, 105)))
@@ -1715,8 +1723,8 @@ def _create_character_dialogue_image(article: dict[str, Any], output_path: Path,
     cibo_position = (width - cibo.width - 42, height - cibo.height - 38)
     image.alpha_composite(al, al_position)
     image.alpha_composite(cibo, cibo_position)
-    upper = (al_position[0] + al.width - 14, int(height * .08), width - 52, int(height * .40))
-    lower = (52, int(height * .57), cibo_position[0] + 14, int(height * .91))
+    upper = (al_position[0] + al.width - 14, int(height * .08), width - 52, int(height * .44))
+    lower = (52, int(height * .50), cibo_position[0] + 14, int(height * .91))
     longest_copy = max(len(get_image_title(article)), len(get_image_subtitle(article)))
     if instagram:
         common_copy_size = 38 if longest_copy <= 38 else 34 if longest_copy <= 65 else 30

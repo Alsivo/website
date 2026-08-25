@@ -8,6 +8,10 @@ from typing import Any
 
 from openai import OpenAI
 
+from agents.image_creator import (
+    BACKGROUND_DIRECTORY,
+    generate_article_image,
+)
 from config import (
     MODEL,
     OPENAI_API_KEY,
@@ -234,11 +238,6 @@ def generate_image_copy(
 
     al_question = str(article.get("al_question", "")).strip()
     cibo_answer = str(article.get("cibo_answer", "")).strip()
-    if al_question and cibo_answer:
-        return {
-            "image_title": al_question,
-            "image_subtitle": cibo_answer,
-        }
 
     title = str(
         article.get(
@@ -286,6 +285,21 @@ def generate_image_copy(
             "現実的な悩みや疑問を、自然な話し言葉の一文にしてください。"
             "image_subtitleは、シーボがこの記事で紹介する解決内容を"
             "簡単な語彙でやさしく答える一文にしてください。"
+            "アルはいきなりサービス名や案件名から話し始めず、日常や仕事で"
+            "実際に起こりそうな困りごとをシーボへ相談してください。"
+            "image_titleにはサービス名・商品名を入れず、悩みを一つだけ扱ってください。"
+            "シーボはその相談を受けてから対象サービスを短く紹介し、"
+            "この記事を読めば何が分かるかへ自然につなげてください。"
+            "二人とも説明文ではなく幼馴染同士の話し言葉にします。"
+            "『本当に合うのか』ではなく『本当に合うのかな』、"
+            "『〜するのが最短です』ではなく『〜するのが最短だよ』のように、"
+            "語尾までやわらかく自然にしてください。"
+            "矢印、掛け算記号、スラッシュ、中黒を使った機能や条件の列挙は禁止です。"
+            "『標準化』『一気通貫』『判断軸』『切り分け』『稟議』『最短』などの"
+            "資料・提案書らしい言葉も使用しないでください。"
+            "良い例は、アル『会議のあとに議事録をまとめるの、毎回大変…。"
+            "もっと楽にできないかな？』、シーボ『Nottaなら文字起こしや要約を"
+            "手伝ってくれるよ。使い方や料金を記事で見てみよう』です。"
             "利用後にしか分からない悩み、他サービス、代替案は出しません。"
 
             "SEO記事タイトルをそのまま短縮するのではなく、"
@@ -394,6 +408,12 @@ def generate_image_copy(
 
             "===== 記事概要 =====\n"
             f"{description}\n\n"
+
+            "===== アルが抱える中心的な悩み =====\n"
+            f"{al_question}\n\n"
+
+            "===== シーボが伝える解決内容 =====\n"
+            f"{cibo_answer}\n\n"
 
             "===== 記事本文冒頭 =====\n"
             f"{content_excerpt}"
@@ -1545,6 +1565,22 @@ def generate_images_for_slug(
     )
 
     # -----------------------------------------------------
+    # 記事テーマに合うリアル背景を生成
+    # -----------------------------------------------------
+
+    background_exists = any(
+        (BACKGROUND_DIRECTORY / f"{cleaned_slug}{suffix}").is_file()
+        for suffix in (".webp", ".png", ".jpg", ".jpeg")
+    )
+    generated_raw_path: Path | None = None
+
+    if not background_exists:
+        print("[Image Background] 記事に合うリアル背景を生成中...")
+        _, generated_raw_path = generate_article_image(image_article)
+    else:
+        print("[Image Background] 作成済みのリアル背景を再利用します。")
+
+    # -----------------------------------------------------
     # AIで画像専用コピーを生成
     # -----------------------------------------------------
 
@@ -1609,6 +1645,15 @@ def generate_images_for_slug(
             image_article
         )
     )
+
+    # 背景素材はarticle-backgroundsへ保存済み。Blog側に一時保存した
+    # 元画像は、完成PNGと拡張子が異なる場合だけ削除する。
+    if (
+        generated_raw_path is not None
+        and generated_raw_path != blog_path
+        and generated_raw_path.is_file()
+    ):
+        generated_raw_path.unlink()
 
     # -----------------------------------------------------
     # MDX frontmatter更新

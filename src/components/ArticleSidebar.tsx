@@ -14,7 +14,7 @@ function SidebarList({
           <Link href={`/blog/${article.slug}`}>
             <span className="article-sidebar-rank">{String(index + 1).padStart(2, "0")}</span>
             <span className="article-sidebar-image">
-              <Image src={article.image} alt="" fill sizes="88px" />
+              <Image src={article.image} alt="" fill sizes="88px" quality={100} />
             </span>
             <span className="article-sidebar-copy">
               <strong>{article.title}</strong>

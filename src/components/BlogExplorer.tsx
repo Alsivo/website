@@ -180,6 +180,7 @@ export default function BlogExplorer({
                     src={article.image}
                     alt={`${article.title}のアイキャッチ画像`}
                     fill
+                    quality={100}
                     sizes="(max-width: 800px) 100vw, 50vw"
                   />
 

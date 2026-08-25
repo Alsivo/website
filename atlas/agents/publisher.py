@@ -1747,6 +1747,23 @@ def publish_article(
         )
     )
 
+    content = str(article.get("content", "")).strip()
+    if re.search(
+        r'<Dialogue speaker="al"[^>]*>\s*やってみる！\s*</Dialogue>\s*$',
+        content,
+    ):
+        h2_matches = list(re.finditer(r"(?m)^##\s+(.+?)\s*$", content))
+        if h2_matches:
+            last_heading = h2_matches[-1]
+            heading_text = re.sub(r"[*_`#]", "", last_heading.group(1)).strip()
+            if re.match(r"^(まとめ|総まとめ|結論|さいごに|最後に)(?:\s|[:：｜|]|$)", heading_text):
+                content = (
+                    content[: last_heading.start()]
+                    + "## まとめ"
+                    + content[last_heading.end() :]
+                )
+                article["content"] = content
+
     validate_article(
         article
     )
@@ -1908,9 +1925,11 @@ def publish_article(
     for item in faq_items:
 
         question = (
-            item[
-                "question"
-            ].strip()
+            remove_source_markers(
+                item[
+                    "question"
+                ]
+            ).strip()
         )
 
         answer = (
@@ -1947,11 +1966,11 @@ def publish_article(
 
     for item in faq_items:
 
-        question = (
+        question = remove_source_markers(
             item[
                 "question"
-            ].strip()
-        )
+            ]
+        ).strip()
 
         answer = (
             item[
@@ -2006,10 +2025,10 @@ def publish_article(
 
     frontmatter_lines = [
         "---",
-        f'title: "{title}"',
-        f'description: "{description}"',
-        f'alQuestion: "{escape_yaml_string(str(article.get("al_question", "")))}"',
-        f'ciboAnswer: "{escape_yaml_string(str(article.get("cibo_answer", "")))}"',
+        f'title: "{escape_yaml_string(remove_source_markers(title))}"',
+        f'description: "{escape_yaml_string(remove_source_markers(description))}"',
+        f'alQuestion: "{escape_yaml_string(remove_source_markers(str(article.get("al_question", ""))))}"',
+        f'ciboAnswer: "{escape_yaml_string(remove_source_markers(str(article.get("cibo_answer", ""))))}"',
         f'date: "{published_date}"',
         f'verified: "{verified_date}"',
     ]
@@ -2036,7 +2055,7 @@ def publish_article(
 
         escaped_tag = (
             escape_yaml_string(
-                tag
+                remove_source_markers(tag)
             )
         )
 

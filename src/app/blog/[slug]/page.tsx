@@ -368,6 +368,7 @@ export default async function BlogPostPage({
               }
               fill
               priority
+              quality={100}
               sizes="(max-width: 800px) 100vw, 760px"
             />
           </div>
@@ -572,6 +573,7 @@ export default async function BlogPostPage({
                               `${relatedPost.title}のアイキャッチ画像`
                             }
                             fill
+                            quality={100}
                             sizes="(max-width: 700px) 100vw, 33vw"
                           />
                         </div>

@@ -40,7 +40,7 @@ export default function Dialogue({
     <div className={`character-dialogue character-dialogue-${speaker}`}>
       <div className="character-dialogue-person">
         <div className="character-dialogue-portrait">
-          <Image src={src} alt={`${name}の表情`} fill sizes="88px" />
+          <Image src={src} alt={`${name}の表情`} fill sizes="88px" quality={100} />
         </div>
         <span className="character-dialogue-name">{name}</span>
       </div>
