@@ -176,7 +176,7 @@ class App:
 
     def build_automation(self) -> None:
         tab=ttk.Frame(self.tabs,padding=18); self.tabs.add(tab,text="記事自動公開")
-        ttk.Label(tab,text="毎朝7時の自動運転",style="Title.TLabel").pack(anchor=W)
+        ttk.Label(tab,text="毎日8・12・18時に自動運転",style="Title.TLabel").pack(anchor=W)
         ttk.Label(tab,text="Atlasが新記事・リライト・待機を判断します。記事を作成・更新した日は本番公開後にX・Instagramへ自動配信します。",wraplength=900).pack(anchor=W,pady=(6,16))
         box=ttk.LabelFrame(tab,text="直近の実行結果",padding=14); box.pack(fill=X); self.auto_text=ttk.Label(box,font=("Yu Gothic UI",11)); self.auto_text.pack(anchor=W)
         controls=ttk.LabelFrame(tab,text="手動実行",padding=14); controls.pack(fill=X,pady=(18,0)); ttk.Button(controls,text="安全確認（公開しない）",command=lambda:self.run_atlas("dry")).pack(side=LEFT); ttk.Button(controls,text="通常の自動運転を今すぐ実行",command=lambda:self.run_atlas("normal")).pack(side=LEFT,padx=10); ttk.Button(controls,text="新記事を1本作成・公開",style="Accent.TButton",command=lambda:self.run_atlas("new")).pack(side=LEFT); ttk.Button(controls,text="ALSIVOを開く",command=lambda:webbrowser.open(SITE)).pack(side=RIGHT)

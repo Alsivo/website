@@ -99,11 +99,11 @@ export default function Home() {
           <div className="media-hero-characters" aria-label="アルとシーボの紹介">
             <div className="hero-character-card hero-character-al">
               <div className="hero-character-image"><Image src="/images/characters/al-upper-body-v1.png" alt="アル" fill sizes="240px" quality={100} /></div>
-              <p><strong>アル</strong><span>毎日悩みが尽きない女の子<br />いつもシーボに相談している</span></p>
+              <p><strong>アル</strong><span>悩みが尽きない女の子<br />シーボへの相談が日課</span></p>
             </div>
             <div className="hero-character-card hero-character-cibo">
               <div className="hero-character-image"><Image src="/images/characters/cibo-upper-body-v1.png" alt="シーボ" fill sizes="240px" quality={100} /></div>
-              <p><strong>シーボ</strong><span>アルの幼馴染の男の子<br />アルの相談を受けるのが日課</span></p>
+              <p><strong>シーボ</strong><span>アルの幼馴染の男の子<br />AIツールに詳しい</span></p>
             </div>
           </div>
         </section>
