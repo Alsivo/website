@@ -1685,7 +1685,13 @@ def validate_article(
 # Character dialogue image
 # =========================================================
 
-def _wrap_characters(draw: ImageDraw.ImageDraw, text: str, text_font: Any, max_width: int) -> list[str]:
+def _wrap_characters(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    text_font: Any,
+    max_width: int,
+    max_lines: int | None = 4,
+) -> list[str]:
     lines: list[str] = []
     current = ""
     for character in clean_text(text):
@@ -1697,7 +1703,7 @@ def _wrap_characters(draw: ImageDraw.ImageDraw, text: str, text_font: Any, max_w
             current = candidate
     if current:
         lines.append(current)
-    return lines[:4]
+    return lines if max_lines is None else lines[:max_lines]
 
 
 def _find_article_background(slug: str) -> Path | None:
@@ -1804,15 +1810,41 @@ def _create_character_dialogue_image(article: dict[str, Any], output_path: Path,
             font=font(28),
             fill=(24, 96, 120),
         )
+        cta_text = get_image_cta(article)
+        cta_top = panel[1] + 86
+        cta_bottom = panel[3] - 82
         cta_font = font(34)
-        cta_lines = _wrap_characters(
-            draw,
-            get_image_cta(article),
-            cta_font,
-            panel[2] - panel[0] - 64,
-        )
+        cta_lines: list[str] = []
+        for cta_size in range(34, 21, -2):
+            candidate_font = font(cta_size)
+            candidate_lines = _wrap_characters(
+                draw,
+                cta_text,
+                candidate_font,
+                panel[2] - panel[0] - 64,
+                max_lines=None,
+            )
+            candidate_box = draw.multiline_textbbox(
+                (0, 0),
+                "\n".join(candidate_lines),
+                font=candidate_font,
+                spacing=10,
+            )
+            if candidate_box[3] - candidate_box[1] <= cta_bottom - cta_top:
+                cta_font = candidate_font
+                cta_lines = candidate_lines
+                break
+        if not cta_lines:
+            cta_font = font(22)
+            cta_lines = _wrap_characters(
+                draw,
+                cta_text,
+                cta_font,
+                panel[2] - panel[0] - 64,
+                max_lines=None,
+            )
         draw.multiline_text(
-            (panel[0] + 32, panel[1] + 86),
+            (panel[0] + 32, cta_top),
             "\n".join(cta_lines),
             font=cta_font,
             fill=NAVY,
