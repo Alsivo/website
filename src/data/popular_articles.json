@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T00:11:13.258707",
+  "generatedAt": "2026-08-26T07:00:08.737413",
   "period": {
     "start": "2026-07-29",
     "end": "2026-08-25",
@@ -127,11 +127,19 @@
       "views": 3
     },
     {
+      "slug": "gamma-reputation",
+      "views": 3
+    },
+    {
       "slug": "notta-reputation",
       "views": 3
     },
     {
       "slug": "ai-blogkun-gold-reputation",
+      "views": 2
+    },
+    {
+      "slug": "ai-blogkun-gold-reputation-review",
       "views": 2
     },
     {
@@ -157,10 +165,6 @@
     {
       "slug": "記事スラッグ",
       "views": 2
-    },
-    {
-      "slug": "ai-blogkun-gold-reputation-review",
-      "views": 1
     },
     {
       "slug": "ai-writing-tools-comparison-japanese-quality-pricing-ux",
