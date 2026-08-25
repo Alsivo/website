@@ -1644,6 +1644,14 @@ def get_image_subtitle(
     )
 
 
+def get_image_cta(article: dict[str, Any]) -> str:
+    """Instagram画像下部の記事紹介文を取得する。"""
+    image_cta = clean_text(article.get("image_cta", ""))
+    if image_cta:
+        return image_cta
+    return "この記事では、悩みを解決するためのポイントをやさしく紹介しています。"
+
+
 def validate_article(
     article: dict[str, Any],
 ) -> None:
@@ -1716,35 +1724,106 @@ def _create_character_dialogue_image(article: dict[str, Any], output_path: Path,
             draw.text((width - 145, 48), "#PR", font=font(32), fill=NAVY)
     al = Image.open(CHARACTER_DIR / "al-upper-body-v1.png").convert("RGBA")
     cibo = Image.open(CHARACTER_DIR / "cibo-upper-body-v1.png").convert("RGBA")
-    character_height = int(height * (0.36 if instagram else 0.42))
+    character_height = int(height * (0.28 if instagram else 0.42))
     for portrait in (al, cibo):
         portrait.thumbnail((int(width * .34), character_height), Image.Resampling.LANCZOS)
-    al_position = (42, int(height * .05))
-    cibo_position = (width - cibo.width - 42, height - cibo.height - 38)
+    al_position = (42, int(height * (.04 if instagram else .05)))
+    cibo_position = (
+        width - cibo.width - 42,
+        int(height * .66) - cibo.height - 18
+        if instagram
+        else height - cibo.height - 38,
+    )
     image.alpha_composite(al, al_position)
     image.alpha_composite(cibo, cibo_position)
-    upper = (al_position[0] + al.width - 14, int(height * .08), width - 52, int(height * .44))
-    lower = (52, int(height * .50), cibo_position[0] + 14, int(height * .91))
     longest_copy = max(len(get_image_title(article)), len(get_image_subtitle(article)))
     if instagram:
         common_copy_size = 38 if longest_copy <= 38 else 34 if longest_copy <= 65 else 30
     else:
         common_copy_size = 40 if longest_copy <= 38 else 36 if longest_copy <= 65 else 32
     common_copy_font = font(common_copy_size)
-    for box, side, copy, copy_font, fill in (
-        (upper, "left", get_image_title(article), common_copy_font, (248, 252, 255, 242)),
-        (lower, "right", get_image_subtitle(article), common_copy_font, (238, 249, 251, 242)),
+
+    upper_x = (al_position[0] + al.width - 14, width - 52)
+    lower_x = (52, cibo_position[0] + 14)
+    al_face_y = int(al_position[1] + al.height * .25)
+    cibo_face_y = int(cibo_position[1] + cibo.height * .25)
+
+    def make_dialogue_box(
+        x_range: tuple[int, int],
+        face_y: int,
+        copy: str,
+    ) -> tuple[tuple[int, int, int, int], list[str]]:
+        x1, x2 = x_range
+        lines = _wrap_characters(draw, copy, common_copy_font, x2 - x1 - 48)
+        text_box = draw.multiline_textbbox(
+            (0, 0), "\n".join(lines), font=common_copy_font, spacing=10
+        )
+        text_height = text_box[3] - text_box[1]
+        minimum_height = int(height * (.12 if instagram else .16))
+        box_height = max(minimum_height, text_height + 52)
+        box_height = min(box_height, int(height * .34))
+        top_limit = 92 if instagram else 46
+        top = max(top_limit, face_y - box_height // 2)
+        bottom_limit = int(height * .66) - 18 if instagram else height - 42
+        top = min(top, bottom_limit - box_height)
+        return (x1, top, x2, top + box_height), lines
+
+    upper, upper_lines = make_dialogue_box(
+        upper_x, al_face_y, get_image_title(article)
+    )
+    lower, lower_lines = make_dialogue_box(
+        lower_x, cibo_face_y, get_image_subtitle(article)
+    )
+
+    for box, side, copy, lines, copy_font, fill, face_y in (
+        (upper, "left", get_image_title(article), upper_lines, common_copy_font, (248, 252, 255, 242), al_face_y),
+        (lower, "right", get_image_subtitle(article), lower_lines, common_copy_font, (238, 249, 251, 242), cibo_face_y),
     ):
         draw.rounded_rectangle(box, radius=28, fill=fill, outline=BORDER, width=3)
-        middle_y = int((box[1] + box[3]) / 2)
+        pointer_y = max(box[1] + 24, min(face_y, box[3] - 24))
         if side == "left":
-            draw.polygon([(box[0], middle_y - 18), (box[0] - 30, middle_y), (box[0], middle_y + 18)], fill=fill, outline=BORDER)
+            draw.polygon([(box[0], pointer_y - 18), (box[0] - 30, pointer_y), (box[0], pointer_y + 18)], fill=fill, outline=BORDER)
         else:
-            draw.polygon([(box[2], middle_y - 18), (box[2] + 30, middle_y), (box[2], middle_y + 18)], fill=fill, outline=BORDER)
-        lines = _wrap_characters(draw, copy, copy_font, box[2] - box[0] - 48)
+            draw.polygon([(box[2], pointer_y - 18), (box[2] + 30, pointer_y), (box[2], pointer_y + 18)], fill=fill, outline=BORDER)
         line_box = draw.multiline_textbbox((0, 0), "\n".join(lines), font=copy_font, spacing=10)
         text_height = line_box[3] - line_box[1]
         draw.multiline_text((box[0] + 24, box[1] + max(20, (box[3] - box[1] - text_height) // 2)), "\n".join(lines), font=copy_font, fill=NAVY, spacing=10)
+
+    if instagram:
+        panel = (52, int(height * .69), width - 52, height - 42)
+        draw.rounded_rectangle(
+            panel,
+            radius=30,
+            fill=(255, 255, 255, 238),
+            outline=BORDER,
+            width=3,
+        )
+        draw.text(
+            (panel[0] + 32, panel[1] + 28),
+            "この記事でわかること",
+            font=font(28),
+            fill=(24, 96, 120),
+        )
+        cta_font = font(34)
+        cta_lines = _wrap_characters(
+            draw,
+            get_image_cta(article),
+            cta_font,
+            panel[2] - panel[0] - 64,
+        )
+        draw.multiline_text(
+            (panel[0] + 32, panel[1] + 86),
+            "\n".join(cta_lines),
+            font=cta_font,
+            fill=NAVY,
+            spacing=12,
+        )
+        draw.text(
+            (panel[0] + 32, panel[3] - 62),
+            "続きはALSIVOの記事で  →",
+            font=font(30),
+            fill=(24, 96, 120),
+        )
     image.convert("RGB").save(output_path, format="PNG", optimize=True)
     return output_path
 

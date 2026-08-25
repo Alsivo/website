@@ -219,10 +219,16 @@ IMAGE_COPY_SCHEMA: dict[str, Any] = {
             "minLength": 1,
             "maxLength": 60,
         },
+        "image_cta": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 70,
+        },
     },
     "required": [
         "image_title",
         "image_subtitle",
+        "image_cta",
     ],
     "additionalProperties": False,
 }
@@ -300,6 +306,9 @@ def generate_image_copy(
             "良い例は、アル『会議のあとに議事録をまとめるの、毎回大変…。"
             "もっと楽にできないかな？』、シーボ『Nottaなら文字起こしや要約を"
             "手伝ってくれるよ。使い方や料金を記事で見てみよう』です。"
+            "image_ctaは会話ではなく、この記事で何を紹介しているかを"
+            "一般の読者向けに一文で書いてください。画像側で誘導文を付けるため、"
+            "image_cta自体へ『詳しくは』『記事を読んで』は入れません。"
             "利用後にしか分からない悩み、他サービス、代替案は出しません。"
 
             "SEO記事タイトルをそのまま短縮するのではなく、"
@@ -460,6 +469,13 @@ def generate_image_copy(
         )
     ).strip()
 
+    image_cta = str(
+        result.get(
+            "image_cta",
+            "",
+        )
+    ).strip()
+
     if not image_title:
         raise ValueError(
             "image_titleが空です。"
@@ -468,6 +484,11 @@ def generate_image_copy(
     if not image_subtitle:
         raise ValueError(
             "image_subtitleが空です。"
+        )
+
+    if not image_cta:
+        raise ValueError(
+            "image_ctaが空です。"
         )
 
     print()
@@ -483,6 +504,10 @@ def generate_image_copy(
         f"  Subtitle：{image_subtitle}"
     )
 
+    print(
+        f"  CTA：{image_cta}"
+    )
+
     print()
 
     return {
@@ -490,6 +515,8 @@ def generate_image_copy(
             image_title,
         "image_subtitle":
             image_subtitle,
+        "image_cta":
+            image_cta,
     }
 
 
@@ -1598,6 +1625,12 @@ def generate_images_for_slug(
         "image_subtitle"
     ] = image_copy[
         "image_subtitle"
+    ]
+
+    image_article[
+        "image_cta"
+    ] = image_copy[
+        "image_cta"
     ]
 
     # -----------------------------------------------------
