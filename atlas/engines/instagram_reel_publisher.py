@@ -64,15 +64,19 @@ def load_candidates(article_slug: str = "") -> list[dict[str, Any]]:
 
 
 def validate_public_video(url: str) -> None:
-    try:
-        response = requests.get(url, timeout=30, stream=True)
-    except requests.RequestException as error:
-        raise RuntimeError(f"リール動画URLへアクセスできません: {error}") from error
-    if response.status_code != 200:
-        raise RuntimeError(f"リール動画が公開されていません: HTTP {response.status_code}")
-    content_type = response.headers.get("Content-Type", "")
-    if not content_type.startswith("video/"):
-        raise RuntimeError(f"公開URLが動画ではありません: {content_type}")
+    last_error = ""
+    for attempt in range(5):
+        try:
+            response = requests.get(url, timeout=30, stream=True)
+            content_type = response.headers.get("Content-Type", "")
+            if response.status_code == 200 and content_type.startswith("video/"):
+                return
+            last_error = f"HTTP {response.status_code} / {content_type}"
+        except requests.RequestException as error:
+            last_error = str(error)
+        if attempt < 4:
+            time.sleep(10)
+    raise RuntimeError(f"リール動画の公開を確認できません: {last_error}")
 
 
 def create_reel_container(
@@ -165,7 +169,10 @@ def main(apply_mode: bool = False, article_slug: str = "") -> None:
     print(f"Mode: {'APPLY' if apply_mode else 'DRY RUN'}")
     print(f"Ready: {len(candidates)}")
     if not candidates:
-        print("投稿可能なInstagram Reelはありません。")
+        message = "投稿可能なInstagram Reelはありません。"
+        if apply_mode and article_slug:
+            raise RuntimeError(f"{message} article_slug={article_slug}")
+        print(message)
         return
     route = candidates[0]
     slug = str(route.get("article_slug", "")).strip()

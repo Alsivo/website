@@ -379,7 +379,7 @@ export default async function BlogPostPage({
               =============================================== */}
 
           <aside className="article-story-promise" aria-label="この記事の相談内容">
-            <p><strong>アルの悩み</strong>{post.alQuestion ?? post.description}</p>
+            <p><strong>困りごと</strong>{post.alQuestion ?? post.description}</p>
             <p><strong>この記事でわかること</strong>{post.ciboAnswer ?? "シーボが悩みをやさしく整理し、次の一歩を紹介します。"}</p>
           </aside>
 

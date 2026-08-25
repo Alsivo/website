@@ -270,7 +270,7 @@ def x_weighted_length(text: str) -> int:
 
 
 def fit_post_text(post_text: str, limit: int = 280) -> str:
-    """#PRと末尾URLを保ち、既存投稿文もXの上限内へ収める。"""
+    """#PRと末尾URLを保ち、文の途中で切らずXの上限内へ収める。"""
 
     text = post_text.strip()
     if x_weighted_length(text) <= limit:
@@ -282,16 +282,21 @@ def fit_post_text(post_text: str, limit: int = 280) -> str:
     suffix = f"\n{final_url}" if final_url else ""
     ellipsis = "…"
     budget = limit - x_weighted_length(suffix) - x_weighted_length(ellipsis)
-    fitted: list[str] = []
-    used = 0
-    for character in body:
-        weight = x_character_weight(character)
-        if used + weight > budget:
+    lines = [line.strip() for line in body.splitlines() if line.strip()]
+    prefix = "#PR" if lines and lines[0] == "#PR" else ""
+    if prefix:
+        lines = lines[1:]
+    sentences = [part.strip() for part in re.findall(r"[^。！？!?]+[。！？!?]?", "".join(lines)) if part.strip()]
+    compact_parts: list[str] = []
+    compact_prefix = f"{prefix}\n" if prefix else ""
+    for sentence in sentences:
+        candidate = compact_prefix + "".join(compact_parts + [sentence])
+        if x_weighted_length(candidate) > budget:
             break
-        fitted.append(character)
-        used += weight
-
-    compact_body = "".join(fitted).rstrip(" \n、。,.—-")
+        compact_parts.append(sentence)
+    compact_body = (compact_prefix + "".join(compact_parts)).strip()
+    if not compact_parts:
+        raise ValueError("X投稿文が長すぎるため、文を壊さず短縮できません。")
     return f"{compact_body}{ellipsis}{suffix}".strip()
 
 
