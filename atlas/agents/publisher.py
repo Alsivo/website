@@ -1092,6 +1092,56 @@ def calculate_reading_time(
 # Validation
 # =========================================================
 
+def normalize_dialogue_headings(content: str) -> str:
+    """目次へ出るH2・H3だけからキャラクター名を取り除く。"""
+
+    def normalize(match: re.Match[str]) -> str:
+        marks, heading = match.groups()
+        cleaned = heading.strip()
+        replacements = (
+            (r"アルとシーボ(?:の|が)?", ""),
+            (r"アル(?:の疑問|の悩み|が悩む|が相談する|が聞く)", ""),
+            (r"シーボ(?:の回答|の解説|が解説する|が答える|が教える)", ""),
+            (r"アル|シーボ", ""),
+        )
+        for pattern, replacement in replacements:
+            cleaned = re.sub(pattern, replacement, cleaned)
+        cleaned = re.sub(r"^[\s　:：、,・\-—のがはをへにでと]+", "", cleaned)
+        cleaned = re.sub(r"[\s　]{2,}", " ", cleaned).strip()
+        if not cleaned:
+            cleaned = "知っておきたいポイント"
+        return f"{marks} {cleaned}"
+
+    return re.sub(r"(?m)^(#{2,3})\s+(.+?)\s*$", normalize, content)
+
+
+def normalize_dialogue_blocks(content: str) -> str:
+    """Dialogue内のMarkdownブロックを外へ移し、MDXを壊さない。"""
+
+    pattern = re.compile(r"(<Dialogue\b[^>]*>)([\s\S]*?)(</Dialogue>)")
+
+    def normalize(match: re.Match[str]) -> str:
+        opening, body, closing = match.groups()
+        if "\n" not in body:
+            return match.group(0)
+        lines = [line.rstrip() for line in body.strip().splitlines()]
+        markdown_start = next(
+            (
+                index
+                for index, line in enumerate(lines)
+                if re.match(r"^\s*(?:[-*+]\s+|\d+[.)]\s+|\|)", line)
+            ),
+            None,
+        )
+        if markdown_start is None:
+            speech = " ".join(line.strip() for line in lines if line.strip())
+            return f"{opening}{speech}{closing}"
+        speech = " ".join(line.strip() for line in lines[:markdown_start] if line.strip())
+        markdown = "\n".join(lines[markdown_start:]).strip()
+        return f"{opening}{speech}{closing}\n\n{markdown}"
+
+    return pattern.sub(normalize, content)
+
 def validate_article(
     article: dict[str, Any],
 ) -> None:
@@ -1748,6 +1798,9 @@ def publish_article(
     )
 
     content = str(article.get("content", "")).strip()
+    content = normalize_dialogue_blocks(content)
+    content = normalize_dialogue_headings(content)
+    article["content"] = content
     if re.search(
         r'<Dialogue speaker="al"[^>]*>\s*やってみる！\s*</Dialogue>\s*$',
         content,
