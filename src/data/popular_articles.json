@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-25T23:24:25.462418",
+  "generatedAt": "2026-08-26T00:07:51.540535",
   "period": {
-    "start": "2026-07-28",
-    "end": "2026-08-24",
+    "start": "2026-07-29",
+    "end": "2026-08-25",
     "days": 28
   },
   "articles": [
@@ -52,6 +52,14 @@
     },
     {
       "slug": "chatgpt-summarize-method",
+      "views": 8
+    },
+    {
+      "slug": "gamma-reputation-pricing",
+      "views": 8
+    },
+    {
+      "slug": "notta-reputation-setup-pricing",
       "views": 8
     },
     {
@@ -119,11 +127,23 @@
       "views": 3
     },
     {
+      "slug": "notta-reputation",
+      "views": 3
+    },
+    {
       "slug": "ai-blogkun-gold-reputation",
       "views": 2
     },
     {
+      "slug": "ai-minutes-tool-comparison-notta",
+      "views": 2
+    },
+    {
       "slug": "ai-video-generator-tools-comparison-pricing-usage",
+      "views": 2
+    },
+    {
+      "slug": "aidd-reputation-corporate-training",
       "views": 2
     },
     {
@@ -139,11 +159,19 @@
       "views": 2
     },
     {
+      "slug": "ai-blogkun-gold-reputation-review",
+      "views": 1
+    },
+    {
       "slug": "ai-writing-tools-comparison-japanese-quality-pricing-ux",
       "views": 1
     },
     {
       "slug": "chatgpt-vs-claude-pricing-features-comparison",
+      "views": 1
+    },
+    {
+      "slug": "notta-reputation-usage-pricing-security",
       "views": 1
     }
   ]
