@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-26T18:00:11.332823",
+  "generatedAt": "2026-08-27T07:00:08.376510",
   "period": {
-    "start": "2026-07-29",
-    "end": "2026-08-25",
+    "start": "2026-07-30",
+    "end": "2026-08-26",
     "days": 28
   },
   "articles": [
@@ -24,6 +24,10 @@
     },
     {
       "slug": "ai-presentation-tools-comparison",
+      "views": 17
+    },
+    {
+      "slug": "gamma-reputation-pricing",
       "views": 17
     },
     {
@@ -55,12 +59,12 @@
       "views": 8
     },
     {
-      "slug": "gamma-reputation-pricing",
+      "slug": "notta-reputation-setup-pricing",
       "views": 8
     },
     {
-      "slug": "notta-reputation-setup-pricing",
-      "views": 8
+      "slug": "ai-blogkun-gold-reputation-guide",
+      "views": 7
     },
     {
       "slug": "ai-codegen-tools-comparison",
@@ -87,11 +91,11 @@
       "views": 7
     },
     {
-      "slug": "ai-blogkun-gold-reputation-guide",
+      "slug": "best-ai-translation-tools",
       "views": 6
     },
     {
-      "slug": "best-ai-translation-tools",
+      "slug": "gamma-reputation",
       "views": 6
     },
     {
@@ -119,6 +123,18 @@
       "views": 4
     },
     {
+      "slug": "notta-reputation",
+      "views": 4
+    },
+    {
+      "slug": "ai-blogkun-gold-reputation-review",
+      "views": 3
+    },
+    {
+      "slug": "ai-minutes-tool-comparison-notta",
+      "views": 3
+    },
+    {
       "slug": "ai-saas-getting-started",
       "views": 3
     },
@@ -127,23 +143,7 @@
       "views": 3
     },
     {
-      "slug": "gamma-reputation",
-      "views": 3
-    },
-    {
-      "slug": "notta-reputation",
-      "views": 3
-    },
-    {
       "slug": "ai-blogkun-gold-reputation",
-      "views": 2
-    },
-    {
-      "slug": "ai-blogkun-gold-reputation-review",
-      "views": 2
-    },
-    {
-      "slug": "ai-minutes-tool-comparison-notta",
       "views": 2
     },
     {
@@ -163,6 +163,10 @@
       "views": 2
     },
     {
+      "slug": "notta-reputation-usage-pricing-security",
+      "views": 2
+    },
+    {
       "slug": "記事スラッグ",
       "views": 2
     },
@@ -175,7 +179,11 @@
       "views": 1
     },
     {
-      "slug": "notta-reputation-usage-pricing-security",
+      "slug": "localgoat-reputation",
+      "views": 1
+    },
+    {
+      "slug": "notta-reputation-workflow-guide",
       "views": 1
     }
   ]
