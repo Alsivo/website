@@ -1,7 +1,20 @@
 {
   "ai-blogkun-gold-reputation-safety-pricing": [],
-  "ai-kanri-lawyer-seminar-claude-code": [],
+  "ai-kanri-lawyer-seminar-claude-code": [
+    {
+      "slug": "aikanri-reviews-pricing",
+      "anchor": "週次伴走トレーニングの中身・料金・評判を確認する",
+      "reason": "1on1で“最初の一手”を設計した後、PoC止まりにせず定着させる次の具体策として週次伴走の検討が自然。評判と料金がまとまっており、導入判断の材料を補完できるため。"
+    }
+  ],
   "aidd-reputation-guide": [],
+  "aikanri-reviews-pricing": [
+    {
+      "slug": "ai-kanri-lawyer-seminar-claude-code",
+      "anchor": "弁護士・法務でのAI自動化の始め方と守秘の設計",
+      "reason": "元記事の“セキュリティ・守秘”“週次伴走の進め方”への関心を、法務という高機密領域での具体的な設計例に落とし込めるため。規制産業の読者にとって次の疑問（安全に始める実務手順）が解消され、同一サービスの適用事例として意思決定を補完する。"
+    }
+  ],
   "bunken-reputation-pricing-security-guide": [],
   "dmm-genai-camp-reputation-roadmap": [],
   "gamma-reputation": [],
