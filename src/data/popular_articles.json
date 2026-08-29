@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-08-29T18:00:13.307763",
+  "generatedAt": "2026-08-30T07:00:08.861838",
   "period": {
-    "start": "2026-08-01",
-    "end": "2026-08-28",
+    "start": "2026-08-02",
+    "end": "2026-08-29",
     "days": 28
   },
   "articles": [
     {
       "slug": "chatgpt-pricing-plans-comparison",
-      "views": 52
+      "views": 50
     },
     {
       "slug": "ai-search-recommendations",
@@ -135,11 +135,11 @@
       "views": 3
     },
     {
-      "slug": "ai-saas-getting-started",
+      "slug": "bunken-reputation-pricing-security-guide",
       "views": 3
     },
     {
-      "slug": "bunken-reputation-pricing-security-guide",
+      "slug": "lai-reputation-trial",
       "views": 3
     },
     {
@@ -191,7 +191,7 @@
       "views": 1
     },
     {
-      "slug": "chatgpt-vs-claude-pricing-features-comparison",
+      "slug": "aikanri-reviews-pricing",
       "views": 1
     },
     {
