@@ -3,16 +3,17 @@
   "ai-kanri-lawyer-seminar-claude-code": [
     {
       "slug": "aikanri-reviews-pricing",
-      "anchor": "導入を定着させる週次伴走「AI鬼管理」の内容と料金",
-      "reason": "本記事の1on1設計の次に読者が気になる費用感と具体的な進め方（定着フェーズ）を補完する。Claude Codeを前提にPoC止まりを防ぐ週次伴走という文脈が連続しており、意思決定に直結するため。"
+      "anchor": "AI鬼管理の評判と料金を確認する",
+      "reason": "1on1での設計後に“定着”まで進める週次伴走の具体像と費用がわかり、申し込み判断を補完できるため"
     }
   ],
+  "aiarty-image-enhancer-reputation": [],
   "aidd-reputation-guide": [],
   "aikanri-reviews-pricing": [
     {
       "slug": "ai-kanri-lawyer-seminar-claude-code",
-      "anchor": "法務・弁護士業務でのAI自動化の始め方と守秘の設計",
-      "reason": "同じ伴走サービスを法務領域に適用した具体例で、守秘や運用設計への不安を実務的に補完できるため（読者が次に抱く疑問と意思決定の補完）。"
+      "anchor": "弁護士向けのAI自動化の始め方と守秘の設計",
+      "reason": "元記事の“セキュリティ・運用設計”の不安を、守秘義務が厳しい法務領域でどう解決するかを具体例で補完。PoCから定着へ進める初期設計や1on1伴走の実際が分かり、次の疑問に自然に応えるため。"
     }
   ],
   "bunken-reputation-pricing-security-guide": [],
