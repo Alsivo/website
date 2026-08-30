@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-30T07:00:08.861838",
+  "generatedAt": "2026-08-30T12:00:08.315059",
   "period": {
     "start": "2026-08-02",
     "end": "2026-08-29",
@@ -200,6 +200,10 @@
     },
     {
       "slug": "notta-reputation-workflow-guide",
+      "views": 1
+    },
+    {
+      "slug": "value-ai-writer-review-trial-guide",
       "views": 1
     }
   ]
