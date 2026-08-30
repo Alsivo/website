@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-08-30T18:00:10.646915",
+  "generatedAt": "2026-08-31T07:00:08.551492",
   "period": {
-    "start": "2026-08-02",
-    "end": "2026-08-29",
+    "start": "2026-08-03",
+    "end": "2026-08-30",
     "days": 28
   },
   "articles": [
     {
       "slug": "chatgpt-pricing-plans-comparison",
-      "views": 50
+      "views": 49
     },
     {
       "slug": "ai-search-recommendations",
@@ -115,10 +115,6 @@
       "views": 4
     },
     {
-      "slug": "claude-free-pro-team-pricing",
-      "views": 4
-    },
-    {
       "slug": "notta-reputation",
       "views": 4
     },
@@ -163,19 +159,15 @@
       "views": 2
     },
     {
-      "slug": "chatgpt-work-guide",
-      "views": 2
-    },
-    {
       "slug": "dmm-genai-camp-reputation-roadmap",
       "views": 2
     },
     {
-      "slug": "notta-reputation-usage-pricing-security",
+      "slug": "mitsumoritaro2-reviews-pricing-guide",
       "views": 2
     },
     {
-      "slug": "記事スラッグ",
+      "slug": "notta-reputation-usage-pricing-security",
       "views": 2
     },
     {
@@ -187,11 +179,19 @@
       "views": 1
     },
     {
+      "slug": "aiarty-image-enhancer-reputation",
+      "views": 1
+    },
+    {
       "slug": "aidd-reputation-guide",
       "views": 1
     },
     {
       "slug": "aikanri-reviews-pricing",
+      "views": 1
+    },
+    {
+      "slug": "circlereuse-reputation-pricing-safety",
       "views": 1
     },
     {
