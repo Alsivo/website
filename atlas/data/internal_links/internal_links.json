@@ -3,8 +3,8 @@
   "ai-kanri-lawyer-seminar-claude-code": [
     {
       "slug": "aikanri-reviews-pricing",
-      "anchor": "週次伴走プログラム『AI鬼管理』の内容と料金",
-      "reason": "初回1on1での設計の次ステップとして、実運用への定着を支援する週次伴走の具体像と費用を確認でき、意思決定を補完できるため。"
+      "anchor": "AI鬼管理の評判・料金と週次伴走の中身",
+      "reason": "初期の1on1設計の次に、実運用を週次で定着させる具体策と費用感を知りたい読者ニーズに直結。Claude Codeを前提に、守秘・チェックフローを運用へ落とし込む視点を補完するため。"
     }
   ],
   "aiarty-image-enhancer-reputation": [],
@@ -12,8 +12,8 @@
   "aikanri-reviews-pricing": [
     {
       "slug": "ai-kanri-lawyer-seminar-claude-code",
-      "anchor": "弁護士業務でのAI自動化の始め方と守秘設計",
-      "reason": "同じサービスの業界別ユースケース。守秘・セキュリティを重視した設計や1on1の進め方が具体的に分かり、PoCから定着への不安を補完できるため。法務/コンプラ担当にも有用。"
+      "anchor": "弁護士・法務でのAI自動化の始め方と守秘を考慮した設計例",
+      "reason": "本記事と同じ週次伴走×Claude Codeの枠組みで、守秘・セキュリティ要件が厳しい領域の具体的進め方を解説。運用定着やセキュリティに不安がある読者の意思決定を補完できるため。"
     }
   ],
   "bunken-reputation-pricing-security-guide": [],
@@ -25,5 +25,6 @@
   "mitsumoritaro2-reviews-pricing-guide": [],
   "neuro-dive-reputation-guide": [],
   "notta-reputation-workflow-guide": [],
+  "okipro-reputation-ai-writing-course": [],
   "value-ai-writer-review-trial-guide": []
 }
