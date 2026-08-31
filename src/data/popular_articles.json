@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-31T18:00:13.282920",
+  "generatedAt": "2026-09-01T07:00:10.582722",
   "period": {
-    "start": "2026-08-03",
-    "end": "2026-08-30",
+    "start": "2026-08-04",
+    "end": "2026-08-31",
     "days": 28
   },
   "articles": [
@@ -36,7 +36,7 @@
     },
     {
       "slug": "chatgpt-claude-pricing-feature-limits-comparison",
-      "views": 15
+      "views": 13
     },
     {
       "slug": "ai-for-beginners-intro",
@@ -159,6 +159,10 @@
       "views": 2
     },
     {
+      "slug": "canva-reputation-presentation-plan",
+      "views": 2
+    },
+    {
       "slug": "chatgpt-long-document-summarize",
       "views": 2
     },
@@ -199,7 +203,15 @@
       "views": 1
     },
     {
+      "slug": "neuro-dive-reputation-guide",
+      "views": 1
+    },
+    {
       "slug": "notta-reputation-workflow-guide",
+      "views": 1
+    },
+    {
+      "slug": "okipro-reputation-ai-writing-course",
       "views": 1
     },
     {
