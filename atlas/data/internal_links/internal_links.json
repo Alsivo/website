@@ -3,8 +3,8 @@
   "ai-kanri-lawyer-seminar-claude-code": [
     {
       "slug": "aikanri-reviews-pricing",
-      "anchor": "AI鬼管理の評判・料金と週次伴走の中身",
-      "reason": "初期の1on1設計の次に、実運用を週次で定着させる具体策と費用感を知りたい読者ニーズに直結。Claude Codeを前提に、守秘・チェックフローを運用へ落とし込む視点を補完するため。"
+      "anchor": "週次伴走トレーニングの内容と料金を確認する",
+      "reason": "1on1で設計した“最初の一手”を実運用へ定着させる次の選択肢として、週次伴走の進め方と費用感を具体的に把握でき、申込判断を補完できるため。"
     }
   ],
   "aiarty-image-enhancer-reputation": [],
@@ -12,19 +12,38 @@
   "aikanri-reviews-pricing": [
     {
       "slug": "ai-kanri-lawyer-seminar-claude-code",
-      "anchor": "弁護士・法務でのAI自動化の始め方と守秘を考慮した設計例",
-      "reason": "本記事と同じ週次伴走×Claude Codeの枠組みで、守秘・セキュリティ要件が厳しい領域の具体的進め方を解説。運用定着やセキュリティに不安がある読者の意思決定を補完できるため。"
+      "anchor": "法務・弁護士向けの導入例と守秘の考え方",
+      "reason": "同じ伴走型（Claude Code）の枠組みで、法務領域に特化した始め方と守秘設計を解説。業務自動化を検討中の読者が次に抱く「機密対応と適用範囲」の疑問に直結し、導入判断を補完します。"
     }
   ],
   "bunken-reputation-pricing-security-guide": [],
+  "canva-reputation-presentation-plan": [
+    {
+      "slug": "gamma-reputation",
+      "anchor": "AIプレゼンツール「Gamma」で10〜30分の叩き台を作る実務ガイド",
+      "reason": "同じ用途（プレゼン・資料の叩き台を短時間で作る）の代替ツール。Canvaと比較しやすく、AI生成前提のワークフローや向き不向きを理解でき、プラン選びの判断を補完できるため。"
+    }
+  ],
   "circlereuse-reputation-pricing-safety": [],
   "dmm-genai-camp-reputation-roadmap": [],
-  "gamma-reputation": [],
+  "gamma-reputation": [
+    {
+      "slug": "canva-reputation-presentation-plan",
+      "anchor": "Canvaの評判とFree/Pro/Teamsの選び方（プレゼン時短のコツも解説）",
+      "reason": "Gammaと同じく資料・プレゼンの時短を目的とするツールで、代替/併用の判断に必要な商用利用の可否やプラン選定情報を補完でき、読者が次に抱く「Gammaでは足りない部分をCanvaで補えるか」を検討しやすいため。"
+    }
+  ],
   "lai-reputation-trial": [],
   "localgoat-reputation": [],
   "mitsumoritaro2-reviews-pricing-guide": [],
   "neuro-dive-reputation-guide": [],
   "notta-reputation-workflow-guide": [],
-  "okipro-reputation-ai-writing-course": [],
+  "okipro-reputation-ai-writing-course": [
+    {
+      "slug": "aikanri-reviews-pricing",
+      "anchor": "PoC止まりを防ぎ、AI活用を週次伴走で定着させる方法（評判と料金）",
+      "reason": "AIライティングの型を学んだ後、実務へ根付かせる運用設計・習慣化という次の疑問に直結。講座型（沖プロ）と伴走型の違いを比較しつつ、導入〜定着の意思決定を補完できるため。"
+    }
+  ],
   "value-ai-writer-review-trial-guide": []
 }
