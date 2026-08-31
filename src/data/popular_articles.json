@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T07:00:08.551492",
+  "generatedAt": "2026-08-31T12:00:08.857882",
   "period": {
     "start": "2026-08-03",
     "end": "2026-08-30",
@@ -147,6 +147,10 @@
       "views": 2
     },
     {
+      "slug": "aiarty-image-enhancer-reputation",
+      "views": 2
+    },
+    {
       "slug": "aidd-reputation-corporate-training",
       "views": 2
     },
@@ -176,10 +180,6 @@
     },
     {
       "slug": "ai-writing-tools-comparison-japanese-quality-pricing-ux",
-      "views": 1
-    },
-    {
-      "slug": "aiarty-image-enhancer-reputation",
       "views": 1
     },
     {
