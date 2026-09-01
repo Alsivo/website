@@ -1,0 +1,150 @@
+---
+title: "DeepLの評判は？精度・安全性・料金を“機密保持と用語統一”の観点で実務チェックする導入ガイド"
+titleLines:
+  - "DeepLの評判は？"
+  - "精度・安全性・料金を“機密保持と用語統一”の観点で実務チェックする導入ガイド"
+description: "無料と有料で何がどう違う？機密保持と用語統一を軸に、DeepLの安全性・機能差（無料/Pro/Teams/API/Write）を会話形式でわかりやすく整理。短時間で試用計画と最適プランを決めるための実務ガイド。"
+alQuestion: "機密や個人データが混ざる翻訳を安全に回したいけど、無料と有料のどれを選べばいいのかな？"
+ciboAnswer: "まず結論から言うと、機密を扱うなら無料は避けてProやTeams、APIで検討しよう。理由は、無料はテキストが保存・学習に使われる一方、Proは永続保存せず改善目的に使わないと案内されているからだよ。このあと、データの扱いと地域処理の確認ポイント、用語集の作り方、短時間の試用手順まで一緒に決めていこう。"
+date: "2026-09-01"
+verified: "2026-09-01"
+category: "AIツール"
+image: "/images/blog/deepl-reputation-security-guide.png"
+readingTime: "14 min read"
+faq: [{"question": "Proなら絶対に学習に使われないの？", "answer": "現行の公式記載では、Proはテキストを永続保存せず、サービス改善目的に使用しないと案内されています。ただし将来の仕様・契約で変わる可能性があるため、最新のプライバシーポリシーと契約書で確認してください。"}, {"question": "無料版に誤って機密を貼った場合、削除できますか？", "answer": "無料版は送信テキストが一定期間保存され、性能向上に利用される可能性があります。削除の可否や手続きは最新のポリシーやサポート案内を参照してください。根本的には、機密の投入を避ける運用が推奨です。"}, {"question": "日本（または特定地域）でのみ処理したい場合はどうすればいい？", "answer": "法人向けにはデータレジデンシーのオプションやEnterprise標準機能が案内されています。APIは地域エンドポイントがあります。どの地域が選べるかは契約・サポート経由で要確認です。"}, {"question": "サブプロセッサーはどこで確認できますか？", "answer": "DeepLはデータインフラ拡張の一環としてAWS等の追加を公式に告知しています。最新の変更は公式ブログやヘルプの関連ページで確認してください。"}, {"question": "Teamsと個人Proのどちらを試すべき？", "answer": "個人で素早く検証するならPro、部署横断で配布・請求をまとめたいならTeams/Businessが候補です。最終判断は利用人数・共有範囲・契約要件・料金を公式情報で照合して行ってください。"}]
+tags:
+  - "AIツール"
+  - "仕事効率化"
+  - "生成AI"
+  - "業務効率化"
+  - "DeepL"
+published: true
+---
+## 導入：いま決めるのは「機密保持」と「用語統一」
+<Dialogue speaker="al" emotion="worried">社内から“DeepLすごいから使おう”って声は強いんだけど、無料で始めて大丈夫なのか、自信がないんだ。</Dialogue>
+<Dialogue speaker="cibo" emotion="empathetic">分かる。まず「機密を守れるか」と「用語ブレを減らせるか」を基準に見れば、迷いが減るよ。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">安全性の線引きが曖昧で、無料/Pro/Teams/APIのどれを試すか決められない。提案書の初期設定も白紙のまま…。</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">なら、先に結論→違い→社内ルール→用語集→短時間の検証→席数と費用、の順で一緒に決めよう。重要な事実は公式の一次情報をその場で押さえていくよ。</Dialogue>
+
+## 先に結論：機密を扱うなら無料は避けてPro/Teams/APIから検討
+<Dialogue speaker="al" emotion="surprised">結論から教えて。どこから入れば安全？</Dialogue>
+<Dialogue speaker="cibo" emotion="thinking">機密や個人データを触るなら、無料は避けてPro/Teams/APIを前提に確認しよう。無料はテキストが一定期間保存され、性能向上に使われることがある。一方、Proはテキストを永続保存せず、サービス改善のために使わないとされている（現行の案内）。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">個人データを含む翻訳はどう扱われる？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">無料は個人データを含む利用が不可の規定がある。Pro契約等の要件を満たすなら翻訳可能だよ。契約書とポリシーを合わせて確認してね。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">データを国内だけで処理したい、みたいな要件は？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">法人向けにはデータレジデンシーのオプションやEnterprise標準の案内がある。APIは地域エンドポイントも用意されている。どのリージョンが使えるかは契約・設定で要確認だよ。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">料金は？すぐに見積もりたい。</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">価格は改訂があるから、導入直前に公式の案内で最新を確認しよう。席数・利用量の前提を先に固めれば試算しやすいよ。</Dialogue>
+
+- **ここまでの要点：** 無料は機密入力NG／Proは永続保存なし・改善目的に不使用（現行）、地域処理は上位プランやAPI機能で要確認、料金は最新を公式で確認
+
+## 5分で把握：無料/Pro/Teams/API/Writeの違い（安全運用の観点）
+<Dialogue speaker="al" emotion="worried">それぞれ、実務ではどう使い分けるのが現実的？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">無料は個人のカジュアル用途向け。テキストが保存・学習に使われる可能性があるから、機密や個人データは入れない前提だよ。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">Proは？個人検証を始めるなら十分？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">Pro（個人/小規模）は、テキストを永続保存せず、改善目的に不使用という方針（現行）で、個人データを含む翻訳も契約の範囲で可能だ。個人単位の本格検証に向いている。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">チーム配布や請求をまとめたい場合は？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">Teams/Business/Enterpriseの法人向けプランを検討。Proのデータ方針に準じつつ、データレジデンシーなど法人向け機能の案内がある（提供の有無は契約条件次第）。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">システム連携したいときはAPIかな？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">そう。DeepL API Proはプログラム連携用。Pro方針に準拠しつつ、地域エンドポイントの利用が案内されている（契約・設定で選ぶ形）。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">Writeは翻訳じゃなくリライト系だよね。安全面は？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">Write/Write Proは文章の書き直し支援。Proではテキストの永続保存を行わず、改善目的に不使用の扱い（現行）だよ。</Dialogue>
+
+## 安全性をどう確認する？（対話で要点チェック）
+<Dialogue speaker="al" emotion="thinking">安全性はどこを見ればいい？要点を会話で順に押さえたい。</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">まず“保存と学習利用”。無料は一定期間保存・性能向上に使われることがある。Proは永続保存せず、改善目的に使わない（現行）。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">“個人データ”の扱いは？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">無料は個人データの使用不可規定がある。Proは契約要件を満たせば可能。契約条項を必ず確認しよう。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">通信や保存は暗号化されてる？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">転送中・保存時の暗号化や鍵管理について、DeepLのヘルプで説明されている。技術詳細は公式資料を参照しよう。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">“処理地域”は指定できる？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">法人向けにデータレジデンシーの選択肢が案内され、Enterpriseでは標準で含む旨の説明がある。APIは地域エンドポイントが提供されているよ。どの地域が使えるかは契約で確認。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">インフラはどこで動いているの？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">サブプロセッサーの変更として、AWS等の追加が公式ブログで告知されている。処理場所や管理方法の影響を定期的に確認しよう。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">企業利用の契約で注意すべきは？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">企業向け規約や契約に、権利帰属・利用範囲の条項がある。読み合わせと法務レビューを推奨。条文は公式の企業向け利用規約を参照しよう。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">“絶対に安全”と言い切っていい？</Dialogue>
+<Dialogue speaker="cibo" emotion="empathetic">どんなサービスも絶対は言えない。現行のポリシーと契約で評価し、変更があれば見直す前提で運用しよう。</Dialogue>
+
+## 社内ルールづくり（現場の疑問にそのまま回答）
+<Dialogue speaker="al" emotion="worried">現場から「拡張機能を入れていい？」って聞かれる。どう答える？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">まずは承認したブラウザだけで利用しよう、と伝えて。データの持ち出しを避けるため、拡張機能は当面オフにして、必要なものだけ申請制にするのが無難。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">履歴はどう扱う？DeepL側が保存しないなら放置でいいの？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">Pro側は“永続保存しない”方針だけど、自社に履歴が残ることはある。社内の保存期間と削除手順を決めて、機密は短期で消す運用にしよう。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">持ち込み禁止データの線引きは？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">無料は機密・個人データを入れない。Proでも“最小限”を徹底。個人番号、決済情報、未公開の顧客情報、秘匿契約、設計図などは持ち込み禁止を明文化しよう。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">API鍵の運用は？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">キーの発行・保管・定期入れ替えを台帳で管理しよう。必要なら社内プロキシやファイアウォールで送信元IPを絞る。APIの地域エンドポイントを使う場合は、契約と仕様の範囲で設定を確認してね。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">請求や権限、ログの確認はどこを見る？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">企業向けは契約と管理画面の機能差がある。請求・権限・ログの可否は、企業向け規約や公式案内で事前に確認しよう。</Dialogue>
+
+## 用語統一（Glossary）：最初の20語で“ブレ”を止める
+<Dialogue speaker="al" emotion="thinking">用語のブレでレビューが渋滞してる。どこから直す？</Dialogue>
+<Dialogue speaker="cibo" emotion="happy">まず“最初の20語”を決めよう。会社名、製品名、部署名、役職、主要機能名、顧客区分、商標、法務表現（準拠法・管轄・秘密保持・損害賠償など）、禁則表現。この核だけで体感が変わる。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">登録のコツは？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">原語は大文字小文字と数を統一、訳語は社外文書の基準に合わせて固定。数詞や時制みたいな“変わるもの”はGlossaryに入れない。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">誰が更新して、どう共有する？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">申請→承認→反映→周知の1本流し。変更履歴を残して、四半期ごとに棚卸し。まずは部門内で回し、安定したら全社へ。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">効き目の確認は？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">用語集なし→ありで同じ文を訳して、固有名詞と法務表現の統一率だけ先に見る。ここが揃えば、現場の手直し時間は一気に減るよ。</Dialogue>
+
+## 短時間で品質を確かめる流れ（現場文書ベース）
+<Dialogue speaker="al" emotion="surprised">試用に時間をかけられない。30〜60分で見極めるコツは？</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">3ジャンル×各200〜300語の“現場文書”を使おう。技術・ビジネス・法務の3本が定番。過去の確定訳があれば基準訳にする。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">無料でも試せる？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">機密は無料に貼らない。試すならダミー文や既公開の文章で。機密はProやTeams、APIで試してね。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">評価ポイントは多いと迷う…。</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">「意味の取り違え」「用語統一」「読みやすさ」「手直し時間」の4点を3段階でメモれば十分。Glossary適用前後で差も見てね。</Dialogue>
+
+1. **準備**：現場文書を3本用意し、可能なら基準訳を用意。
+2. **素の翻訳→比較**：Glossaryなしで出力→基準訳と比べる（無料は機密NG）。
+3. **Glossary適用→再比較**：最初の20語を登録して再翻訳、固有名詞・法務表現を重点チェック。
+4. **要件照合**：保存・学習利用、地域処理、契約条項の適合を確認し、結論をまとめる。
+
+## 席数と費用の考え方（見積りの前に決めること）
+<Dialogue speaker="al" emotion="thinking">席数と費用の腹づもりを作りたい。何から決める？</Dialogue>
+<Dialogue speaker="cibo" emotion="explain">役割で切ろう。個人検証はPro、部署横断はTeams/Business、システム処理はAPI。月の文書本数×平均語数で概算の翻訳量を出して、ピークの同時利用を席数に反映。</Dialogue>
+<Dialogue speaker="al" emotion="thinking">価格はいつ確定させる？</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">直前に公式の最新情報で確認して試算表を更新しよう。プラン・価格は改訂があるからね。</Dialogue>
+
+## DeepLの主要プラン比較（安全運用の確認観点）
+
+| 比較項目 | 無料版 | Pro（個人） | Teams/Business/Enterprise | API Pro | Write Pro |
+| --- | --- | --- | --- | --- | --- |
+| テキストの学習利用 | 性能向上のために利用されうる | サービス改善目的に不使用（現行記載） | 原則Proに準拠（契約条件に従う） | Pro方針に準拠 | Pro方針に準拠 |
+| テキストの保存 | 一定期間保存 | 永続保存しない | 永続保存しない（契約条件に従う） | 永続保存しない | 永続保存しない |
+| 個人データの取り扱い | 無料では使用不可規定あり | 契約要件の範囲で可 | 契約に従い可否判断 | 契約に従い可否判断 | 契約に従い可否判断 |
+| 地域処理／データレジデンシー | 地域指定の案内はなし（最新情報は公式で確認） | 上位機能・アドオンで提供の場合あり | 販売支援付きプランで利用可、Enterprise標準で含む旨あり | Regional endpointsが利用可 | 要確認（最新情報は公式で確認） |
+| インフラ変更の告知 | AWS等の追加告知あり | AWS等の追加告知あり | AWS等の追加告知あり | AWS等の追加告知あり | AWS等の追加告知あり |
+| 契約・規約の確認先 | プライバシーポリシー | プライバシーポリシー | 企業向け規約・契約書 | プライバシーポリシー／開発者ドキュメント | プライバシーポリシー |
+| 料金 | 公式で最新を確認 | 公式で最新を確認 | 公式で最新を確認 | 公式で最新を確認 | 公式で最新を確認 |
+
+<AffiliateLink href="https://www.deepl.com/" service="DeepL" linkType="official" network="none" ctaType="primary" ctaPlacement="after_toc">公式の安全性・料金・プランを確認する</AffiliateLink>
+
+## よくある質問
+
+### Proなら絶対に学習に使われないの？
+
+現行の公式記載では、Proはテキストを永続保存せず、サービス改善目的に使用しないと案内されています。ただし将来の仕様・契約で変わる可能性があるため、最新のプライバシーポリシーと契約書で確認してください。
+
+### 無料版に誤って機密を貼った場合、削除できますか？
+
+無料版は送信テキストが一定期間保存され、性能向上に利用される可能性があります。削除の可否や手続きは最新のポリシーやサポート案内を参照してください。根本的には、機密の投入を避ける運用が推奨です。
+
+### 日本（または特定地域）でのみ処理したい場合はどうすればいい？
+
+法人向けにはデータレジデンシーのオプションやEnterprise標準機能が案内されています。APIは地域エンドポイントがあります。どの地域が選べるかは契約・サポート経由で要確認です。
+
+### サブプロセッサーはどこで確認できますか？
+
+DeepLはデータインフラ拡張の一環としてAWS等の追加を公式に告知しています。最新の変更は公式ブログやヘルプの関連ページで確認してください。
+
+### Teamsと個人Proのどちらを試すべき？
+
+個人で素早く検証するならPro、部署横断で配布・請求をまとめたいならTeams/Businessが候補です。最終判断は利用人数・共有範囲・契約要件・料金を公式情報で照合して行ってください。
+
+
+## まとめ
+<Dialogue speaker="al" emotion="happy">無料は機密NG、機密はPro/Teams/APIで検討。用語は最初の20語から、評価は3本の現場文書で。ここまで固まった！</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">最後に、保存・学習利用、個人データ、地域処理、契約条項を公式で再チェックしよう。料金も導入前に最新を確認。それで安心して試用に入れるよ。</Dialogue>
+<Dialogue speaker="al" emotion="determined">やってみる！</Dialogue>
