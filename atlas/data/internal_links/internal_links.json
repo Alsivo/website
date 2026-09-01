@@ -3,8 +3,8 @@
   "ai-kanri-lawyer-seminar-claude-code": [
     {
       "slug": "aikanri-reviews-pricing",
-      "anchor": "AI鬼管理の週次伴走の中身と料金",
-      "reason": "弁護士業務のAI自動化を1on1で設計した後、PoCから定着までをどう運用し、いくらかかるかという次の疑問に答える補完記事。Claude Codeを前提にした具体的な伴走内容と費用感が確認でき、申込判断に直結するため。"
+      "anchor": "週次伴走トレーニング『AI鬼管理』の内容と料金",
+      "reason": "1on1で設計した後に、PoC止まりを回避して運用へ定着させる具体策と費用感を把握できるため。元記事の意思決定（次の一手）を補完し、同じ用途の継続支援内容を詳しく確認できる。"
     }
   ],
   "aiarty-image-enhancer-reputation": [],
@@ -12,16 +12,16 @@
   "aikanri-reviews-pricing": [
     {
       "slug": "ai-kanri-lawyer-seminar-claude-code",
-      "anchor": "弁護士・法務でのAI自動化の始め方と守秘の設計",
-      "reason": "同じ伴走型の進め方を、機密性が高い法務領域でどう設計するかの具体例。守秘・体制設計への不安を補完し、導入判断の次の疑問に自然に答えるため（基準4・5）。"
+      "anchor": "弁護士・法務でAI自動化を始める具体ステップと守秘の設計",
+      "reason": "AI鬼管理の伴走を法務領域に当てはめた具体例。守秘・情報管理の設計や1on1の進め方など、元記事のセキュリティや運用定着の疑問を実務目線で補完できるため。"
     }
   ],
   "bunken-reputation-pricing-security-guide": [],
   "canva-reputation-presentation-plan": [
     {
       "slug": "gamma-reputation",
-      "anchor": "他ツールでの時短アプローチ（Gammaで叩き台を作る実務フロー）",
-      "reason": "Canvaでの時短・商用利用・プラン選びを理解した後、同じ用途で素早く叩き台を作れる代替手段を知りたいという次の疑問に応える。Gammaの実務手順は比較検討や併用の判断材料として有益。"
+      "anchor": "Gammaで短時間に資料の叩き台を作る方法と評判",
+      "reason": "Canvaと同じ“資料を10〜30分で形にする”用途に直結し、具体的な実務フローが比較対象として有益。Canvaの代替・併用候補を把握したい読者の次の疑問に自然に応え、意思決定を補完できるため。"
     }
   ],
   "chatpdf-reputation-safety-pricing-guide": [],
@@ -31,10 +31,11 @@
   "gamma-reputation": [
     {
       "slug": "canva-reputation-presentation-plan",
-      "anchor": "Canvaの評判と時短コツ、商用利用・プラン選び",
-      "reason": "Gammaで資料作成を時短したい読者が、同じ用途の代表的ツールを検討する際に有用。商用利用の安心ポイントやFree/Pro/Teamsの選び方が、席数判断や導入検討の比較材料として元記事の意思決定を補完するため。"
+      "anchor": "Canvaでプレゼン資料を時短するコツとFree/Pro/Teamsの選び方",
+      "reason": "Gammaと同じく短時間で資料を作る用途の代替候補。商用利用の安心ポイントやプラン選定の観点が導入判断を補完し、どちらを使うか比較検討に役立つため。"
     }
   ],
+  "gemini-pricing-plans-jp-decision": [],
   "lai-reputation-trial": [],
   "localgoat-reputation": [],
   "mitsumoritaro2-reviews-pricing-guide": [],
@@ -43,8 +44,8 @@
   "okipro-reputation-ai-writing-course": [
     {
       "slug": "aikanri-reviews-pricing",
-      "anchor": "AI活用を現場に定着させる「AI鬼管理」の進め方と費用",
-      "reason": "個人のAIライティングスキルを上げたあと、チーム全体にワークフローを浸透させる方法を知りたい読者に有用。PoC止まりを防ぎ、運用定着まで伴走する具体策と料金が分かり、元記事の意思決定を補完するため。"
+      "anchor": "AI活用を現場に“定着”させる週次伴走の内容と費用",
+      "reason": "沖プロの講座で作業フローを学んだ後に、現場でPoC止まりにせず運用を根付かせるにはどうするかという次の疑問に直結します。週次伴走の具体像と費用感が分かり、受講後の実装・定着の意思決定を補完できます。"
     }
   ],
   "value-ai-writer-review-trial-guide": []
