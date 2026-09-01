@@ -3,8 +3,15 @@
   "ai-kanri-lawyer-seminar-claude-code": [
     {
       "slug": "aikanri-reviews-pricing",
-      "anchor": "週次伴走トレーニング『AI鬼管理』の内容と料金",
-      "reason": "1on1で設計した後に、PoC止まりを回避して運用へ定着させる具体策と費用感を把握できるため。元記事の意思決定（次の一手）を補完し、同じ用途の継続支援内容を詳しく確認できる。"
+      "anchor": "週次伴走トレーニング（AI鬼管理）の内容と料金",
+      "reason": "本記事の1on1設計の次の一手として、PoCから実運用への定着方法と費用感を具体的に確認でき、意思決定を補完できるため。"
+    }
+  ],
+  "ai-minutes-tools-comparison-notta": [
+    {
+      "slug": "notta-reputation-workflow-guide",
+      "anchor": "Nottaの評判・料金・セキュリティと実務導入の手順を詳しく見る",
+      "reason": "元記事でNottaのワークフローに触れた読者が、導入判断に必要な精度・料金・セキュリティの詳細と具体的な実装手順（Zoom/Teams/Meet対応）を確認でき、意思決定を補完できるため。"
     }
   ],
   "aiarty-image-enhancer-reputation": [],
@@ -12,16 +19,16 @@
   "aikanri-reviews-pricing": [
     {
       "slug": "ai-kanri-lawyer-seminar-claude-code",
-      "anchor": "弁護士・法務でAI自動化を始める具体ステップと守秘の設計",
-      "reason": "AI鬼管理の伴走を法務領域に当てはめた具体例。守秘・情報管理の設計や1on1の進め方など、元記事のセキュリティや運用定着の疑問を実務目線で補完できるため。"
+      "anchor": "法律業務でAI自動化を、守秘に配慮しながら始めるには",
+      "reason": "同じ伴走型の進め方を守秘性が高い領域に当てはめた具体策。PoCから定着へ進める際の設計・リスク対応を補完できる次の一歩。"
     }
   ],
   "bunken-reputation-pricing-security-guide": [],
   "canva-reputation-presentation-plan": [
     {
       "slug": "gamma-reputation",
-      "anchor": "Gammaで短時間に資料の叩き台を作る方法と評判",
-      "reason": "Canvaと同じ“資料を10〜30分で形にする”用途に直結し、具体的な実務フローが比較対象として有益。Canvaの代替・併用候補を把握したい読者の次の疑問に自然に応え、意思決定を補完できるため。"
+      "anchor": "Gammaの評判と、短時間で叩き台を作る実務フロー",
+      "reason": "Canvaでの時短資料作成に関心がある読者が、同じ用途の代替ツールを具体フローと共に比較検討でき、元記事の意思決定を補完できるため。"
     }
   ],
   "chatpdf-reputation-safety-pricing-guide": [],
@@ -31,8 +38,8 @@
   "gamma-reputation": [
     {
       "slug": "canva-reputation-presentation-plan",
-      "anchor": "Canvaでプレゼン資料を時短するコツとFree/Pro/Teamsの選び方",
-      "reason": "Gammaと同じく短時間で資料を作る用途の代替候補。商用利用の安心ポイントやプラン選定の観点が導入判断を補完し、どちらを使うか比較検討に役立つため。"
+      "anchor": "Canvaで資料作成するなら—評判とFree/Pro/Teamsの違い",
+      "reason": "Gammaと同じくプレゼン・資料作成の時短が目的で、導入時に悩むプラン選択や商用利用の可否を比較検討する材料になるため。Gammaの席数・料金判断を読んだ後に、代替候補としてCanvaの実務的な選び方を確認でき、意思決定を補完します。"
     }
   ],
   "gemini-pricing-plans-jp-decision": [],
@@ -40,12 +47,23 @@
   "localgoat-reputation": [],
   "mitsumoritaro2-reviews-pricing-guide": [],
   "neuro-dive-reputation-guide": [],
-  "notta-reputation-workflow-guide": [],
+  "notta-reputation-workflow-guide": [
+    {
+      "slug": "ai-minutes-tools-comparison-notta",
+      "anchor": "Nottaと他のAI議事録ツールを実務目線で比較する",
+      "reason": "Nottaの評判・導入ガイドの次に、通し時間や精度・料金で他ツールと比較して最適解を選ぶため。Nottaのワークフロー例もあり、意思決定を補完します。"
+    }
+  ],
   "okipro-reputation-ai-writing-course": [
     {
       "slug": "aikanri-reviews-pricing",
-      "anchor": "AI活用を現場に“定着”させる週次伴走の内容と費用",
-      "reason": "沖プロの講座で作業フローを学んだ後に、現場でPoC止まりにせず運用を根付かせるにはどうするかという次の疑問に直結します。週次伴走の具体像と費用感が分かり、受講後の実装・定着の意思決定を補完できます。"
+      "anchor": "PoCで止めずにチーム運用へ定着させる週次伴走の中身",
+      "reason": "AI下書き×人の最終チェックを現場に根付かせたい読者に、講座後の“定着”を支える伴走・運用設計の具体を補完できるため。"
+    },
+    {
+      "slug": "gemini-pricing-plans-jp-decision",
+      "anchor": "AI下書きを量産するためのGeminiの料金と上限の比較",
+      "reason": "執筆ワークフローにGeminiを使う場合、最適プランや上限を把握してコスト見積もりをしたいという次の疑問に答えるため。"
     }
   ],
   "value-ai-writer-review-trial-guide": []
