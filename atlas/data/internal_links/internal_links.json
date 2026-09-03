@@ -2,61 +2,61 @@
   "ai-blogkun-gold-reputation-safety-pricing": [
     {
       "slug": "ai-blogkun-gold-wordpress-workflow-setup",
-      "anchor": "WordPress連携と“下書き→承認→予約公開”の実運用手順",
-      "reason": "同じサービスの詳細運用記事で、元記事の“下書き自動×人の最終チェック”方針をWordPress上でどう実装するかを具体化し、導入判断後の次の疑問（実際の回し方・設定）に答えるため。"
+      "anchor": "WordPress連携と“下書き→承認→予約公開”の具体的な回し方",
+      "reason": "同一サービスの運用手順を詳しく解説しており（1）、評判・安全運用の考え方を読んだ読者が次に知りたい設定・フローを補完します（4・5）。"
     }
   ],
   "ai-blogkun-gold-wordpress-workflow-setup": [
     {
       "slug": "ai-blogkun-gold-reputation-safety-pricing",
-      "anchor": "AIブログくんGOLDの評判・安全性・料金を確認する",
-      "reason": "同じサービスについて、導入判断に直結する安全性・機能・料金を整理しており、ワークフロー解説記事の次に読者が知りたい疑問を補完するため。"
+      "anchor": "AIブログくんGOLDの評判・安全性・機能・料金を確認する",
+      "reason": "WordPress連携と運用手順を把握した直後に、同じ“下書き自動×人の最終チェック”前提での評価・安全性・費用感を知ることで、導入可否の判断を補完できるため。"
     }
   ],
   "ai-kanri-lawyer-seminar-claude-code": [
     {
       "slug": "aikanri-reviews-pricing",
-      "anchor": "PoCで止めない週次伴走『AI鬼管理』の中身と料金",
-      "reason": "本記事の1on1で設計した“最初の一手”を実装・定着まで進める継続支援。弁護士業務の守秘・チェック体制を現場で回す段取りを具体化する判断材料になるため。"
+      "anchor": "業務自動化トレーニング「AI鬼管理」の内容と料金",
+      "reason": "1on1で設計した後、PoC止まりにしない運用定着をどう進めるかという次の疑問に答え、同一提供元の継続支援として意思決定を補完できるため。"
     },
     {
       "slug": "claude-pricing-plans-guide",
-      "anchor": "Claudeの無料/Pro/Maxどれを選ぶ？上限と違いの早見",
-      "reason": "契約書レビューや期日管理の自動化でClaude Codeを使う前提なら、費用と上限の見極めが直近の検討ポイントになるため。導入準備物や運用コストの見積もりを補完できる。"
+      "anchor": "Claudeの料金プランの違いと上限の確認",
+      "reason": "Claudeを前提に自動化する際、どのプランを選ぶか・上限やリセット時刻をどう見るかは直後の実務判断に不可欠で、読者の次の検討事項に直結するため。"
     }
   ],
   "ai-minutes-tools-comparison-notta": [
     {
       "slug": "notta-reputation-workflow-guide",
-      "anchor": "Nottaの評判と実務導入ガイド（精度・料金・セキュリティ、Zoom/Teams/Meet対応）",
-      "reason": "元記事でNottaのワークフロー例を触れている読者が、次に知りたい精度・料金・セキュリティの詳細や実装手順を深掘りできる。比較記事→個別サービスの関係に合致し、意思決定と導入準備を補完する。"
+      "anchor": "Nottaの詳しい導入手順と料金・セキュリティの確認ポイント",
+      "reason": "比較記事で候補に挙がったNottaを本導入する前に、精度・費用・セキュリティを具体的に検証し、Zoom/Teams/Meetでの実運用手順まで把握できるため。意思決定と評価計画の次の一歩を補完します。"
     }
   ],
   "aiarty-image-enhancer-reputation": [],
   "aidd-reputation-guide": [],
   "aikanri-reviews-pricing": [
     {
-      "slug": "claude-pricing-plans-guide",
-      "anchor": "Claudeの料金プランの違いと選び方",
-      "reason": "AI鬼管理はClaude Code前提のため、導入時のプラン選定と上限の理解が費用対効果の判断を補完するから。"
+      "slug": "ai-kanri-lawyer-seminar-claude-code",
+      "anchor": "弁護士向け：守秘に配慮した自動化の始め方",
+      "reason": "元記事と同じ伴走/設計手法を、守秘が厳しい法律領域に当てはめた具体例。運用設計や権限・ログ設計の不安を具体的に解消でき、次の検討に自然に進めるため。"
     },
     {
-      "slug": "ai-kanri-lawyer-seminar-claude-code",
-      "anchor": "弁護士向けのAI自動化の始め方（守秘の設計）",
-      "reason": "同じ伴走サービスの法務向け詳細。守秘要件への配慮や具体的な始め方を確認したい法務・弁護士の読者に自然な次の一歩。"
+      "slug": "claude-pricing-plans-guide",
+      "anchor": "Claudeの料金プランをどう選ぶか",
+      "reason": "伴走導入時の費用見積もりや上限設計は意思決定の要。元記事がClaude前提で語られている流れのまま、最適プラン選定に直結する実務的判断を補完できるため。"
     }
   ],
   "bunken-reputation-pricing-security-guide": [],
   "canva-reputation-presentation-plan": [
     {
       "slug": "gamma-reputation",
-      "anchor": "Gammaの評判と、10〜30分で叩き台を作る実務ガイド",
-      "reason": "同じ用途（プレゼン・資料作成の叩き台づくり）での別サービス。Canvaの時短コツを読んだ後、他ツールの実力や向き不向きを把握して意思決定を補完できるため。"
+      "anchor": "Gammaの評判と、短時間で資料の叩き台を作る方法",
+      "reason": "Canvaでの時短作成に関心がある読者が、同じ用途で使える代替ツールを検討する際に役立つ。評判と実務フローがまとまり、プラン選びの意思決定を補完する。"
     },
     {
       "slug": "gamma-sales-proposal-workflow",
-      "anchor": "Gammaで営業提案書を10〜30分で叩き台にする手順",
-      "reason": "ビジネス提案の資料づくりに直結する具体ワークフロー。Canvaでの基本を押さえた読者が、AI生成を実務プロセスへ落とし込む際の手順を学べるため。"
+      "anchor": "Gammaで営業提案書を10〜30分の叩き台にする具体手順",
+      "reason": "プレゼン・資料作成の次の関心事として、実務での具体プロセス（構成〜承認〜出力）を知りたい読者に自然に続く。Canva Teamsを検討するチーム運用の観点とも親和性が高い。"
     }
   ],
   "chatpdf-reputation-safety-pricing-guide": [],
@@ -64,8 +64,8 @@
   "claude-pricing-plans-guide": [
     {
       "slug": "gemini-pricing-plans-jp-decision",
-      "anchor": "Claudeと迷うなら：Geminiの料金・上限の選び方",
-      "reason": "Claudeのプラン検討時に、他社（Gemini）の料金・上限・リセットの違いを並べて比較し、最適な選択を補完できるため。同じ用途での意思決定を直接支援する。"
+      "anchor": "Geminiの料金プラン（無料/Pro/Ultra/Workspaceなど）と上限の違い",
+      "reason": "Claudeと迷う読者が費用感や上限を横比較し、最適プランの意思決定を補完できるため（同じ用途の代替サービスの検討）。"
     }
   ],
   "deepl-reputation-security-guide": [],
@@ -73,50 +73,63 @@
   "gamma-reputation": [
     {
       "slug": "gamma-sales-proposal-workflow",
-      "anchor": "営業提案書の叩き台をGammaで作る具体的ワークフロー",
-      "reason": "元記事の「10〜30分で叩き台を作る」通し手順を、営業提案という主要ユースケースに特化してさらに具体化。構成づくり〜レビュー〜承認〜出力までを実務レベルで補完でき、同じサービスの深掘りとして自然な次の一手です。"
+      "anchor": "Gammaで営業提案書の叩き台を作る実務フロー",
+      "reason": "元記事で触れた営業ユースケースをさらに具体化した手順で、読後にすぐ実践できる次の一歩になるため。"
+    },
+    {
+      "slug": "canva-reputation-presentation-plan",
+      "anchor": "Canvaの評判とプレゼン資料を時短するコツ、プランの選び方",
+      "reason": "同じ資料作成の用途で検討される代替ツールの実態とプラン選びを把握でき、Gamma導入の意思決定を補完できるため。"
     }
   ],
   "gamma-sales-proposal-workflow": [
     {
       "slug": "gamma-reputation",
-      "anchor": "Gammaの評判と実務ガイド（活用範囲と注意点）",
-      "reason": "同じGammaについて、評判・導入判断・向き不向きまで補完でき、ワークフローの次に読むと実務適用の可否を判断しやすいから。"
+      "anchor": "Gammaの評判や実務での使いどころを確認する",
+      "reason": "同じGammaの個別記事で、導入判断やチーム適用時の注意点など、元記事のワークフロー後に生じる疑問を補完します。営業提案以外の資料でも叩き台を短時間で作る実務的なコツがまとまっており、理解を深められます。"
     }
   ],
   "gemini-pricing-plans-jp-decision": [
     {
       "slug": "claude-pricing-plans-guide",
-      "anchor": "Claudeの料金プランと上限を3分で確認",
-      "reason": "Geminiのプラン選定と並行して比較検討されやすい代替サービスで、料金・上限・リセット時刻を素早く把握でき、最終判断を補完できるため。"
+      "anchor": "Claudeの料金プラン（無料/Pro/Max）の違いと上限を素早く確認",
+      "reason": "Geminiと比較検討しやすい代替LLMの料金・上限情報を補完でき、プラン選定の最終判断に直結するため"
     }
   ],
   "lai-reputation-trial": [],
-  "localgoat-reputation": [],
+  "localgoat-reputation": [
+    {
+      "slug": "localgoat-review-reply-ai",
+      "anchor": "口コミ返信を標準化する具体策と初月ロードマップ",
+      "reason": "同じLOCALGOATでの口コミ対応に特化した実践記事。元記事の判断ガイドで触れた一元管理の中核機能を深掘りし、AI返信の安全運用と初月の進め方まで分かるため、導入判断後の具体的アクションに直結する。"
+    }
+  ],
+  "localgoat-review-reply-ai": [
+    {
+      "slug": "localgoat-reputation",
+      "anchor": "LOCALGOATの評判と導入判断ガイド（MEO・口コミ・SNSの一元化）",
+      "reason": "同じLOCALGOATについて、返信運用の実装から一歩広げて全体機能・評判・導入可否を俯瞰でき、社内の意思決定や他拠点展開の検討を補完できるため。"
+    }
+  ],
   "mitsumoritaro2-reviews-pricing-guide": [],
   "neuro-dive-reputation-guide": [],
   "notta-reputation-workflow-guide": [
     {
       "slug": "ai-minutes-tools-comparison-notta",
-      "anchor": "他の議事録ツールと比べて検討する",
-      "reason": "同じ用途の比較記事で、通し時間や運用負荷を基準にNottaの位置づけを把握でき、導入判断を補完できるため。Nottaのワークフロー例も含まれ、連続して読み進めやすい。"
+      "anchor": "他のAI議事録ツールとの比較と、Nottaが向くケースを確認する",
+      "reason": "Notta単体の評価を読んだ後、同用途ツールと実務基準（通し時間・工数）で比較して最適な選択を固めたい読者ニーズに合致。個別記事と比較記事の関係で意思決定を補完できる。"
     }
   ],
   "okipro-reputation-ai-writing-course": [
     {
-      "slug": "aikanri-reviews-pricing",
-      "anchor": "週次伴走で“定着”まで進めるAI鬼管理の評判と料金",
-      "reason": "講座で学んだAI下書き運用をチームに根付かせる際、PoC止まりを防ぐ伴走・管理の具体像を知るニーズに直結し、意思決定を補完できるため。"
-    },
-    {
       "slug": "claude-pricing-plans-guide",
-      "anchor": "Claudeの無料/Pro/Maxの違いと上限を短時間で把握",
-      "reason": "記事の7日実践や量産運用に直結するトークン上限・リセット時刻・費用感を素早く判断でき、導入プラン選定の次アクションを後押しするため。"
+      "anchor": "大量執筆に向けたClaudeのプラン選びと上限の目安",
+      "reason": "AI下書き×人チェックを本数多めで回す際のコストと上限判断を補完できるため"
     },
     {
-      "slug": "gemini-pricing-plans-jp-decision",
-      "anchor": "Geminiの各プランの違いと最適プランの選び方",
-      "reason": "Claude以外で運用したい読者（特にGoogle環境）にとって、実践前のプラン選定という自然な次の疑問に答えられるため。"
+      "slug": "aikanri-reviews-pricing",
+      "anchor": "学んだAI執筆を現場に定着させる週次伴走の内容",
+      "reason": "講座で型を掴んだ後、チームでの運用定着や継続支援を検討する読者の次の疑問に応えるため"
     }
   ],
   "value-ai-writer-review-trial-guide": []
