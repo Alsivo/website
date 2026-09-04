@@ -1,0 +1,184 @@
+---
+title: "弁護士の期日管理をAIで標準化する方法｜Claude Codeで期限抽出→タスク化→再確認を自動化【無料1on1準備ガイド/PR】"
+titleLines:
+  - "弁護士の期日管理をAIで標準化する方法｜"
+  - "Claude Codeで期限抽出→タスク化→再確認を自動化【無料1on1準備ガイド/PR】"
+description: "期日がメールやPDFに散らばり転記漏れが不安なとき、まず何を整え、どう安全にAIへ任せるかを最短で把握できます。Claude Codeで「期限抽出→整形→CSV/ICS→人の承認」の最小フローを作る設計と、匿名化・ログ・承認フロー・評価指標まで通しで解説します。"
+alQuestion: "メールやPDFから期日だけ拾って自動でカレンダーに入れたいけど、守秘や承認をどう設計すれば安全に回せるのかな？"
+ciboAnswer: "AIだけに任せず人が最後に承認する前提で、Claude Codeを使って期限抽出→整形→CSV/ICS→承認の最小フローを作ろうよ；匿名化のやり方とログ、評価指標まで一緒に整理して、まずはサンプルで60分の試験導入をやってみよう。"
+date: "2026-09-04"
+verified: "2026-09-04"
+category: "仕事効率化"
+image: "/images/blog/law-firm-deadline-automation-claude-code.png"
+readingTime: "10 min read"
+faq: [{"question": "Claude Codeは本当に所内で安全に使えるの？", "answer": "安全性は導入方法と運用ルール次第です。データの取り扱い・保持は公式のポリシーやFAQを確認し（機密は匿名化や専用契約の検討）、最終判断は人が行う前提にしてください。"}, {"question": "料金やプランはどこで確認すればいい？", "answer": "料金や利用条件は更新されやすく、公開情報が限定的な場合があります。最新のプラン・課金方式は公式ドキュメントやコンソールで直接確認してください。"}, {"question": "CLIやAPIで自動実行やログ取得はできる？", "answer": "できます。Claude Codeはプログラム実行（ヘッドレス）に対応し、コマンド実行やイベントの扱いがドキュメントに記載されています。所内では実行ログを別途保存して監査用に保全してください。"}, {"question": "どのモデル・設定を選べばいい？", "answer": "処理対象（長文PDFか短文メールか等）に応じてモデルやツールの設定を選びます。APIの概要やモデル設定の指針は公式ドキュメントを参照し、まずは小さなサンプルで精度とコストを確認すると安全です。"}, {"question": "仕様やコストが後から変わるのが心配です", "answer": "モデルや提供条件は更新され得ます。リリース情報を定期的に確認し、所内では月次でコストと精度をレビューする運用にしておくと安心です。"}]
+tags:
+  - "AIツール"
+  - "仕事効率化"
+  - "業務効率化"
+  - "Claude"
+  - "生成AI"
+published: true
+---
+## 期日が散らばって転記漏れと承認遅れをどう止める？
+<Dialogue speaker="al" emotion="worried">メールとPDFと各自カレンダーがバラバラで、転記漏れと承認待ちが積み上がってるんだ。</Dialogue>
+<Dialogue speaker="cibo" emotion="thinking">まず詰まってる場所を5分で洗い出して、最小の自動化で回すのがいいと思うよ。</Dialogue>
+
+- **この記事でわかること：** 最小構成「期限抽出→整形→CSV/ICS→人の承認」の全体像と、匿名化・ログ・承認フロー・評価指標の決め方
+- **先に結論：** 初回は匿名化サンプルで60分の試験導入を実施し、AIは下書き、人が最終承認の運用にする
+- **使う道具：** Claude Code（CLI/APIで実行できるエージェント環境）
+- **注意点：** 料金や運用仕様は最新の公式情報を確認しつつ、守秘と最終判断は人で担保する
+
+**5分棚卸しチェック（紙でもOK）**
+
+- **情報の置き場：** 受信箱、添付PDF、書面スキャン、所内台帳、個人カレンダーのどこに期日があるかを列挙する
+- **転記の流れ：** 誰がどこからどこへ書き写しているか、待ち時間と差し戻し箇所を書く
+- **承認の線引き：** 期日の「起案→確認→確定」それぞれの責任者を1名ずつ明記する
+- **持ち出し禁止：** 当事者名、事件番号、相手方名、住所・連絡先、秘匿情報など外部送信NGを赤で印を付ける
+- **ログの残し方：** いつ誰が何ファイルをAIに渡し、何件の期日を出力したかの記録先を決める
+
+<Dialogue speaker="al" emotion="thinking">棚卸しはできそうだけど、どこから自動化すれば安全かな。</Dialogue>
+<Dialogue speaker="cibo" emotion="empathetic">期日を拾う所だけAIに任せて、登録は人が承認してからに絞るのが現実的だよ。</Dialogue>
+
+## 最小フローの答え：Claude Codeで期限抽出→整形→CSV/ICS→人の承認
+<Dialogue speaker="al" emotion="surprised">そんなにシンプルに始められるのかな。</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">できるよ、まずは匿名化したサンプルで動かしてみよう。</Dialogue>
+
+1. **抽出（AI）：** PDF/メール本文から期日候補を拾い、JSONで下書きにする
+2. **整形（AI）：** 日付表記ゆれの正規化、案件IDひも付け、信頼度と要確認フラグを付ける
+3. **出力（AI）：** 既存の所内ツールに取り込めるCSV/ICSを作る（登録はまだしない）
+4. **承認（人）：** 担当が差分を確認し、OKだけを所内システムや共有カレンダーに登録、ログを保存
+
+- **Claude Codeの要点：** CLI/APIで実行でき、ファイル入出力や一連のタスクを自動化するのに向く実行環境が用意されている。
+- **運用と費用：** 利用条件や課金はプラン・使い方に依存するため、最新の公式情報で要確認。
+- **安全運用：** データの取り扱いと保持はポリシー・FAQを確認し、機密は匿名化で扱う。法的・倫理面の留意は必須。
+- **補足：** 仕様やモデルは更新され得るため、リリース情報も定期的に確認する。
+
+<Dialogue speaker="al" emotion="happy">人の承認を最後に置けば、まずは怖くないね。</Dialogue>
+<Dialogue speaker="cibo" emotion="happy">うん、最初は“起案はAI、確定は人”で固定しよう。</Dialogue>
+
+## 抽出とスキーマ設計：JSON雛形とテンプレプロンプト
+<Dialogue speaker="al" emotion="thinking">抽出の設計って、どこまで決めればいいのかな。</Dialogue>
+<Dialogue speaker="cibo" emotion="thinking">最初は出力の形と必須項目だけ決めれば十分だよ。</Dialogue>
+
+**最小JSONスキーマ（例）**
+
+```
+{
+ "case_id": "TXT-2024-001",
+ "source_type": "contract|complaint|notice|email",
+ "title": "文書の件名",
+ "due": "2026-09-30",
+ "due_raw": "令和8年9月30日",
+ "timezone": "Asia/Tokyo",
+ "assignee": "要確認",
+ "confidence": 0.78,
+ "needs_review": true,
+ "notes": "条項12.3に基づく回答期限",
+ "source_file": "202609-通知.pdf",
+ "extracted_at": "2026-09-04T10:30:00+09:00"
+}
+```
+
+- **必須項目：** case_id, due, title, needs_review, confidence
+- **任意項目：** due_raw, notes, assignee, source_file, extracted_at
+
+**プロンプト雛形（3種）**
+
+- **契約書：** この契約書の本文から、回答・通知・解除・自動更新停止など「日付で管理すべき期限」を抽出して、上のJSONスキーマで出力してね。条番号と根拠文をnotesに短く添えて、あいまいなときはneeds_reviewをtrueにして。
+- **訴状・裁判書類：** 送達日・提出期限・期日指定など、当事務所が管理すべき日付を抽出し、dueはISO形式、due_rawには原文の書きぶりを入れて。判断が割れる場合はconfidenceを0.5未満にして。
+- **期日通知メール：** 本文と件名から期日と用件を抽出し、titleに「事件略称＋用件」を入れて。メール署名や注意書きは無視してOK、根拠の一文をnotesに。
+
+- **Claude Code運用メモ：** ファイル読込→抽出→JSON保存→ログ追記までを1コマンドに束ねると扱いやすい。
+
+<Dialogue speaker="al" emotion="surprised">JSONが決まると、後ろの処理が組みやすいね。</Dialogue>
+<Dialogue speaker="cibo" emotion="happy">そう、出力の“型”が安定すると全体が安定するよ。</Dialogue>
+
+## 整形・曖昧度・ひも付け：登録前の品質を底上げする
+<Dialogue speaker="al" emotion="worried">和暦や「来週金曜みたいな表現」は不安だな。</Dialogue>
+<Dialogue speaker="cibo" emotion="concerned">正規化のルールを最初に決めて、迷ったら要確認に回そう。</Dialogue>
+
+- **日付正規化：** 和暦・月末・営業日繰り・時差をISO 8601へ統一し、due_rawに原文を保持する
+- **案件ひも付け：** ファイル名・フォルダ名・バーコード等からcase_idを付け、複数候補はneeds_review=true
+- **曖昧度フラグ：** 「相手方到達後◯日」「送達から起算」など起算点が揺れるものはconfidenceを下げて承認待ちへ
+- **重複検出：** 同一title＋同一due＋同一case_idは重複候補としてマーク
+- **レビューリスト：** needs_review=trueだけのCSVを別出力し、朝一の人手レビューの対象にする
+
+### 30日評価指標の回し方（最初の運用）
+1. **漏れ率：** 人手レビューで新規に見つかった期日 ÷ 全期日（週次で集計）
+2. **通し時間：** 受信から承認確定までの平均時間（自動ログ＋承認時刻）
+3. **再作業率：** 差戻し件数 ÷ AI起案件数（理由コードを5つ以内で分類）
+
+<Dialogue speaker="al" emotion="thinking">理由コードがあれば、週次で直せそうだね。</Dialogue>
+<Dialogue speaker="cibo" emotion="happy">うん、直せる場所だけに集中しよう。</Dialogue>
+
+## 取り込み・承認・ログ・守秘：安全に回す最小ルール
+<Dialogue speaker="al" emotion="worried">取り込みで事故らないかと、守秘の線引きが心配だよ。</Dialogue>
+<Dialogue speaker="cibo" emotion="empathetic">CSV/ICSは下書きだけ作って、人が確定する運用にすれば安心だよ。</Dialogue>
+
+**CSV/ICS出力（例）**
+
+- **CSV列例：** title, description, start_date, end_date, all_day, case_id, source_file, reviewer, needs_review
+- **ICS項目例：** DTSTART, DTEND, SUMMARY, DESCRIPTION, UID, URL（所内リンク）, CATEGORIES（事件略称）
+
+**取り込みの注意点**
+
+- **下書き運用：** カレンダーやタスク管理へは「下書き」または「非公開」状態でインポートし、担当が公開に切替える
+- **二重登録防止：** 取り込み前にUIDやcase_idで重複チェックを走らせる
+- **通知抑止：** 参加者に自動招待メールを送らない設定でテストする
+
+**承認フロー雛形**
+
+1. **AI起案：** JSON・CSV/ICS・レビュー用CSVを生成（自動ログ保存）
+2. **一次確認：** 担当事務がneeds_review=trueを中心に確認・修正
+3. **最終承認：** 事件担当弁護士が確定、取り込み実行
+4. **記録：** 承認者・承認時刻・修正点・差戻し理由をログへ
+
+**ログ設計（最低限）**
+
+- 入力ファイル名、実行者、実行時刻、抽出件数、needs_review件数、確定件数、差戻し理由、最終承認者をCSVで保管
+
+**守秘と匿名化（試験導入時）**
+
+- **持ち出し禁止の原則：** 当事者名・事件番号・相手方名・住所・連絡先・秘匿情報は外部送信しない
+- **匿名化手順：** 固有名詞をトークン化（例：原告[A]、被告[B]）、事件番号はダミー、所在地は都道府県まで
+- **データ取り扱い：** Claude側の利用ポリシー・FAQでデータ保持や学習利用の扱いを確認し、必要なら専用契約を検討
+- **法的留意：** 弁護士法・倫理指針に照らし、最終判断は人が行う運用にする
+
+<Dialogue speaker="al" emotion="happy">匿名化で通せば、所内の合意も取りやすそうだね。</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">うん、まずは匿名化サンプルで60分回して、実感を作ろう。</Dialogue>
+
+## 60分試験導入：今すぐ動く3点チェック（所内合意を取りやすく）
+- **匿名化サンプル：** 当事者名・事件番号をダミー化した文書を最低1件用意
+- **出力の型：** この記事のJSONスキーマを所内メモに保存し、共通の“型”として使う
+- **ログ保存先：** 共有フォルダ（例：/deadline/logs）と記録責任者1名を決める（実行時刻・実行者・件数を残す）
+
+<AffiliateLink href="https://af.moshimo.com/af/c/click?a_id=5769031&amp;p_id=7677&amp;pc_id=22229&amp;pl_id=95815" service="AI鬼管理（弁護士向けセミナー）" linkType="affiliate" network="もしもアフィリエイト" ctaType="primary" ctaPlacement="after_toc" bannerSrc="https://image.moshimo.com/af-img/7302/000000095815.png" bannerWidth="300" bannerHeight="300" trackingPixelSrc="https://i.moshimo.com/af/i/impression?a_id=5769031&amp;p_id=7677&amp;pc_id=22229&amp;pl_id=95815">無料1on1で自事務所の期日管理フローを具体化する（60分・オンライン）</AffiliateLink>
+
+## よくある質問
+
+### Claude Codeは本当に所内で安全に使えるの？
+
+安全性は導入方法と運用ルール次第です。データの取り扱い・保持は公式のポリシーやFAQを確認し（機密は匿名化や専用契約の検討）、最終判断は人が行う前提にしてください。
+
+### 料金やプランはどこで確認すればいい？
+
+料金や利用条件は更新されやすく、公開情報が限定的な場合があります。最新のプラン・課金方式は公式ドキュメントやコンソールで直接確認してください。
+
+### CLIやAPIで自動実行やログ取得はできる？
+
+できます。Claude Codeはプログラム実行（ヘッドレス）に対応し、コマンド実行やイベントの扱いがドキュメントに記載されています。所内では実行ログを別途保存して監査用に保全してください。
+
+### どのモデル・設定を選べばいい？
+
+処理対象（長文PDFか短文メールか等）に応じてモデルやツールの設定を選びます。APIの概要やモデル設定の指針は公式ドキュメントを参照し、まずは小さなサンプルで精度とコストを確認すると安全です。
+
+### 仕様やコストが後から変わるのが心配です
+
+モデルや提供条件は更新され得ます。リリース情報を定期的に確認し、所内では月次でコストと精度をレビューする運用にしておくと安心です。
+
+
+## まとめ
+<Dialogue speaker="al" emotion="happy">期日の抽出だけAIに任せて、人が最終承認なら怖くないって分かったよ。</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">Claude Codeで期限抽出→整形→CSV/ICS→人の承認の最小フローを作って、匿名化サンプルで60分の試験導入から始めよう。</Dialogue>
+<Dialogue speaker="al" emotion="determined">やってみる！</Dialogue>
