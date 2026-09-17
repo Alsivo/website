@@ -1,0 +1,158 @@
+---
+title: "Value AI WriterのWordPress連携ガイド｜“AI初稿→人が承認→予約公開”を30分で整える安全運用とチェックリスト"
+titleLines:
+  - "Value AI WriterのWordPress連携ガイド｜"
+  - "“AI初稿→人が承認→予約公開”を30分で整える安全運用とチェックリスト"
+description: "AIの誤情報や誤配信が心配でも大丈夫。下書き限定でValue AI WriterとWordPressを連携し、人が承認してから予約公開する最小フローを30分で整える手順とチェックリストを、一気に導入できるように解説します。"
+alQuestion: "WordPressとつないでも誤配信が怖いし、どこまでAIに任せてどう運用すれば安全に回せるのかな？"
+ciboAnswer: "下書き限定で連携し、人が承認してから予約公開する流れにすれば安心して始められるから、WordPressのアプリケーションパスワードで接続して権限を絞る手順とチェックリストを説明するね。"
+date: "2026-09-18"
+verified: "2026-09-18"
+category: "AIツール"
+image: "/images/blog/value-ai-writer-wordpress-safe-workflow.png"
+readingTime: "11 min read"
+faq: [{"question": "アプリケーションパスワードはどの画面で発行するの？SSLは必須？", "answer": "WordPress管理画面のユーザー設定から発行します。サイトがHTTPS対応（SSL）でないと発行できない場合があるため、事前にSSL化を確認してください。"}, {"question": "Value AI Writerから直接公開されるのが心配です。下書き限定にできますか？", "answer": "Value AI Writer側から下書き保存や投稿操作が可能との案内がありますが、運用では常に「下書き保存」を選び、公開権限のない連携ユーザーを用いることで誤公開リスクを抑えられます。"}, {"question": "接続に失敗します。よくある原因は？", "answer": "パーマリンクが「投稿名」以外、Authorizationヘッダーがサーバー設定で渡っていない、アクセス元IPの許可が未設定、PHPバージョンの不整合などが原因になることがあります。公式マニュアルの対処を順に確認してください。"}, {"question": "接続時に必要な登録情報は何ですか？", "answer": "サイト名、サイトURL（httpsから）、WordPressユーザー名、発行したアプリケーションパスワードをValue AI Writer側に登録します。"}, {"question": "Value AI Writerはどの会社のサービス？", "answer": "GMOグループからの案内があるサービスです。詳細は公式の発表資料を参照してください。"}]
+tags:
+  - "AIツール"
+  - "仕事効率化"
+  - "生成AI"
+  - "SEO"
+  - "WordPress"
+published: true
+---
+## まず不安の整理とゴール合わせ
+<Dialogue speaker="al" emotion="worried">AIの初稿をWordPressへ自動で送るのは便利そうだけど、誤配信や誤情報が怖い。そもそも連携の具体手順や、どこまでAIに任せるかも決めきれていないんだ。</Dialogue>
+<Dialogue speaker="cibo" emotion="thinking">なら、方針はシンプルにしよう。「下書きだけWordPressへ送る→人が承認→予約公開」。連携はWordPressのアプリケーションパスワードを使えば数分でできるよ。要件は公式で確認しながら進めよう。</Dialogue>
+<Dialogue speaker="al" emotion="surprised">30分で運用の骨格まで整えられる？</Dialogue>
+<Dialogue speaker="cibo" emotion="happy">できる。最初にガードレールを決め、連携を下書き限定で有効化→投稿ルールをテンプレ化→最小ワークフロー→承認前チェックと判断指標（KPI）を共有。今日は1本、すぐ下書き投入まで行こう。</Dialogue>
+
+- **要点：** 下書き限定で連携し、公開は必ず人の承認→予約で行う。
+- **根拠：** 連携はアプリケーションパスワード方式。SSL必須、パーマリンク設定など要件あり。
+- **進め方：** ガードレール→連携→テンプレ→最小フロー→チェック＆KPI（5日間で10本検証まで）。
+
+## 役割分担とガードレール（YMYL回避・出典・責任）
+<Dialogue speaker="al" emotion="thinking">AI初稿と人の最終チェック、境界が曖昧だと怖い。どこで線引きする？</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">役割は4点で固定しよう。AIは初稿まで。人は事実確認と校正・承認に集中。YMYL（医療・法律・金融など生活へ重大影響のある領域）は原則扱わないか、専門家監修がなければ一旦noindexで公開する方針に。</Dialogue>
+<Dialogue speaker="al" emotion="happy">公開責任者も明確にしておくと、迷いが減りそうだね。</Dialogue>
+
+- **役割分担（最小）：** 生成（AI＋編集）／事実確認（一次情報で裏どり）／校正（表記・内部リンク）／公開責任者（承認・最終責任）
+- **出典・引用：** 数字・固有名詞は一次情報を基本に本文末へ明記。引用は「引用符＋出典＋改変なし」。
+- **YMYL回避・noindex基準：** 監修なしのリスク領域・検証段階の記事・重複が高い記事は一旦noindexで公開し、改善後に解除。
+- **画像・著作権：** ライセンス確認済みのみ使用。クレジット要件があれば遵守。
+- **責任表示：** フッターに編集部名／公開日／更新日を明記。
+
+## WordPress連携（5分）：下書き限定でテスト送信まで
+<Dialogue speaker="al" emotion="worried">連携って難しそう。何から確認する？</Dialogue>
+<Dialogue speaker="cibo" emotion="thinking">4点チェック→3ステップ接続→テスト下書き、の順で手早くいこう。挙動は環境に左右されるから、要件は公式をその都度確認しながら進めてね。</Dialogue>
+
+- **1) HTTPS（SSL）：** サイトがHTTPS対応。アプリケーションパスワードはSSL未対応だと発行できない場合がある。
+- **2) パーマリンク：** 「投稿名」を推奨（エラー回避の観点）。
+- **3) PHP推奨版：** マニュアル記載の推奨バージョン（例：7.4）を確認（推奨は更新され得る）。
+- **4) 連携専用ユーザー：** 公開権限のないロール（例：寄稿者）で連携専用ユーザーを用意し、このユーザーでAPP‑PASSを発行。公開は管理者/編集長がWordPress上で実施（画像アップが必要なら承認者が差し替え）。
+
+<Dialogue speaker="al" emotion="surprised">要件は大丈夫そう。接続はどうやる？</Dialogue>
+<Dialogue speaker="cibo" emotion="happy">ステップは3つ。順番にいこう。</Dialogue>
+
+1. **アプリケーションパスワードを発行（WordPress側）：** 管理画面→ユーザー→対象ユーザー→アプリケーションパスワードを作成。表示された文字列を控える（HTTPS必須）。
+2. **Value AI Writerへ登録：** サイト名／サイトURL（httpsから）／WordPressユーザー名／アプリケーションパスワードを入力して登録。
+3. **テスト送信：** Value AI Writerからテスト投稿を実行し、WordPressに「下書き」で作成されるか確認。Value AI Writer側から下書き保存や投稿操作が可能だが、運用は常に「下書き」を選ぶ。
+
+<Dialogue speaker="cibo" emotion="recommend">誤公開防止の運用ルールを明文化しておこう。**Value AI Writerの送信時は必ず“下書き（Draft）”を選択して送信**。公開はWordPress側で人が行う。</Dialogue>
+
+<Dialogue speaker="al" emotion="thinking">もし繋がらないときは？</Dialogue>
+<Dialogue speaker="cibo" emotion="concerned">よくあるのは3つ。1) 認証情報の通信ヘッダー（Authorizationヘッダー）がサーバーで落ちている。必要に応じて.htaccessでの受け渡し設定の例がマニュアルにある。 2) 外部連携用API（REST API）をIP制限している。マニュアル記載のアクセス元IPを許可する。 3) パーマリンクやPHP、SSL要件の不整合。設定を見直そう。</Dialogue>
+
+- **補足：** 連携後はValue AI Writer側から保存・投稿操作が可能と案内があるが、誤公開防止のため「下書き限定」で運用する。
+- **提供元：** Value AI WriterはGMOグループからの案内があるサービス。
+
+## 投稿ルールのテンプレ化と最小ワークフロー（約30分）
+<Dialogue speaker="al" emotion="thinking">公開前に迷いやすいのは、カテゴリーやスラッグ、アイキャッチ…。最初に型を作っておきたい。</Dialogue>
+<Dialogue speaker="cibo" emotion="happy">迷いを消すテンプレを置こう。細かすぎると回らないから“最小限で十分に安全”を目指すよ。</Dialogue>
+
+- **投稿タイプ：** 標準は「投稿（post）」で下書き作成。固定ページは別承認のうえ、必要時のみ手動移行。
+- **カテゴリー：** 主カテゴリーは1つに固定。
+- **タグ：** 最大3つ、同義語の乱立は禁止。
+- **スラッグ：** 半角英小文字＋ハイフン、主要語を先頭、30字以内。
+- **アイキャッチ：** ライセンス確認済み。altに要約キーワード。
+- **著者名：** 編集部名で統一（監修記事は監修表記を追加）。
+- **内部リンク：** 上位1本＋関連1本（計2本以上）を原則。
+
+<Dialogue speaker="al" emotion="surprised">ワークフローはどう回す？ 30分でいけるかな。</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">段取りは6ステップ。初回は少し時間がかかっても、2本目以降は30分が現実的になるよ。</Dialogue>
+
+1. **キーワードと意図の確認：** 「誰に何を最短で答えるか」を一言で固める。
+2. **見出しの確定：** AI提案を人が重複回避の観点で微修正。
+3. **初稿生成（Value AI Writer）：** 骨子を崩さずに生成。
+4. **事実確認：** 固有名詞・数値・日付は一次情報で裏どり、出典メモを用意。
+5. **校正・整形：** 表記統一／引用整形／内部リンク挿入／スラッグ確定。
+6. **下書き送信→WordPress：** 送信先は必ず「下書き」。
+
+- **要点3つ：** 「下書き限定」「出典の明記」「内部リンクで既存資産に接続」。
+
+## 各ステップのチェック観点（事故らないための実務要点）
+- **出典付け：** 数値・仕様・料金・日付は一次情報（公式）を優先。本文または脚注に形式で明記。
+- **引用整形：** 引用符＋出典＋改変なし。長文はブロック引用で視認性を高める。
+- **内部リンク：** カニバ回避のため、同トピック上位記事への統合導線を優先。
+- **カニバ回避：** 既存記事の検索意図と重複しないか、見出し単位で差別化。
+- **noindex基準：** 監修なしのYMYL、検証段階、重複・低品質リスクは一旦noindex。
+
+## 承認前チェックとKPI、5日間で10本テストの回し方
+<Dialogue speaker="al" emotion="worried">承認前に見るポイント、多すぎると抜けが出そう。最小で何を見る？</Dialogue>
+<Dialogue speaker="cibo" emotion="thinking">“承認前はこの7つだけ”に絞ろう。KPIも4つで十分だ。</Dialogue>
+
+- **承認前チェック（7点）：**
+ - 事実確認と出典の明記（一次情報で裏どり）。
+ - 引用の体裁（引用符・出典・改変なし）。
+ - 画像の権利（ライセンス・クレジット要件）。
+ - noindex判断（監修なしのYMYL・検証段階・重複高リスク）。
+ - 内部リンク（上位・関連への接続）。
+ - 予約設定の再確認（日時［JST/サイトのタイムゾーン設定］／公開者／公開状態［公開/予約/非公開］）。
+ - 投稿ルールの充足（投稿タイプ=post／カテゴリ1つ／タグ最大3／スラッグ・著者名）。
+
+- **KPI（最小4点）：**
+ - 校閲時間（分/本）
+ - 重大な事実エラー件数（承認前に0件を目標）
+ - 重複・要統合率（既存記事とかぶる割合）
+ - 初期のCTR・滞在・スクロール（公開直後の健全性）
+
+<Dialogue speaker="al" emotion="happy">テスト期間はどう切る？</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">“5日間で10本テスト”を回そう。Day1に連携・テンプレ整備と2本、Day2〜4で各3本ずつ、Day5で検証・是正。合格ライン（例：重大エラー0、校閲時間が目標±20%、要統合率が想定内、初期のCTR・滞在が下振れしない）を事前合意し、次サイクルで改善点を1〜2個に絞る。</Dialogue>
+
+## もし連携が難しいときの代替（HTML書き出し→手動下書き）
+<Dialogue speaker="al" emotion="thinking">連携が社内のセキュリティ要件に引っかかったら？</Dialogue>
+<Dialogue speaker="cibo" emotion="concerned">一時運用として、Value AI Writerで生成→HTML書き出し→WordPressで手動の「下書き作成」。公開権限は管理者だけにして、承認フローは同じ手順を守れば事故は避けられる。連携要件が整い次第、アプリケーションパスワード接続へ切り替えよう。</Dialogue>
+
+<AffiliateLink href="https://px.a8.net/svt/ejp?a8mat=4BACLH+786G4Y+1JUK+1HM30X" service="Value AI Writer" linkType="affiliate" network="A8.net" ctaType="primary" ctaPlacement="after_toc" bannerSrc="https://www25.a8.net/svt/bgt?aid=260823365437&amp;wid=001&amp;eno=01&amp;mid=s00000007238009005000&amp;mc=1" bannerWidth="300" bannerHeight="250" trackingPixelSrc="https://www14.a8.net/0.gif?a8mat=4BACLH+786G4Y+1JUK+1HM30X">WordPress連携の公式手順と要件を確認する</AffiliateLink>
+
+## よくある質問
+
+### アプリケーションパスワードはどの画面で発行するの？SSLは必須？
+
+WordPress管理画面のユーザー設定から発行します。サイトがHTTPS対応（SSL）でないと発行できない場合があるため、事前にSSL化を確認してください。
+
+### Value AI Writerから直接公開されるのが心配です。下書き限定にできますか？
+
+Value AI Writer側から下書き保存や投稿操作が可能との案内がありますが、運用では常に「下書き保存」を選び、公開権限のない連携ユーザーを用いることで誤公開リスクを抑えられます。
+
+### 接続に失敗します。よくある原因は？
+
+パーマリンクが「投稿名」以外、Authorizationヘッダーがサーバー設定で渡っていない、アクセス元IPの許可が未設定、PHPバージョンの不整合などが原因になることがあります。公式マニュアルの対処を順に確認してください。
+
+### 接続時に必要な登録情報は何ですか？
+
+サイト名、サイトURL（httpsから）、WordPressユーザー名、発行したアプリケーションパスワードをValue AI Writer側に登録します。
+
+### Value AI Writerはどの会社のサービス？
+
+GMOグループからの案内があるサービスです。詳細は公式の発表資料を参照してください。
+
+
+## まとめ
+<Dialogue speaker="al" emotion="happy">“下書き限定→人の承認→予約公開”で、怖さがだいぶ減った。すぐ回せそう！</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">いいね。最後に今日の30分タスクを確認。1) ガードレールをチームに共有、2) WordPress連携をアプリケーションパスワードで接続して下書きテスト、3) 投稿ルールテンプレを記事に当てて1本下書き投入。詳しい接続要件や対処は公式マニュアルも見ておくと安心だよ。</Dialogue>
+
+- **今日やる：** ガードレール共有→連携→1本下書き→承認→予約設定。
+- **ヒント：** つまずいたら「HTTPS・パーマリンク・PHP・認証ヘッダー・IP制限」をまず疑う。
+- **CTA：** 本番運用の前に、公式マニュアルの接続要件と手順も一読しておこう。
+
+<Dialogue speaker="al" emotion="happy">やってみる！</Dialogue>
