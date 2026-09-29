@@ -2,168 +2,173 @@
   "ai-blogkun-gold-reputation-safety-pricing": [
     {
       "slug": "ai-blogkun-gold-wordpress-workflow-setup",
-      "anchor": "WordPress連携と下書き→承認→予約公開の具体手順",
-      "reason": "本記事で示した『下書き自動×人の最終チェック』体制を、WordPressでどう設定・運用するかを具体的に解説しており、導入可否の判断後に直ちに必要となる実務手順を補完するため。"
+      "anchor": "WordPress連携と下書き→承認→予約公開の回し方",
+      "reason": "同じサービスの具体的な運用手順で、本文の「下書き自動×人の最終チェック」を実装する方法が分かる。導入判断の次に必要な設定・承認フローを補完する内容だから。"
     }
   ],
   "ai-blogkun-gold-wordpress-workflow-setup": [
     {
       "slug": "ai-blogkun-gold-reputation-safety-pricing",
-      "anchor": "AIブログくんGOLDの評判・安全性・料金を確認する",
-      "reason": "本記事の運用手順の次に、導入可否やコスト妥当性を判断する材料として最適。下書き自動×人の最終チェックの前提で機能と安全面を掘り下げており、意思決定を補完します。"
+      "anchor": "AIブログくんGOLDの安全性・機能・料金を整理して導入可否を考える",
+      "reason": "同じサービスを“下書き→承認→予約公開”前提で評価しており、安全性や費用感の判断材料が得られて導入判断を補完できるため"
     }
   ],
   "ai-kanri-lawyer-seminar-claude-code": [
     {
       "slug": "law-firm-deadline-automation-claude-code",
-      "anchor": "期日管理をClaude Codeで標準化する具体的な自動化手順",
-      "reason": "元記事で触れた“期日管理”の課題を、実装レベルでどう進めるかを解説。1on1準備にも直結し、次のアクションを明確にできます。"
+      "anchor": "期日管理をClaude Codeで標準化する具体フロー",
+      "reason": "元記事で触れている弁護士の期日管理を、実装手順レベルで深掘り。無料1on1の準備にも直結し、次の疑問を解消します。"
     },
     {
       "slug": "claude-code-consulting-onboarding-support",
-      "anchor": "Claude Codeを90日で定着させる伴走の設計図と無料診断の使い方",
-      "reason": "1on1で方針が見えた後、定着まで進めるための進行方法と伴走の要否判断を補完。意思決定に必要な検討材料になります。"
+      "anchor": "Claude Codeの導入支援は必要？90日定着の設計図と無料診断の使い方",
+      "reason": "1on1で方針が見えた後、社内に定着させる全体設計を把握できる。意思決定を補完する内容です。"
     },
     {
       "slug": "aikanri-reviews-pricing",
-      "anchor": "PoC止まりを防ぐ週次伴走（AI鬼管理）の内容と料金を手短に確認",
-      "reason": "導入後の“定着”に向けた具体的な支援内容と費用感が分かり、予算と効果の見立てに役立ちます。法律事務所の運用にも適合します。"
+      "anchor": "PoC止まりを脱する週次伴走「AI鬼管理」の内容と料金",
+      "reason": "継続運用に向けた週次伴走の具体像と費用を確認でき、導入可否の判断材料になるため。"
     }
   ],
   "ai-minutes-tools-comparison-notta": [
     {
       "slug": "notta-reputation-workflow-guide",
       "anchor": "Nottaの評判と実務導入ガイド（Zoom/Teams/Meet対応）",
-      "reason": "比較で候補に挙げたNottaをさらに深掘りし、精度・セキュリティ・運用の判断材料とワークフローを具体化できるため。"
+      "reason": "比較でNottaを候補にした読者が、導入フロー・評価観点・安全運用を一気に把握でき、次の具体アクションにつながるため。"
     },
     {
       "slug": "notta-pricing-plans",
-      "anchor": "Nottaの料金プランの選び方（会議時間×回数の早見表）",
-      "reason": "導入時に迷うプラン選定を会議時間ベースで即決でき、元記事の意思決定を補完するため。"
+      "anchor": "Nottaの料金プラン比較と選び方（会議時間×月回数で即決）",
+      "reason": "導入直前の「どのプランにするか」という疑問を解消し、元記事の意思決定を費用面で補完できるため。"
     },
     {
       "slug": "notta-zoom-integration-setup",
-      "anchor": "Zoom×Nottaの連携手順と安全運用のポイント",
-      "reason": "導入直後に直面する「会議ツールとの連携と安全運用」を具体手順で解決でき、元記事のセキュリティ重視の観点とも合致するため。"
+      "anchor": "Zoom×Notta連携で議事録作成を標準化する手順",
+      "reason": "Zoom利用チームがすぐにセットアップと同意運用まで落とし込め、元記事のワークフロー例を実務に展開しやすいため。"
     }
   ],
   "ai-video-tools-compare-pick-two": [],
   "ai-writing-tools-compare-safe-trial": [
     {
-      "slug": "value-ai-writer-review-trial-guide",
-      "anchor": "Value AI Writerを5日で評価して導入可否を決める進め方",
-      "reason": "元記事の「5日トライアル計画」をそのまま実務に落とし込める評価観点と手順がまとまり、意思決定を補完できるため。"
+      "slug": "value-ai-writer-wordpress-safe-workflow",
+      "anchor": "WordPress連携と承認フローの整え方",
+      "reason": "元記事の“AI初稿→人が承認”という安全運用を、実際の公開フロー（予約公開まで）に落とし込む次の実務として最適。Value AI Writerを前提に30分で整える手順とチェックリストが意思決定を具体化する。"
     },
     {
-      "slug": "value-ai-writer-wordpress-safe-workflow",
-      "anchor": "WordPressと連携して“AI初稿→人が承認→予約公開”を整える手順とチェックリスト",
-      "reason": "元記事で強調する安全運用（AI初稿→人が承認）を、Value AI Writerで短時間に構築する実務ガイドで、そのままトライアルに使えるため。"
+      "slug": "value-ai-writer-review-trial-guide",
+      "anchor": "5日で評価して導入可否を決める手順",
+      "reason": "元記事の「今日決める2候補・5日トライアル」をそのまま実行に移すための詳細ガイド。Value AI Writerの評価観点・スケジュール・判定基準が明確になり、導入可否の判断を補完する。"
     }
   ],
   "aiarty-image-enhancer-print-dpi-upscale": [
     {
       "slug": "aiarty-image-enhancer-reputation",
-      "anchor": "Aiarty Image Enhancerの評判・料金・安全性と画質改善のコツを確認する",
-      "reason": "同じサービスの記事で、印刷手順の次に気になる実務品質や料金・安全性を補完できるうえ、粗さ・にじみを抑える具体的コツが意思決定に直結するため"
+      "anchor": "粗さ・にじみを直すコツや評判・料金・安全性を詳しく知る",
+      "reason": "同じAiarty Image Enhancerについて、印刷前に気になる画質の補正ポイントを補完し、あわせて導入判断に必要な料金・安全性も確認できるため。元記事の実践手順の次に自然に生じる疑問を解消します。"
     }
   ],
   "aiarty-image-enhancer-reputation": [
     {
       "slug": "aiarty-image-enhancer-print-dpi-upscale",
-      "anchor": "印刷向けに解像度を上げる最短手順",
-      "reason": "同じツールで印刷用途に特化。元記事の評判・設定の要点の次に、実務で必要なDPIやサイズの具体手順を確認できるため。"
+      "anchor": "A4やチラシに使える解像度アップの設定と手順",
+      "reason": "同じAiarty Image Enhancerで印刷用途に特化した具体的な設定を解説。元記事の“業務で使える品質に直す”を印刷シーンで実践する次の一歩になるため。"
     }
   ],
   "aidd-reputation-guide": [
     {
       "slug": "aidda-grant-ai-training",
-      "anchor": "助成金の可否と申請前チェックリスト",
-      "reason": "元記事で触れた料金・助成金と90日KPIを、同じサービスで具体化できる。決裁前に予算設計と申請手順を詰める次の一歩として最適。"
+      "anchor": "助成金の使い方と予算設計、申請前チェックリストを詳しく見る",
+      "reason": "同じサービスの導入可否を決める具体手順と予算設計を補完し、元記事の90日KPI・料金検討を実務に落とし込めるため"
     }
   ],
   "aidda-grant-ai-training": [
     {
       "slug": "aidd-reputation-guide",
-      "anchor": "AI駆動開発協会の評判と、研修後に成果が出るかの見極め方",
-      "reason": "助成金・予算設計を固めた次の段階として、サービスの質と導入後の成果を確認したい読者に、同協会の評判と90日KPI・料金の見方を提示し意思決定を補完できるため"
+      "anchor": "AI駆動開発協会の評判と見極め方（90日KPIと料金の考え方）",
+      "reason": "同じサービスの導入判断を補完。助成金・予算設計を検討中の読者が次に気になる評判や、90日KPI/料金の評価軸を具体化できるため。"
     }
   ],
   "aikanri-reviews-pricing": [
     {
       "slug": "claude-code-consulting-onboarding-support",
-      "anchor": "90日で自動化を定着させる伴走の進め方と無料診断の使い方",
-      "reason": "元記事の「PoCから定着」「週次伴走」と同じテーマを、具体的な設計図と実行手順で深掘り。無料診断の活用まで分かり、意思決定を補完できる。"
+      "anchor": "伴走コンサルの進め方と無料診断の使い方を詳しく見る",
+      "reason": "週次伴走で定着させる具体的な90日設計図や、無料診断の活用まで踏み込んでおり、元記事の意思決定を補完します。"
     },
     {
       "slug": "claude-pricing-plans-guide",
-      "anchor": "Claudeの料金プランの違いを確認する",
-      "reason": "導入可否やROI検討の次に生じる、実運用時のプラン選択・上限把握という疑問に直結。費用見積りと運用設計の判断材料になる。"
+      "anchor": "Claudeの料金プランの違いと最適プランを短時間で確認する",
+      "reason": "運用開始前に避けられないプラン選定を整理でき、ROIや費用見積りの検討を後押しします。"
     }
   ],
   "bunken-reputation-pricing-security-guide": [
     {
       "slug": "bunken-style-dictionary-how-to",
-      "anchor": "文賢の表記ルール辞書づくりと運用の実践ガイド",
-      "reason": "同じサービスの詳細解説。初期設定ガイドの次の課題である表記ルールの標準化を具体化し、辞書テンプレ・運用ルール・KPIまで補完できるため。"
+      "anchor": "表記ルール辞書を30分で整える手順と運用のコツ",
+      "reason": "導入判断と初期設定の次に、チーム標準を具体化する辞書設計が必要になるため。テンプレや運用ルール、KPIまで踏み込んでおり、実装フェーズを後押しします。"
     }
   ],
   "bunken-style-dictionary-how-to": [
     {
       "slug": "bunken-reputation-pricing-security-guide",
-      "anchor": "文賢の導入判断と初期設定、料金・セキュリティの確認ポイント",
-      "reason": "同じ文賢のテーマで、辞書運用を始める前後に必要な導入判断・初期設定・セキュリティ/料金の不安解消を補完できるため。チーム標準化の意思決定に直結します。"
+      "anchor": "文賢の導入判断と初期設定（料金・セキュリティ・評判）",
+      "reason": "表記ルール辞書の運用をチームで回す前に、導入可否・費用・セキュリティ要件と初期設定全体を確認でき、同じ文賢のテーマで運用KPIを支える意思決定を補完できるため。"
     }
   ],
   "bytech-ai-free-briefing-reviews-check": [],
   "canva-reputation-presentation-plan": [
     {
       "slug": "gamma-reputation",
-      "anchor": "Gammaの評判と、10〜30分で資料の叩き台を作る実務ガイド",
-      "reason": "Canvaでの時短フローを読んだ後、同じ用途の別ツールであるGammaの実務感や向き不向きを知りたい読者に合う。Canvaを使い続けるか、併用・乗り換えを検討する意思決定を補完できる。"
+      "anchor": "Gammaの評判と、叩き台を10〜30分で作る実務ガイド",
+      "reason": "Canvaでの時短フローを理解した読者が、同じ用途で他ツールも比較検討したいときに自然な次の一歩。Gammaの実力と具体的な使い方を把握でき、意思決定を補完する。"
     },
     {
       "slug": "gamma-sales-proposal-workflow",
-      "anchor": "Gammaで営業提案書を短時間で作るワークフロー",
-      "reason": "プレゼン・資料作成の中でも提案書を作る読者に、構成から出力までの具体手順を提示。Canva記事の「時短で叩き台」文脈から自然に深掘りでき、実務での再現性を高める。"
+      "anchor": "営業提案書をGammaで短時間に作る具体的なワークフロー",
+      "reason": "プレゼン・資料作成の時短を実務の営業提案書に落とし込みたい読者に直結。構成から承認・出力までの具体手順が、元記事の汎用的なコツを実案件へ橋渡しする。"
     }
   ],
   "chatpdf-reputation-safety-pricing-guide": [],
   "circlereuse-ai-bulk-listing-bpo-30days-guide": [
     {
       "slug": "circlereuse-reputation-pricing-safety",
-      "anchor": "CircleReuseの評判・料金・向いている事業者を確認する",
-      "reason": "本記事で手順とKPIを把握した読者が、導入判断で気になる信頼性・費用感・自社との適合性を補完できるため。"
+      "anchor": "導入前に確認したい評判と料金、向いている事業者",
+      "reason": "実務手順の次に、CircleReuseが自社に合うか・費用感は妥当かを判断したい読者の意思決定を補完できるため。"
     }
   ],
   "circlereuse-reputation-pricing-safety": [
     {
       "slug": "circlereuse-ai-bulk-listing-bpo-30days-guide",
-      "anchor": "CircleReuseで30日検証を回す実務ガイド（KPIと費用感）",
-      "reason": "同じサービスをより実務的に掘り下げ、KPI設計と30日間の進め方を示すため。元記事の評価・料金理解の次に「どう検証・運用するか」という疑問を補完し、意思決定を後押しします。"
+      "anchor": "CircleReuseで30日間の検証を回す手順とKPI設計",
+      "reason": "本記事で評価・料金・向き不向きを把握した読者に、実際の30日検証と運用KPI、費用感を具体化する次の一手を提示するため。同一サービスの実務ガイドで意思決定を補完します。"
     }
   ],
   "claude-code-consulting-onboarding-support": [
     {
       "slug": "aikanri-reviews-pricing",
-      "anchor": "週次伴走プログラムの内容と料金を詳しく見る",
-      "reason": "PoC止まりを“定着”に進める具体的な伴走内容と費用を把握でき、元記事の内製/外部伴走の判断を補完できるため。"
+      "anchor": "PoC止まりを抜ける週次伴走『AI鬼管理』の評判と料金",
+      "reason": "外部伴走の要否を判断する元記事の次に、具体的な伴走サービスの中身・費用・期待できる効果を把握でき、見積や体制検討を前進させられるため。Claude Code前提の定着支援という文脈も連続している。"
     },
     {
       "slug": "claude-pricing-plans-guide",
-      "anchor": "Claudeの料金プランと上限の違いを素早く把握する",
-      "reason": "導入後の運用コストや上限管理の判断材料となり、元記事のROI/KPI設計と費用見立てを具体化できるため。"
+      "anchor": "Claudeの料金プラン（無料/Pro/Max）の違いと上限の決め方",
+      "reason": "導入・定着を90日で回すには、利用上限やコスト見積が不可欠。プラン選定の具体論がROI設計と運用体制の判断を補完するため。"
     }
   ],
   "claude-pricing-plans-guide": [
     {
       "slug": "claude-code-consulting-onboarding-support",
-      "anchor": "Claude Codeの導入支援と、90日で業務に定着させる進め方",
-      "reason": "Pro/Maxを選んだ後に“実務へどう落とすか”を具体化できる。チーム導入の設計図と無料診断の活用法が、料金判断の次アクションを補完する。"
+      "anchor": "Claude Code導入の進め方と90日定着の設計図",
+      "reason": "プランを決めた後に出てくる「どの業務から定着させるか」を具体化できる。中小企業向けの導入〜90日定着の手順と無料診断の使い方が分かり、意思決定を補完。"
     },
     {
       "slug": "gemini-pricing-plans-jp-decision",
-      "anchor": "Geminiの料金と上限もあわせて確認する",
-      "reason": "Claudeと比較検討する読者が最終判断しやすい。同用途の主要ツールの料金・上限を把握でき、意思決定を補完する。"
+      "anchor": "Geminiの料金プランと上限の違いを確認",
+      "reason": "Claudeと併せて検討される代替候補。無料/有料各プランと上限の違いを把握でき、最適プランの比較判断に直結。"
+    },
+    {
+      "slug": "aikanri-reviews-pricing",
+      "anchor": "業務自動化トレーニング『AI鬼管理』の内容と費用",
+      "reason": "PoC止まりを防いで投資回収まで進めたい人向け。伴走トレーニングの中身と料金を短時間で把握でき、Pro/Maxへの課金判断を実務面で裏付けられる。"
     }
   ],
   "deepl-reputation-security-guide": [],
@@ -171,46 +176,41 @@
   "dmm-genai-camp-cancel-suspend-reactivate": [
     {
       "slug": "dmm-genai-camp-reputation-roadmap",
-      "anchor": "DMM 生成AI CAMPの評判と初月ロードマップ",
-      "reason": "解約・継続の判断材料を補完。初月の進め方や職種別パスがわかり、続ける価値を具体的に検討できるため。"
+      "anchor": "受講者の評判と初月の進め方（職種別ロードマップ）",
+      "reason": "初月で継続か解約かを判断する際に、実際の評判と具体的な学習計画が意思決定の材料になるため。"
     }
   ],
   "dmm-genai-camp-reputation-roadmap": [
     {
       "slug": "dmm-genai-camp-cancel-suspend-reactivate",
-      "anchor": "解約・休会・再開の手順と迷わない判断ポイント",
-      "reason": "同じサービスの解約・休会・再開を詳しく説明しており、初月で継続するかを決める読者の意思決定を補完。元記事の料金・評判を読んだ後の自然な次の疑問に直結する。"
+      "anchor": "申し込み後に解約・休会・再開する方法と判断の目安",
+      "reason": "同じサービスの運用面を詳しく解説しており、初月トライの可否を検討する読者が次に気になる「いつ・どうやって解約/休会するか」を具体化できるため。元記事のロードマップと意思決定を補完します。"
     }
   ],
   "gamma-reputation": [
     {
       "slug": "gamma-sales-proposal-workflow",
-      "anchor": "Gammaで営業提案書を10〜30分の叩き台にする具体ワークフロー",
-      "reason": "同じサービスの営業提案ユースケースをより詳しく解説し、元記事の通し手順を実務レベルで深掘りできる自然な次の一歩だから。"
-    },
-    {
-      "slug": "canva-reputation-presentation-plan",
-      "anchor": "Canvaでプレゼン資料を時短するコツとプラン選び",
-      "reason": "プレゼン資料作成の代替ツール候補として、料金プランや商用利用の観点を整理しており、Gamma導入と比較検討する際の意思決定を補完できるため。"
+      "anchor": "Gammaで営業提案書を作る具体ワークフロー",
+      "reason": "元記事で触れた営業用途をさらに深掘りし、構成設計から生成・レビュー・承認・出力までの実務手順を補完できるため"
     }
   ],
   "gamma-sales-proposal-workflow": [
     {
       "slug": "gamma-reputation",
-      "anchor": "Gammaの評判や向いている使い方・注意点を確認する",
-      "reason": "同じサービスの実務面と評価を補完でき、導入判断やチーム展開の検討に直結するため。"
+      "anchor": "Gammaの評判・使いどころ・限界を押さえる実務ガイド",
+      "reason": "同じサービスをより深く理解でき、導入判断や運用時の注意点を補完できる（元記事のワークフロー実践後に自然に気になる点を解消）。"
     },
     {
       "slug": "canva-reputation-presentation-plan",
-      "anchor": "Canvaで資料作成を時短するコツとPro/Teamsの選び方を見る",
-      "reason": "同じ“短時間で資料を作る”用途の有力代替ツールで、商用利用やプラン選定までカバーしており、ツール選びの比較検討を補完できるため。"
+      "anchor": "Canvaでプレゼン資料を時短するコツとプラン選び",
+      "reason": "Gammaが合わない/導入できない場合の代替手段として、同じ用途（提案・プレゼン資料作成）の実務的な時短方法と料金プラン比較が意思決定の補助になる。"
     }
   ],
   "gemini-pricing-plans-jp-decision": [
     {
       "slug": "claude-pricing-plans-guide",
-      "anchor": "Claudeの料金と上限を確認する",
-      "reason": "Geminiと比較検討する際に、代表的な代替であるClaudeの価格・上限・リセット時刻も把握すると最終判断がしやすいため。元記事の意思決定を補完する内容で、文脈も自然につながります。"
+      "anchor": "Claudeの無料/Pro/Maxの違いと上限を確認する",
+      "reason": "Geminiのプラン選定と並行して他社（Claude）の料金・上限を比較したい読者にとって、意思決定を補完する次の一手になるため"
     }
   ],
   "lai-reputation-trial": [],
@@ -219,207 +219,224 @@
   "law-firm-deadline-automation-claude-code": [
     {
       "slug": "ai-kanri-lawyer-seminar-claude-code",
-      "anchor": "弁護士向け1on1で業務と守秘を設計する進め方",
-      "reason": "元記事の最小フローと1on1準備の延長で、同じ弁護士向けに「どこから始めるか」と守秘設計を具体化できるため。"
+      "anchor": "弁護士の業務と守秘を両立させるAI自動化の始め方（1on1で設計）",
+      "reason": "本記事の「無料1on1準備ガイド」と直結。期日管理の設計を実務・守秘の観点で具体化でき、同じ文脈で次に踏むべき一歩になる。"
     },
     {
       "slug": "claude-code-consulting-onboarding-support",
-      "anchor": "Claude Codeの導入支援や伴走で90日定着させる方法",
-      "reason": "作ったフローを現場に定着させる段階で生じる運用・体制の疑問を補完し、導入可否の判断材料になるため。"
+      "anchor": "Claude Codeを90日で定着させる導入支援の進め方",
+      "reason": "最小フローを作った後、チーム導入・承認フロー・評価指標を運用に乗せる設計図を補完できるため、意思決定を後押しする。"
     },
     {
-      "slug": "claude-pricing-plans-guide",
-      "anchor": "Claudeのプラン選びと上限の目安",
-      "reason": "Claude Codeを実運用する際の上限・コスト感が直近の検討事項になりやすく、プラン選定に直結するため。"
+      "slug": "aikanri-reviews-pricing",
+      "anchor": "週次伴走トレーニング「AI鬼管理」の内容と料金",
+      "reason": "PoC止まりを避け、期日管理の自動化を継続運用へ移すための具体的な支援内容と費用感を把握でき、導入判断を補完する。"
+    }
+  ],
+  "llms-txt-localbusiness-localgoat-guide": [
+    {
+      "slug": "localgoat-reputation",
+      "anchor": "LOCALGOATの評判と導入判断のポイント",
+      "reason": "本記事で触れたLOCALGOAT活用の是非を具体的に検討でき、MEO・口コミ・SNSの一元化がAI検索露出にどう効くかの判断材料になるため。"
+    },
+    {
+      "slug": "localgoat-review-reply-ai",
+      "anchor": "LOCALGOATで口コミ返信を標準化する方法",
+      "reason": "llms.txtと構造化データ実装後の継続運用で重要な口コミ対応を、初月の進め方と安全なAI運用で補完できるため。"
     }
   ],
   "localgoat-dental-meo-standardization": [
     {
-      "slug": "localgoat-review-reply-ai",
-      "anchor": "AI返信の安全運用と初月ロードマップ",
-      "reason": "同じLOCALGOATでの口コミ返信標準化を、AI返信のガバナンスや承認フローまで詳しく補完できるため。歯科向けの手順を実装する際の安全運用に直結する次の一歩。"
+      "slug": "localgoat-reputation",
+      "anchor": "導入前に知っておきたいLOCALGOATの評判と選び方",
+      "reason": "本記事で運用手順を把握した読者が、実際にツール導入を判断する際の不安（評判・適合性・一元化の効果）を補完できるため。"
     },
     {
-      "slug": "localgoat-reputation",
-      "anchor": "LOCALGOATの評判と導入の判断ポイント",
-      "reason": "実務導入を検討する段階で気になる評価・全体機能・一元化の効果を整理でき、元記事のロードマップ前後の意思決定を補強できるため。"
+      "slug": "localgoat-review-reply-ai",
+      "anchor": "AI返信の安全運用と口コミ返信標準化の詳しい手順",
+      "reason": "同じテーマをより深掘りし、AI返信のリスク管理や承認フロー設計など安全運用の観点を強化できるため（医療業種にも適用）。"
+    },
+    {
+      "slug": "llms-txt-localbusiness-localgoat-guide",
+      "anchor": "AI検索対策（llms.txt・構造化データ）の30日実装ガイド",
+      "reason": "返信標準化の次の一手として、来院獲得経路を広げるAI検索対策を同じツールで実装できる具体手順が得られるため。"
     }
   ],
   "localgoat-reputation": [
     {
       "slug": "localgoat-review-reply-ai",
-      "anchor": "口コミ返信を標準化する具体的な進め方（AIの安全運用つき）",
-      "reason": "元記事の「初月の運用」「口コミ返信の一元化」を具体化する次の一手として最適。実務フローと安全なAI返信の運用が分かり、導入判断を補完できます。"
+      "anchor": "口コミ返信をLOCALGOATで標準化する具体手順と安全運用",
+      "reason": "元記事の判断材料（費用対効果・初月運用）を、実務レベルで深掘りできる。同じサービスでの初月ロードマップが明確になり、導入判断を補完する。"
     },
     {
-      "slug": "localgoat-dental-meo-standardization",
-      "anchor": "歯科医院での初月の整え方とチェックリスト",
-      "reason": "読者が歯科業種の場合に、同じサービスの業種特化ロードマップで実装イメージを深められるため。元記事の内容を業界別に具体化する発展記事です。"
+      "slug": "llms-txt-localbusiness-localgoat-guide",
+      "anchor": "llms.txtと構造化データで“AI検索に選ばれる”ための実装手順",
+      "reason": "元記事のテーマ「AIに選ばれる店舗」を実装面で解決する内容。LOCALGOATを使った具体的な設定方法が分かり、次に生じる疑問へ自然に接続できる。"
     }
   ],
   "localgoat-review-reply-ai": [
     {
       "slug": "localgoat-dental-meo-standardization",
-      "anchor": "歯科医院向けの具体的な初月ロードマップとチェックリスト",
-      "reason": "元記事の運用設計を、医療（歯科）に特化して実務手順に落とし込んだ深掘り。現場でそのまま使えるチェックリストが意思決定と立ち上げを補完する。"
+      "anchor": "歯科医院での口コミ返信標準化とMEOの進め方",
+      "reason": "同じサービスの垂直特化版で、初月の整備手順とチェックリストがより具体。医療系（歯科）読者の次アクションに直結するため。"
     },
     {
       "slug": "localgoat-reputation",
-      "anchor": "LOCALGOATの評判と導入判断ガイド（MEO・口コミ・SNSの一元化）",
-      "reason": "同じサービスの評価と比較観点を整理し、導入の可否や社内合意形成に直結する情報で元記事の実装計画を補完する。"
+      "anchor": "LOCALGOATの評判と導入判断のポイント",
+      "reason": "導入可否や展開範囲の判断を補完。口コミ返信の運用設計を読んだ後に、MEO・口コミ・SNSの一元化という上位方針を確認できるため。"
+    },
+    {
+      "slug": "llms-txt-localbusiness-localgoat-guide",
+      "anchor": "llms.txtと構造化データでAI検索対策を始める",
+      "reason": "口コミ返信の標準化の次に生じやすい「AI検索で見つけてもらうには？」という疑問に答える実装ガイド。LOCALGOAT活用の拡張ステップとして自然。"
     }
   ],
   "mitsumoritaro2-reviews-pricing-guide": [],
   "neuro-dive-reputation-guide": [
     {
       "slug": "neuro-dive-visit-questions-checklist",
-      "anchor": "見学当日に確認すべきポイントと質問例（持ち物・申込手順つき）",
-      "reason": "本記事で「見学するか」を検討した直後に、実際の見学で何を聞き・確認するかを具体化できるため。意思決定を実務面で補完し、同じNeuro Diveの見学〜申込準備に直結する次の一歩になる。"
+      "anchor": "見学当日の確認ポイントと質問テンプレ、持ち物・通所条件のチェック",
+      "reason": "本記事で見学に行くか判断した読者が、当日に何を確認し何を質問すべきかを具体化できる。Neuro Dive同一サービスの実務ガイドで、申込準備と不安解消を補完する。"
     }
   ],
   "neuro-dive-visit-questions-checklist": [
     {
       "slug": "neuro-dive-reputation-guide",
-      "anchor": "Neuro Diveの評判・強みと向き不向き、見学後の申込判断ガイド",
-      "reason": "見学当日の確認項目を押さえた次のステップとして、実際の評判や強み/弱み、通所条件・料金まで踏まえて申込可否を判断する材料を補完できるため。"
+      "anchor": "Neuro Diveの評判・強みと向き不向き、見学〜申込の判断ガイド",
+      "reason": "同じNeuro Diveについて、評判や適性、料金・通所条件まで整理しており、見学時の確認ポイントの後に最終判断を補完できるため。"
     }
   ],
   "notta-google-meet-setup": [
     {
       "slug": "notta-pricing-plans",
-      "anchor": "料金プランの選び方を確認する",
-      "reason": "拡張機能/ボットの選択と設定を済ませた後、会議時間×回数で最適プランを即決しやすくするため。コスト面の意思決定を補完します。"
-    },
-    {
-      "slug": "notta-zoom-integration-setup",
-      "anchor": "Zoomでも同じ運用を整える",
-      "reason": "社外ミーティング等でZoomを併用する場合に、Meetで整えた『自動文字起こし→議事録→共有』の標準運用を短時間で横展開できます。"
+      "anchor": "Nottaの料金プランと最適な選び方",
+      "reason": "拡張機能かボットか、通話時間の上限や共有範囲などはプラン選定に直結するため。導入直前の意思決定を補完できます。"
     },
     {
       "slug": "notta-reputation-workflow-guide",
-      "anchor": "導入時の精度・セキュリティの確認ポイント",
-      "reason": "運用直前に出やすい精度・料金・セキュリティの疑問を一括で確認でき、社内合意形成と標準運用の定着を後押しします。"
+      "anchor": "精度・セキュリティを押さえたNotta導入の全体像",
+      "reason": "Meet連携を設定した後、精度やセキュリティ、社内運用ルールまでを一気通貫で固めたい読者の次の疑問に応えます。"
+    },
+    {
+      "slug": "ai-minutes-tools-comparison-notta",
+      "anchor": "AI議事録ツールの比較でNottaが最適か確認する",
+      "reason": "Nottaで進める前に、自社の通話時間・ワークフロー要件に最適かを他ツールと実務基準で比較検証したいニーズを満たします。"
     }
   ],
   "notta-pricing-plans": [
     {
+      "slug": "notta-reputation-workflow-guide",
+      "anchor": "導入前に押さえたい精度・セキュリティと時短ワークフロー",
+      "reason": "価格比較の次に気になる精度・セキュリティ・実運用を深掘りでき、Notta採用判断を補完します。"
+    },
+    {
+      "slug": "ai-minutes-tools-comparison-notta",
+      "anchor": "他のAI議事録ツールとの比較と選び方（通し時間ベース）",
+      "reason": "元記事と同じ“通し時間”の実務基準でNottaと他ツールを比較でき、最終選定に役立ちます。"
+    },
+    {
       "slug": "notta-zoom-integration-setup",
-      "anchor": "Zoom連携の手順と安全運用",
-      "reason": "プランを決めた後、Zoomで自動文字起こし〜議事録化をすぐ始めるための具体的な設定と運用ポイントを補完します。"
-    },
-    {
-      "slug": "notta-teams-integration",
-      "anchor": "Microsoft Teams連携の手順（同意文面テンプレ付き）",
-      "reason": "Teams利用の場合に必要な同意取得から共有までを短時間で標準化でき、意思決定直後の実装に直結します。"
-    },
-    {
-      "slug": "notta-google-meet-setup",
-      "anchor": "Google Meet連携の手順（同意テンプレ付き）",
-      "reason": "Meetでの録音・文字起こし〜議事録共有を30分で整える実務手順を示し、選んだプランをすぐ現場に落とし込めます。"
+      "anchor": "NottaとZoomの連携手順と安全運用",
+      "reason": "プランを決めた後にすぐ使い始めるための具体手順と安全運用の要点が分かり、実装に直結します。"
     }
   ],
   "notta-reputation-workflow-guide": [
     {
       "slug": "notta-zoom-integration-setup",
-      "anchor": "Zoom連携の手順と安全運用のポイント",
-      "reason": "導入ガイドの次ステップとして、Zoomで実運用するための具体的設定と同意取得フローが必要になるため。"
+      "anchor": "Notta×Zoomの連携と安全運用の手順",
+      "reason": "元記事で触れたZoom対応を実務で動かすための具体手順。自動文字起こし→議事録→共有の標準化に直結し、安全運用のポイントも補完できる。"
     },
     {
       "slug": "notta-teams-integration",
-      "anchor": "Microsoft Teams連携の手順（同意文面テンプレ付き）",
-      "reason": "Teams利用環境でワークフローを落とし込む際の実装手順と同意文面の用意が、意思決定を実務に接続するのに有用なため。"
+      "anchor": "Notta×Microsoft Teamsの連携手順（同意文面テンプレ付き）",
+      "reason": "Teams利用者がすぐに導入できるステップと同意文面の具体例を提供し、元記事のセキュリティ・同意運用の論点を実装レベルで補完する。"
     },
     {
       "slug": "notta-google-meet-setup",
-      "anchor": "Google Meet連携の手順（同意テンプレ付き）",
-      "reason": "Google Meetユーザーが30分で試せる具体的な接続〜共有までの手順がまとまり、導入チェックリストの実行を後押しするため。"
+      "anchor": "Notta×Google Meetの連携手順（同意テンプレ付き）",
+      "reason": "Google Meet環境で元記事のワークフローを再現するためのセットアップ。同意テンプレ付きで、実務導入に必要な配慮点まで一気通貫で確認できる。"
     }
   ],
   "notta-security-ringi-checklist": [
     {
       "slug": "notta-pricing-plans",
-      "anchor": "Nottaの料金プランの違いと最適プランの選び方",
-      "reason": "稟議の次段階で必要になる費用根拠と見積り条件を具体化でき、意思決定を補完します。"
+      "anchor": "Nottaの料金プランの違いとコスト目安",
+      "reason": "稟議で必要な費用根拠とプラン選定を具体化でき、意思決定を補完できるため。"
     },
     {
-      "slug": "notta-reputation-workflow-guide",
-      "anchor": "Nottaの導入ガイド（精度・料金・セキュリティを踏まえた実務ワークフロー）",
-      "reason": "セキュリティ承認後に、Zoom/Teams/Meetでの標準運用や同意取得・共有までを実装する際の実務手順として自然な次読です。"
+      "slug": "notta-google-meet-setup",
+      "anchor": "Google Meet連携の手順（同意テンプレ付き）",
+      "reason": "承認後にすぐ運用標準化へ進める実装手順で、元記事の同意運用をそのまま適用できるため。"
     },
     {
-      "slug": "ai-minutes-tools-comparison-notta",
-      "anchor": "AI議事録ツール比較とNottaが適するケース",
-      "reason": "Nottaで進めてよいかを最終確認したい読者に、同用途の他ツールとの実務基準での比較を提供し、意思決定を補完します。"
+      "slug": "notta-teams-integration",
+      "anchor": "Microsoft Teams連携の手順（同意テンプレ付き）",
+      "reason": "Teams環境での初期設定と標準化に直結し、稟議後の立ち上げを最短化できるため。"
     }
   ],
   "notta-teams-integration": [
     {
       "slug": "notta-pricing-plans",
-      "anchor": "Nottaの料金プランを会議時間×回数で即決する早見表",
-      "reason": "Teams連携を標準運用にする前に、最適プランと月額コストを確定できる。意思決定の補完（5）と同一サービス深掘り（1）。"
+      "anchor": "Nottaの料金プランの違いと、会議時間ベースでの選び方",
+      "reason": "本記事で連携手順を押さえた直後に、実運用の費用判断が必要になるため。プラン差と決め方を短時間で確認でき、意思決定を補完できる。"
     },
     {
       "slug": "notta-reputation-workflow-guide",
       "anchor": "Nottaの精度・セキュリティを押さえた実務導入ガイド",
-      "reason": "実運用で気になる精度・セキュリティ・権限設計を整理でき、Teams運用の不安を解消。次の疑問（4）と同一サービス深掘り（1）。"
+      "reason": "Teamsでの本格展開時に生じる精度・セキュリティ・運用体制の疑問にまとめて答える内容で、社内合意形成と安全運用に直結する。"
     },
     {
       "slug": "ai-minutes-tools-comparison-notta",
-      "anchor": "AI議事録ツールの実務比較とNottaの位置づけ",
-      "reason": "組織で標準化する前に他ツールとの違いを実務基準で比較できる。用途別比較（2）と個別記事との補完関係（3）。"
+      "anchor": "AI議事録ツールの比較と、Nottaを使った運用例",
+      "reason": "Teams議事録をAIで標準化する際、他ツールとの比較基準を把握したい読者に有用。Nottaの具体的ワークフローも併載され、選定と運用設計を補完する。"
     }
   ],
   "notta-zoom-integration-setup": [
     {
       "slug": "notta-teams-integration",
-      "anchor": "Teamsでも同じ自動議事録フローを構築する手順",
-      "reason": "Zoomで確立した運用をTeamsにも展開したい読者向け。Bot/同意文面の扱いまで含む実務的な続編。"
+      "anchor": "Teams会議でも同じ運用を整える",
+      "reason": "Zoomで標準化した手順を、社内のTeams会議にも横展開したい読者に直結。自動参加・同意文面・共有権限まで網羅しており、運用ルールをそのまま移せる。"
+    },
+    {
+      "slug": "notta-google-meet-setup",
+      "anchor": "Google Meetでも自動議事録を有効化する",
+      "reason": "Zoomでの設定後、Meet利用部門にも同様の自動文字起こし〜共有フローを展開したいケースに最適。同意テンプレ込みで安全運用を崩さず導入できる。"
     },
     {
       "slug": "notta-pricing-plans",
-      "anchor": "Nottaのプラン選びと席数の目安",
-      "reason": "標準運用の前に必要な録音時間・ユーザー数に基づく最適プラン決定を補完し、意思決定に直結。"
-    },
-    {
-      "slug": "notta-reputation-workflow-guide",
-      "anchor": "精度・セキュリティ・運用の全体像を押さえる",
-      "reason": "導入時に生じやすい精度・料金・セキュリティの疑問をまとめて解消し、社内展開の判断材料になる。"
+      "anchor": "運用に合うNottaの料金プランを選ぶ",
+      "reason": "Zoom連携を本稼働させる前に必要な録音時間・機能要件を見積もる意思決定を補完。無料/有料の境目やビジネス機能の有無が運用に直結するため。"
     }
   ],
   "okipro-reputation-ai-writing-course": [
     {
       "slug": "claude-pricing-plans-guide",
-      "anchor": "執筆ワークフローに合うClaudeのプランを3分で決める",
-      "reason": "AI下書きを回す際の上限やコストを早く判断でき、記事内の7日実践プランを始める準備に直結するため。"
-    },
-    {
-      "slug": "claude-code-consulting-onboarding-support",
-      "anchor": "チームでAI執筆を90日で定着させる伴走支援は必要か？",
-      "reason": "個人の改善から編集部・社内標準化へ広げたい読者に、導入～定着の設計図を提示し意思決定を補完できるため。"
+      "anchor": "Claudeの料金プランと上限の違いを手早く確認",
+      "reason": "7日実践プランを日次運用する際、出力上限やリセット時刻の把握が必要です。Claudeを用いる場合にどのプランなら本数と品質を両立できるかの判断を補完します。"
     }
   ],
   "value-ai-writer-review-trial-guide": [
     {
       "slug": "value-ai-writer-wordpress-safe-workflow",
-      "anchor": "Value AI WriterをWordPressで安全に回す設定手順とチェックリスト",
-      "reason": "同じサービスをより実務的に深掘りし、試用後に想定される「実運用どう回すか」という次の疑問に答える（基準1・4・5）。"
+      "anchor": "Value AI WriterをWordPressとつないで“AI初稿→人が承認→予約公開”を回す具体手順とチェックリスト",
+      "reason": "同じサービスをさらに詳しく説明し、評価後の実運用（承認フロー・安全運用）の整備に直結して意思決定を補完するため。"
     },
     {
       "slug": "ai-writing-tools-compare-safe-trial",
-      "anchor": "候補を2つに絞って安全に試すためのAI文章作成ツール比較と5日トライアルの進め方",
-      "reason": "同じ用途のツール比較で、Value AI Writerの位置づけ確認と代替候補検討を支援し、導入可否の判断を補完する（基準2・5）。"
+      "anchor": "同じ評価基準で他のAI文章作成ツールも5日で試す比較ガイド",
+      "reason": "同じ用途のツール比較記事で、Value AI Writerの評価結果を相対化し最終判断の確度を高められるため。"
     }
   ],
   "value-ai-writer-wordpress-safe-workflow": [
     {
       "slug": "ai-writing-tools-compare-safe-trial",
-      "anchor": "人が承認する前提で使えるAI文章作成ツールの比較と試し方",
-      "reason": "本記事の“AI初稿→人が承認→予約公開”という安全運用を前提に、他ツールも含めて候補を絞りたい読者向け。評価基準と5日間のトライアル方法が具体的で、ツール選定の意思決定を補完します。"
+      "anchor": "安全運用を前提にしたAI文章作成ツールの比較と試し方",
+      "reason": "同じ用途の比較記事で、“AI初稿→人が承認”フローを前提に評価基準と5日トライアル手順を提示し、導入の意思決定を補完できるため。"
     },
     {
       "slug": "value-ai-writer-review-trial-guide",
-      "anchor": "Value AI Writerを5日で評価して導入可否を決める方法",
-      "reason": "同じサービスを実務で検証する手順を解説。今回整えたWordPress連携フローの上で、導入判断に直結する次のアクションになります。"
+      "anchor": "Value AI Writerを5日で評価して導入可否を決める手順",
+      "reason": "同じサービスの記事で、評判の見方と短期評価プロセスを具体化。本記事の連携設定後に「継続採用すべきか」を判断する次の疑問に答えるため。"
     }
   ],
   "wrijob-reputation-counseling": []

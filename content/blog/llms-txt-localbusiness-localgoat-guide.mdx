@@ -1,0 +1,255 @@
+---
+title: "AI検索で自店が出ない悩みを30日で解消するllms.txtと構造化データの実装ガイド【LOCALGOAT活用】"
+titleLines:
+  - "AI検索で自店が出ない悩みを30日で解消する"
+  - "llms.txtと構造化データの実装ガイド【LOCALGOAT活用】"
+description: "Googleマップでは出るのにAI回答で自店が出ない悩みを、情報の一貫化→llms.txt→LocalBusiness構造化データで30日運用開始まで導く実装手順と、LOCALGOATで省力化するかの判断材料を会話でわかりやすく解説します。"
+alQuestion: "Googleマップでは出るのに、AIの答えで店名が出てこないのはどう直せばいいのかな？"
+ciboAnswer: "まず店舗情報を一つにそろえて、llms.txtとLocalBusinessの構造化データを設置しよう；手動でもできるし、LOCALGOATなら自動生成で早く整えられるから、このあと手順と運用ルールを具体的に案内するね。"
+date: "2026-09-30"
+verified: "2026-09-30"
+category: "AIツール"
+image: "/images/blog/llms-txt-localbusiness-localgoat-guide.png"
+readingTime: "11 min read"
+faq: [{"question": "llms.txtはサイトのサブディレクトリに置いてもいいですか？", "answer": "基本はルート直下/llms.txtが分かりやすいです。実装解説でもルート配置が基本とされています。特殊な構成にする場合はクロール到達性を検証してください。"}, {"question": "AIは必ずllms.txtを参照してくれますか？", "answer": "参照するかどうかはプラットフォーム次第で、採用状況は変動します。効果は環境依存のため、定型質問での登場有無などを継続的に検証してください。"}, {"question": "WordPressでllms.txtをどう設置すればよいですか？", "answer": "サーバーのルートにllms.txtをUTF-8で配置し、https://yourdomain/llms.txt へ到達できるか確認します。生成やデプロイ方法は環境により異なるため、運用に合わせて実装を選び、公開後の到達性と文字化けをチェックしてください。"}, {"question": "llms.txtに書かない方がよい情報はありますか？", "answer": "公開ファイルなので個人情報・機密情報・非公開にしたいURLは記載しないでください。自動生成時も除外ルールを確認しましょう。"}, {"question": "LOCALGOATの料金や契約条件は？", "answer": "スタンダードは月額29,800円（税込）、初期費用0円、最低契約6ヶ月が掲載されています。最新の条件は公式の料金ページで確認してください。"}]
+tags:
+  - "AIツール"
+  - "仕事効率化"
+  - "生成AI"
+  - "SEO"
+  - "llms.txt"
+published: true
+---
+## AI回答で店が出てこない原因と今日決めること
+<Dialogue speaker="al" emotion="worried">マップでは出るのにAIで店名が出てこなくて、どこから直せばいいのか分からないんだ</Dialogue>
+<Dialogue speaker="cibo" emotion="thinking">まず情報を一つにそろえて、llms.txtとLocalBusiness構造化データを設置するのが近道だよ</Dialogue>
+
+- **今日の結論：** まず「店舗情報の正」を決め、サイトにllms.txtとLocalBusinessの構造化データを置くとAIに伝わりやすくなる。
+- **方法の選択：** 手動で進めてもよいし、LOCALGOATならllms.txtと構造化データの自動生成に対応しているので省力化できる。
+- **注意点：** llms.txtはコミュニティ仕様で更新があり得るため、効果は環境依存で最新仕様の確認と検証が必要だよ。
+
+## AIO対策とSEO/MEOの違いを3分で整理
+<Dialogue speaker="al" emotion="thinking">そもそもAI向けの対策ってSEOやMEOと何が違うのかな</Dialogue>
+<Dialogue speaker="cibo" emotion="empathetic">狙う面が違うだけで土台は同じで、情報を正しく一貫させることが軸だよ</Dialogue>
+
+- **目的：** SEOは検索結果ページ、MEOは地図枠、AIOはAI回答で正しく想起されることを狙う。
+- **情報源：** AIOはサイト本文・構造化データ・公的/公的に準ずる媒体・口コミ要点・llms.txtなどを横断的に参照しうる。
+- **運用：** 変更が出たら全媒体を同じ内容へ素早く同期する体制づくりが重要。
+
+## 初日にやる情報棚卸しチェックリスト
+<Dialogue speaker="al" emotion="concerned">情報がバラバラでどれが正か分からなくなってるんだ</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">最初に台帳を作ってから設置へ進むのが失敗しにくいよ</Dialogue>
+
+- **NAP：** 店名・住所・電話番号を公式表記で固定する。
+- **営業時間：** 通常・特別・休業日を明記し、更新日も控える。
+- **カテゴリ：** 主カテゴリを1つ、補助カテゴリを必要に応じて定義。
+- **提供サービス：** メニューや診療科などの主要項目と価格の有無。
+- **決済・設備：** 支払い手段、駐車場、バリアフリー、予約可否など。
+- **写真・代表画像：** ロゴ、外観、内観、代表メニュー等の最新版。
+- **FAQ：** よくある質問と短い回答を5〜10件。
+- **口コミ要点：** 代表的な良い点・改善点を2〜3語で要約。
+- **公式サイト・SNS：** URLとハンドルの正規化、リンク関係の確認。
+
+## llms.txtの最小テンプレ、配置パス、更新ルール
+<Dialogue speaker="al" emotion="surprised">llms.txtって何を書いてどこに置けばいいの</Dialogue>
+<Dialogue speaker="cibo" emotion="thinking">基本はサイトのルート直下にllms.txtを置いて、AIに見てほしい要点を簡潔に書くよ</Dialogue>
+
+- **配置と命名：** ルート直下の/llms.txtに小文字で配置、拡張子は.txtにする。
+- **内容の一貫性：** llms.txtの要約やデータは実ページや構造化データと矛盾させない。
+- **公開ファイル：** 個人情報や機密は書かない、見せたくないURLを誤って列挙しない。
+- **URL表記：** 参照URLは絶対URLを推奨、UTF-8で公開されているか確認。
+- **仕様の変動：** 仕様は更新され得るため、最新の作法を定期的に確認する。
+- **混同注意：** robots.txtとは役割が異なるので混同しない。
+
+**最小テンプレ（例）：**
+
+```
+# llms.txt
+
+## About
+- name: 〇〇クリニック
+- description: 内科と小児科を中心に、平日夜も診療するクリニックです。
+- location: 東京都〇〇区〇〇1-2-3 〇〇ビル1F
+- phone: 03-1234-5678
+
+## Pages
+- url: https://example.com/
+ summary: 診療時間、アクセス、予約方法の総合案内ページです。
+- url: https://example.com/menu/
+ summary: 診療メニューと費用の目安を掲載しています。
+- url: https://example.com/access/
+ summary: 最寄駅からの道順、駐車場の案内を記載しています。
+
+## Policies
+- updates: 主要な情報変更時は本ファイルを同日更新します。
+- sources: 本サイト本文と構造化データに基づいて記載しています。
+```
+
+**更新ルールの例：**
+
+1. **変更起点：** 営業時間・電話・価格改定などが決まった当日中に台帳を更新する。
+2. **同期順：** 公式サイト本文→構造化データ→llms.txt→GBP→SNS→予約サイトの順で同日反映。
+3. **責任分担：** 情報オーナーが承認、Web担当が反映、最終確認者がチェック。
+
+## LocalBusiness構造化データの最小セット
+<Dialogue speaker="al" emotion="thinking">構造化データは何を入れれば足りるのかな</Dialogue>
+<Dialogue speaker="cibo" emotion="empathetic">まずは店名や住所、電話、営業時間などの核だけを正確に入れよう</Dialogue>
+
+- **考え方：** まず最小の核情報を正確に、写真やメニュー等は段階的に拡張。
+- **一致性：** サイト本文・GBP・llms.txtと内容を合わせる。
+
+**JSON-LD最小例（貼り付けて項目だけ差し替え）：**
+
+```
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "LocalBusiness",
+ "name": "〇〇クリニック",
+ "image": [
+ "https://example.com/images/ogp.jpg"
+],
+ "url": "https://example.com/",
+ "telephone": "+81-3-1234-5678",
+ "address": {
+ "@type": "PostalAddress",
+ "streetAddress": "〇〇1-2-3 〇〇ビル1F",
+ "addressLocality": "〇〇区",
+ "addressRegion": "東京都",
+ "postalCode": "123-4567",
+ "addressCountry": "JP"
+ },
+ "openingHoursSpecification": [
+ {
+ "@type": "OpeningHoursSpecification",
+ "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+ "opens": "09:00",
+ "closes": "19:00"
+ }
+],
+ "priceRange": "$$",
+ "sameAs": [
+ "https://www.instagram.com/youraccount",
+ "https://maps.google.com/?cid=xxxxxxxx"
+]
+}
+</script>
+```
+
+## GBP・口コミ・Instagramとサイトの同期ワークフロー
+<Dialogue speaker="al" emotion="worried">更新漏れが起きやすくて順番が定まっていないんだ</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">変更の起点と期限を決めて、同じ日のうちに一気にそろえよう</Dialogue>
+
+1. **変更申請→承認：** 店舗側が台帳へ申請し、承認者が当日承認。
+2. **サイト反映：** 本文→構造化データ→llms.txtの順で同日更新。[一貫性確保]
+3. **外部同期：** GBPの基本情報・営業時間・投稿、Instagramのプロフィール/リンク、主要予約サイトも同日更新。
+4. **確認：** 公開URLで目視、構造化データのテスト、llms.txtの到達確認。
+5. **記録：** 変更点・担当・日時を履歴として保存。
+
+## つまずきやすいポイントの即解決
+<Dialogue speaker="al" emotion="surprised">ファイルを置いたのに見えない時はどうするの</Dialogue>
+<Dialogue speaker="cibo" emotion="thinking">ルートに正しく配置され絶対URLで到達できるかと文字コードをまず確認しよう</Dialogue>
+
+- **設置確認：** /llms.txtで直接開けるか、文字化けがないか確認（UTF-8推奨）。
+
+<Dialogue speaker="al" emotion="thinking">営業時間表記が媒体ごとに微妙に違ってしまうよ</Dialogue>
+<Dialogue speaker="cibo" emotion="empathetic">台帳の表記を基準に分単位まで合わせて、同日更新を徹底しよう</Dialogue>
+
+- **表記統一：** 台帳の書式を固定し、コピペで各媒体へ貼り付ける運用にする。
+
+<Dialogue speaker="al" emotion="worried">住所の書き方は番地のハイフンとか全角半角は気にした方がいい</Dialogue>
+<Dialogue speaker="cibo" emotion="thinking">住所は正規化して一度決めた表記を変えないのがコツだよ</Dialogue>
+
+- **住所正規化：** 公式表記をベースに全媒体で統一する。
+
+<Dialogue speaker="al" emotion="thinking">llms.txtに何を書かない方がいいの</Dialogue>
+<Dialogue speaker="cibo" emotion="concerned">公開ファイルだから個人情報と見せたくないURLは絶対に書かないでね</Dialogue>
+
+- **公開時の注意：** 個人情報や機密は記載しない、不要な内部URLの列挙を避ける。
+
+- **一貫性の重要性：** llms.txtとサイト・構造化データの不一致は避ける。
+
+## LOCALGOATで省力化できるところ
+<Dialogue speaker="al" emotion="thinking">手動でもできそうだけど運用が大変になりそうだな</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">LOCALGOATならllms.txtや構造化データの自動生成に対応しているから省力化できるよ</Dialogue>
+
+- **対応機能：** 構造化データ自動生成、llms.txt自動生成、GBP最適化、口コミ管理、複数媒体への一括配信に対応。
+- **一括配信：** 110以上の媒体へ店舗情報を配信できる設計。
+- **料金と条件：** スタンダードは月額29,800円（税込）、初期費用0円、最低契約6ヶ月。
+- **留意点：** 管理画面での編集や公開の具体手順は導入時にサポートで確認しよう。
+- **向いている人：** 複数媒体更新の手間を減らしたい、レビュー返信や承認フローまで一本化したい店舗。
+
+## KPIと30日ロードマップ
+<Dialogue speaker="al" emotion="thinking">成果はどう測ればいいのかな</Dialogue>
+<Dialogue speaker="cibo" emotion="thinking">AIでの想起と来店行動に近い指標を決めて、4週で立ち上げよう</Dialogue>
+
+**KPI例**
+- **AI想起：** 定型質問で自店が登場するかを週1で確認（例「このエリアでおすすめの〇〇」など）。
+- **GBP行動：** 表示回数、通話、経路、サイト遷移の前週比。
+- **口コミ運用：** 返信率、平均返信所要時間、未返信ゼロの維持。
+- **情報差分：** 媒体間の不一致検知件数（ゼロを目標）。
+
+**30日ロードマップ**
+1. **週1：** 情報台帳の作成と表記統一、写真選定、FAQ草案。
+2. **週2：** サイト本文更新→LocalBusiness構造化データ設置→llms.txt設置と公開確認。
+3. **週3：** GBP最適化と投稿テンプレ、口コミ返信ルール整備、Instagramプロフィール整備。
+4. **週4：** 定型質問でのAI想起チェック、数値の初回レポート、翌月の改善計画確定。
+
+## 社内体制チェックリスト
+<Dialogue speaker="al" emotion="worried">誰が何をやるか決め切れていないんだ</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">情報オーナーと承認者、更新担当を分けて権限をはっきりさせよう</Dialogue>
+
+- **情報オーナー：** 公式情報の最終責任者。
+- **承認者：** 変更内容の最終承認。
+- **更新担当：** サイト・GBP・SNS・llms.txtの反映実務。
+- **計測担当：** KPI集計とレポート、改善提案。
+- **更新カレンダー：** 定期点検日と繁忙期の前倒し更新日を設定。
+- **ツール権限：** CMS・GBP・SNSの権限を最新化し、引き継ぎを書面化。
+
+## 今日決めることと次の一歩
+<Dialogue speaker="al" emotion="thinking">手動で始めるかツールで省力化するか迷うなあ</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">まず今週は手動で設置しつつ、運用の負担が大きそうならLOCALGOATの活用も検討しよう</Dialogue>
+
+- **今週やる：** 情報台帳→サイト本文→構造化データ→llms.txtの順で設置。
+- **判断材料：** 媒体数が多い、口コミ返信や承認フローまで含めて回すならLOCALGOATで一元管理を検討。
+- **次の一歩：** 初回レポートまで回したら、作業時間と抜け漏れの有無を確認し、必要ならツール導入へ。
+
+## 実装アプローチの比較
+
+| 比較項目 | 手動で実装 | LOCALGOAT |
+| --- | --- | --- |
+| llms.txt自動生成 | なし | あり |
+| LocalBusiness JSON-LD出力 | 手書き・自作スニペット | 自動生成に対応 |
+| 複数媒体への情報配信 | 各媒体を個別に更新 | 110+媒体へ一括配信に対応 |
+| 料金 | 要確認（社内工数中心） | 29,800円/月（税込）・初期費用0円・最低契約6ヶ月 |
+| 向いているケース | 単店舗かつ更新頻度が低い場合 | 媒体数が多く更新・承認を省力化したい場合 |
+
+<AffiliateLink href="https://af.moshimo.com/af/c/click?a_id=5769039&amp;p_id=7521&amp;pc_id=21723&amp;pl_id=94322" service="LOCALGOAT" linkType="affiliate" network="もしもアフィリエイト" ctaType="primary" ctaPlacement="after_toc" bannerSrc="https://image.moshimo.com/af-img/6861/000000094322.png" bannerWidth="300" bannerHeight="250" trackingPixelSrc="https://i.moshimo.com/af/i/impression?a_id=5769039&amp;p_id=7521&amp;pc_id=21723&amp;pl_id=94322">機能と料金、llms.txt自動生成の進め方を確認する</AffiliateLink>
+
+## よくある質問
+
+### llms.txtはサイトのサブディレクトリに置いてもいいですか？
+
+基本はルート直下/llms.txtが分かりやすいです。実装解説でもルート配置が基本とされています。特殊な構成にする場合はクロール到達性を検証してください。
+
+### AIは必ずllms.txtを参照してくれますか？
+
+参照するかどうかはプラットフォーム次第で、採用状況は変動します。効果は環境依存のため、定型質問での登場有無などを継続的に検証してください。
+
+### WordPressでllms.txtをどう設置すればよいですか？
+
+サーバーのルートにllms.txtをUTF-8で配置し、https://yourdomain/llms.txt へ到達できるか確認します。生成やデプロイ方法は環境により異なるため、運用に合わせて実装を選び、公開後の到達性と文字化けをチェックしてください。
+
+### llms.txtに書かない方がよい情報はありますか？
+
+公開ファイルなので個人情報・機密情報・非公開にしたいURLは記載しないでください。自動生成時も除外ルールを確認しましょう。
+
+### LOCALGOATの料金や契約条件は？
+
+スタンダードは月額29,800円（税込）、初期費用0円、最低契約6ヶ月が掲載されています。最新の条件は公式の料金ページで確認してください。
+
+
+## まとめ
+<Dialogue speaker="al" emotion="happy">やることが情報の正を決めてllms.txtと構造化データを置くことだって腹落ちしたよ</Dialogue>
+<Dialogue speaker="cibo" emotion="recommend">まずは手動で設置して運用感をつかみつつ、負荷が高ければLOCALGOATで自動生成や一括配信を使うのが現実的だよ</Dialogue>
+<Dialogue speaker="al" emotion="determined">やってみる！</Dialogue>
